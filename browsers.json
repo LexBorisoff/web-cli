@@ -1,0 +1,26 @@
+{
+  "chrome": {
+    "enable": true,
+    "profiles": {}
+  },
+  "edge": {
+    "enable": true,
+    "profiles": {}
+  },
+  "firefox": {
+    "enable": true,
+    "profiles": {}
+  },
+  "brave": {
+    "enable": true,
+    "profiles": {}
+  },
+  "opera": {
+    "enable": true,
+    "profiles": {}
+  },
+  "safari": {
+    "enable": false,
+    "profiles": {}
+  }
+}

@@ -3,7 +3,7 @@ import { Browser } from "browsers";
 import open from "open";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
-import config from "../config.json";
+import browsersConfig from "../browsers.json";
 
 const browsers: Browser[] = [
   "chrome",
@@ -27,7 +27,7 @@ const url = "google.com";
 
 function openBrowser() {
   browsers.forEach(async (browser: Browser) => {
-    if (args[browser] && config.enableBrowsers[browser]) {
+    if (args[browser] && browsersConfig[browser].enable) {
       await open(url, { app: { name: browser } });
     }
   });
