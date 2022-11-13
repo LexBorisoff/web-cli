@@ -1,7 +1,18 @@
+import { Browser } from "browsers";
+
 import open from "open";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
-import { chrome, edge, firefox, brave, opera, safari } from "./apps";
+import config from "../config.json";
+
+const browsers: Browser[] = [
+  "chrome",
+  "edge",
+  "firefox",
+  "brave",
+  "opera",
+  "safari",
+];
 
 const args = yargs(hideBin(process.argv))
   .option("chrome", { alias: "c" })
@@ -14,26 +25,12 @@ const args = yargs(hideBin(process.argv))
 
 const url = "google.com";
 
-if (args.chrome && chrome) {
-  open(url, { app: { name: chrome } });
+function openBrowser() {
+  browsers.forEach(async (browser: Browser) => {
+    if (args[browser] && config.enableBrowsers[browser]) {
+      await open(url, { app: { name: browser } });
+    }
+  });
 }
 
-if (args.edge && edge) {
-  open(url, { app: { name: edge } });
-}
-
-if (args.firefox && firefox) {
-  open(url, { app: { name: firefox } });
-}
-
-if (args.brave && brave) {
-  open(url, { app: { name: brave } });
-}
-
-if (args.opera && opera) {
-  open(url, { app: { name: opera } });
-}
-
-if (args.safari && safari) {
-  open(url, { app: { name: safari } });
-}
+openBrowser();
