@@ -1,44 +1,35 @@
-declare module "types/browser" {
-  export interface Profiles {
+declare module "args" {
+  interface Choices {
+    browsers: string[];
+    engines: string[];
+  }
+}
+
+declare module "browser" {
+  interface BrowserProfiles {
     [key: string]: string;
   }
 
-  export interface Browser {
+  interface Browser {
     enable: boolean;
     profiles: BrowserProfiles;
   }
 
-  export interface Browsers {
+  interface Browsers {
     [key: string]: Browser;
   }
 }
 
-// declare module "search" {
-//   export type SearchEngineName =
-//     | "google"
-//     | "youtube"
-//     | "duckduckgo"
-//     | "mdn"
-//     | "npm"
-//     | "cdn"
-//     | "css"
-//     | "whois"
-//     | "namecheap"
-//     | "godaddy"
-//     | "unsplash"
-//     | "pexels"
-//     | "burst"
-//     | "investopedia"
-//     | "amazon";
+declare module "search" {
+  interface SearchEngine {
+    url: string;
+    query: string;
+    package?: string;
+    delimiter?: string;
+    alias?: string | string[];
+  }
 
-//   export interface SearchEngineObject {
-//     url: string;
-//     query: string;
-//     package?: string;
-//     alias?: string | string[];
-//   }
-
-//   export interface SearchEngines {
-//     [index: string]: SearchEngineObject;
-//   }
-// }
+  interface SearchEngines {
+    [index: string]: SearchEngine;
+  }
+}
