@@ -1,0 +1,105 @@
+{
+  "default": {
+    "browser": "chrome",
+    "engine": "google",
+    "delimiter": " "
+  },
+
+  "browsers": {
+    "chrome": {
+      "enable": true,
+      "profiles": {}
+    },
+    "edge": {
+      "enable": true,
+      "profiles": {}
+    },
+    "firefox": {
+      "enable": true,
+      "profiles": {}
+    },
+    "brave": {
+      "enable": true,
+      "profiles": {}
+    },
+    "opera": {
+      "enable": true,
+      "profiles": {}
+    },
+    "safari": {
+      "enable": false,
+      "profiles": {}
+    }
+  },
+
+  "engines": {
+    "google": {
+      "url": "www.google.com",
+      "query": "/search?q="
+    },
+    "youtube": {
+      "alias": "yt",
+      "url": "youtube.com",
+      "query": "/results?search_query="
+    },
+    "duckduckgo": {
+      "alias": ["duck", "ddg"],
+      "url": "duckduckgo.com",
+      "query": "/?q="
+    },
+    "mdn": {
+      "url": "developer.mozilla.org/en-US",
+      "query": "/search?q="
+    },
+    "npm": {
+      "url": "www.npmjs.com",
+      "query": "/search?q=",
+      "package": "/package/"
+    },
+    "cdn": {
+      "url": "cdnjs.com",
+      "query": "/libraries?q=",
+      "package": "libraries/"
+    },
+    "csstricks": {
+      "alias": ["css", "css-tricks"],
+      "url": "css-tricks.com",
+      "query": "/?s="
+    },
+    "whois": {
+      "url": "www.whois.com",
+      "query": "/whois/"
+    },
+    "namecheap": {
+      "alias": "nc",
+      "url": "www.namecheap.com",
+      "query": "/domains/registration/results/?domain="
+    },
+    "godaddy": {
+      "alias": "gd",
+      "url": "www.godaddy.com",
+      "query": "/domainsearch/find?domainToCheck="
+    },
+    "unsplash": {
+      "url": "unsplash.com",
+      "query": "/s/photos/",
+      "delimiter": "-"
+    },
+    "pexels": {
+      "url": "www.pexels.com",
+      "query": "/search/"
+    },
+    "burst": {
+      "url": "burst.shopify.com",
+      "query": "/photos/search?q="
+    },
+    "investopedia": {
+      "url": "www.investopedia.com",
+      "query": "/search?q="
+    },
+    "amazon": {
+      "url": "amazon.ca",
+      "query": "/s?k="
+    }
+  }
+}

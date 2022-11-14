@@ -1,36 +1,83 @@
-import { Browser } from "browsers";
+import { Browser, Browsers } from "types/browser";
 
 import open from "open";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
-import browsersConfig from "../browsers.json";
+import config from "../config.json";
 
-const browsers: Browser[] = [
-  "chrome",
-  "edge",
-  "firefox",
-  "brave",
-  "opera",
-  "safari",
-];
-
-const args = yargs(hideBin(process.argv))
-  .option("chrome", { alias: "c" })
-  .option("edge", { alias: "e" })
-  .option("firefox", { alias: ["f", "ff"] })
-  .option("brave", { alias: "b" })
-  .option("opera", { alias: "o" })
-  .option("safari", {})
-  .parseSync();
-
-const url = "google.com";
-
-function openBrowser() {
-  browsers.forEach(async (browser: Browser) => {
-    if (args[browser] && browsersConfig[browser].enable) {
-      await open(url, { app: { name: browser } });
-    }
-  });
+interface SearchEngine {
+  url: string;
+  query: string;
+  package?: string;
+  alias?: string | string[];
 }
 
-openBrowser();
+interface Choices {
+  browsers: string[];
+  engines: string[];
+}
+
+const browsers: Browsers = config.browsers;
+const choices: Choices = {
+  browsers: Object.keys(config.browsers),
+  engines: [],
+};
+
+Object.entries(config.engines).forEach(
+  ([key, engine]: [key: string, engine: SearchEngine]) => {
+    if (engine.alias) {
+      if (Array.isArray(engine.alias)) {
+        choices.engines = [...choices.engines, ...engine.alias];
+      } else {
+        choices.engines = [...choices.engines, engine.alias];
+      }
+    } else {
+      choices.engines = [...choices.engines, key];
+    }
+  }
+);
+
+const args = yargs(hideBin(process.argv))
+  .option("open", {
+    description: "browser to open",
+    alias: "o",
+    requireArg: true,
+    choices: choices.browsers,
+    default: config.default.browser,
+  })
+  .option("query", {
+    description: "use a specific search engine/website",
+    alias: "q",
+    requireArg: true,
+    choices: choices.engines,
+    default: config.default.engine,
+  })
+  .help(false)
+  .parseSync();
+
+async function query(url: string) {
+  async function openBrowser(browser: string) {
+    await open(url, { app: { name: browser } });
+  }
+
+  if (!Array.isArray(args.open)) {
+    if (browsers[args.open].enable) {
+      await openBrowser(args.open);
+    }
+  } else {
+    args.open.forEach(async (browserName) => {
+      if (browsers[browserName].enable) {
+        await openBrowser(browserName);
+      }
+    });
+  }
+}
+
+async function getSearchString() {
+  const delimiter = " ";
+  const searchArgs = args._;
+
+  await query(searchArgs.join(delimiter));
+}
+
+getSearchString();
