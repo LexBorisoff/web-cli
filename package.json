@@ -2,10 +2,10 @@
   "name": "query",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "ts-node-dev --respawn src/index.ts",
+    "start": "ts-node main.ts",
+    "dev": "ts-node-dev --respawn main.ts",
     "build": "tsc"
   },
   "keywords": [],

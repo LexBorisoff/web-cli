@@ -5,7 +5,7 @@ import { SearchEngine, SearchEngines } from "search";
 import open from "open";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
-import config from "../config.json";
+import config from "./config.json";
 
 const browsers: Browsers = config.browsers;
 const searchEngines: SearchEngines = config.engines;
@@ -51,14 +51,17 @@ const args = yargs(hideBin(process.argv))
 
 async function query(url?: string) {
   async function openBrowser(browser: string) {
-    if (url) {
+    if (url != null && url !== "") {
       await open(url, { app: { name: browser } });
     } else {
-      await open(browser);
+      console.log(browser);
+      const result = await open(browser);
+      console.log(result);
     }
   }
 
   if (!Array.isArray(args.open)) {
+    console.log(args.open);
     if (browsers[args.open].enable) {
       await openBrowser(args.open);
     }
@@ -102,17 +105,17 @@ function getSearchQuery(engine: SearchEngine) {
 }
 
 async function main() {
-  function getUrl(engineNameFromArgs: string) {
-    const engineName = getEngineNameFromConfig(engineNameFromArgs);
+  if (args._.length > 0) {
+    function getUrl(engineNameFromArgs: string) {
+      const engineName = getEngineNameFromConfig(engineNameFromArgs);
 
-    if (engineName) {
-      const engine = searchEngines[engineName];
-      const searchQuery = getSearchQuery(engine);
-      return engine.url + engine.query + searchQuery;
+      if (engineName) {
+        const engine = searchEngines[engineName];
+        const searchQuery = getSearchQuery(engine);
+        return engine.url + engine.query + searchQuery;
+      }
     }
-  }
 
-  if (args._) {
     if (!Array.isArray(args.query)) {
       await query(getUrl(args.query));
     } else {
@@ -120,6 +123,8 @@ async function main() {
         await query(getUrl(engineName));
       });
     }
+  } else {
+    await query();
   }
 }
 
