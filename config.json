@@ -1,14 +1,26 @@
 {
-  "default": {
-    "browser": "chrome",
-    "engine": "google",
-    "delimiter": " "
-  },
-
+  "defaults": {},
   "browsers": {
     "chrome": {
       "enable": true,
-      "profiles": {}
+      "profiles": {
+        "dev": {
+          "dir": "Profile 1",
+          "alias": "d"
+        },
+        "personal": {
+          "dir": "Profile 2",
+          "alias": "p"
+        },
+        "english": {
+          "dir": "Profile 3",
+          "alias": ["e", "eng"]
+        },
+        "maplex": {
+          "dir": "Profile 4",
+          "alias": ["m", "mpx"]
+        }
+      }
     },
     "edge": {
       "enable": true,

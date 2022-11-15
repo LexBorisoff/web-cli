@@ -1,3 +1,14 @@
+declare module "defaults" {
+  import { BrowserProfiles } from "browser";
+
+  interface Defaults {
+    browser?: string;
+    profile?: BrowserProfiles;
+    engine?: string;
+    delimiter?: string;
+  }
+}
+
 declare module "args" {
   interface Choices {
     browsers: string[];
@@ -6,8 +17,13 @@ declare module "args" {
 }
 
 declare module "browser" {
+  interface BrowserProfile {
+    dir: string;
+    alias?: string | string[];
+  }
+
   interface BrowserProfiles {
-    [key: string]: string;
+    [key: string]: string | BrowserProfile;
   }
 
   interface Browser {
