@@ -63,9 +63,9 @@ const args = yargs(hideBin(process.argv))
   })
   .option("secure", {
     description: "Use https protocol during search",
-    alias: "s",
+    alias: ["s", "https"],
     type: "boolean",
-    default: false,
+    default: true,
   })
   .help(false)
   .parseSync();
@@ -97,6 +97,7 @@ async function query(url?: string) {
     }
   }
 
+  // browser specified thru args or as default
   if (args.browser) {
     if (!Array.isArray(args.browser)) {
       if (browsers[args.browser].enable) {
@@ -109,9 +110,15 @@ async function query(url?: string) {
         }
       });
     }
-  } else if (url) {
+  }
+  // browser NOT specified but has search query
+  else if (url) {
     const protocol = `http${args.secure ? "s" : ""}://`;
     await open(`${protocol}${url}`);
+  }
+  // open browser without searching anything
+  else {
+    // output message saying cannot open browser if default is not set
   }
 }
 
@@ -156,20 +163,25 @@ function getUrl(engineNameFromArgs: string) {
 }
 
 async function main() {
-  // compose a search query
-  if (args.engine && args._.length > 0) {
+  // perform search query
+  if (args._.length > 0) {
+    // single search engine / website to query
     if (!Array.isArray(args.engine)) {
       await query(getUrl(args.engine));
-    } else {
+    }
+    // multiple search engines / websites to query
+    else {
       Object.values(args.engine).forEach(async (engineName) => {
         await query(getUrl(engineName));
       });
     }
   }
-  // open browser(s) without a search query
+  // open browser(s) without search query
   else {
     await query();
   }
 }
+
+console.log(args);
 
 main();

@@ -2,10 +2,10 @@ declare module "defaults" {
   import { BrowserProfiles } from "browser";
 
   interface Defaults {
+    engine: string;
+    delimiter: string;
     browser?: string;
     profile?: BrowserProfiles;
-    engine?: string;
-    delimiter?: string;
   }
 }
 
