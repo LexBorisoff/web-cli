@@ -22,7 +22,8 @@
         }
       }
     },
-    "edge": {
+    "msedge": {
+      "alias": ["edge"],
       "enable": true,
       "profiles": {}
     },

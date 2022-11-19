@@ -9,13 +9,6 @@ declare module "defaults" {
   }
 }
 
-declare module "args" {
-  interface Choices {
-    browsers: string[];
-    engines: string[];
-  }
-}
-
 declare module "browser" {
   interface BrowserProfile {
     dir: string;
@@ -28,16 +21,17 @@ declare module "browser" {
 
   interface Browser {
     enable: boolean;
+    alias?: string | string[];
     profiles: BrowserProfiles;
   }
 
-  interface Browsers {
+  interface BrowsersConfig {
     [key: string]: Browser;
   }
 }
 
-declare module "search" {
-  interface SearchEngine {
+declare module "engine" {
+  interface Engine {
     url: string;
     query: string;
     package?: string;
@@ -45,7 +39,7 @@ declare module "search" {
     alias?: string | string[];
   }
 
-  interface SearchEngines {
-    [index: string]: SearchEngine;
+  interface EnginesConfig {
+    [index: string]: Engine;
   }
 }

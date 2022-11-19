@@ -1,74 +1,16 @@
-import { Choices } from "args";
-import { Browsers } from "browser";
-import { SearchEngine, SearchEngines } from "search";
-import { Defaults } from "defaults";
-
+import { BrowsersConfig } from "browser";
+import { Engine, EnginesConfig } from "engine";
 import open from "open";
-import { hideBin } from "yargs/helpers";
-import yargs from "yargs";
 import config from "./config.json";
 
-const mainDefaults = {
-  engine: "google",
-  delimiter: " ",
-};
-const defaults = {
-  ...mainDefaults,
-  ...config.defaults,
-} as Defaults;
-const browsers = config.browsers as Browsers;
-const searchEngines = config.engines as SearchEngines;
+import { getKeyFromConfig, getDefaults } from "./helpers";
+import getArgs from "./getArgs";
 
-const choices: Choices = {
-  browsers: Object.keys(config.browsers),
-  engines: [],
-};
+const defaults = getDefaults();
+const browsers = config.browsers as BrowsersConfig;
+const engines = config.engines as EnginesConfig;
 
-Object.entries(config.engines).forEach(
-  ([key, engine]: [key: string, engine: SearchEngine]) => {
-    choices.engines = [...choices.engines, key.toLowerCase()];
-
-    if (engine.alias) {
-      if (Array.isArray(engine.alias)) {
-        choices.engines = [
-          ...choices.engines,
-          ...engine.alias.map((alias) => alias.toLowerCase()),
-        ];
-      } else {
-        choices.engines = [...choices.engines, engine.alias.toLowerCase()];
-      }
-    }
-  }
-);
-
-const args = yargs(hideBin(process.argv))
-  .option("browser", {
-    description: "Browser to open",
-    alias: "b",
-    requireArg: true,
-    choices: choices.browsers,
-    default: defaults.browser,
-  })
-  .option("profile", {
-    description: "Browser profile",
-    alias: "p",
-    requireArg: true,
-  })
-  .option("engine", {
-    description: "Search engine / Website to query",
-    alias: ["website", "e", "w"],
-    requireArg: true,
-    choices: choices.engines,
-    default: defaults.engine,
-  })
-  .option("secure", {
-    description: "Use https protocol during search",
-    alias: ["s", "https"],
-    type: "boolean",
-    default: true,
-  })
-  .help(false)
-  .parseSync();
+const args = getArgs();
 
 function hasProfiles(browser: string) {
   return Object.keys(browsers[browser].profiles).length > 0;
@@ -90,29 +32,29 @@ async function query(url?: string) {
   async function openBrowser(browser: string) {
     // TODO: deal with profiles
 
-    if (url != null && url !== "") {
-      await open(url, { app: { name: browser } });
-    } else {
-      await open(browser);
+    const browserKey = getKeyFromConfig(browser, config.browsers);
+    if (browserKey && browsers[browserKey]?.enable) {
+      if (url != null && url !== "") {
+        await open(url, { app: { name: browser } });
+      } else {
+        await open(browser);
+      }
     }
   }
 
-  // browser specified thru args or as default
+  // browser specified through args or as default
   if (args.browser) {
     if (!Array.isArray(args.browser)) {
-      if (browsers[args.browser].enable) {
-        await openBrowser(args.browser);
-      }
+      await openBrowser(args.browser);
     } else {
       args.browser.forEach(async (browserName) => {
-        if (browsers[browserName].enable) {
-          await openBrowser(browserName);
-        }
+        await openBrowser(browserName);
       });
     }
   }
   // browser NOT specified but has search query
   else if (url) {
+    console.log("here");
     const protocol = `http${args.secure ? "s" : ""}://`;
     await open(`${protocol}${url}`);
   }
@@ -122,41 +64,15 @@ async function query(url?: string) {
   }
 }
 
-function getEngineNameFromConfig(engineName: string) {
-  if (Object.keys(config.engines).includes(engineName)) {
-    return engineName;
-  }
-
-  let engineFromConfig = "";
-  Object.entries(config.engines).forEach(
-    ([key, engine]: [key: string, engine: SearchEngine]) => {
-      if (engine.hasOwnProperty("alias")) {
-        if (
-          (Array.isArray(engine.alias) && engine.alias.includes(engineName)) ||
-          engine.alias === engineName
-        ) {
-          engineFromConfig = key;
-          return;
-        }
-      }
-    }
-  );
-
-  if (engineFromConfig !== "") {
-    return engineFromConfig;
-  }
-}
-
-function getSearchQuery(engine: SearchEngine) {
+function getSearchQuery(engine: Engine) {
   const delimiter = engine.delimiter ?? defaults.delimiter;
   return args._.join(delimiter);
 }
 
 function getUrl(engineNameFromArgs: string) {
-  const engineName = getEngineNameFromConfig(engineNameFromArgs);
-
-  if (engineName) {
-    const engine = searchEngines[engineName];
+  const engineKey = getKeyFromConfig(engineNameFromArgs, config.engines);
+  if (engineKey) {
+    const engine = engines[engineKey];
     const searchQuery = getSearchQuery(engine);
     return engine.url + engine.query + searchQuery;
   }

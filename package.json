@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node main.ts",
     "dev": "ts-node-dev --respawn main.ts",
+    "nodemon": "nodemon main.ts",
     "build": "tsc"
   },
   "keywords": [],
