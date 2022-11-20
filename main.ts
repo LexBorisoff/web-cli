@@ -1,19 +1,15 @@
-import { BrowsersConfig } from "browser";
-import { Engine, EnginesConfig } from "engine";
+import { Engine } from "./types";
 import open from "open";
-import config from "./config.json";
-
-import { getKeyFromConfig, getDefaults } from "./helpers";
 import getArgs from "./getArgs";
-
-const defaults = getDefaults();
-const browsers = config.browsers as BrowsersConfig;
-const engines = config.engines as EnginesConfig;
+import { getDefaults, getBrowserName, getEngine } from "./helpers";
 
 const args = getArgs();
+const defaults = getDefaults();
+
+const supportedBrowsers = Object.keys(open.apps);
 
 function hasProfiles(browser: string) {
-  return Object.keys(browsers[browser].profiles).length > 0;
+  // return Object.keys(browsers[browser].profiles).length > 0;
 }
 
 function getDefaultProfile(browser?: string) {
@@ -29,15 +25,17 @@ function getDefaultProfile(browser?: string) {
 }
 
 async function query(url?: string) {
-  async function openBrowser(browser: string) {
-    // TODO: deal with profiles
+  async function openBrowser(browserNameFromArgs: string) {
+    const browser = getBrowserName(browserNameFromArgs);
+    if (browser) {
+      if (args.profile) {
+      }
 
-    const browserKey = getKeyFromConfig(browser, config.browsers);
-    if (browserKey && browsers[browserKey]?.enable) {
       if (url != null && url !== "") {
         await open(url, { app: { name: browser } });
       } else {
-        await open(browser);
+        console.log("browser", browser);
+        await open.openApp("msedge");
       }
     }
   }
@@ -54,12 +52,16 @@ async function query(url?: string) {
   }
   // browser NOT specified but has search query
   else if (url) {
-    console.log("here");
     const protocol = `http${args.secure ? "s" : ""}://`;
     await open(`${protocol}${url}`);
   }
   // open browser without searching anything
   else {
+    // opens empty tab if no profile
+    await open.openApp(open.apps.firefox, {
+      arguments: [""],
+    });
+    // await open(open.apps.edge as string);
     // output message saying cannot open browser if default is not set
   }
 }
@@ -69,10 +71,9 @@ function getSearchQuery(engine: Engine) {
   return args._.join(delimiter);
 }
 
-function getUrl(engineNameFromArgs: string) {
-  const engineKey = getKeyFromConfig(engineNameFromArgs, config.engines);
-  if (engineKey) {
-    const engine = engines[engineKey];
+function getUrl(engineName: string) {
+  const engine = getEngine(engineName);
+  if (engine) {
     const searchQuery = getSearchQuery(engine);
     return engine.url + engine.query + searchQuery;
   }
@@ -98,6 +99,5 @@ async function main() {
   }
 }
 
-console.log(args);
-
 main();
+console.log(args);

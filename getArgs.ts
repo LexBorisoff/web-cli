@@ -15,7 +15,7 @@ export default function () {
       description: "Browser to open",
       alias: "b",
       requireArg: true,
-      choices: choices.browsers,
+      // choices: choices.browsers,
       default: defaults.browser,
     })
     .option("profile", {
@@ -27,7 +27,7 @@ export default function () {
       description: "Search engine / Website to query",
       alias: ["website", "e", "w"],
       requireArg: true,
-      choices: choices.engines,
+      // choices: choices.engines,
       default: defaults.engine,
     })
     .option("secure", {

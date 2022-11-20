@@ -1,50 +1,52 @@
 {
-  "defaults": {},
-  "browsers": {
-    "chrome": {
-      "enable": true,
-      "profiles": {
-        "dev": {
-          "dir": "Profile 1",
-          "alias": "d"
-        },
-        "personal": {
-          "dir": "Profile 2",
-          "alias": "p"
-        },
-        "english": {
-          "dir": "Profile 3",
-          "alias": ["e", "eng"]
-        },
-        "maplex": {
-          "dir": "Profile 4",
-          "alias": ["m", "mpx"]
-        }
-      }
-    },
-    "msedge": {
-      "alias": ["edge"],
-      "enable": true,
-      "profiles": {}
-    },
-    "firefox": {
-      "enable": true,
-      "profiles": {}
-    },
-    "brave": {
-      "enable": true,
-      "profiles": {}
-    },
-    "opera": {
-      "enable": true,
-      "profiles": {}
-    },
-    "safari": {
-      "enable": false,
-      "profiles": {}
+  "defaults": {
+    "profile": {
+      "chrome": "dev"
     }
   },
-
+  "browsers": [
+    {
+      "name": "chrome",
+      "alias": ["c"]
+    },
+    {
+      "name": "firefox",
+      "alias": ["ff", "f"]
+    },
+    {
+      "name": "edge",
+      "alias": ["e"]
+    },
+    {
+      "name": "opera",
+      "alias": ["o"]
+    },
+    {
+      "name": "brave",
+      "alias": ["b"],
+      "path": "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"
+    }
+  ],
+  "profiles": {
+    "chrome": {
+      "dev": {
+        "profile": "Profile 1",
+        "alias": "d"
+      },
+      "personal": {
+        "profile": "Profile 2",
+        "alias": "p"
+      },
+      "english": {
+        "profile": "Profile 3",
+        "alias": ["e", "eng"]
+      },
+      "maplex": {
+        "profile": "Profile 4",
+        "alias": ["m", "mpx"]
+      }
+    }
+  },
   "engines": {
     "google": {
       "url": "www.google.com",

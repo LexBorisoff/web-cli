@@ -1,45 +1,35 @@
-declare module "defaults" {
-  import { BrowserProfiles } from "browser";
-
-  interface Defaults {
-    engine: string;
-    delimiter: string;
-    browser?: string;
-    profile?: BrowserProfiles;
-  }
+export interface Defaults {
+  engine: string;
+  delimiter: string;
+  browser?: string;
+  profile?: { [key: string]: string };
 }
 
-declare module "browser" {
-  interface BrowserProfile {
-    dir: string;
-    alias?: string | string[];
-  }
-
-  interface BrowserProfiles {
-    [key: string]: string | BrowserProfile;
-  }
-
-  interface Browser {
-    enable: boolean;
-    alias?: string | string[];
-    profiles: BrowserProfiles;
-  }
-
-  interface BrowsersConfig {
-    [key: string]: Browser;
-  }
+export interface Profile {
+  profile: string; // same as dir
+  alias?: string | string[];
 }
 
-declare module "engine" {
-  interface Engine {
-    url: string;
-    query: string;
-    package?: string;
-    delimiter?: string;
-    alias?: string | string[];
-  }
+export interface ProfilesConfig {
+  [key: string]: Profile;
+}
 
-  interface EnginesConfig {
-    [index: string]: Engine;
-  }
+export interface Browser {
+  name: string;
+  path?: string;
+  alias?: string | string[];
+}
+
+type BrowsersConfig = Array<string | Browser>;
+
+export interface Engine {
+  url: string;
+  query: string;
+  package?: string;
+  delimiter?: string;
+  alias?: string | string[];
+}
+
+export interface EnginesConfig {
+  [index: string]: Engine;
 }
