@@ -8,10 +8,11 @@ import {
 } from "./types";
 import open from "open";
 import config from "./config.json";
+import enginesData from "./engines.json";
 
+export const engines = enginesData as EnginesConfig;
 export const browsers = config.browsers as BrowsersConfig;
 export const profiles = config.profiles as ProfilesConfig;
-export const engines = config.engines as EnginesConfig;
 
 export function getDefaults(): Defaults {
   const mainDefaults = {
