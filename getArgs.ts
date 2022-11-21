@@ -12,28 +12,35 @@ const choices = {
 export default function () {
   return yargs(hideBin(process.argv))
     .option("browser", {
-      description: "Browser to open",
+      type: "string",
       alias: "b",
       requireArg: true,
       // choices: choices.browsers,
       default: defaults.browser,
     })
     .option("profile", {
+      type: "string",
       description: "Browser profile",
       alias: "p",
       requireArg: true,
     })
     .option("engine", {
+      type: "string",
       description: "Search engine / Website to query",
       alias: ["website", "e", "w"],
       requireArg: true,
       // choices: choices.engines,
       default: defaults.engine,
     })
+    .option("incognito", {
+      type: "boolean",
+      alias: ["i", "private"],
+      default: false,
+    })
     .option("secure", {
+      type: "boolean",
       description: "Use https protocol during search",
       alias: ["s", "https"],
-      type: "boolean",
       default: true,
     })
     .option("config", {})

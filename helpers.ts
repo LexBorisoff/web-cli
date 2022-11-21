@@ -4,10 +4,14 @@ import {
   BrowsersConfig,
   Engine,
   EnginesConfig,
+  Profile,
+  BrowserProfiles,
+  ProfilesConfig,
 } from "./types";
 import config from "./config.json";
 
 export const browsers = config.browsers as BrowsersConfig;
+export const profiles = config.profiles as ProfilesConfig;
 export const engines = config.engines as EnginesConfig;
 
 export function getDefaults(): Defaults {
@@ -58,22 +62,52 @@ export function getBrowserName(nameFromArgs: string): string | undefined {
   }
 }
 
-export function getEngine(engineName: string): Engine | undefined {
-  if (Object.keys(engines).includes(engineName)) {
-    return engines[engineName];
+function getConfigItemByNameOrAlias<T extends Object>(name: string, list: T) {
+  if (Object.keys(list).includes(name)) {
+    return list[name as keyof T];
   }
 
   let found;
-  Object.values(engines).forEach((engine) => {
-    if (engine.alias) {
+  Object.values(list).forEach((item) => {
+    if (item.alias) {
       if (
-        (Array.isArray(engine.alias) && engine.alias.includes(engineName)) ||
-        engine.alias === engineName
+        (Array.isArray(item.alias) && item.alias.includes(name)) ||
+        item.alias === name
       ) {
-        found = engine;
+        found = item;
         return;
       }
     }
   });
   return found;
+}
+
+export function getEngine(engineName: string): Engine | undefined {
+  // if (Object.keys(engines).includes(engineName)) {
+  //   return engines[engineName];
+  // }
+  // let found;
+  // Object.values(engines).forEach((engine) => {
+  //   if (engine.alias) {
+  //     if (
+  //       (Array.isArray(engine.alias) && engine.alias.includes(engineName)) ||
+  //       engine.alias === engineName
+  //     ) {
+  //       found = engine;
+  //       return;
+  //     }
+  //   }
+  // });
+  // return found;
+  return getConfigItemByNameOrAlias(engineName, engines);
+}
+
+export function getProfile(
+  profileName: string,
+  browserName: string
+): string | undefined {
+  const browserProfiles = profiles[browserName];
+  if (browserProfiles) {
+    return getConfigItemByNameOrAlias(profileName, browserProfiles)?.profile;
+  }
 }

@@ -1,7 +1,7 @@
 import { Engine } from "./types";
 import open from "open";
 import getArgs from "./getArgs";
-import { getDefaults, getBrowserName, getEngine } from "./helpers";
+import { getDefaults, getBrowserName, getEngine, getProfile } from "./helpers";
 
 const args = getArgs();
 const defaults = getDefaults();
@@ -24,18 +24,72 @@ function getDefaultProfile(browser?: string) {
   }
 }
 
+function getBrowser(browserName: string) {
+  switch (browserName) {
+    case "chrome":
+      return open.apps.chrome;
+    case "firefox":
+      return open.apps.firefox;
+    case "edge":
+      return open.apps.edge;
+    default:
+      return browserName;
+  }
+}
+
 async function query(url?: string) {
+  async function openUrl(browserName: string, profileDirectory?: string) {
+    let browser = getBrowser(browserName);
+    let browserArguments: string[] = [""];
+    const removeEmptyArgument = () => {
+      browserArguments = browserArguments.filter((arg) => arg !== "");
+    };
+
+    if (profileDirectory) {
+      browserArguments.push(`--profile-directory=${profileDirectory}`);
+      removeEmptyArgument();
+    }
+    if (args.incognito) {
+      let incognito = "incognito";
+      if (browserName == "edge") {
+        incognito = "inprivate";
+      } else if (browserName === "firefox" || browserName === "opera") {
+        incognito = "private";
+      }
+      browserArguments.push(`--${incognito}`);
+      removeEmptyArgument();
+    }
+
+    if (url != null && url !== "") {
+      await open(url, {
+        app: { name: browser, arguments: browserArguments },
+      });
+    } else {
+      await open.openApp(browser, { arguments: browserArguments });
+    }
+  }
+
+  async function openBrowserProfile(browser: string) {
+    if (args.profile) {
+      if (!Array.isArray(args.profile)) {
+        const profile = getProfile(args.profile, browser);
+        await openUrl(browser, profile);
+      } else {
+        args.profile.forEach(async (profileFromArgs) => {
+          const profile = getProfile(profileFromArgs, browser);
+          await openUrl(browser, profile);
+        });
+      }
+    }
+  }
+
   async function openBrowser(browserNameFromArgs: string) {
     const browser = getBrowserName(browserNameFromArgs);
     if (browser) {
       if (args.profile) {
-      }
-
-      if (url != null && url !== "") {
-        await open(url, { app: { name: browser } });
+        await openBrowserProfile(browser);
       } else {
-        console.log("browser", browser);
-        await open.openApp("msedge");
+        await openUrl(browser);
       }
     }
   }
@@ -52,11 +106,13 @@ async function query(url?: string) {
   }
   // browser NOT specified but has search query
   else if (url) {
+    console.log(url);
     const protocol = `http${args.secure ? "s" : ""}://`;
     await open(`${protocol}${url}`);
   }
   // open browser without searching anything
   else {
+    console.log("last");
     // opens empty tab if no profile
     await open.openApp(open.apps.firefox, {
       arguments: [""],

@@ -2,6 +2,26 @@
   "defaults": {
     "profile": {
       "chrome": "dev"
+    },
+    "mode": {
+      "dev": {
+        "browser": "chrome",
+        "profile": "dev",
+        "engine": "google",
+        "alias": "d"
+      },
+      "personal": {
+        "browser": "chrome",
+        "profile": "personal",
+        "engine": "google",
+        "alias": "p"
+      },
+      "youtube": {
+        "browser": "chrome",
+        "profile": "personal",
+        "website": "youtube",
+        "alias": ["y", "yt"]
+      }
     }
   },
   "browsers": [
@@ -23,8 +43,7 @@
     },
     {
       "name": "brave",
-      "alias": ["b"],
-      "path": "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"
+      "alias": ["b"]
     }
   ],
   "profiles": {
