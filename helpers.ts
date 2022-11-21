@@ -4,10 +4,9 @@ import {
   BrowsersConfig,
   Engine,
   EnginesConfig,
-  Profile,
-  BrowserProfiles,
   ProfilesConfig,
 } from "./types";
+import open from "open";
 import config from "./config.json";
 
 export const browsers = config.browsers as BrowsersConfig;
@@ -42,6 +41,19 @@ export function constructChoices<T extends Object>(list: T): string[] {
     }
   });
   return result;
+}
+
+export function getBrowser(browserName: string) {
+  switch (browserName) {
+    case "chrome":
+      return open.apps.chrome;
+    case "firefox":
+      return open.apps.firefox;
+    case "edge":
+      return open.apps.edge;
+    default:
+      return browserName;
+  }
 }
 
 export function getBrowserName(nameFromArgs: string): string | undefined {
@@ -83,22 +95,6 @@ function getConfigItemByNameOrAlias<T extends Object>(name: string, list: T) {
 }
 
 export function getEngine(engineName: string): Engine | undefined {
-  // if (Object.keys(engines).includes(engineName)) {
-  //   return engines[engineName];
-  // }
-  // let found;
-  // Object.values(engines).forEach((engine) => {
-  //   if (engine.alias) {
-  //     if (
-  //       (Array.isArray(engine.alias) && engine.alias.includes(engineName)) ||
-  //       engine.alias === engineName
-  //     ) {
-  //       found = engine;
-  //       return;
-  //     }
-  //   }
-  // });
-  // return found;
   return getConfigItemByNameOrAlias(engineName, engines);
 }
 

@@ -1,41 +1,16 @@
 import { Engine } from "./types";
 import open from "open";
 import getArgs from "./getArgs";
-import { getDefaults, getBrowserName, getEngine, getProfile } from "./helpers";
+import {
+  getDefaults,
+  getBrowser,
+  getBrowserName,
+  getEngine,
+  getProfile,
+} from "./helpers";
 
 const args = getArgs();
 const defaults = getDefaults();
-
-const supportedBrowsers = Object.keys(open.apps);
-
-function hasProfiles(browser: string) {
-  // return Object.keys(browsers[browser].profiles).length > 0;
-}
-
-function getDefaultProfile(browser?: string) {
-  if (typeof defaults.profile === "string") {
-    return defaults.profile;
-  } else if (
-    browser &&
-    defaults.profile &&
-    Object.keys(defaults.profile).includes(browser)
-  ) {
-    return defaults.profile[browser];
-  }
-}
-
-function getBrowser(browserName: string) {
-  switch (browserName) {
-    case "chrome":
-      return open.apps.chrome;
-    case "firefox":
-      return open.apps.firefox;
-    case "edge":
-      return open.apps.edge;
-    default:
-      return browserName;
-  }
-}
 
 async function query(url?: string) {
   async function openUrl(browserName: string, profileDirectory?: string) {
@@ -84,12 +59,16 @@ async function query(url?: string) {
   }
 
   async function openBrowser(browserNameFromArgs: string) {
-    const browser = getBrowserName(browserNameFromArgs);
-    if (browser) {
+    const browserName = getBrowserName(browserNameFromArgs);
+    if (browserName) {
       if (args.profile) {
-        await openBrowserProfile(browser);
+        await openBrowserProfile(browserName);
+      } else if (defaults.profile) {
+        const defaultProfile = defaults.profile[browserName];
+        const profile = getProfile(defaultProfile, browserName);
+        await openUrl(browserName, profile);
       } else {
-        await openUrl(browser);
+        await openUrl(browserName);
       }
     }
   }
@@ -111,14 +90,23 @@ async function query(url?: string) {
     await open(`${protocol}${url}`);
   }
   // open browser without searching anything
-  else {
-    console.log("last");
-    // opens empty tab if no profile
-    await open.openApp(open.apps.firefox, {
-      arguments: [""],
-    });
-    // await open(open.apps.edge as string);
-    // output message saying cannot open browser if default is not set
+  else if (defaults.browser) {
+    const browser = getBrowser(defaults.browser);
+    console.log("browser", browser);
+    if (browser) {
+      const defaultProfile = defaults.profile?.[defaults.browser];
+      const profile =
+        defaultProfile && getProfile(defaultProfile, defaults.browser);
+      let browserArguments = profile
+        ? [`--profile-directory=${profile}`]
+        : [""];
+
+      console.log("here", browserArguments);
+
+      await open.openApp(browser, {
+        arguments: browserArguments,
+      });
+    }
   }
 }
 
