@@ -1,13 +1,13 @@
 import open from "open";
-import { Engine } from "./types/config";
-import getArgs from "./helpers/getArgs";
+import { Engine } from "types";
 import {
+  getArgs,
   getDefaults,
   getBrowser,
   getBrowserName,
   getEngine,
   getProfile,
-} from "../helpers/helpers";
+} from "helpers";
 
 const args = getArgs();
 const defaults = getDefaults();
