@@ -1,16 +1,15 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-import { config, engines } from "data";
-import { constructChoices, getDefaults } from "helpers";
+import { browsers, engines, defaults } from "data";
+import { constructChoices } from "./utils";
 
-const defaults = getDefaults();
 const choices = {
-  browsers: constructChoices(config.browsers),
+  browsers: constructChoices(browsers),
   engines: constructChoices(engines),
 };
 
-export default function () {
+export default function getArgs() {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",

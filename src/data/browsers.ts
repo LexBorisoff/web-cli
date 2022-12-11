@@ -1,4 +1,4 @@
 import { BrowsersConfig } from "types";
-import { config } from "data";
-const browsers = config.browsers as BrowsersConfig;
+import config from "./config";
+const browsers: BrowsersConfig = config.browsers;
 export default browsers;

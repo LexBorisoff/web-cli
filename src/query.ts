@@ -1,8 +1,9 @@
 import open from "open";
+
 import { Engine } from "types";
+import { defaults } from "data";
 import {
   getArgs,
-  getDefaults,
   getBrowser,
   getBrowserName,
   getEngine,
@@ -10,7 +11,6 @@ import {
 } from "helpers";
 
 const args = getArgs();
-const defaults = getDefaults();
 
 async function query(url?: string) {
   async function openUrl(browserName: string, profileDirectory?: string) {
@@ -85,14 +85,12 @@ async function query(url?: string) {
   }
   // browser NOT specified but has search query
   else if (url) {
-    console.log(url);
     const protocol = `http${args.secure ? "s" : ""}://`;
     await open(`${protocol}${url}`);
   }
   // open browser without searching anything
   else if (defaults.browser) {
     const browser = getBrowser(defaults.browser);
-    console.log("browser", browser);
     if (browser) {
       const defaultProfile = defaults.profile?.[defaults.browser];
       const profile =
@@ -100,8 +98,6 @@ async function query(url?: string) {
       const browserArguments = profile
         ? [`--profile-directory=${profile}`]
         : [""];
-
-      console.log("here", browserArguments);
 
       await open.openApp(browser, {
         arguments: browserArguments,
