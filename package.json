@@ -10,7 +10,7 @@
   "author": "Lex Borisov <hello@lexborisov.com>",
   "license": "ISC",
   "bin": {
-    "query": "dist/main.js"
+    "query": "dist/src/main.js"
   },
   "dependencies": {
     "open": "^8.4.0",

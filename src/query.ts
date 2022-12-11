@@ -1,20 +1,20 @@
-import { Engine } from "./types";
 import open from "open";
-import getArgs from "./getArgs";
+import { Engine } from "./types/config";
+import getArgs from "./helpers/getArgs";
 import {
   getDefaults,
   getBrowser,
   getBrowserName,
   getEngine,
   getProfile,
-} from "./helpers";
+} from "../helpers/helpers";
 
 const args = getArgs();
 const defaults = getDefaults();
 
 async function query(url?: string) {
   async function openUrl(browserName: string, profileDirectory?: string) {
-    let browser = getBrowser(browserName);
+    const browser = getBrowser(browserName);
     let browserArguments: string[] = [""];
     const removeEmptyArgument = () => {
       browserArguments = browserArguments.filter((arg) => arg !== "");
@@ -97,7 +97,7 @@ async function query(url?: string) {
       const defaultProfile = defaults.profile?.[defaults.browser];
       const profile =
         defaultProfile && getProfile(defaultProfile, defaults.browser);
-      let browserArguments = profile
+      const browserArguments = profile
         ? [`--profile-directory=${profile}`]
         : [""];
 
@@ -123,7 +123,7 @@ function getUrl(engineName: string) {
   }
 }
 
-export default async function main() {
+async function main() {
   // perform search query
   if (args._.length > 0) {
     // single search engine / website to query
@@ -142,5 +142,7 @@ export default async function main() {
     await query();
   }
 }
+
+export default main;
 
 console.log(args);
