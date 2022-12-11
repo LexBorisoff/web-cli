@@ -1,3 +1,4 @@
+import open from "open";
 import {
   Defaults,
   Browser,
@@ -6,7 +7,6 @@ import {
   EnginesConfig,
   ProfilesConfig,
 } from "./types";
-import open from "open";
 import config from "./config.json";
 import enginesData from "./engines.json";
 
@@ -25,7 +25,7 @@ export function getDefaults(): Defaults {
   };
 }
 
-export function constructChoices<T extends Object>(list: T): string[] {
+export function constructChoices<T extends object>(list: T): string[] {
   let result: string[] = [];
   Object.entries(list).forEach(([key, item]) => {
     result = [...result, key.toLowerCase()];
@@ -75,7 +75,7 @@ export function getBrowserName(nameFromArgs: string): string | undefined {
   }
 }
 
-function getConfigItemByNameOrAlias<T extends Object>(name: string, list: T) {
+function getConfigItemByNameOrAlias<T extends object>(name: string, list: T) {
   if (Object.keys(list).includes(name)) {
     return list[name as keyof T];
   }
