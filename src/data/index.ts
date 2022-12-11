@@ -1,6 +1,6 @@
 import browsers from "./browsers";
 import engines from "./engines";
 import profiles from "./profiles";
-import config from "./config";
+import defaults from "./defaults";
 
-export { browsers, engines, profiles, config };
+export { browsers, engines, profiles, defaults };
