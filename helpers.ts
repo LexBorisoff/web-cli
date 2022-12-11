@@ -1,12 +1,12 @@
+import open from "open";
 import {
-  Defaults,
+  DefaultsConfig,
   Browser,
   BrowsersConfig,
   Engine,
   EnginesConfig,
   ProfilesConfig,
-} from "./types";
-import open from "open";
+} from "./types/config";
 import config from "./config.json";
 import enginesData from "./engines.json";
 
@@ -14,7 +14,7 @@ export const engines = enginesData as EnginesConfig;
 export const browsers = config.browsers as BrowsersConfig;
 export const profiles = config.profiles as ProfilesConfig;
 
-export function getDefaults(): Defaults {
+export function getDefaults(): DefaultsConfig {
   const mainDefaults = {
     engine: "google",
     delimiter: " ",

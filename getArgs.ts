@@ -46,5 +46,8 @@ export default function () {
     })
     .option("config", {})
     .help(false)
+    .option("help", {
+      alias: "h",
+    })
     .parseSync();
 }
