@@ -1,5 +1,5 @@
-import { Browser } from "../types";
-import { browsers } from "../data";
+import { Browser } from "types";
+import { browsers } from "data";
 
 export default function getBrowserName(
   nameFromArgs: string

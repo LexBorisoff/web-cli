@@ -1,7 +1,8 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
-import { config, engines } from "../data";
-import { constructChoices, getDefaults } from "../helpers";
+
+import { config, engines } from "data";
+import { constructChoices, getDefaults } from "helpers";
 
 const defaults = getDefaults();
 const choices = {

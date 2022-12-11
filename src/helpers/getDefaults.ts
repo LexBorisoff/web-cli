@@ -1,5 +1,5 @@
-import { DefaultsConfig } from "../types";
-import { config } from "../data";
+import { DefaultsConfig } from "types";
+import { config } from "data";
 
 export default function getDefaults(): DefaultsConfig {
   const mainDefaults = {
