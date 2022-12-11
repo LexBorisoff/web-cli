@@ -1,8 +1,8 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-import { browsers, engines, defaults } from "data";
 import { constructChoices } from "./utils";
+import { browsers, engines, defaults } from "../data";
 
 const choices = {
   browsers: constructChoices(browsers),

@@ -1,4 +1,4 @@
-import { DefaultsConfig } from "types";
+import { DefaultsConfig } from "../types";
 import config from "./config";
 const defaultsConfig = config.defaults;
 

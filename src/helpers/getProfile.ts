@@ -1,5 +1,5 @@
-import { profiles } from "data";
 import { getConfigItemByNameOrAlias } from "./utils";
+import { profiles } from "../data";
 
 export default function getProfile(
   profileName: string,
