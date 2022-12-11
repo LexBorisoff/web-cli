@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "Lex Borisov <hello@lexborisov.com>",
   "license": "ISC",
+  "bin": {
+    "query": "dist/main.js"
+  },
   "dependencies": {
     "open": "^8.4.0",
     "yargs": "^17.6.2"
