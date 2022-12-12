@@ -1,13 +1,15 @@
 import { getArgs } from "../command";
 const args = getArgs();
 
+const empty = "--";
+
 export default function getBrowserArguments(
   browserName: string,
   profileDirectory?: string
 ) {
-  let browserArguments: string[] = [""];
+  let browserArguments: string[] = [empty];
   const removeEmptyArgument = () => {
-    browserArguments = browserArguments.filter((arg) => arg !== "");
+    browserArguments = browserArguments.filter((arg) => arg !== empty);
   };
 
   if (profileDirectory) {
