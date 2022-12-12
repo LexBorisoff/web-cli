@@ -106,22 +106,29 @@ async function query(url?: string) {
   }
 }
 
+function hasSearchQuery() {
+  return args._.length > 0;
+}
+
 function getSearchQuery(engine: Engine) {
   const delimiter = engine.delimiter ?? defaults.delimiter;
   return args._.join(delimiter);
 }
 
-function getUrl(engineName: string) {
+function getUrl(engineName: string = defaults.engine) {
   const engine = getEngine(engineName);
   if (engine) {
-    const searchQuery = getSearchQuery(engine);
-    return engine.url + engine.query + searchQuery;
+    if (hasSearchQuery()) {
+      const searchQuery = getSearchQuery(engine);
+      return engine.url + engine.query + searchQuery;
+    }
+    return engine.url;
   }
 }
 
 async function main() {
   // perform search query
-  if (args._.length > 0) {
+  if (hasSearchQuery() || args.engine) {
     // single search engine / website to query
     if (!Array.isArray(args.engine)) {
       await query(getUrl(args.engine));

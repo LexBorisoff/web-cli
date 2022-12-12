@@ -30,7 +30,6 @@ export default function getArgs() {
       alias: ["website", "e", "w"],
       requireArg: true,
       // choices: choices.engines,
-      default: defaults.engine,
     })
     .option("incognito", {
       type: "boolean",
