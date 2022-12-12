@@ -9,7 +9,6 @@ const args = getArgs();
 async function open(browser: string, url?: string) {
   const browserName = getBrowserName(browser);
   if (browserName) {
-    console.log(browserName);
     // profile provided in args or in config defaults
     if (args.profile || defaults.profile) {
       await openProfile(browserName, url);
