@@ -1,21 +1,12 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-import { constructChoices } from "../helpers/utils";
-import { browsers, engines, defaults } from "../data";
-
-const choices = {
-  browsers: constructChoices(browsers),
-  engines: constructChoices(engines),
-};
-
 export default function getArgs() {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",
       alias: "b",
       requireArg: true,
-      // choices: choices.browsers,
     })
     .option("profile", {
       type: "string",
@@ -28,7 +19,6 @@ export default function getArgs() {
       description: "Search engine / Website to query",
       alias: ["website", "e", "w"],
       requireArg: true,
-      // choices: choices.engines,
     })
     .option("incognito", {
       type: "boolean",
