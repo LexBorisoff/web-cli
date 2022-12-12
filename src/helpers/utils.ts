@@ -1,4 +1,4 @@
-export function constructChoices<T extends object>(list: T): string[] {
+export function constructChoices<L extends object>(list: L): string[] {
   let result: string[] = [];
   Object.entries(list).forEach(([key, item]) => {
     result = [...result, key.toLowerCase()];
@@ -17,14 +17,16 @@ export function constructChoices<T extends object>(list: T): string[] {
   return result;
 }
 
-export function getConfigItemByNameOrAlias<T extends object>(
+export function getConfigItemByNameOrAlias<L extends object>(
   name: string,
-  list: T
+  list: L
 ) {
+  // name is object's key
   if (Object.keys(list).includes(name)) {
-    return list[name as keyof T];
+    return list[name as keyof L];
   }
 
+  // name is an alias
   let found;
   Object.values(list).forEach((item) => {
     if (item.alias) {

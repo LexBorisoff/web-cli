@@ -4,14 +4,15 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc",
-    "start": "npx ts-node -r tsconfig-paths/register src/main.ts"
+    "build": "rm -rf ./dist && npx tsc",
+    "build:windows": "rm -r -force ./dist && npx tsc",
+    "start": "npm run build && node dist/main"
   },
   "keywords": [],
   "author": "Lex Borisov <hello@lexborisov.com>",
   "license": "ISC",
   "bin": {
-    "query": "src/main.ts"
+    "query": "dist/main.js"
   },
   "dependencies": {
     "open": "^8.4.0",

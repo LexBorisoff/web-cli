@@ -1,4 +1,4 @@
 import { EnginesConfig } from "../types";
-import config from "../engines.json";
-const engines: EnginesConfig = config;
+import config from "./config";
+const engines: EnginesConfig = config.engines;
 export default engines;

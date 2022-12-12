@@ -1,2 +1,3 @@
 import config from "../config.json";
-export default config;
+import engines from "../engines.json";
+export default { ...config, engines };
