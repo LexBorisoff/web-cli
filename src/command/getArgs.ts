@@ -1,7 +1,7 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-import { constructChoices } from "./utils";
+import { constructChoices } from "../helpers/utils";
 import { browsers, engines, defaults } from "../data";
 
 const choices = {
@@ -16,7 +16,6 @@ export default function getArgs() {
       alias: "b",
       requireArg: true,
       // choices: choices.browsers,
-      default: defaults.browser,
     })
     .option("profile", {
       type: "string",
