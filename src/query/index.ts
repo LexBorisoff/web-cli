@@ -4,29 +4,24 @@ import { hasEngine, hasSearchQuery, hasWebsite, getArgs } from "../command";
 
 const args = getArgs();
 
+async function queryUrls(engineName: string) {
+  const urls = getUrls(engineName);
+  urls.forEach(async (url) => {
+    await query(url);
+  });
+}
+
 export default async function main() {
   // perform search query
   if (hasEngine() || hasSearchQuery() || hasWebsite()) {
     // single search engine / website to query
     if (!Array.isArray(args.engine)) {
-      const urls = getUrls(args.engine);
-
-      urls.forEach(async (url) => {
-        await query(url);
-      });
+      queryUrls(args.engine as string);
     }
     // multiple search engines / websites to query
     else {
       Object.values(args.engine).forEach(async (engineName) => {
-        const urls = getUrls(engineName);
-
-        if (!Array.isArray(urls)) {
-          await query(urls);
-        } else {
-          urls.forEach(async (url) => {
-            await query(url);
-          });
-        }
+        queryUrls(engineName);
       });
     }
   }
