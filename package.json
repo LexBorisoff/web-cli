@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./dist && npx tsc",
     "build:windows": "rm -r -force ./dist && npx tsc",
-    "start": "npm run build && node dist/main"
+    "setup": "npm run build && npm install -g"
   },
   "keywords": [],
   "author": "Lex Borisov <hello@lexborisov.com>",

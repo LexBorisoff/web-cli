@@ -4,7 +4,7 @@ const args = getArgs();
 const empty = "--";
 
 export default function getBrowserArguments(
-  browserName: string,
+  browserName?: string,
   profileDirectory?: string
 ) {
   let browserArguments: string[] = [empty];

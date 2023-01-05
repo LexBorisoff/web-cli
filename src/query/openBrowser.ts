@@ -28,7 +28,9 @@ export default async function openBrowser(url?: string) {
     }
     // multiple browsers provided
     else {
-      args.browser.forEach((browser) => open(browser, url));
+      args.browser.forEach((browser) => {
+        open(browser, url);
+      });
     }
   }
 }
