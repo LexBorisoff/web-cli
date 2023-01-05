@@ -10,7 +10,6 @@ export default async function openQuery(
   if (browserName) {
     const browser = getBrowser(browserName);
     const browserArguments = getBrowserArguments(browserName, profileDirectory);
-    console.log("openQuery", browserArguments);
 
     if (url != null && url !== "") {
       await open(url, {
