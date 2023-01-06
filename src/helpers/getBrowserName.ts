@@ -1,5 +1,19 @@
+import open from "open";
 import { Browser } from "../types";
 import { browsers } from "../data";
+
+export function getBrowserAppName(browserName: string) {
+  switch (browserName) {
+    case "chrome":
+      return open.apps.chrome;
+    case "firefox":
+      return open.apps.firefox;
+    case "edge":
+      return open.apps.edge;
+    default:
+      return browserName;
+  }
+}
 
 export default function getBrowserName(
   nameFromArgs: string

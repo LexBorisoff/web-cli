@@ -1,11 +1,11 @@
 import open from "open";
 import getBrowserArguments from "./getBrowserArguments";
-import { getBrowser, getProfile } from "../helpers";
+import { getBrowserAppName, getProfile } from "../helpers";
 import { defaults } from "../data";
 
 export default async function openBrowserEmpty() {
   if (defaults.browser) {
-    const browser = getBrowser(defaults.browser);
+    const browser = getBrowserAppName(defaults.browser);
     if (browser) {
       const defaultProfile = defaults.profile?.[defaults.browser];
       const profile =

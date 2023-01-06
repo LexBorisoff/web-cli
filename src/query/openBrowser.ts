@@ -1,12 +1,12 @@
 import openProfile from "./openProfile";
-import openQuery from "./openQuery";
+import openUrl from "./openUrl";
 import { getArgs } from "../command";
 import { getBrowserName } from "../helpers";
 import { defaults } from "../data";
 
 const args = getArgs();
 
-async function open(browser: string, url?: string) {
+async function openBrowserUrl(browser: string, url?: string) {
   const browserName = getBrowserName(browser);
   if (browserName) {
     // profile provided in args or in config defaults
@@ -15,7 +15,7 @@ async function open(browser: string, url?: string) {
     }
     // profile NOT provided
     else {
-      await openQuery(browserName, url);
+      await openUrl(url, browserName);
     }
   }
 }
@@ -24,13 +24,15 @@ export default async function openBrowser(url?: string) {
   if (args.browser) {
     // one browser provided
     if (!Array.isArray(args.browser)) {
-      open(args.browser, url);
+      openBrowserUrl(args.browser, url);
     }
     // multiple browsers provided
     else {
       args.browser.forEach((browser) => {
-        open(browser, url);
+        openBrowserUrl(browser, url);
       });
     }
+  } else if (defaults.browser) {
+    openBrowserUrl(defaults.browser, url);
   }
 }

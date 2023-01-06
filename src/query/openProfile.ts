@@ -1,8 +1,18 @@
-import openQuery from "./openQuery";
+import openUrl from "./openUrl";
 import { getArgs } from "../command";
 import { getProfile } from "../helpers";
 import { defaults } from "../data";
 const args = getArgs();
+
+async function openProfileUrl(
+  browserName: string,
+  profile?: string,
+  url?: string
+) {
+  if (profile) {
+    await openUrl(url, browserName, profile);
+  }
+}
 
 export default async function openProfile(browserName: string, url?: string) {
   // profile provided in args
@@ -10,13 +20,13 @@ export default async function openProfile(browserName: string, url?: string) {
     // one profile provided
     if (!Array.isArray(args.profile)) {
       const profile = getProfile(args.profile, browserName);
-      await openQuery(browserName, url, profile);
+      openProfileUrl(browserName, profile, url);
     }
     // multiple profiles provided
     else {
       args.profile.forEach(async (profileFromArgs) => {
         const profile = getProfile(profileFromArgs, browserName);
-        await openQuery(browserName, url, profile);
+        openProfileUrl(browserName, profile, url);
       });
     }
   }
@@ -24,6 +34,6 @@ export default async function openProfile(browserName: string, url?: string) {
   else if (defaults.profile) {
     const defaultProfile = defaults.profile[browserName];
     const profile = getProfile(defaultProfile, browserName);
-    await openQuery(browserName, url, profile);
+    openProfileUrl(browserName, profile, url);
   }
 }
