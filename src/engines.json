@@ -25,7 +25,7 @@
   "cdn": {
     "url": "cdnjs.com",
     "query": "/libraries?q=",
-    "package": "libraries/"
+    "package": "/libraries/"
   },
   "csstricks": {
     "alias": ["css", "css-tricks"],

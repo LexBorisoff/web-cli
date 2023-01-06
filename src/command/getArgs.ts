@@ -16,9 +16,15 @@ export default function getArgs() {
     })
     .option("engine", {
       type: "string",
-      description: "Search engine / Website to query",
+      description: "Search engine / website to query",
       alias: ["website", "e", "w"],
       requireArg: true,
+    })
+    .option("package", {
+      type: "boolean",
+      description: "Search packages on engines / websites that have them",
+      alias: ["pkg"],
+      default: false,
     })
     .option("incognito", {
       type: "boolean",
