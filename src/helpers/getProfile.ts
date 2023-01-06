@@ -7,6 +7,6 @@ export default function getProfile(
 ): string | undefined {
   const browserProfiles = profiles[browserName];
   if (browserProfiles) {
-    return getConfigItemByNameOrAlias(profileName, browserProfiles)?.profile;
+    return getConfigItemByNameOrAlias(profileName, browserProfiles)?.directory;
   }
 }

@@ -1,5 +1,5 @@
 export interface Profile {
-  profile: string; // same as dir
+  directory: string; // --profile-directory
   alias?: string | string[];
   path?: string;
 }
