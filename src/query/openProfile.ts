@@ -2,6 +2,7 @@ import openUrl from "./openUrl";
 import { getArgs } from "../command";
 import { getProfile } from "../helpers";
 import { defaults } from "../data";
+
 const args = getArgs();
 
 async function openProfileUrl(

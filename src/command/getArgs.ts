@@ -22,8 +22,8 @@ export default function getArgs() {
     })
     .option("package", {
       type: "boolean",
-      description: "Search packages on engines / websites that have them",
-      alias: ["pkg"],
+      description: "Search packages / libraries on websites that have them",
+      alias: ["pack", "pkg", "library", "lib"],
       default: false,
     })
     .option("incognito", {
