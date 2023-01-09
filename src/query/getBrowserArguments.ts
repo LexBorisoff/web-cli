@@ -1,14 +1,21 @@
 import { getArgs } from "../command";
 const args = getArgs();
 
+// needed for opening an empty browser without url
+const empty = "--";
+
 export default function getBrowserArguments(
   browserName?: string,
   profileDirectory?: string
 ) {
-  const browserArguments: string[] = [];
+  let browserArguments: string[] = [empty];
+  function removeEmpty() {
+    browserArguments = browserArguments.filter((arg) => arg !== empty);
+  }
 
   if (profileDirectory) {
     browserArguments.push(`--profile-directory=${profileDirectory}`);
+    removeEmpty();
   }
 
   if (args.incognito) {
@@ -19,6 +26,7 @@ export default function getBrowserArguments(
       incognito = "private";
     }
     browserArguments.push(`--${incognito}`);
+    removeEmpty();
   }
 
   return browserArguments;

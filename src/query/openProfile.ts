@@ -10,9 +10,7 @@ async function openProfileUrl(
   profile?: string,
   url?: string
 ) {
-  if (profile) {
-    await openUrl(url, browserName, profile);
-  }
+  await openUrl(url, browserName, profile);
 }
 
 export default async function openProfile(browserName: string, url?: string) {
