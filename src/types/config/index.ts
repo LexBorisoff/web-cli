@@ -1,7 +1,8 @@
-export { default as BrowsersConfig, Browser } from "./Browsers";
+export { default as Config } from "./config";
+export { default as BrowsersConfig, Browser } from "./browsers";
 export {
   default as ProfilesConfig,
   Profile,
   BrowserProfiles,
-} from "./Profiles";
-export { default as DefaultsConfig } from "./Defaults";
+} from "./profiles";
+export { default as DefaultsConfig } from "./defaults";

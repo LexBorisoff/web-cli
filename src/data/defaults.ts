@@ -1,11 +1,18 @@
-import { DefaultsConfig } from "../types";
 import config from "./config";
-const defaultsConfig = config.defaults;
+import { defaultEngine } from "./engines";
+import { DefaultsConfig } from "../types/config";
 
-const defaults: DefaultsConfig = {
-  engine: "google",
-  delimiter: " ",
-  ...defaultsConfig,
+const defaultDelimiter = " ";
+
+interface RequiredDefaults {
+  engine: string;
+  delimiter: string;
+}
+
+const defaults: DefaultsConfig & RequiredDefaults = {
+  ...config.defaults,
+  engine: config.defaults.engine ?? defaultEngine,
+  delimiter: config.defaults?.delimiter ?? defaultDelimiter,
 };
 
 export default defaults;

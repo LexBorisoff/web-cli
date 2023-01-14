@@ -1,8 +1,5 @@
-import { EnginesConfig } from "../types";
-import config from "./config";
+import EngineList from "../types/engines";
+import engines from "../engines.json";
 
-const engines: EnginesConfig = config.engines;
-const defaultEngine = "google";
-
-export default engines;
-export { defaultEngine };
+export const defaultEngine = "google";
+export default engines as EngineList;
