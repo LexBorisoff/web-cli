@@ -15,18 +15,19 @@ export function getBrowserAppName(browserName: string) {
   }
 }
 
-export default function getBrowserName(
-  nameFromArgs: string
+export default function getBrowser(
+  browserFromArgs: string
 ): string | undefined {
   const foundBrowser = browsers.find((browser: string | Browser) => {
     if (typeof browser === "string") {
-      return browser === nameFromArgs;
+      return browser === browserFromArgs;
     }
 
     return (
-      browser.name === nameFromArgs ||
-      (typeof browser?.alias === "string" && browser.alias === nameFromArgs) ||
-      (Array.isArray(browser.alias) && browser.alias.includes(nameFromArgs))
+      browser.name === browserFromArgs ||
+      (typeof browser?.alias === "string" &&
+        browser.alias === browserFromArgs) ||
+      (Array.isArray(browser.alias) && browser.alias.includes(browserFromArgs))
     );
   });
 

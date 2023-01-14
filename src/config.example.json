@@ -30,11 +30,11 @@
   "profiles": {
     "chrome": {
       "dev": {
-        "profile": "Profile 1",
+        "directory": "Profile 1",
         "alias": "d"
       },
       "personal": {
-        "profile": "Profile 2",
+        "directory": "Profile 2",
         "alias": "p"
       }
     }

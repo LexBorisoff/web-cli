@@ -1,11 +1,11 @@
 import open from "open";
-import getBrowserArguments from "./getBrowserArguments";
-import { getBrowserAppName, getProfile } from "../helpers";
+import { getBrowserArguments, getBrowserAppName, getProfile } from "../helpers";
 import { defaults } from "../data";
 
-export default async function openBrowserEmpty() {
+export default async function openEmptyBrowser() {
   if (defaults.browser) {
     const browser = getBrowserAppName(defaults.browser);
+
     if (browser) {
       const defaultProfile = defaults.profile?.[defaults.browser];
       const profile =
@@ -17,5 +17,7 @@ export default async function openBrowserEmpty() {
         arguments: browserArguments,
       });
     }
+  } else {
+    console.error("Provide default browser to open");
   }
 }

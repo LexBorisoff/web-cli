@@ -41,3 +41,7 @@ export function getConfigItemByNameOrAlias<L extends object>(
   });
   return found;
 }
+
+export function getUrlPattern() {
+  return /[a-z\d-]+\.[a-z]{2,}$/is;
+}
