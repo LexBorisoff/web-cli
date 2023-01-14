@@ -5,9 +5,9 @@ export interface Profile {
 }
 
 export interface BrowserProfiles {
-  [key: string]: Profile;
+  [profile: string]: Profile;
 }
 
-export interface ProfilesConfig {
-  [key: string]: BrowserProfiles;
+export default interface ProfilesConfig {
+  [browser: string]: BrowserProfiles;
 }

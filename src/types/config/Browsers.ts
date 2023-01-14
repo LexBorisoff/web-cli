@@ -4,4 +4,6 @@ export interface Browser {
   alias?: string | string[];
 }
 
-export type BrowsersConfig = Array<string | Browser>;
+type BrowsersConfig = Array<string | Browser>;
+
+export default BrowsersConfig;

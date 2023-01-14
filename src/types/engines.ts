@@ -6,6 +6,6 @@ export interface Engine {
   alias?: string | string[];
 }
 
-export interface EnginesConfig {
-  [index: string]: Engine;
+export default interface EngineList {
+  [engine: string]: Engine;
 }
