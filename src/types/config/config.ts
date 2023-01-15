@@ -3,7 +3,7 @@ import BrowsersConfig from "./browsers";
 import ProfilesConfig from "./profiles";
 
 export default interface Config {
-  defaults: DefaultsConfig;
-  browsers: BrowsersConfig;
-  profiles: ProfilesConfig;
+  defaults?: DefaultsConfig;
+  browsers?: BrowsersConfig;
+  profiles?: ProfilesConfig;
 }

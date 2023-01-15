@@ -1,8 +1,8 @@
 import config from "./config";
-import { defaultEngine } from "./engines";
+import { fallbackEngine } from "./engines";
 import { DefaultsConfig } from "../types/config";
 
-const defaultDelimiter = " ";
+const fallbackDelimiter = " ";
 
 interface RequiredDefaults {
   engine: string;
@@ -11,8 +11,8 @@ interface RequiredDefaults {
 
 const defaults: DefaultsConfig & RequiredDefaults = {
   ...config.defaults,
-  engine: config.defaults.engine ?? defaultEngine,
-  delimiter: config.defaults?.delimiter ?? defaultDelimiter,
+  engine: config.defaults?.engine ?? fallbackEngine,
+  delimiter: config.defaults?.delimiter ?? fallbackDelimiter,
 };
 
 export default defaults;

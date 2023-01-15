@@ -1,2 +1,2 @@
 import config from "./config";
-export default config.browsers;
+export default config.browsers ?? [];

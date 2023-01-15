@@ -1,5 +1,5 @@
 import open from "open";
-import { Browser } from "../types";
+import { Browser } from "../types/config";
 import { browsers } from "../data";
 
 export function getBrowserAppName(browserName: string) {

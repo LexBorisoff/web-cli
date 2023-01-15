@@ -1,5 +1,5 @@
 /**
- * opens URL in default browser specified in config file or (if not) by OS
+ * opens URL in default browser specified in config file or by OS
  */
 
 import open from "open";
