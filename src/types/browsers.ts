@@ -1,7 +1,10 @@
-export interface Browser {
+export interface BrowserObject {
   name: string;
   path?: string;
   alias?: string | string[];
 }
 
-export type BrowsersConfig = Array<string | Browser>;
+export type Browser = string | BrowserObject;
+
+type BrowsersConfig = Array<Browser>;
+export default BrowsersConfig;

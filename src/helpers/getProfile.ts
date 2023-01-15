@@ -1,12 +1,13 @@
 import { getConfigItemByNameOrAlias } from "./utils";
 import { profiles } from "../data";
+import { Profile } from "../types";
 
 export default function getProfile(
-  profileName: string,
+  profileNameOrAlias: string,
   browserName: string
-): string | undefined {
-  const browserProfiles = profiles[browserName];
-  if (browserProfiles) {
-    return getConfigItemByNameOrAlias(profileName, browserProfiles)?.directory;
-  }
+): Profile | undefined {
+  const browserProfiles = profiles?.[browserName];
+  return browserProfiles
+    ? getConfigItemByNameOrAlias(profileNameOrAlias, browserProfiles)
+    : undefined;
 }

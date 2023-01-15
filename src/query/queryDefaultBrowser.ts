@@ -1,11 +1,15 @@
+/**
+ * opens URL in default browser specified in config file or by OS
+ */
+
 import open from "open";
-import getBrowserArguments from "./getBrowserArguments";
+import { getBrowserArguments } from "../helpers";
 import { getArgs } from "../command";
 import { defaults } from "../data";
 
 const args = getArgs();
 
-export default async function openBrowserDefault(url: string) {
+export default async function queryDefaultBrowser(url: string) {
   const protocol = `http${args.secure ? "s" : ""}://`;
   const fullUrl = /^http/is.test(url) ? url : `${protocol}${url}`;
 

@@ -1,6 +1,6 @@
 import { getUrlPattern } from "../helpers";
 import { getArgs } from "../command";
-import { Engine } from "../types";
+import { Engine } from "../types/engines";
 import { defaults } from "../data";
 
 const args = getArgs();

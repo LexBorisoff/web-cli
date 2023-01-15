@@ -1,6 +1,6 @@
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import { getEngine } from "../helpers";
+import getEngine from "./getEngine";
 import { getArgs, hasSearchQuery } from "../command";
 import { defaults } from "../data";
 
@@ -17,11 +17,11 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
-export default function getUrls(
-  engineName: string = defaults.engine
+export default function getUrlList(
+  engineNameOrAlias: string = defaults.engine
 ): string[] {
-  let urls: string[] = [];
-  const engine = getEngine(engineName);
+  let urlList: string[] = [];
+  const engine = getEngine(engineNameOrAlias);
 
   if (engine != null && hasSearchQuery()) {
     const queries: string[] = [];
@@ -45,15 +45,15 @@ export default function getUrls(
     }
 
     if (queries.length > 0) {
-      urls = [...queries];
+      urlList = [...queries];
     }
   }
 
   const websites = getWebsites();
   if (websites.length > 0) {
-    urls = [...urls, ...websites];
+    urlList = [...urlList, ...websites];
   }
 
-  console.log(urls);
-  return urls;
+  console.log("urlList", urlList);
+  return urlList;
 }
