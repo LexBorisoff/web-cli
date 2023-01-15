@@ -4,9 +4,11 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
+    "setup": "npm run installation && npm run setup-config && npm run build && npm install -g",
+    "installation": "npm install",
+    "setup-config": "npx ts-node src/runSetupConfig",
     "build": "rm -rf ./dist && npx tsc",
-    "build:windows": "rm -r -force ./dist && npx tsc",
-    "setup": "npm run build && npm install -g"
+    "build:windows": "rm -r -force ./dist && npx tsc"
   },
   "keywords": [],
   "author": "Lex Borisov <hello@lexborisov.com>",

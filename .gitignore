@@ -3,7 +3,6 @@ build
 #config
 config.json
 .config
-config
 
 # Logs
 logs
