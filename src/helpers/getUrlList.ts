@@ -18,10 +18,10 @@ function removeLeadingSlash(str?: string): string {
 }
 
 export default function getUrlList(
-  engineName: string = defaults.engine
+  engineNameOrAlias: string = defaults.engine
 ): string[] {
   let urlList: string[] = [];
-  const engine = getEngine(engineName);
+  const engine = getEngine(engineNameOrAlias);
 
   if (engine != null && hasSearchQuery()) {
     const queries: string[] = [];

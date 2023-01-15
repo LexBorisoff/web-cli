@@ -1,11 +1,12 @@
 import query from "./query";
-import getUrls from "./getUrls";
-import { hasEngine, hasSearchQuery, hasWebsite, getArgs } from "../command";
+import { getUrlList } from "../helpers";
+import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
 const args = getArgs();
+console.log(args);
 
-async function queryUrls(engineName: string) {
-  const urls = getUrls(engineName);
+async function queryEngine(engineNameOrAlias: string) {
+  const urls = getUrlList(engineNameOrAlias);
   urls.forEach(async (url) => {
     await query(url);
   });
@@ -16,12 +17,12 @@ export default async function main() {
   if (hasEngine() || hasSearchQuery() || hasWebsite()) {
     // single search engine / website to query
     if (!Array.isArray(args.engine)) {
-      queryUrls(args.engine as string);
+      queryEngine(args.engine as string);
     }
     // multiple search engines / websites to query
     else {
-      Object.values(args.engine).forEach(async (engineName) => {
-        queryUrls(engineName);
+      Object.values(args.engine).forEach(async (engineNameFromArgs) => {
+        queryEngine(engineNameFromArgs);
       });
     }
   }
@@ -30,5 +31,3 @@ export default async function main() {
     await query();
   }
 }
-
-console.log(args);
