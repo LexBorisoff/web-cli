@@ -1,7 +1,8 @@
-export interface BrowserObject {
+import ConfigItem from "./configItem";
+
+export interface BrowserObject extends ConfigItem {
   name: string;
   path?: string;
-  alias?: string | string[];
 }
 
 export type Browser = string | BrowserObject;
