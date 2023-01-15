@@ -5,33 +5,36 @@ import { defaults } from "../data";
 
 const args = getArgs();
 
+export function hasProfile(browserName: string): boolean {
+  return args.profile != null || defaults.profile?.[browserName] != null;
+}
+
 export default async function queryBrowserProfile(
-  browser: string,
+  browserName: string,
   url?: string
 ) {
-  function openProfile(profile?: string) {
-    queryUrl(browser, url, profile);
+  function openProfile(profileDirectory?: string) {
+    queryUrl(browserName, url, profileDirectory);
   }
 
   // profile provided in args
   if (args.profile) {
     // one profile provided
     if (!Array.isArray(args.profile)) {
-      const profile = getProfile(args.profile, browser);
-      openProfile(profile);
+      const profileName = getProfile(args.profile, browserName);
+      openProfile(profileName?.directory);
     }
     // multiple profiles provided
     else {
-      args.profile.forEach(async (profileName) => {
-        const profile = getProfile(profileName, browser);
-        openProfile(profile);
+      args.profile.forEach(async (profileFromArgs) => {
+        const profileName = getProfile(profileFromArgs, browserName);
+        openProfile(profileName?.directory);
       });
     }
   }
   // profile provided in config defaults
-  else if (defaults.profile != null && defaults.profile[browser]) {
-    const defaultProfile = defaults.profile[browser];
-    const profile = getProfile(defaultProfile, browser);
+  else if (defaults.profile?.[browserName] != null) {
+    const profile = defaults.profile[browserName];
     openProfile(profile);
   }
 }

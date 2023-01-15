@@ -1,2 +1,2 @@
 import config from "./config";
-export default config.profiles ?? {};
+export default config.profiles;

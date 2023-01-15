@@ -8,10 +8,14 @@ export default async function openEmptyBrowser() {
 
     if (browser) {
       const defaultProfile = defaults.profile?.[defaults.browser];
-      const profile =
-        defaultProfile && getProfile(defaultProfile, defaults.browser);
+      const profile = defaultProfile
+        ? getProfile(defaultProfile, defaults.browser)
+        : null;
 
-      const browserArguments = getBrowserArguments(defaults.browser, profile);
+      const browserArguments = getBrowserArguments(
+        defaults.browser,
+        profile?.directory
+      );
 
       await open.openApp(browser, {
         arguments: browserArguments,

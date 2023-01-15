@@ -2,19 +2,19 @@ import open from "open";
 import { getBrowserArguments, getBrowserAppName } from "../helpers";
 
 export default async function queryUrl(
-  browser: string,
+  browserName: string,
   url?: string,
-  profile?: string
+  profileDirectory?: string
 ) {
-  const browserApp = getBrowserAppName(browser);
-  const browserArguments = getBrowserArguments(browser, profile);
+  const browserAppName = getBrowserAppName(browserName);
+  const browserArguments = getBrowserArguments(browserName, profileDirectory);
 
   if (url != null && url !== "") {
     await open(url, {
-      app: { name: browserApp, arguments: browserArguments },
+      app: { name: browserAppName, arguments: browserArguments },
     });
   } else {
-    console.log("browserApp", browserApp);
-    await open.openApp(browserApp, { arguments: browserArguments });
+    console.log("browserAppName", browserAppName);
+    await open.openApp(browserAppName, { arguments: browserArguments });
   }
 }

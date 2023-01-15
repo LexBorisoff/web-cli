@@ -3,7 +3,7 @@ import { Engine } from "../types/engines";
 import { engines, defaults } from "../data";
 
 export default function getEngine(
-  engineName: string = defaults.engine
+  engineNameOrAlias: string = defaults.engine
 ): Engine | undefined {
-  return getConfigItemByNameOrAlias(engineName, engines);
+  return getConfigItemByNameOrAlias(engineNameOrAlias, engines);
 }

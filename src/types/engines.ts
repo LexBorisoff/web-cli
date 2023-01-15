@@ -1,9 +1,10 @@
-export interface Engine {
+import ConfigItem from "./configItem";
+
+export interface Engine extends ConfigItem {
   url: string;
   query?: string;
   package?: string;
   delimiter?: string;
-  alias?: string | string[];
 }
 
 export default interface EngineList {

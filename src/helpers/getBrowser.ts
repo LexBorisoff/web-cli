@@ -1,5 +1,5 @@
 import open from "open";
-import { Browser } from "../types/config";
+import { Browser } from "../types";
 import { browsers } from "../data";
 
 export function getBrowserAppName(browserName: string) {
@@ -16,22 +16,19 @@ export function getBrowserAppName(browserName: string) {
 }
 
 export default function getBrowser(
-  browserFromArgs: string
-): string | undefined {
-  const foundBrowser = browsers.find((browser: string | Browser) => {
-    if (typeof browser === "string") {
-      return browser === browserFromArgs;
+  browserNameOrAlias: string
+): Browser | undefined {
+  return browsers.find((browserFromConfig) => {
+    if (typeof browserFromConfig === "string") {
+      return browserFromConfig === browserNameOrAlias;
     }
 
     return (
-      browser.name === browserFromArgs ||
-      (typeof browser?.alias === "string" &&
-        browser.alias === browserFromArgs) ||
-      (Array.isArray(browser.alias) && browser.alias.includes(browserFromArgs))
+      browserFromConfig.name === browserNameOrAlias ||
+      (typeof browserFromConfig?.alias === "string" &&
+        browserFromConfig.alias === browserNameOrAlias) ||
+      (Array.isArray(browserFromConfig.alias) &&
+        browserFromConfig.alias.includes(browserNameOrAlias))
     );
   });
-
-  if (foundBrowser) {
-    return typeof foundBrowser === "string" ? foundBrowser : foundBrowser.name;
-  }
 }

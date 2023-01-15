@@ -1,6 +1,6 @@
 import config from "./config";
 import { fallbackEngine } from "./engines";
-import { DefaultsConfig } from "../types/config";
+import { DefaultsConfig } from "../types";
 
 const fallbackDelimiter = " ";
 

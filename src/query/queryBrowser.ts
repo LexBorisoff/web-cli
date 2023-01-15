@@ -1,4 +1,4 @@
-import queryBrowserProfile from "./queryBrowserProfile";
+import queryBrowserProfile, { hasProfile } from "./queryBrowserProfile";
 import queryUrl from "./queryUrl";
 import { getArgs } from "../command";
 import { getBrowser } from "../helpers";
@@ -7,39 +7,32 @@ import { defaults } from "../data";
 const args = getArgs();
 
 export default async function queryBrowser(url?: string) {
-  function hasDefaultProfile(browser: string): boolean {
-    return defaults.profile?.[browser] != null;
-  }
+  async function openBrowser(browserNameOrAlias: string) {
+    const browser = getBrowser(browserNameOrAlias);
+    if (browser != null) {
+      const browserName = typeof browser === "string" ? browser : browser.name;
 
-  async function openBrowser(browserName: string) {
-    const foundBrowser = getBrowser(browserName);
-    console.log("foundBrowser", foundBrowser);
-    if (foundBrowser) {
-      if (args.profile || hasDefaultProfile(foundBrowser)) {
-        console.log("---> profile");
-        await queryBrowserProfile(foundBrowser, url);
+      if (hasProfile(browserName)) {
+        await queryBrowserProfile(browserName, url);
       }
       // profile NOT provided
       else {
-        console.log("---> NO profile");
-        await queryUrl(foundBrowser, url);
+        await queryUrl(browserName, url);
       }
     }
   }
 
   const browser = args.browser ?? defaults.browser;
 
-  if (browser) {
+  if (browser != null) {
     // one browser provided
     if (!Array.isArray(browser)) {
-      console.log("1 browser", browser);
       openBrowser(browser);
     }
     // multiple browsers provided
     else {
-      console.log("multiple browsers", browser);
-      browser.forEach((browserName) => {
-        openBrowser(browserName);
+      browser.forEach((browserFromArgs) => {
+        openBrowser(browserFromArgs);
       });
     }
   }

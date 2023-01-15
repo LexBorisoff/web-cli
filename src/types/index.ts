@@ -1,5 +1,6 @@
 export { default as Config } from "./config";
-export { default as BrowsersConfig, Browser } from "./browsers";
+export { default as ConfigItem } from "./configItem";
+export { default as BrowsersConfig, BrowserObject, Browser } from "./browsers";
 export {
   default as ProfilesConfig,
   Profile,

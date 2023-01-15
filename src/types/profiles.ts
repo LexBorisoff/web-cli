@@ -1,6 +1,7 @@
-export interface Profile {
+import ConfigItem from "./configItem";
+
+export interface Profile extends ConfigItem {
   directory: string; // --profile-directory
-  alias?: string | string[];
   path?: string;
 }
 
