@@ -1,4 +1,2 @@
-import setupConfig from "./setupConfig";
-import updateConfig from "./updateConfig";
-
-export { setupConfig, updateConfig };
+export { default as setupConfig } from "./setupConfig";
+export { default as updateConfig } from "./updateConfig";

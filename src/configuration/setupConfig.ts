@@ -1,21 +1,31 @@
 import * as fs from "fs";
 import * as path from "path";
+import chalk from "chalk";
+import getBrowsers from "./getBrowsers";
+
+const print = console.log;
+
+function createConfigFile(): void {
+  const fileName = path.resolve(`${__dirname}/../config.json`);
+
+  if (!fs.existsSync(fileName)) {
+    const json = JSON.stringify({});
+
+    print(chalk.yellow.bold("creating config file..."));
+    fs.writeFile(fileName, json, (error) => {
+      if (error != null) {
+        throw error;
+      }
+    });
+
+    return;
+  }
+
+  print(chalk.red.bold("config file already exists"));
+}
 
 export default function setupConfig() {
-  console.log("setting up config...");
-  // const configExampleFile = path.normalize(
-  //   `${__dirname}/../config.example.json`
-  // );
-  // const configFile = path.normalize(`${__dirname}/../config.json`);
+  print(chalk.yellow.bold("setting up config..."));
 
-  console.log(path.normalize(`${__dirname}/../config.example.json`));
-  console.log(path.resolve(`${__dirname}/../config.example.json`));
-
-  // fs.copyFile(configExampleFile, configFile, (err) => {
-  //   if (err) {
-  //     console.error(err);
-  //   } else {
-  //     console.log(fs.readFileSync(configFile, "utf8"));
-  //   }
-  // });
+  getBrowsers();
 }
