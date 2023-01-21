@@ -14,7 +14,6 @@ export default async function queryUrl(
       app: { name: browserAppName, arguments: browserArguments },
     });
   } else {
-    console.log("browserAppName", browserAppName);
     await open.openApp(browserAppName, { arguments: browserArguments });
   }
 }

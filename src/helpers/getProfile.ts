@@ -7,6 +7,7 @@ export default function getProfile(
   browserName: string
 ): Profile | undefined {
   const browserProfiles = profiles?.[browserName];
+  console.log("browserProfiles", browserProfiles);
   return browserProfiles
     ? getConfigItemByNameOrAlias(profileNameOrAlias, browserProfiles)
     : undefined;

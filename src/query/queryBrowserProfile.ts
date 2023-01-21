@@ -21,20 +21,21 @@ export default async function queryBrowserProfile(
   if (args.profile) {
     // one profile provided
     if (!Array.isArray(args.profile)) {
-      const profileName = getProfile(args.profile, browserName);
-      openProfile(profileName?.directory);
+      const profile = getProfile(args.profile, browserName);
+      openProfile(profile?.directory);
     }
     // multiple profiles provided
     else {
       args.profile.forEach(async (profileFromArgs) => {
-        const profileName = getProfile(profileFromArgs, browserName);
-        openProfile(profileName?.directory);
+        const profile = getProfile(profileFromArgs, browserName);
+        openProfile(profile?.directory);
       });
     }
   }
   // profile provided in config defaults
   else if (defaults.profile?.[browserName] != null) {
-    const profile = defaults.profile[browserName];
-    openProfile(profile);
+    const profileName = defaults.profile[browserName];
+    const profile = getProfile(profileName, browserName);
+    openProfile(profile?.directory);
   }
 }

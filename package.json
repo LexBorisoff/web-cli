@@ -17,6 +17,7 @@
     "query": "dist/main.js"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
     "open": "^8.4.0",
     "yargs": "^17.6.2"
   },
