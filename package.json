@@ -14,7 +14,7 @@
   "author": "Lex Borisov <hello@lexborisov.com>",
   "license": "ISC",
   "bin": {
-    "query": "dist/main.js"
+    "sq": "dist/main.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",
