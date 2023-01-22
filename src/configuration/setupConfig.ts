@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import chalk from "chalk";
-import getBrowsers from "./getBrowsers";
+import getBrowserList from "./getBrowserList";
 
 const print = console.log;
 
@@ -24,8 +24,8 @@ function createConfigFile(): void {
   print(chalk.red.bold("config file already exists"));
 }
 
-export default function setupConfig() {
+export default async function setupConfig() {
   print(chalk.yellow.bold("setting up config..."));
-
-  getBrowsers();
+  const browsers = await getBrowserList();
+  print(browsers);
 }

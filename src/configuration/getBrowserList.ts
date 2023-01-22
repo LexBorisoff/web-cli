@@ -1,14 +1,15 @@
 import prompts from "prompts";
 
 function getArray(reply: string): string[] {
-  return reply
+  const browsers = reply
     .trim()
     .split(/\s+|,+/)
     .filter((r) => r !== "")
     .map((r) => r.toLowerCase());
+  return [...new Set(browsers)];
 }
 
-export default async function getBrowsers() {
+export default async function getBrowserList(): Promise<string[]> {
   const { reply } = await prompts({
     name: "reply",
     type: "text",
@@ -20,5 +21,5 @@ export default async function getBrowsers() {
   });
 
   const browsers = getArray(reply);
-  console.log(browsers);
+  return browsers;
 }
