@@ -1,4 +1,4 @@
-export { default as engines } from "./engines";
-export { default as browsers } from "./browsers";
-export { default as profiles } from "./profiles";
-export { default as defaults } from "./defaults";
+export { default as engines, engineFallback } from "./engines";
+export { default as getBrowsersData } from "./getBrowsersData";
+export { default as getProfilesData } from "./getProfilesData";
+export { default as getDefaultsData } from "./getDefaultsData";

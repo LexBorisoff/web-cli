@@ -2,11 +2,13 @@ import queryBrowser from "./queryBrowser";
 import queryDefaultBrowser from "./queryDefaultBrowser";
 import openEmptyBrowser from "./openEmptyBrowser";
 import { getArgs } from "../command";
-import { defaults } from "../data";
+import { getDefaultsData } from "../data";
 
 const args = getArgs();
 
 export default async function query(url?: string) {
+  const defaults = await getDefaultsData();
+
   // browser provided through args or in config defaults
   if (args.browser || defaults.browser) {
     await queryBrowser(url);

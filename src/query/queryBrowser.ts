@@ -2,17 +2,17 @@ import queryBrowserProfile, { hasProfile } from "./queryBrowserProfile";
 import queryUrl from "./queryUrl";
 import { getArgs } from "../command";
 import { getBrowser } from "../helpers";
-import { defaults } from "../data";
+import { getDefaultsData } from "../data";
 
 const args = getArgs();
 
 export default async function queryBrowser(url?: string) {
   async function openBrowser(browserNameOrAlias: string) {
-    const browser = getBrowser(browserNameOrAlias);
+    const browser = await getBrowser(browserNameOrAlias);
     if (browser != null) {
       const browserName = typeof browser === "string" ? browser : browser.name;
 
-      if (hasProfile(browserName)) {
+      if (await hasProfile(browserName)) {
         await queryBrowserProfile(browserName, url);
       }
       // profile NOT provided
@@ -22,6 +22,7 @@ export default async function queryBrowser(url?: string) {
     }
   }
 
+  const defaults = await getDefaultsData();
   const browser = args.browser ?? defaults.browser;
 
   if (browser != null) {

@@ -1,16 +1,16 @@
 import { ConfigItem } from "../types";
 
-interface ConfigItemList<I> {
-  [item: string]: I;
+interface ConfigItemList<Item = ConfigItem> {
+  [item: string]: Item;
 }
 
-export function getConfigItemByNameOrAlias<
-  I extends ConfigItem,
-  L extends ConfigItemList<I>
->(name: string, list: L): I | undefined {
+export function getConfigItemByNameOrAlias<List extends ConfigItemList>(
+  name: string,
+  list: List
+): List[keyof List] | undefined {
   // name is object's key
   if (Object.keys(list).includes(name)) {
-    return list[name];
+    return list[name as keyof List];
   }
 
   // name is an alias
@@ -26,7 +26,7 @@ export function getConfigItemByNameOrAlias<
     }
   });
 
-  return found;
+  return found as List[keyof List];
 }
 
 export function getUrlPattern() {

@@ -1,6 +1,6 @@
 import { getArgs } from "../command";
-const args = getArgs();
 
+const args = getArgs();
 const empty = "--";
 
 export default function getBrowserArguments(

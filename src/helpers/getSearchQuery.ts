@@ -1,12 +1,13 @@
 import { getUrlPattern } from "../helpers";
 import { getArgs } from "../command";
-import { Engine } from "../types/engines";
-import { defaults } from "../data";
+import { getDefaultsData } from "../data";
+import { Engine } from "../types";
 
 const args = getArgs();
 const urlPattern = getUrlPattern();
 
-export default function getSearchQuery(engine?: Engine) {
+export default async function getSearchQuery(engine?: Engine): Promise<string> {
+  const defaults = await getDefaultsData();
   const delimiter = engine?.delimiter ?? defaults.delimiter;
   return args._.filter((arg) => !urlPattern.test(`${arg}`)).join(delimiter);
 }

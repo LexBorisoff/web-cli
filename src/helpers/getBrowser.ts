@@ -1,6 +1,6 @@
 import open from "open";
 import { Browser } from "../types";
-import { browsers } from "../data";
+import { getBrowsersData } from "../data";
 
 export function getBrowserAppName(browserName: string) {
   switch (browserName) {
@@ -15,9 +15,10 @@ export function getBrowserAppName(browserName: string) {
   }
 }
 
-export default function getBrowser(
+export default async function getBrowser(
   browserNameOrAlias: string
-): Browser | undefined {
+): Promise<Browser | undefined> {
+  const browsers = await getBrowsersData();
   return browsers.find((browserFromConfig) => {
     if (typeof browserFromConfig === "string") {
       return browserFromConfig === browserNameOrAlias;

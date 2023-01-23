@@ -1,5 +1,5 @@
-import EngineList from "../types/engines";
+import { EngineList } from "../types";
 import engines from "../engines.json";
 
-export const fallbackEngine = "google";
+export const engineFallback = "google";
 export default engines as EngineList;

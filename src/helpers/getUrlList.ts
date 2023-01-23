@@ -2,7 +2,7 @@ import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
 import getEngine from "./getEngine";
 import { getArgs, hasSearchQuery } from "../command";
-import { defaults } from "../data";
+import { engineFallback } from "../data";
 
 const args = getArgs();
 
@@ -17,9 +17,9 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
-export default function getUrlList(
-  engineNameOrAlias: string = defaults.engine
-): string[] {
+export default async function getUrlList(
+  engineNameOrAlias: string = engineFallback
+): Promise<string[]> {
   let urlList: string[] = [];
   const engine = getEngine(engineNameOrAlias);
 
@@ -36,7 +36,7 @@ export default function getUrlList(
           ? removeLeadingSlash(engine.package)
           : removeLeadingSlash(engine.query);
 
-      const searchQuery: string = getSearchQuery(engine);
+      const searchQuery: string = await getSearchQuery(engine);
 
       const fullUrl: string = engineUrl + engineQuery + searchQuery;
       queries.push(fullUrl);

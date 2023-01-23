@@ -1,9 +1,9 @@
 import { getConfigItemByNameOrAlias } from "./utils";
-import { Engine } from "../types/engines";
-import { engines, defaults } from "../data";
+import { engines, engineFallback } from "../data";
+import { Engine } from "../types";
 
 export default function getEngine(
-  engineNameOrAlias: string = defaults.engine
+  engineNameOrAlias: string = engineFallback
 ): Engine | undefined {
   return getConfigItemByNameOrAlias(engineNameOrAlias, engines);
 }

@@ -1,11 +1,12 @@
 import queryUrl from "./queryUrl";
 import { getArgs } from "../command";
 import { getProfile } from "../helpers";
-import { defaults } from "../data";
+import { getDefaultsData } from "../data";
 
 const args = getArgs();
 
-export function hasProfile(browserName: string): boolean {
+export async function hasProfile(browserName: string): Promise<boolean> {
+  const defaults = await getDefaultsData();
   return args.profile != null || defaults.profile?.[browserName] != null;
 }
 
@@ -17,17 +18,19 @@ export default async function queryBrowserProfile(
     queryUrl(browserName, url, profileDirectory);
   }
 
+  const defaults = await getDefaultsData();
+
   // profile provided in args
   if (args.profile) {
     // one profile provided
     if (!Array.isArray(args.profile)) {
-      const profile = getProfile(args.profile, browserName);
+      const profile = await getProfile(args.profile, browserName);
       openProfile(profile?.directory);
     }
     // multiple profiles provided
     else {
       args.profile.forEach(async (profileFromArgs) => {
-        const profile = getProfile(profileFromArgs, browserName);
+        const profile = await getProfile(profileFromArgs, browserName);
         openProfile(profile?.directory);
       });
     }
@@ -35,7 +38,7 @@ export default async function queryBrowserProfile(
   // profile provided in config defaults
   else if (defaults.profile?.[browserName] != null) {
     const profileName = defaults.profile[browserName];
-    const profile = getProfile(profileName, browserName);
+    const profile = await getProfile(profileName, browserName);
     openProfile(profile?.directory);
   }
 }
