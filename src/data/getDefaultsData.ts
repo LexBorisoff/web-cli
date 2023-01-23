@@ -1,5 +1,5 @@
 import getConfig from "./getConfigData";
-import { engineFallback } from "./engines";
+import { engineFallback } from "./getEngines";
 import { DefaultsConfig } from "../types";
 
 const delimiterFallback = " ";
@@ -9,7 +9,7 @@ interface RequiredDefaults {
   delimiter: string;
 }
 
-export default async function getDefaults(): Promise<
+export default async function getDefaultsData(): Promise<
   DefaultsConfig & RequiredDefaults
 > {
   const config = await getConfig();

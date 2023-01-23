@@ -21,7 +21,7 @@ export default async function getUrlList(
   engineNameOrAlias: string = engineFallback
 ): Promise<string[]> {
   let urlList: string[] = [];
-  const engine = getEngine(engineNameOrAlias);
+  const engine = await getEngine(engineNameOrAlias);
 
   if (engine != null && hasSearchQuery()) {
     const queries: string[] = [];
