@@ -1,20 +1,21 @@
 {
-  "name": "query",
-  "version": "0.0.1",
+  "name": "shell-query",
+  "version": "0.0.3",
   "description": "",
-  "main": "dist/main.js",
+  "main": "bin/main.js",
   "scripts": {
-    "setup": "npm run installation && npm run setup-config && npm run build && npm install -g",
-    "installation": "npm install",
-    "setup-config": "npx ts-node src/runSetupConfig",
-    "build": "rm -rf ./dist && npx tsc",
-    "build:windows": "rm -r -force ./dist && npx tsc"
+    "build": "rm -rf ./bin && npx tsc",
+    "build:windows": "rm -r -force ./bin && npx tsc"
   },
   "keywords": [],
   "author": "Lex Borisov <hello@lexborisov.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lex-borisov/shell-query.git"
+  },
   "bin": {
-    "sq": "dist/main.js"
+    "sq": "bin/main.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",
