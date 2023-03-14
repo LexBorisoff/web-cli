@@ -1,13 +1,14 @@
-export interface Profile {
+import ConfigItem from "./configItem";
+
+export interface Profile extends ConfigItem {
   directory: string; // --profile-directory
-  alias?: string | string[];
   path?: string;
 }
 
 export interface BrowserProfiles {
-  [key: string]: Profile;
+  [profile: string]: Profile;
 }
 
-export interface ProfilesConfig {
-  [key: string]: BrowserProfiles;
+export default interface ProfilesConfig {
+  [browser: string]: BrowserProfiles;
 }

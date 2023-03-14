@@ -1,3 +1,13 @@
 #!/usr/bin/env node
 import main from "./query";
-main();
+import {
+  configFileExists,
+  configFileIsEmpty,
+  setupConfig,
+} from "./configuration";
+
+if (!configFileExists() || configFileIsEmpty()) {
+  setupConfig();
+} else {
+  main();
+}

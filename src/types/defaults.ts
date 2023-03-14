@@ -1,6 +1,6 @@
-export interface DefaultsConfig {
-  engine: string;
-  delimiter: string;
+export default interface DefaultsConfig {
   browser?: string;
   profile?: { [key: string]: string };
+  engine?: string;
+  delimiter?: string;
 }

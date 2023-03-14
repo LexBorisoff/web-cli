@@ -1,8 +1,8 @@
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import { getEngine } from "../helpers";
+import getEngine from "./getEngine";
 import { getArgs, hasSearchQuery } from "../command";
-import { defaults } from "../data";
+import { engineFallback } from "../data";
 
 const args = getArgs();
 
@@ -17,11 +17,11 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
-export default function getUrls(
-  engineName: string = defaults.engine
-): string[] {
-  let urls: string[] = [];
-  const engine = getEngine(engineName);
+export default async function getUrlList(
+  engineNameOrAlias: string = engineFallback
+): Promise<string[]> {
+  let urlList: string[] = [];
+  const engine = await getEngine(engineNameOrAlias);
 
   if (engine != null && hasSearchQuery()) {
     const queries: string[] = [];
@@ -36,7 +36,7 @@ export default function getUrls(
           ? removeLeadingSlash(engine.package)
           : removeLeadingSlash(engine.query);
 
-      const searchQuery: string = getSearchQuery(engine);
+      const searchQuery: string = await getSearchQuery(engine);
 
       const fullUrl: string = engineUrl + engineQuery + searchQuery;
       queries.push(fullUrl);
@@ -45,15 +45,15 @@ export default function getUrls(
     }
 
     if (queries.length > 0) {
-      urls = [...queries];
+      urlList = [...queries];
     }
   }
 
   const websites = getWebsites();
   if (websites.length > 0) {
-    urls = [...urls, ...websites];
+    urlList = [...urlList, ...websites];
   }
 
-  console.log(urls);
-  return urls;
+  console.log("urlList", urlList);
+  return urlList;
 }

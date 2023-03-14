@@ -1,26 +1,35 @@
 {
-  "name": "query",
+  "name": "shell-query",
   "version": "0.0.1",
-  "description": "",
-  "main": "dist/main.js",
+  "description": "CLI for making browser search queries from the terminal",
+  "main": "./lib/main.js",
   "scripts": {
-    "build": "rm -rf ./dist && npx tsc",
-    "build:windows": "rm -r -force ./dist && npx tsc",
-    "setup": "npm run build && npm install -g"
+    "build": "rm -rf ./lib && npx tsc",
+    "build:windows": "rm -r -force ./lib && npx tsc"
   },
   "keywords": [],
-  "author": "Lex Borisov <hello@lexborisov.com>",
+  "author": "Lex Borisoff <hello@lexborisoff.com>",
   "license": "ISC",
-  "bin": {
-    "query": "dist/main.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lexborisoff/shell-query.git"
   },
+  "bin": {
+    "sq": "lib/main.js"
+  },
+  "files": [
+    "/lib"
+  ],
   "dependencies": {
+    "chalk": "^4.1.2",
     "open": "^8.4.0",
+    "prompts": "^2.4.2",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@types/open": "^6.2.1",
+    "@types/prompts": "^2.4.2",
     "@types/yargs": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",

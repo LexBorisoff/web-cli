@@ -1,7 +1,21 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-export default function getArgs() {
+interface Args {
+  [key: string]: unknown;
+  browser?: string | string[];
+  profile?: string | string[];
+  engine?: string | string[];
+  package: boolean;
+  incognito: boolean;
+  secure: boolean;
+  config: unknown;
+  help: unknown;
+  _: (string | number)[];
+  $0: string;
+}
+
+export default function getArgs(): Args {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",
