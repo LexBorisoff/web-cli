@@ -25,6 +25,5 @@ export default async function getBrowserList(): Promise<string[]> {
         : "Only letters and separators are allowed!",
   });
 
-  const browsers = reply != null ? getArray(reply) : [];
-  return browsers;
+  return reply != null ? getArray(reply) : [];
 }

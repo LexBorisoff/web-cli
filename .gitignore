@@ -1,7 +1,10 @@
+# Build
 build
+bin
+lib
 
-#config
-config.json
+# Config files
+src/config.json
 .config
 
 # Logs

@@ -3,7 +3,6 @@ import { getUrlList } from "../helpers";
 import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
 const args = getArgs();
-console.log(args); // DEBUG
 
 async function queryEngine(engineNameOrAlias: string) {
   const urls = await getUrlList(engineNameOrAlias);

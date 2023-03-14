@@ -1,4 +1,5 @@
 import prompts from "prompts";
+import getBrowserChoices from "./getBrowserChoices";
 
 type Value = string | undefined;
 interface Answer {
@@ -12,10 +13,7 @@ export default async function getDefaultBrowser(
     return browsers[0];
   }
 
-  const choices = browsers.map((b) => ({
-    title: `${b[0].toUpperCase()}${b.substring(1)}`,
-    value: b,
-  }));
+  const choices = getBrowserChoices(browsers);
 
   const { value }: Answer = await prompts({
     type: "select",

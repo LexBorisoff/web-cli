@@ -1,21 +1,25 @@
 {
-  "name": "query",
+  "name": "shell-query",
   "version": "0.0.1",
-  "description": "",
-  "main": "dist/main.js",
+  "description": "CLI for making browser search queries from the terminal",
+  "main": "./lib/main.js",
   "scripts": {
-    "setup": "npm run installation && npm run setup-config && npm run build && npm install -g",
-    "installation": "npm install",
-    "setup-config": "npx ts-node src/runSetupConfig",
-    "build": "rm -rf ./dist && npx tsc",
-    "build:windows": "rm -r -force ./dist && npx tsc"
+    "build": "rm -rf ./lib && npx tsc",
+    "build:windows": "rm -r -force ./lib && npx tsc"
   },
   "keywords": [],
-  "author": "Lex Borisov <hello@lexborisov.com>",
+  "author": "Lex Borisoff <hello@lexborisoff.com>",
   "license": "ISC",
-  "bin": {
-    "sq": "dist/main.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lexborisoff/shell-query.git"
   },
+  "bin": {
+    "sq": "lib/main.js"
+  },
+  "files": [
+    "/lib"
+  ],
   "dependencies": {
     "chalk": "^4.1.2",
     "open": "^8.4.0",
