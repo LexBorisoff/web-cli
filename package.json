@@ -5,7 +5,9 @@
   "main": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && npx tsc",
-    "build:windows": "rm -r -force ./lib && npx tsc"
+    "build:windows": "rm -r -force ./lib && npx tsc",
+    "delete-config": "ts-node ./src/deleteConfigFile.ts",
+    "test:config": "npm run delete-config && ts-node ./src/main.ts"
   },
   "keywords": [],
   "author": "Lex Borisoff <hello@lexborisoff.com>",
