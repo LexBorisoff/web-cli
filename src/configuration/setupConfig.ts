@@ -1,45 +1,99 @@
 import * as fs from "fs";
-import chalk from "chalk";
 import getConfigFileName from "./getConfigFileName";
-import getBrowserList from "./getBrowserList";
-import getDefaultBrowser from "./getDefaultBrowser";
-import setupBrowsersConfig from "./setupBrowsersConfig";
+import {
+  getKnownBrowsers,
+  getExtraBrowsers,
+  getDefaultBrowser,
+} from "./getBrowsers";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
 import { Config } from "../types";
 
 const print = console.log;
 
+function title(title: string): void {
+  const columnsLength = 2;
+  let line = "";
+  const lineLength = 60;
+  for (let i = 0; i < lineLength; i++) {
+    line += "=";
+  }
+
+  if (line.length - title.length - columnsLength <= 0) {
+    print(line);
+    print(title);
+    print(line);
+    return;
+  }
+
+  const spaces = line.length - title.length - columnsLength;
+  const half = spaces % 2 === 0 ? spaces / 2 : spaces / 2 - 1;
+
+  let spacesLeft = "";
+  for (let i = 0; i < half; i++) {
+    spacesLeft += " ";
+  }
+
+  let spacesRight = spacesLeft;
+  if (spaces % 2 > 0) {
+    spacesRight += " ";
+  }
+
+  const titleLine = `>${spacesLeft}${title}${spacesRight}<`;
+
+  print(line);
+  print(titleLine);
+  print(line);
+}
+
 const configFileName = getConfigFileName();
 
 function createConfigFile(config: Config = {}): void {
-  console.log("config", config);
   if (configFileExists() && !configFileIsEmpty()) {
-    print(chalk.red.bold("config file already exists"));
+    title("Config already exists");
     return;
   }
 
   const json = JSON.stringify(config);
 
-  print(chalk.yellow.bold("creating config file..."));
   fs.writeFile(configFileName, json, (error) => {
     if (error != null) {
       throw error;
     }
+
+    print("");
+    title("You are good to go. Have fun!");
+    print("");
   });
 }
 
+async function getBrowserList(): Promise<string[]> {
+  const knownBrowsers = await getKnownBrowsers();
+  if (knownBrowsers != null) {
+    print("");
+    const extraBrowsers = await getExtraBrowsers();
+    const browserList = [...new Set([...knownBrowsers, ...extraBrowsers])];
+    print("");
+    return browserList;
+  }
+  return [];
+}
+
 export default async function setupConfig(): Promise<void> {
-  print(chalk.yellow.bold("setting up config..."));
+  title("Let's set up browser config");
+  print("");
 
+  // 1) list of browsers
   const browserList = await getBrowserList();
-
   if (browserList.length > 0) {
-    // 1) default browser
+    // 2) default browser
     const defaultBrowser = await getDefaultBrowser(browserList);
-
     if (defaultBrowser != null) {
-      // 2) browsers config
-      const browsers = await setupBrowsersConfig(browserList);
+      // 3) TODO: browser aliases
+      const browsers = browserList;
+
+      // 4) TODO: browser profiles
+
+      // 5) TODO: profile aliases
 
       try {
         createConfigFile({
