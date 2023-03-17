@@ -4,11 +4,13 @@ import {
   getKnownBrowsers,
   getExtraBrowsers,
   getDefaultBrowser,
+  getBrowsersConfig,
 } from "./getBrowsers";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
 import { Config } from "../types";
 
 const print = console.log;
+const emptyLine = () => print("");
 
 function title(title: string): void {
   const columnsLength = 2;
@@ -60,36 +62,42 @@ function createConfigFile(config: Config = {}): void {
       throw error;
     }
 
-    print("");
+    emptyLine();
     title("You are good to go. Have fun!");
-    print("");
+    emptyLine();
   });
 }
 
 async function getBrowserList(): Promise<string[]> {
   const knownBrowsers = await getKnownBrowsers();
+
   if (knownBrowsers != null) {
-    print("");
+    emptyLine();
     const extraBrowsers = await getExtraBrowsers();
-    const browserList = [...new Set([...knownBrowsers, ...extraBrowsers])];
-    print("");
-    return browserList;
+    return [...new Set([...knownBrowsers, ...extraBrowsers])];
   }
+
   return [];
 }
 
 export default async function setupConfig(): Promise<void> {
   title("Let's set up browser config");
-  print("");
+  emptyLine();
 
   // 1) list of browsers
   const browserList = await getBrowserList();
+  emptyLine();
+
   if (browserList.length > 0) {
     // 2) default browser
     const defaultBrowser = await getDefaultBrowser(browserList);
+    emptyLine();
+
     if (defaultBrowser != null) {
       // 3) TODO: browser aliases
-      const browsers = browserList;
+      const browsers = await getBrowsersConfig(browserList);
+      console.log(browsers);
+      emptyLine();
 
       // 4) TODO: browser profiles
 
@@ -108,5 +116,8 @@ export default async function setupConfig(): Promise<void> {
         );
       }
     }
+  } else {
+    title("You didn't add any browsers:( Try again...");
+    emptyLine();
   }
 }

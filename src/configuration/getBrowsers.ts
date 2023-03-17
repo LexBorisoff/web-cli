@@ -1,35 +1,63 @@
 import prompts from "prompts";
-import getBrowserChoices from "./getBrowserChoices";
+import chalk from "chalk";
+import { BrowsersConfig } from "../types";
+
+export interface Choice {
+  title: string;
+  value: string;
+}
 
 interface Answer<T> {
   answer?: T;
 }
 
-interface Choice {
-  title: string;
-  value: string;
+// HELPERS
+const emptyLine = () => console.log("");
+
+function getBrowserTitle(browser: string): string {
+  return `${browser[0].toUpperCase()}${browser.substring(1)}`;
 }
 
-async function getKnownBrowsers(): Promise<string[] | undefined> {
-  const choices: Choice[] = [
-    { title: "Chrome", value: "chrome" },
-    { title: "Firefox", value: "firefox" },
-    { title: "Edge", value: "edge" },
-    { title: "Brave", value: "brave" },
-    { title: "Opera", value: "opera" },
-    { title: "Safari", value: "safari" },
-  ];
+function getBrowserChoices(browsers: string[]): Choice[] {
+  return browsers.map((browser) => ({
+    title: getBrowserTitle(browser),
+    value: browser,
+  }));
+}
 
-  const { answer: browsers }: Answer<string[]> = await prompts({
+function validate(value: string): true | string {
+  return /^[A-Za-z,\s]+$/.test(value)
+    ? true
+    : "Only letters and separators are allowed!";
+}
+
+async function keepGoing(message: string, initial: boolean): Promise<boolean> {
+  const { answer: keepGoing }: Answer<boolean> = await prompts({
+    name: "answer",
+    type: "toggle",
+    message,
+    active: "yes",
+    inactive: "no",
+    initial,
+  });
+
+  return !!keepGoing;
+}
+
+async function selectBrowsers(
+  choices: Choice[],
+  message: string
+): Promise<string[] | undefined> {
+  const { answer: selectedBrowsers }: Answer<string[]> = await prompts({
     name: "answer",
     type: "multiselect",
     choices,
-    message: "What browser(s) do you have installed?\n",
+    message,
     instructions: false,
     hint: "- Space/←/→ to toggle selection. Enter to submit.",
   });
 
-  return browsers;
+  return selectedBrowsers;
 }
 
 function getArray(reply: string): string[] {
@@ -42,29 +70,52 @@ function getArray(reply: string): string[] {
   return [...new Set(browsers)];
 }
 
-async function getExtraBrowsers(): Promise<string[]> {
-  const { answer: keepGoing }: Answer<boolean> = await prompts({
+async function getList(message: string): Promise<string | undefined> {
+  const { answer }: Answer<string> = await prompts({
     name: "answer",
-    type: "toggle",
-    message: "Are there browsers you use that were not in the list?\n",
-    active: "yes",
-    inactive: "no",
-    initial: false,
+    type: "text",
+    message,
+    validate,
   });
 
-  if (keepGoing) {
-    console.log("");
-    const { answer: browsers }: Answer<string> = await prompts({
-      name: "answer",
-      type: "text",
-      message:
-        "List other browsers you want to add (space or comma separated).\n",
-      validate: (value) =>
-        /^[A-Za-z,\s]+$/.test(value)
-          ? true
-          : "Only letters and separators are allowed!",
-    });
+  return answer;
+}
 
+// MAIN FUNCTIONS
+async function getKnownBrowsers(): Promise<string[] | undefined> {
+  const choices = getBrowserChoices([
+    "chrome",
+    "firefox",
+    "edge",
+    "brave",
+    "opera",
+    "safari",
+  ]);
+
+  return await selectBrowsers(
+    choices,
+    `What ${chalk.yellow("browser(s)")} do you have installed?\n`
+  );
+}
+
+async function getExtraBrowsers(): Promise<string[]> {
+  const yes = await keepGoing(
+    `Are there browsers you use that were ${chalk.italic.yellow(
+      "not in the list"
+    )}?\n`,
+    false
+  );
+
+  if (yes) {
+    emptyLine();
+
+    const browsers = await getList(
+      `List ${chalk.yellow(
+        "other browsers"
+      )} you want to add ${chalk.italic.blackBright(
+        "(space or comma separated)"
+      )}\n`
+    );
     return browsers != null ? getArray(browsers) : [];
   }
 
@@ -79,15 +130,64 @@ async function getDefaultBrowser(
   }
 
   const choices = getBrowserChoices(browsers);
-
   const { answer }: Answer<string> = await prompts({
     type: "select",
     name: "answer",
-    message: "What should be the default browser?\n",
+    message: `What should be the ${chalk.yellow("default browser")}?\n`,
     choices,
   });
 
   return answer;
 }
 
-export { getKnownBrowsers, getExtraBrowsers, getDefaultBrowser };
+async function getBrowsersConfig(browsers: string[]): Promise<BrowsersConfig> {
+  const yes = await keepGoing(
+    `Do you want to set ${chalk.yellow(
+      "browser aliases"
+    )} (e.g. short names)?\n`,
+    true
+  );
+
+  if (yes) {
+    emptyLine();
+
+    const choices = getBrowserChoices(browsers);
+    const selectedBrowsers = await selectBrowsers(
+      choices,
+      "Choose browser(s) to add aliases for\n"
+    );
+
+    if (selectedBrowsers != null) {
+      const browsersConfig: BrowsersConfig = browsers.filter(
+        (browser) => !selectedBrowsers.find((selected) => selected === browser)
+      );
+
+      for (let i = 0; i < selectedBrowsers.length; i++) {
+        emptyLine();
+
+        const selected = selectedBrowsers[i];
+        const list = await getList(
+          `List 1 or more aliases for ${chalk.yellow(
+            getBrowserTitle(selected)
+          )} ${chalk.italic.blackBright("(space or comma separated)")}\n`
+        );
+
+        const alias = list != null ? getArray(list) : [];
+        browsersConfig.push(
+          alias.length > 0 ? { name: selected, alias } : selected
+        );
+      }
+
+      return browsersConfig;
+    }
+  }
+
+  return browsers;
+}
+
+export {
+  getKnownBrowsers,
+  getExtraBrowsers,
+  getDefaultBrowser,
+  getBrowsersConfig,
+};
