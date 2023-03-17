@@ -2,7 +2,7 @@ import prompts from "prompts";
 import chalk from "chalk";
 import { BrowsersConfig } from "../types";
 
-export interface Choice {
+interface Choice {
   title: string;
   value: string;
 }
@@ -70,7 +70,7 @@ function getArray(reply: string): string[] {
   return [...new Set(browsers)];
 }
 
-async function getList(message: string): Promise<string | undefined> {
+async function getText(message: string): Promise<string | undefined> {
   const { answer }: Answer<string> = await prompts({
     name: "answer",
     type: "text",
@@ -109,14 +109,25 @@ async function getExtraBrowsers(): Promise<string[]> {
   if (yes) {
     emptyLine();
 
-    const browsers = await getList(
+    const browsers = await getText(
       `List ${chalk.yellow(
         "other browsers"
-      )} you want to add ${chalk.italic.blackBright(
-        "(space or comma separated)"
-      )}\n`
+      )} you want to add ${chalk.italic.gray("(space or comma separated)")}\n`
     );
+
     return browsers != null ? getArray(browsers) : [];
+  }
+
+  return [];
+}
+
+async function getBrowserList(): Promise<string[]> {
+  const knownBrowsers = await getKnownBrowsers();
+
+  if (knownBrowsers != null) {
+    emptyLine();
+    const extraBrowsers = await getExtraBrowsers();
+    return [...new Set([...knownBrowsers, ...extraBrowsers])];
   }
 
   return [];
@@ -140,7 +151,7 @@ async function getDefaultBrowser(
   return answer;
 }
 
-async function getBrowsersConfig(browsers: string[]): Promise<BrowsersConfig> {
+async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   const yes = await keepGoing(
     `Do you want to set ${chalk.yellow(
       "browser aliases"
@@ -166,10 +177,10 @@ async function getBrowsersConfig(browsers: string[]): Promise<BrowsersConfig> {
         emptyLine();
 
         const selected = selectedBrowsers[i];
-        const list = await getList(
+        const list = await getText(
           `List 1 or more aliases for ${chalk.yellow(
             getBrowserTitle(selected)
-          )} ${chalk.italic.blackBright("(space or comma separated)")}\n`
+          )} ${chalk.italic.gray("(space or comma separated)")}\n`
         );
 
         const alias = list != null ? getArray(list) : [];
@@ -185,9 +196,26 @@ async function getBrowsersConfig(browsers: string[]): Promise<BrowsersConfig> {
   return browsers;
 }
 
-export {
-  getKnownBrowsers,
-  getExtraBrowsers,
-  getDefaultBrowser,
-  getBrowsersConfig,
-};
+interface ReturnConfig {
+  browsers: BrowsersConfig;
+  defaultBrowser: string;
+}
+
+export default async function getBrowsersConfig(): Promise<
+  ReturnConfig | undefined
+> {
+  const browserList = await getBrowserList();
+  emptyLine();
+
+  if (browserList.length > 0) {
+    const defaultBrowser = await getDefaultBrowser(browserList);
+    emptyLine();
+
+    if (defaultBrowser != null) {
+      const browsers = await getAliases(browserList);
+      return { browsers, defaultBrowser };
+    }
+  }
+
+  return undefined;
+}
