@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import printTitle from "./printTitle";
 import getConfigFileName from "./getConfigFileName";
 import {
   getKnownBrowsers,
@@ -9,49 +10,13 @@ import {
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
 import { Config } from "../types";
 
-const print = console.log;
-const emptyLine = () => print("");
-
-function title(title: string): void {
-  const columnsLength = 2;
-  let line = "";
-  const lineLength = 60;
-  for (let i = 0; i < lineLength; i++) {
-    line += "=";
-  }
-
-  if (line.length - title.length - columnsLength <= 0) {
-    print(line);
-    print(title);
-    print(line);
-    return;
-  }
-
-  const spaces = line.length - title.length - columnsLength;
-  const half = spaces % 2 === 0 ? spaces / 2 : spaces / 2 - 1;
-
-  let spacesLeft = "";
-  for (let i = 0; i < half; i++) {
-    spacesLeft += " ";
-  }
-
-  let spacesRight = spacesLeft;
-  if (spaces % 2 > 0) {
-    spacesRight += " ";
-  }
-
-  const titleLine = `>${spacesLeft}${title}${spacesRight}<`;
-
-  print(line);
-  print(titleLine);
-  print(line);
-}
+const emptyLine = () => console.log("");
 
 const configFileName = getConfigFileName();
 
 function createConfigFile(config: Config = {}): void {
   if (configFileExists() && !configFileIsEmpty()) {
-    title("Config already exists");
+    printTitle("Config already exists");
     return;
   }
 
@@ -63,7 +28,7 @@ function createConfigFile(config: Config = {}): void {
     }
 
     emptyLine();
-    title("You are good to go. Have fun!");
+    printTitle("You are good to go. Have fun!");
     emptyLine();
   });
 }
@@ -81,7 +46,7 @@ async function getBrowserList(): Promise<string[]> {
 }
 
 export default async function setupConfig(): Promise<void> {
-  title("Let's set up browser config");
+  printTitle("Let's set up browser config");
   emptyLine();
 
   // 1) list of browsers
@@ -96,7 +61,6 @@ export default async function setupConfig(): Promise<void> {
     if (defaultBrowser != null) {
       // 3) TODO: browser aliases
       const browsers = await getBrowsersConfig(browserList);
-      console.log(browsers);
       emptyLine();
 
       // 4) TODO: browser profiles
@@ -117,7 +81,7 @@ export default async function setupConfig(): Promise<void> {
       }
     }
   } else {
-    title("You didn't add any browsers:( Try again...");
+    printTitle("You didn't add any browsers:( Try again...");
     emptyLine();
   }
 }
