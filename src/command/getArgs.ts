@@ -1,5 +1,7 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
+import { updateConfig } from "../configuration";
+import { Command, ConfigType } from "../types/configuration";
 
 export default function getArgs() {
   return yargs(hideBin(process.argv))
@@ -41,30 +43,73 @@ export default function getArgs() {
     .parseSync();
 }
 
+// sq config          -> go through all the steps
+// sq config add      -> go through add the steps
+// sq config update   -> go through update the steps
+// sq config delete   -> go through delete the steps
 export function getConfigArgs() {
   let isConfig = false;
 
-  const args = yargs(hideBin(process.argv))
-    .command("config", "Update the config file", function builder(yargs) {
-      isConfig = true;
+  function commandDesc(command: Command) {
+    return `${command} config`;
+  }
 
+  function commandBuilder(command: Command) {
+    function desc(type: ConfigType) {
+      return `${command} ${type} config`;
+    }
+
+    function getBuilder(type: ConfigType) {
+      return function builder() {
+        updateConfig(command, type);
+      };
+    }
+
+    return function (yargs: yargs.Argv) {
       return yargs
-        .option("defaults", {
-          alias: ["default", "d"],
-          type: "boolean",
-          default: false,
-        })
-        .option("browsers", {
-          alias: ["browser", "b"],
-          type: "boolean",
-          default: false,
-        })
-        .option("profiles", {
-          alias: ["profile", "p"],
-          type: "boolean",
-          default: false,
-        });
-    })
+        .command("default", desc("default"), getBuilder("default"))
+        .command("browser", desc("browser"), getBuilder("browser"))
+        .command("profile", desc("profile"), getBuilder("profile"));
+    };
+  }
+
+  function commandHandler(command: Command) {
+    return function handler() {
+      updateConfig(command);
+    };
+  }
+
+  const args = yargs(hideBin(process.argv))
+    .command(
+      "config",
+      "Update the config file",
+      function builder(configYargs) {
+        isConfig = true;
+
+        return configYargs
+          .command(
+            "add",
+            commandDesc("add"),
+            commandBuilder("add"),
+            commandHandler("add")
+          )
+          .command(
+            "update",
+            commandDesc("update"),
+            commandBuilder("update"),
+            commandHandler("update")
+          )
+          .command(
+            "delete",
+            commandDesc("delete"),
+            commandBuilder("delete"),
+            commandHandler("delete")
+          );
+      },
+      function handler() {
+        updateConfig();
+      }
+    )
     .help(false)
     .parseSync();
 
