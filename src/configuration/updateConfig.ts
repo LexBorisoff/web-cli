@@ -1,18 +1,10 @@
-import { getConfigArgs } from "../command";
+import { Command, ConfigType } from "../types/configuration";
 
-export default function updateConfig() {
-  const { args } = getConfigArgs();
-  const { defaults, browsers, profiles } = args;
-
-  if (defaults) {
-    console.log("update Defaults");
+export default function updateConfig(command?: Command, type?: ConfigType) {
+  if (command != null) {
+    console.log(command, type);
+    return;
   }
 
-  if (browsers) {
-    console.log("update Browsers");
-  }
-
-  if (profiles) {
-    console.log("update Profiles");
-  }
+  console.log("step-by-step config");
 }
