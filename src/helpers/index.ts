@@ -11,3 +11,4 @@ export { default as getProfile } from "./getProfile";
 export { default as getSearchQuery } from "./getSearchQuery";
 export { default as getUrlList } from "./getUrlList";
 export { default as getWebsites } from "./getWebsites";
+export { default as emptyLine } from "./emptyLine";

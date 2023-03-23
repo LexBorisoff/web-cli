@@ -1,6 +1,6 @@
 {
   "name": "shell-query",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "CLI for making browser search queries from the terminal",
   "main": "./lib/main.js",
   "scripts": {

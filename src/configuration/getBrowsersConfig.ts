@@ -1,5 +1,6 @@
 import prompts from "prompts";
 import chalk from "chalk";
+import { emptyLine } from "../helpers";
 import { BrowsersConfig } from "../types";
 
 interface Choice {
@@ -12,8 +13,6 @@ interface Answer<T> {
 }
 
 // HELPERS
-const emptyLine = () => console.log("");
-
 function getBrowserTitle(browser: string): string {
   return `${browser[0].toUpperCase()}${browser.substring(1)}`;
 }

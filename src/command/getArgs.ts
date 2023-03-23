@@ -1,21 +1,7 @@
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs";
 
-interface Args {
-  [key: string]: unknown;
-  browser?: string | string[];
-  profile?: string | string[];
-  engine?: string | string[];
-  package: boolean;
-  incognito: boolean;
-  secure: boolean;
-  config: unknown;
-  help: unknown;
-  _: (string | number)[];
-  $0: string;
-}
-
-export default function getArgs(): Args {
+export default function getArgs() {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",
@@ -51,10 +37,36 @@ export default function getArgs(): Args {
       alias: ["s", "https"],
       default: true,
     })
-    .option("config", {})
     .help(false)
-    .option("help", {
-      alias: "h",
-    })
     .parseSync();
+}
+
+export function getConfigArgs() {
+  let isConfig = false;
+
+  const args = yargs(hideBin(process.argv))
+    .command("config", "Update the config file", function builder(yargs) {
+      isConfig = true;
+
+      return yargs
+        .option("defaults", {
+          alias: ["default", "d"],
+          type: "boolean",
+          default: false,
+        })
+        .option("browsers", {
+          alias: ["browser", "b"],
+          type: "boolean",
+          default: false,
+        })
+        .option("profiles", {
+          alias: ["profile", "p"],
+          type: "boolean",
+          default: false,
+        });
+    })
+    .help(false)
+    .parseSync();
+
+  return { args, isConfig };
 }

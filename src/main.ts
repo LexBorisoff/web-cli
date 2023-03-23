@@ -4,10 +4,12 @@ import {
   configFileExists,
   configFileIsEmpty,
   setupConfig,
+  updateConfig,
 } from "./configuration";
+import { getConfigArgs } from "./command";
 
 if (!configFileExists() || configFileIsEmpty()) {
   setupConfig();
 } else {
-  main();
+  getConfigArgs().isConfig ? updateConfig() : main();
 }

@@ -5,15 +5,15 @@ const empty = "--";
 
 export default function getBrowserArguments(
   browserName?: string,
-  profileDiretory?: string
+  profileDirectory?: string
 ) {
   let browserArguments: string[] = [empty];
   function removeEmpty() {
     browserArguments = browserArguments.filter((arg) => arg !== empty);
   }
 
-  if (profileDiretory != null) {
-    browserArguments.push(`--profile-directory=${profileDiretory}`);
+  if (profileDirectory != null) {
+    browserArguments.push(`--profile-directory=${profileDirectory}`);
     removeEmpty();
   }
 

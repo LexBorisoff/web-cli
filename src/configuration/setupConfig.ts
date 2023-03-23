@@ -3,9 +3,8 @@ import printTitle from "./printTitle";
 import getConfigFileName from "./getConfigFileName";
 import getBrowsersConfig from "./getBrowsersConfig";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
+import { emptyLine } from "../helpers";
 import { Config } from "../types";
-
-const emptyLine = () => console.log("");
 
 const configFileName = getConfigFileName();
 
@@ -36,10 +35,6 @@ export default async function setupConfig(): Promise<void> {
     emptyLine();
 
     const { browsers, defaultBrowser } = browsersConfig;
-
-    // 4) TODO: browser profiles
-
-    // 5) TODO: profile aliases
 
     try {
       createConfigFile({
