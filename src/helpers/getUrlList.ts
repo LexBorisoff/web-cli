@@ -54,6 +54,5 @@ export default async function getUrlList(
     urlList = [...urlList, ...websites];
   }
 
-  console.log("urlList", urlList);
   return urlList;
 }

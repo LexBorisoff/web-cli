@@ -3,7 +3,7 @@ const print = console.log;
 export default function printTitle(title: string): void {
   const columnsLength = 2;
   let line = "";
-  const lineLength = 60;
+  const lineLength = 70;
   for (let i = 0; i < lineLength; i++) {
     line += "=";
   }

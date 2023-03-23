@@ -1,4 +1,5 @@
 import query from "./query";
+import chalk from "chalk";
 import { getUrlList } from "../helpers";
 import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
@@ -7,6 +8,7 @@ const args = getArgs();
 async function queryEngine(engineNameOrAlias: string) {
   const urls = await getUrlList(engineNameOrAlias);
   urls.forEach(async (url) => {
+    console.log(`> ${chalk.green(url)}`);
     await query(url);
   });
 }
