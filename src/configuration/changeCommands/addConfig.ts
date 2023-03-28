@@ -1,5 +1,7 @@
+import * as fs from "fs";
 import prompts from "prompts";
 import chalk from "chalk";
+import getConfigFileName from "../getConfigFileName";
 import {
   emptyLine,
   getChoices,
@@ -9,8 +11,16 @@ import {
   getText,
   keepGoing,
 } from "../../helpers";
-import { getBrowsersData, getProfilesData } from "../../data";
-import { ConfigType, PromptAnswer, PromptChoice } from "../../types";
+import { getConfigData, getBrowsersData, getProfilesData } from "../../data";
+import {
+  ConfigType,
+  PromptAnswer,
+  PromptChoice,
+  BrowserProfiles,
+  ProfilesConfig,
+} from "../../types";
+
+const configFileName = getConfigFileName();
 
 function addDefault() {
   console.log("add default");
@@ -70,6 +80,28 @@ async function isValidProfileName(profileName: string, browser: string) {
     : `${profileName} already exists for ${getChoiceTitle(browser)}`;
 }
 
+async function addProfileToConfig(profile: BrowserProfiles, browser: string) {
+  const config = await getConfigData();
+  let profiles: ProfilesConfig = (await getProfilesData()) ?? {};
+
+  profiles = {
+    ...profiles,
+    [browser]: {
+      ...profiles[browser],
+      ...profile,
+    },
+  };
+
+  const json = JSON.stringify({ ...config, profiles });
+  fs.writeFile(configFileName, json, (error) => {
+    if (error != null) {
+      throw error;
+    }
+
+    emptyLine();
+  });
+}
+
 async function addProfile() {
   const browsers = await getBrowsersData();
   if (browsers.length > 0) {
@@ -117,6 +149,8 @@ async function addProfile() {
 
           if (yes) {
             emptyLine();
+
+            // TODO: validate that aliases do not already exist
             const list = await getText(
               `List 1 or more aliases for ${chalk.yellow(
                 profileName
@@ -126,33 +160,33 @@ async function addProfile() {
             alias = list != null ? getArray(list) : [];
           }
 
-          console.log({
-            [browser]: {
-              [profileName]: {
-                directory,
-                alias,
-              },
+          const profile: BrowserProfiles = {
+            [profileName]: {
+              directory,
+              alias,
             },
-          });
+          };
+
+          addProfileToConfig(profile, browser);
         }
       }
     }
   }
 }
 
-function add(type: ConfigType) {
+async function add(type: ConfigType) {
   if (type === "default") {
-    addDefault();
+    await addDefault();
   } else if (type === "browser") {
-    addBrowser();
+    await addBrowser();
   } else if (type === "profile") {
-    addProfile();
+    await addProfile();
   }
 }
 
 export default async function addConfig(type?: ConfigType) {
   if (type != null) {
-    add(type);
+    await add(type);
     return;
   }
 
@@ -170,6 +204,6 @@ export default async function addConfig(type?: ConfigType) {
 
   if (configType != null) {
     emptyLine();
-    add(configType);
+    await add(configType);
   }
 }

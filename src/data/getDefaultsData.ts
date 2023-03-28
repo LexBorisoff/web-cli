@@ -1,4 +1,4 @@
-import getConfig from "./getConfigData";
+import getConfigData from "./getConfigData";
 import { engineFallback } from "./getEngines";
 import { DefaultsConfig } from "../types";
 
@@ -12,7 +12,7 @@ interface RequiredDefaults {
 export default async function getDefaultsData(): Promise<
   DefaultsConfig & RequiredDefaults
 > {
-  const config = await getConfig();
+  const config = await getConfigData();
   const defaults: DefaultsConfig & RequiredDefaults = {
     ...config.defaults,
     engine: config.defaults?.engine ?? engineFallback,
