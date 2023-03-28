@@ -26,7 +26,7 @@ function createConfigFile(config: Config = {}): void {
   });
 }
 
-export default async function setupConfig(): Promise<void> {
+export default async function setupConfigFile(): Promise<void> {
   printTitle("Let's set up browser config");
   emptyLine();
 
@@ -38,10 +38,10 @@ export default async function setupConfig(): Promise<void> {
 
     try {
       createConfigFile({
-        browsers,
         defaults: {
           browser: defaultBrowser,
         },
+        browsers,
       });
     } catch (error) {
       console.error(

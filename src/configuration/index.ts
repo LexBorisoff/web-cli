@@ -1,4 +1,4 @@
 export { configFileExists, configFileIsEmpty } from "./checkConfigFile";
-export { default as setupConfig } from "./setupConfig";
-export { default as updateConfig } from "./updateConfig";
+export { default as setupConfigFile } from "./setupConfigFile";
+export { default as changeConfigFile } from "./changeConfigFile";
 export { default as getConfigFileName } from "./getConfigFileName";

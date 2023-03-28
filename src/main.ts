@@ -3,12 +3,12 @@ import main from "./query";
 import {
   configFileExists,
   configFileIsEmpty,
-  setupConfig,
+  setupConfigFile,
 } from "./configuration";
 import { getConfigArgs } from "./command";
 
 if (!configFileExists() || configFileIsEmpty()) {
-  setupConfig();
+  setupConfigFile();
 } else {
   if (!getConfigArgs().isConfig) {
     main();
