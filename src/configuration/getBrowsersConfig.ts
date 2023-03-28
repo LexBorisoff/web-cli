@@ -1,68 +1,18 @@
-import prompts from "prompts";
 import chalk from "chalk";
 import {
   emptyLine,
   getChoiceTitle,
-  getChoices,
+  getArray,
   select,
   multiselect,
+  keepGoing,
+  getText,
 } from "../helpers";
-import { BrowsersConfig, PromptAnswer } from "../types";
+import { BrowsersConfig } from "../types";
 
-// HELPERS
-function validate(value: string): true | string {
-  return /^[A-Za-z,\s]+$/.test(value)
-    ? true
-    : "Only letters and separators are allowed!";
-}
-
-async function keepGoing(message: string, initial: boolean): Promise<boolean> {
-  const { answer: keepGoing }: PromptAnswer<boolean> = await prompts({
-    name: "answer",
-    type: "toggle",
-    message,
-    active: "yes",
-    inactive: "no",
-    initial,
-  });
-
-  return !!keepGoing;
-}
-
-function getArray(reply: string): string[] {
-  const browsers = reply
-    .trim()
-    .split(/\s+|,+/)
-    .filter((r) => r !== "")
-    .map((r) => r.toLowerCase());
-
-  return [...new Set(browsers)];
-}
-
-async function getText(message: string): Promise<string | undefined> {
-  const { answer }: PromptAnswer<string> = await prompts({
-    name: "answer",
-    type: "text",
-    message,
-    validate,
-  });
-
-  return answer;
-}
-
-// MAIN FUNCTIONS
 async function getKnownBrowsers(): Promise<string[] | undefined> {
-  const choices = getChoices([
-    "chrome",
-    "firefox",
-    "edge",
-    "brave",
-    "opera",
-    "safari",
-  ]);
-
   return await multiselect(
-    choices,
+    ["chrome", "firefox", "edge", "brave", "opera", "safari"],
     `What ${chalk.yellow("browser(s)")} do you have installed?\n`
   );
 }
@@ -113,9 +63,8 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   if (yes) {
     emptyLine();
 
-    const choices = getChoices(browsers);
     const selectedBrowsers = await multiselect(
-      choices,
+      browsers,
       "Choose browser(s) to add aliases for\n"
     );
 

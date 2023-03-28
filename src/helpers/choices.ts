@@ -1,5 +1,4 @@
 import prompts from "prompts";
-import chalk from "chalk";
 import { PromptAnswer, PromptChoice } from "../types";
 
 export function getChoiceTitle(choice: string): string {
@@ -33,9 +32,11 @@ export async function select(
 }
 
 export async function multiselect(
-  choices: PromptChoice[],
+  list: string[],
   message: string
 ): Promise<string[] | undefined> {
+  const choices = getChoices(list);
+
   const { answer }: PromptAnswer<string[]> = await prompts({
     name: "answer",
     type: "multiselect",
@@ -65,4 +66,52 @@ export function constructChoices<L extends object>(list: L): string[] {
     }
   });
   return result;
+}
+
+export async function keepGoing(
+  message: string,
+  initial: boolean
+): Promise<boolean> {
+  const { answer: keepGoing }: PromptAnswer<boolean> = await prompts({
+    name: "answer",
+    type: "toggle",
+    message,
+    active: "yes",
+    inactive: "no",
+    initial,
+  });
+
+  return !!keepGoing;
+}
+
+export type ValidateFn = (
+  value: string
+) => boolean | string | Promise<boolean | string>;
+const validateInput: ValidateFn = (value) =>
+  /^[A-Za-z,\s]+$/.test(value)
+    ? true
+    : "Only letters and separators are allowed!";
+
+export async function getText(
+  message: string,
+  validate: ValidateFn = validateInput
+): Promise<string | undefined> {
+  const { answer }: PromptAnswer<string> = await prompts({
+    name: "answer",
+    type: "text",
+    message,
+    validate,
+  });
+
+  return answer;
+}
+
+export function getArray(reply: string): string[] {
+  const browsers = reply
+    .trim()
+    .split(/\s+|,+/)
+    .filter((r) => r !== "")
+    .map((r) => r.toLowerCase());
+
+  return [...new Set(browsers)];
 }
