@@ -32,22 +32,3 @@ export function getConfigItemByNameOrAlias<List extends ConfigItemList>(
 export function getUrlPattern() {
   return /[a-z\d-]+\.[a-z]{2,}$/is;
 }
-
-export function constructChoices<L extends object>(list: L): string[] {
-  let result: string[] = [];
-  Object.entries(list).forEach(([key, item]) => {
-    result = [...result, key.toLowerCase()];
-
-    if (item.alias) {
-      if (Array.isArray(item.alias)) {
-        result = [
-          ...result,
-          ...item.alias.map((alias: string) => alias.toLowerCase()),
-        ];
-      } else {
-        result = [...result, item.alias.toLowerCase()];
-      }
-    }
-  });
-  return result;
-}

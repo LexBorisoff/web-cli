@@ -1,3 +1,4 @@
+export * from "./configuration";
 export { default as EngineList, Engine } from "./engines";
 export { default as Config } from "./config";
 export { default as ConfigItem } from "./configItem";
