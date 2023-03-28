@@ -1,7 +1,8 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { updateConfig } from "../configuration";
-import { Command, ConfigType } from "../types/configuration";
+import chalk from "chalk";
+import { changeConfigFile } from "../configuration";
+import { ConfigCommand, ConfigType } from "../types";
 
 export default function getArgs() {
   return yargs(hideBin(process.argv))
@@ -44,7 +45,7 @@ export default function getArgs() {
 }
 
 /*
---- Possible Config Command Combos ---
+--- Possible Config Commands ---
 sq config
 
 sq config add
@@ -63,51 +64,48 @@ sq config delete browser
 sq config delete profile
  */
 
-function commandDesc(command: Command): string {
-  return `${command} config`;
-}
-
 type CommandBuilderFn = (configYargs: yargs.Argv) => yargs.Argv;
 type CommandHandlerFn = () => void;
 type ConfigTypeBuilderFn = () => void;
 
-function getCommandBuilder(command: Command): CommandBuilderFn {
-  function getConfigTypeDesc(type: ConfigType): string {
-    return `${command} ${type} config`;
-  }
+function configDesc(desc: string): string {
+  return `${desc} config`;
+}
 
-  function getConfigTypeBuilder(type: ConfigType): ConfigTypeBuilderFn {
+function commandBuilder(command: ConfigCommand): CommandBuilderFn {
+  function configTypeBuilder(type: ConfigType): ConfigTypeBuilderFn {
     return function () {
-      updateConfig(command, type);
+      changeConfigFile(command, type);
     };
   }
 
-  return function (configYargs: yargs.Argv) {
+  return function (configYargs) {
     const configTypes: ConfigType[] = ["default", "browser", "profile"];
     configTypes.forEach((type) => {
       configYargs.command(
         type,
-        getConfigTypeDesc(type),
-        getConfigTypeBuilder(type)
+        configDesc(`${command} ${type}`),
+        configTypeBuilder(type)
       );
     });
+
     return configYargs;
   };
 }
 
-function getCommandHandler(command: Command): CommandHandlerFn {
+function commandHandler(command: ConfigCommand): CommandHandlerFn {
   return function () {
-    updateConfig(command);
+    changeConfigFile(command);
   };
 }
 
-function constructConfigCommands(configYargs: yargs.Argv, commands: Command[]) {
+function constructCommands(configYargs: yargs.Argv, commands: ConfigCommand[]) {
   commands.forEach((command) => {
     configYargs.command(
       command,
-      commandDesc(command),
-      getCommandBuilder(command),
-      getCommandHandler(command)
+      configDesc(command),
+      commandBuilder(command),
+      commandHandler(command)
     );
   });
 }
@@ -121,11 +119,18 @@ export function getConfigArgs() {
       "Update the config file",
       function builder(configYargs) {
         isConfig = true;
-        constructConfigCommands(configYargs, ["add", "update", "delete"]);
+
+        // top config commands
+        constructCommands(configYargs, ["add", "update", "delete"]);
         return configYargs;
       },
-      function handler() {
-        updateConfig();
+      function handler(argv) {
+        if (argv._.length > 1) {
+          console.log(chalk.redBright("Config command not valid"));
+          return;
+        }
+
+        changeConfigFile();
       }
     )
     .help(false)

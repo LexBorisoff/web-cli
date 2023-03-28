@@ -1,29 +1,15 @@
 import prompts from "prompts";
 import chalk from "chalk";
-import { emptyLine } from "../helpers";
-import { BrowsersConfig } from "../types";
-
-interface Choice {
-  title: string;
-  value: string;
-}
-
-interface Answer<T> {
-  answer?: T;
-}
+import {
+  emptyLine,
+  getChoiceTitle,
+  getChoices,
+  select,
+  multiselect,
+} from "../helpers";
+import { BrowsersConfig, PromptAnswer } from "../types";
 
 // HELPERS
-function getBrowserTitle(browser: string): string {
-  return `${browser[0].toUpperCase()}${browser.substring(1)}`;
-}
-
-function getBrowserChoices(browsers: string[]): Choice[] {
-  return browsers.map((browser) => ({
-    title: getBrowserTitle(browser),
-    value: browser,
-  }));
-}
-
 function validate(value: string): true | string {
   return /^[A-Za-z,\s]+$/.test(value)
     ? true
@@ -31,7 +17,7 @@ function validate(value: string): true | string {
 }
 
 async function keepGoing(message: string, initial: boolean): Promise<boolean> {
-  const { answer: keepGoing }: Answer<boolean> = await prompts({
+  const { answer: keepGoing }: PromptAnswer<boolean> = await prompts({
     name: "answer",
     type: "toggle",
     message,
@@ -41,22 +27,6 @@ async function keepGoing(message: string, initial: boolean): Promise<boolean> {
   });
 
   return !!keepGoing;
-}
-
-async function selectBrowsers(
-  choices: Choice[],
-  message: string
-): Promise<string[] | undefined> {
-  const { answer: selectedBrowsers }: Answer<string[]> = await prompts({
-    name: "answer",
-    type: "multiselect",
-    choices,
-    message,
-    instructions: false,
-    hint: "- Space/←/→ to toggle selection. Enter to submit.",
-  });
-
-  return selectedBrowsers;
 }
 
 function getArray(reply: string): string[] {
@@ -70,7 +40,7 @@ function getArray(reply: string): string[] {
 }
 
 async function getText(message: string): Promise<string | undefined> {
-  const { answer }: Answer<string> = await prompts({
+  const { answer }: PromptAnswer<string> = await prompts({
     name: "answer",
     type: "text",
     message,
@@ -82,7 +52,7 @@ async function getText(message: string): Promise<string | undefined> {
 
 // MAIN FUNCTIONS
 async function getKnownBrowsers(): Promise<string[] | undefined> {
-  const choices = getBrowserChoices([
+  const choices = getChoices([
     "chrome",
     "firefox",
     "edge",
@@ -91,7 +61,7 @@ async function getKnownBrowsers(): Promise<string[] | undefined> {
     "safari",
   ]);
 
-  return await selectBrowsers(
+  return await multiselect(
     choices,
     `What ${chalk.yellow("browser(s)")} do you have installed?\n`
   );
@@ -132,24 +102,6 @@ async function getBrowserList(): Promise<string[]> {
   return [];
 }
 
-async function getDefaultBrowser(
-  browsers: string[]
-): Promise<string | undefined> {
-  if (browsers.length === 1) {
-    return browsers[0];
-  }
-
-  const choices = getBrowserChoices(browsers);
-  const { answer }: Answer<string> = await prompts({
-    type: "select",
-    name: "answer",
-    message: `What should be the ${chalk.yellow("default browser")}?\n`,
-    choices,
-  });
-
-  return answer;
-}
-
 async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   const yes = await keepGoing(
     `Do you want to set ${chalk.yellow(
@@ -161,8 +113,8 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   if (yes) {
     emptyLine();
 
-    const choices = getBrowserChoices(browsers);
-    const selectedBrowsers = await selectBrowsers(
+    const choices = getChoices(browsers);
+    const selectedBrowsers = await multiselect(
       choices,
       "Choose browser(s) to add aliases for\n"
     );
@@ -178,7 +130,7 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
         const selected = selectedBrowsers[i];
         const list = await getText(
           `List 1 or more aliases for ${chalk.yellow(
-            getBrowserTitle(selected)
+            getChoiceTitle(selected)
           )} ${chalk.italic.gray("(space or comma separated)")}\n`
         );
 
@@ -207,7 +159,10 @@ export default async function getBrowsersConfig(): Promise<
   emptyLine();
 
   if (browserList.length > 0) {
-    const defaultBrowser = await getDefaultBrowser(browserList);
+    const defaultBrowser = await select(
+      browserList,
+      `What should be the ${chalk.yellow("default browser")}?\n`
+    );
     emptyLine();
 
     if (defaultBrowser != null) {
