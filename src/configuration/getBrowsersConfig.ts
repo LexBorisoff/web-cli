@@ -5,7 +5,7 @@ import {
   getArray,
   select,
   multiselect,
-  keepGoing,
+  toggle,
   getText,
 } from "../helpers";
 import { BrowsersConfig } from "../types";
@@ -18,20 +18,22 @@ async function getKnownBrowsers(): Promise<string[] | undefined> {
 }
 
 async function getExtraBrowsers(): Promise<string[]> {
-  const yes = await keepGoing(
+  const keepGoing = await toggle(
     `Are there browsers you use that were ${chalk.italic.yellow(
       "not in the list"
     )}?\n`,
     false
   );
 
-  if (yes) {
+  if (keepGoing) {
     emptyLine();
 
     const browsers = await getText(
       `List ${chalk.yellow(
         "other browsers"
-      )} you want to add ${chalk.italic.gray("(space or comma separated)")}\n`
+      )} you want to add ${chalk.italic.cyanBright(
+        "(space or comma separated)"
+      )}\n`
     );
 
     return browsers != null ? getArray(browsers) : [];
@@ -53,14 +55,14 @@ async function getBrowserList(): Promise<string[]> {
 }
 
 async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
-  const yes = await keepGoing(
+  const keepGoing = await toggle(
     `Do you want to set ${chalk.yellow(
       "browser aliases"
     )} (e.g. short names)?\n`,
     true
   );
 
-  if (yes) {
+  if (keepGoing) {
     emptyLine();
 
     const selectedBrowsers = await multiselect(
@@ -80,7 +82,7 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
         const list = await getText(
           `List 1 or more aliases for ${chalk.yellow(
             getChoiceTitle(selected)
-          )} ${chalk.italic.gray("(space or comma separated)")}\n`
+          )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`
         );
 
         const alias = list != null ? getArray(list) : [];

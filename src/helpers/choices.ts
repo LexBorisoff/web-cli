@@ -68,11 +68,11 @@ export function constructChoices<L extends object>(list: L): string[] {
   return result;
 }
 
-export async function keepGoing(
+export async function toggle(
   message: string,
   initial: boolean
 ): Promise<boolean> {
-  const { answer: keepGoing }: PromptAnswer<boolean> = await prompts({
+  const { answer }: PromptAnswer<boolean> = await prompts({
     name: "answer",
     type: "toggle",
     message,
@@ -81,7 +81,7 @@ export async function keepGoing(
     initial,
   });
 
-  return !!keepGoing;
+  return !!answer;
 }
 
 export type ValidateFn = (

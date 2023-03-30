@@ -4,6 +4,7 @@ import getConfigFileName from "./getConfigFileName";
 import getBrowsersConfig from "./getBrowsersConfig";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
 import { emptyLine } from "../helpers";
+import { getDefaultsData } from "../data";
 import { Config } from "../types";
 
 const configFileName = getConfigFileName();
@@ -35,10 +36,12 @@ export default async function setupConfigFile(): Promise<void> {
     emptyLine();
 
     const { browsers, defaultBrowser } = browsersConfig;
+    const defaults = await getDefaultsData();
 
     try {
       createConfigFile({
         defaults: {
+          ...defaults,
           browser: defaultBrowser,
         },
         browsers,

@@ -9,18 +9,19 @@ import {
   getArray,
   select,
   getText,
-  keepGoing,
+  toggle,
 } from "../../helpers";
-import { getConfigData, getBrowsersData, getProfilesData } from "../../data";
 import {
-  ConfigType,
-  PromptAnswer,
-  PromptChoice,
-  BrowserProfiles,
-  ProfilesConfig,
-} from "../../types";
+  getConfigData,
+  getDefaultsData,
+  getBrowsersData,
+  getProfilesData,
+} from "../../data";
+import { ConfigType, PromptAnswer, PromptChoice, Profile } from "../../types";
 
 const configFileName = getConfigFileName();
+const namePattern = /^[A-Za-z]+$/;
+const directoryPattern = /^[A-Za-z0-9 ]+$/;
 
 function addDefault() {
   console.log("add default");
@@ -31,25 +32,6 @@ function addBrowser() {
 }
 
 // PROFILE
-async function isValidDirectory(
-  directory: string,
-  browser: string
-): Promise<true | string> {
-  const profiles = await getProfilesData();
-
-  if (profiles == null || !(browser in profiles)) {
-    return true;
-  }
-
-  const directories = Object.values(profiles[browser]).map(
-    (profile) => profile.directory
-  );
-
-  return !directories.includes(directory)
-    ? true
-    : `${directory} already exists for ${getChoiceTitle(browser)}`;
-}
-
 async function getProfileAliases(browser: string): Promise<string[]> {
   const profiles = await getProfilesData();
 
@@ -72,11 +54,41 @@ async function getProfileAliases(browser: string): Promise<string[]> {
   return aliases;
 }
 
+async function isValidDirectory(
+  directory: string,
+  browser: string
+): Promise<true | string> {
+  if (directory.trim() === "") {
+    return "Empty values are not allowed";
+  }
+
+  if (!directoryPattern.test(directory)) {
+    return "Enter a valid directory name";
+  }
+
+  const profiles = await getProfilesData();
+  if (profiles == null || !(browser in profiles)) {
+    return true;
+  }
+
+  const directories = Object.values(profiles[browser]).map(
+    (profile) => profile.directory
+  );
+
+  return !directories.includes(directory)
+    ? true
+    : `${directory} already exists for ${getChoiceTitle(browser)}`;
+}
+
 async function isValidProfileName(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  if (!/^[A-Za-z]+$/.test(profileName)) {
+  if (profileName.trim() === "") {
+    return "Empty values are not allowed";
+  }
+
+  if (!namePattern.test(profileName)) {
     return "Only letters are allowed";
   }
 
@@ -101,15 +113,18 @@ async function isValidProfileName(
 
 async function isValidAlias(
   aliases: string,
+  profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const profiles = await getProfilesData();
+  const list = getArray(aliases);
+  if (list.includes(profileName)) {
+    return "Alias must differ from the command-line name";
+  }
 
+  const profiles = await getProfilesData();
   if (profiles == null || !(browser in profiles)) {
     return true;
   }
-
-  const list = getArray(aliases);
 
   let found: string[] = [];
   const browserProfiles = Object.keys(profiles[browser]);
@@ -134,19 +149,43 @@ async function isValidAlias(
       )} `;
 }
 
-async function addProfileToConfig(profile: BrowserProfiles, browser: string) {
+interface AddProfileToConfigProps {
+  profileName: string;
+  profile: Profile;
+  browser: string;
+  isDefault?: boolean;
+}
+async function addProfileToConfig({
+  profileName,
+  profile,
+  browser,
+  isDefault = false,
+}: AddProfileToConfigProps) {
   const config = await getConfigData();
-  let profiles: ProfilesConfig = (await getProfilesData()) ?? {};
+  let defaults = await getDefaultsData();
+  let profiles = (await getProfilesData()) ?? {};
 
   profiles = {
     ...profiles,
     [browser]: {
       ...profiles[browser],
-      ...profile,
+      [profileName]: {
+        ...profile,
+      },
     },
   };
 
-  const json = JSON.stringify({ ...config, profiles });
+  if (isDefault) {
+    defaults = {
+      ...defaults,
+      profile: {
+        ...(defaults.profile ?? {}),
+        [browser]: profileName,
+      },
+    };
+  }
+
+  const json = JSON.stringify({ ...config, defaults, profiles });
   fs.writeFile(configFileName, json, (error) => {
     if (error != null) {
       throw error;
@@ -156,14 +195,12 @@ async function addProfileToConfig(profile: BrowserProfiles, browser: string) {
   });
 }
 
-async function addProfile() {
+async function addProfile(): Promise<void> {
   const browsers = await getBrowsersData();
   if (browsers.length > 0) {
     const browserList = browsers.map((browser) =>
       typeof browser === "string" ? browser : browser.name
     );
-
-    browserList.sort((a, b) => a.localeCompare(b));
 
     const browser = await select(
       browserList,
@@ -182,45 +219,50 @@ async function addProfile() {
       if (directory != null) {
         emptyLine();
 
-        let profileName = await getText(
+        const commandLineName = await getText(
           `Create a ${chalk.yellow("command-line name")} for "${directory}".\n`,
           async (value) => await isValidProfileName(value, browser)
         );
 
-        if (profileName != null) {
-          profileName = profileName.toLowerCase();
+        if (commandLineName != null) {
+          const profileName = commandLineName.toLowerCase();
           let alias: string[] | undefined = [];
 
           emptyLine();
-          const yes = await keepGoing(
-            `Do you want to set ${chalk.yellow(
-              "aliases"
-            )} for "${profileName}"?\n`,
-            true
+          const list = await getText(
+            `List 0 or more aliases for ${chalk.yellow(
+              profileName
+            )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
+            async (value) => await isValidAlias(value, profileName, browser)
           );
 
-          if (yes) {
-            emptyLine();
-
-            const list = await getText(
-              `List 1 or more aliases for ${chalk.yellow(
-                profileName
-              )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-              async (value) => isValidAlias(value, browser)
-            );
-
-            alias = list != null ? getArray(list) : undefined;
-          }
+          alias = list != null ? getArray(list) : undefined;
 
           if (alias != null) {
-            const profile: BrowserProfiles = {
-              [profileName]: {
-                directory,
-                alias,
-              },
+            const profile: Profile = {
+              directory,
+              alias,
             };
 
-            addProfileToConfig(profile, browser);
+            let isDefault = true;
+            const defaults = (await getDefaultsData()) ?? {};
+
+            if (defaults?.profile?.[browser] != null) {
+              emptyLine();
+              isDefault = await toggle(
+                `Should "${profileName}" be default for ${getChoiceTitle(
+                  browser
+                )}?\n`,
+                false
+              );
+            }
+
+            addProfileToConfig({
+              profileName,
+              profile,
+              browser,
+              isDefault,
+            });
           }
         }
       }
