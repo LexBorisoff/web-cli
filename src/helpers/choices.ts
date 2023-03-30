@@ -90,7 +90,7 @@ export type ValidateFn = (
 const validateInput: ValidateFn = (value) =>
   /^[A-Za-z,\s]+$/.test(value)
     ? true
-    : "Only letters and separators are allowed!";
+    : "Only letters and separators are allowed";
 
 export async function getText(
   message: string,

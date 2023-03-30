@@ -76,14 +76,13 @@ async function isValidProfileName(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const profiles = await getProfilesData();
-
-  if (profiles == null || !(browser in profiles)) {
-    return true;
-  }
-
   if (!/^[A-Za-z]+$/.test(profileName)) {
     return "Only letters are allowed";
+  }
+
+  const profiles = await getProfilesData();
+  if (profiles == null || !(browser in profiles)) {
+    return true;
   }
 
   const profileAliases = await getProfileAliases(browser);
@@ -168,15 +167,15 @@ async function addProfile() {
 
     const browser = await select(
       browserList,
-      `Select a ${chalk.yellow("browser")} to add profile(s) for.\n`
+      `Select a ${chalk.yellow("browser")} to add a profile for.\n`
     );
 
     if (browser != null) {
       emptyLine();
       const directory = await getText(
-        `What is this profile's ${chalk.underline("exact")} ${chalk.yellow(
+        `What is the ${chalk.italic("exact")} ${chalk.yellow(
           "directory name"
-        )}?\n`,
+        )} of this profile?\n`,
         async (value) => await isValidDirectory(value, browser)
       );
 
@@ -184,9 +183,7 @@ async function addProfile() {
         emptyLine();
 
         let profileName = await getText(
-          `Name a ${chalk.yellow(
-            "command-line variable"
-          )} (lowercase) for ${directory}.\n`,
+          `Create a ${chalk.yellow("command-line name")} for "${directory}".\n`,
           async (value) => await isValidProfileName(value, browser)
         );
 
@@ -198,7 +195,7 @@ async function addProfile() {
           const yes = await keepGoing(
             `Do you want to set ${chalk.yellow(
               "aliases"
-            )} for ${profileName}?\n`,
+            )} for "${profileName}"?\n`,
             true
           );
 
@@ -208,7 +205,7 @@ async function addProfile() {
             const list = await getText(
               `List 1 or more aliases for ${chalk.yellow(
                 profileName
-              )} ${chalk.italic.gray("(space or comma separated)")}\n`,
+              )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
               async (value) => isValidAlias(value, browser)
             );
 
