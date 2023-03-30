@@ -13,7 +13,11 @@ export function configFileIsEmpty(): boolean {
     throw new Error("config file does not exist");
   }
 
-  const json = fs.readFileSync(configFileName, "utf-8");
-  const config: Config = JSON.parse(json);
-  return Object.keys(config).length <= 0;
+  const data = fs.readFileSync(configFileName, "utf-8");
+  if (data === "") {
+    return true;
+  }
+
+  const config = JSON.parse(data);
+  return config instanceof Object ? Object.keys(config).length === 0 : true;
 }

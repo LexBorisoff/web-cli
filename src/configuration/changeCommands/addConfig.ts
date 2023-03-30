@@ -50,11 +50,11 @@ async function isValidDirectory(
     : `${directory} already exists for ${getChoiceTitle(browser)}`;
 }
 
-async function isValidProfileName(profileName: string, browser: string) {
+async function getProfileAliases(browser: string): Promise<string[]> {
   const profiles = await getProfilesData();
 
-  if (profiles == null || !(browser in profiles)) {
-    return true;
+  if (!profiles || !(browser in profiles)) {
+    return [];
   }
 
   const browserProfiles = profiles[browser];
@@ -69,15 +69,70 @@ async function isValidProfileName(profileName: string, browser: string) {
     }
   });
 
-  if (aliases.includes(profileName)) {
-    return `${profileName} is an alias for an existing ${getChoiceTitle(
+  return aliases;
+}
+
+async function isValidProfileName(
+  profileName: string,
+  browser: string
+): Promise<boolean | string> {
+  const profiles = await getProfilesData();
+
+  if (profiles == null || !(browser in profiles)) {
+    return true;
+  }
+
+  if (!/^[A-Za-z]+$/.test(profileName)) {
+    return "Only letters are allowed";
+  }
+
+  const profileAliases = await getProfileAliases(browser);
+
+  if (profileAliases.includes(profileName)) {
+    return `"${profileName}" is an alias for an existing ${getChoiceTitle(
       browser
     )} profile`;
   }
 
-  return !(profileName in browserProfiles)
+  const browserProfiles = Object.keys(profiles[browser]);
+  return !browserProfiles.includes(profileName)
     ? true
-    : `${profileName} already exists for ${getChoiceTitle(browser)}`;
+    : `"${profileName}" already exists for ${getChoiceTitle(browser)}`;
+}
+
+async function isValidAlias(
+  aliases: string,
+  browser: string
+): Promise<boolean | string> {
+  const profiles = await getProfilesData();
+
+  if (profiles == null || !(browser in profiles)) {
+    return true;
+  }
+
+  const list = getArray(aliases);
+
+  let found: string[] = [];
+  const browserProfiles = Object.keys(profiles[browser]);
+  const profileAliases = await getProfileAliases(browser);
+
+  browserProfiles.forEach((profile) => {
+    if (list.includes(profile)) {
+      found.push(profile);
+    }
+  });
+
+  profileAliases.forEach((alias) => {
+    if (list.includes(alias)) {
+      found.push(alias);
+    }
+  });
+
+  return found.length === 0
+    ? true
+    : `These names already exist for ${getChoiceTitle(browser)}: ${found.join(
+        ", "
+      )} `;
 }
 
 async function addProfileToConfig(profile: BrowserProfiles, browser: string) {
@@ -137,7 +192,7 @@ async function addProfile() {
 
         if (profileName != null) {
           profileName = profileName.toLowerCase();
-          let alias: string[] = [];
+          let alias: string[] | undefined = [];
 
           emptyLine();
           const yes = await keepGoing(
@@ -150,24 +205,26 @@ async function addProfile() {
           if (yes) {
             emptyLine();
 
-            // TODO: validate that aliases do not already exist
             const list = await getText(
               `List 1 or more aliases for ${chalk.yellow(
                 profileName
-              )} ${chalk.italic.gray("(space or comma separated)")}\n`
+              )} ${chalk.italic.gray("(space or comma separated)")}\n`,
+              async (value) => isValidAlias(value, browser)
             );
 
-            alias = list != null ? getArray(list) : [];
+            alias = list != null ? getArray(list) : undefined;
           }
 
-          const profile: BrowserProfiles = {
-            [profileName]: {
-              directory,
-              alias,
-            },
-          };
+          if (alias != null) {
+            const profile: BrowserProfiles = {
+              [profileName]: {
+                directory,
+                alias,
+              },
+            };
 
-          addProfileToConfig(profile, browser);
+            addProfileToConfig(profile, browser);
+          }
         }
       }
     }
