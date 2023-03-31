@@ -11,19 +11,23 @@ import {
 import { BrowsersConfig } from "../types";
 
 async function getKnownBrowsers(): Promise<string[] | undefined> {
-  return await multiselect(
+  return multiselect(
     ["chrome", "firefox", "edge", "brave", "opera", "safari"],
     `What ${chalk.yellow("browser(s)")} do you have installed?\n`
   );
 }
 
-async function getExtraBrowsers(): Promise<string[]> {
+async function getExtraBrowsers(): Promise<string[] | undefined> {
   const keepGoing = await toggle(
     `Are there browsers you use that were ${chalk.italic.yellow(
       "not in the list"
     )}?\n`,
     false
   );
+
+  if (keepGoing == null) {
+    return undefined;
+  }
 
   if (keepGoing) {
     emptyLine();
@@ -42,16 +46,24 @@ async function getExtraBrowsers(): Promise<string[]> {
   return [];
 }
 
-async function getBrowserList(): Promise<string[]> {
+async function getBrowserList(): Promise<string[] | undefined> {
   const knownBrowsers = await getKnownBrowsers();
 
-  if (knownBrowsers != null) {
-    emptyLine();
-    const extraBrowsers = await getExtraBrowsers();
+  if (knownBrowsers == null) {
+    return undefined;
+  }
+
+  emptyLine();
+  const extraBrowsers = await getExtraBrowsers();
+  if (extraBrowsers == null) {
+    return undefined;
+  }
+
+  if (extraBrowsers.length > 0) {
     return [...new Set([...knownBrowsers, ...extraBrowsers])];
   }
 
-  return [];
+  return [...new Set(knownBrowsers)];
 }
 
 async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
