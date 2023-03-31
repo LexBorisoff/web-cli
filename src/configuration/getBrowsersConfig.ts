@@ -121,20 +121,22 @@ export default async function getBrowsersConfig(): Promise<
   ReturnConfig | undefined
 > {
   const browserList = await getBrowserList();
-  emptyLine();
 
-  if (browserList.length > 0) {
-    const defaultBrowser = await select(
-      browserList,
-      `What should be the ${chalk.yellow("default browser")}?\n`
-    );
-    emptyLine();
-
-    if (defaultBrowser != null) {
-      const browsers = await getAliases(browserList);
-      return { browsers, defaultBrowser };
-    }
+  if (browserList == null || browserList.length === 0) {
+    return undefined;
   }
 
-  return undefined;
+  emptyLine();
+  const defaultBrowser = await select(
+    browserList,
+    `What should be the ${chalk.yellow("default browser")}?\n`
+  );
+
+  if (defaultBrowser == null) {
+    return undefined;
+  }
+
+  emptyLine();
+  const browsers = await getAliases(browserList);
+  return { browsers, defaultBrowser };
 }
