@@ -7,20 +7,21 @@ import { emptyLine, getChoices } from "../../helpers";
 
 import { ConfigType, PromptAnswer, PromptChoice } from "../../types";
 
-async function add(type: ConfigType) {
+async function add(type: ConfigType): Promise<boolean> {
   if (type === "default") {
-    await addDefault();
+    return addDefault();
   } else if (type === "browser") {
-    await addBrowser();
+    return addBrowser();
   } else if (type === "profile") {
-    await addProfile();
+    return addProfile();
   }
+
+  return false;
 }
 
-export default async function addConfig(type?: ConfigType) {
+export default async function addConfig(type?: ConfigType): Promise<boolean> {
   if (type != null) {
-    await add(type);
-    return;
+    return await add(type);
   }
 
   const configTypes: ConfigType[] = ["default", "browser", "profile"];
@@ -37,6 +38,8 @@ export default async function addConfig(type?: ConfigType) {
 
   if (configType != null) {
     emptyLine();
-    await add(configType);
+    return add(configType);
   }
+
+  return false;
 }

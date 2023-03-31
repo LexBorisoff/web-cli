@@ -2,23 +2,30 @@ import { addConfig, updateConfig, deleteConfig } from "./changeCommands";
 import { emptyLine } from "../helpers";
 import { ConfigCommand, ConfigType } from "../types/configuration";
 
-export default function changeConfigFile(
+export default async function changeConfigFile(
   command?: ConfigCommand,
   type?: ConfigType
 ) {
   emptyLine();
+  printTitle("Changing config...");
+  emptyLine();
+
+  let success = false;
 
   if (command != null) {
     if (command === "add") {
-      addConfig(type);
+      success = await addConfig(type);
     } else if (command === "update") {
-      updateConfig(type);
+      success = await updateConfig(type);
     } else if (command === "delete") {
-      deleteConfig(type);
+      success = await deleteConfig(type);
     }
-
-    return;
+  } else {
+    console.log("step-by-step config");
   }
 
-  console.log("step-by-step config");
+  if (success) {
+    emptyLine();
+    printTitle("Config is successfully changed!");
+  }
 }

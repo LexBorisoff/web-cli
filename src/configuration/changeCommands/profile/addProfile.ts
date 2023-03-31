@@ -2,7 +2,6 @@ import * as fs from "fs";
 import chalk from "chalk";
 import getConfigFileName from "../../getConfigFileName";
 import {
-  emptyLine,
   getChoiceTitle,
   getArray,
   select,
@@ -115,7 +114,7 @@ async function isValidAlias(
     return true;
   }
 
-  let found: string[] = [];
+  const found: string[] = [];
   const browserProfiles = Object.keys(profiles[browser]);
   const profileAliases = await getProfileAliases(browser);
 
@@ -184,7 +183,7 @@ async function addProfileToConfig({
   });
 }
 
-export default async function addProfile(): Promise<void> {
+export default async function addProfile(): Promise<boolean> {
   const browsers = await getBrowsersData();
   if (browsers.length > 0) {
     const browserList = browsers.map((browser) =>
@@ -246,15 +245,19 @@ export default async function addProfile(): Promise<void> {
               );
             }
 
-            addProfileToConfig({
+            await addProfileToConfig({
               profileName,
               profile,
               browser,
               isDefault,
             });
+
+            return true;
           }
         }
       }
     }
   }
+
+  return false;
 }

@@ -6,9 +6,11 @@ import {
   PromptChoice,
 } from "../../types/configuration";
 
-export default async function updateConfig(type?: ConfigType) {
+export default async function updateConfig(
+  type?: ConfigType
+): Promise<boolean> {
   if (type != null) {
-    return;
+    return false;
   }
 
   const configTypes: ConfigType[] = ["default", "browser", "profile"];
@@ -24,4 +26,5 @@ export default async function updateConfig(type?: ConfigType) {
   });
 
   console.log(configType);
+  return false;
 }
