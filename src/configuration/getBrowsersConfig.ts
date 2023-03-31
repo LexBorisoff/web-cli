@@ -67,6 +67,13 @@ async function getBrowserList(): Promise<string[] | undefined> {
 }
 
 async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
+  const browsersConfig: BrowsersConfig<BrowserObject> = browsers.map(
+    (name) => ({
+      name,
+      alias: [],
+    })
+  );
+
   const keepGoing = await toggle(
     `Do you want to set ${chalk.yellow(
       "browser aliases"
@@ -79,14 +86,10 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
 
     const selectedBrowsers = await multiselect(
       browsers,
-      "Choose browser(s) to add aliases for\n"
+      "Select browsers to add aliases for\n"
     );
 
     if (selectedBrowsers != null) {
-      const browsersConfig: BrowsersConfig = browsers.filter(
-        (browser) => !selectedBrowsers.find((selected) => selected === browser)
-      );
-
       for (let i = 0; i < selectedBrowsers.length; i++) {
         emptyLine();
 
@@ -98,16 +101,15 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
         );
 
         const alias = list != null ? getArray(list) : [];
-        browsersConfig.push(
-          alias.length > 0 ? { name: selected, alias } : selected
-        );
+        const index = browsersConfig.findIndex(({ name }) => name == selected);
+        if (index >= 0) {
+          browsersConfig[index] = { name: selected, alias };
+        }
       }
-
-      return browsersConfig;
     }
   }
 
-  return browsers;
+  return browsersConfig;
 }
 
 interface ReturnConfig {

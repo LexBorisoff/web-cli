@@ -7,5 +7,5 @@ export interface BrowserObject extends ConfigItem {
 
 export type Browser = string | BrowserObject;
 
-type BrowsersConfig = Array<Browser>;
+type BrowsersConfig<B = Browser> = Array<B>;
 export default BrowsersConfig;
