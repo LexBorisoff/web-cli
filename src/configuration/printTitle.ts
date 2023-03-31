@@ -1,6 +1,12 @@
+import chalk from "chalk";
 const print = console.log;
 
-export default function printTitle(title: string): void {
+type Severity = "neutral" | "info" | "success" | "warning" | "error";
+
+export default function printTitle(
+  title: string,
+  severity: Severity = "neutral"
+): void {
   const columnsLength = 2;
   let line = "";
   const lineLength = 70;
@@ -8,10 +14,32 @@ export default function printTitle(title: string): void {
     line += "=";
   }
 
+  function printLine() {
+    let color: typeof chalk.white;
+    switch (severity) {
+      case "info":
+        color = chalk.cyan;
+        break;
+      case "success":
+        color = chalk.green;
+        break;
+      case "warning":
+        color = chalk.yellow;
+        break;
+      case "error":
+        color = chalk.redBright;
+        break;
+      default:
+        color = chalk.white;
+    }
+
+    print(color(line));
+  }
+
   if (line.length - title.length - columnsLength <= 0) {
-    print(line);
+    printLine();
     print(title);
-    print(line);
+    printLine();
     return;
   }
 
@@ -30,7 +58,7 @@ export default function printTitle(title: string): void {
 
   const titleLine = `>${spacesLeft}${title}${spacesRight}<`;
 
-  print(line);
+  printLine();
   print(titleLine);
-  print(line);
+  printLine();
 }
