@@ -22,16 +22,17 @@ function createConfigFile(config: Config = {}): void {
       throw error;
     }
 
-    printTitle("You are good to go. Have fun!");
+    printTitle("You are good to go. Have fun!", "success");
     emptyLine();
   });
 }
 
 export default async function setupConfigFile(): Promise<void> {
-  printTitle("Let's set up browser config");
+  printTitle("Let's set up browser config", "success");
   emptyLine();
 
   const browsersConfig = await getBrowsersConfig();
+
   if (browsersConfig != null) {
     emptyLine();
 
@@ -47,12 +48,11 @@ export default async function setupConfigFile(): Promise<void> {
         browsers,
       });
     } catch (error) {
-      console.error(
-        "An error occurred while trying to create the config file."
-      );
+      printTitle("Couldn't create the config file :(", "error");
+      console.error(error);
     }
   } else {
-    printTitle("You didn't add any browsers:( Try again...");
+    printTitle("Okay, let's just not do it then", "error");
     emptyLine();
   }
 }
