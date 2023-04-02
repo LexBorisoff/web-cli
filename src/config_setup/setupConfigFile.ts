@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import printTitle from "./printTitle";
-import getConfigFileName from "./getConfigFileName";
-import getBrowsersConfig from "./getBrowsersConfig";
+import getInitialConfig from "./getInitialConfig";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
 import { getDefaultsData } from "../data";
+import getConfigFileName from "../helpers/getConfigFileName";
 import emptyLine from "../helpers/emptyLine";
 import { Config } from "../types/config.types";
 
@@ -31,12 +31,12 @@ export default async function setupConfigFile(): Promise<void> {
   printTitle("Let's set up browser config", "success");
   emptyLine();
 
-  const browsersConfig = await getBrowsersConfig();
+  const config = await getInitialConfig();
 
-  if (browsersConfig != null) {
+  if (config != null) {
     emptyLine();
 
-    const { browsers, defaultBrowser } = browsersConfig;
+    const { browsers, defaultBrowser } = config;
     const defaults = await getDefaultsData();
 
     try {

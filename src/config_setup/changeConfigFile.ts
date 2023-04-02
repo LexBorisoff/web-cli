@@ -1,4 +1,4 @@
-import { addConfig, updateConfig, deleteConfig } from "./changeCommands";
+import { addConfig, updateConfig, deleteConfig } from "./change";
 import printTitle from "./printTitle";
 import emptyLine from "../helpers/emptyLine";
 import { ConfigCommand, ConfigType } from "../types/setup.types";
