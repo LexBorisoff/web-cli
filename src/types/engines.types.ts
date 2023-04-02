@@ -1,6 +1,6 @@
-import ConfigItem from "./configItem";
+import { WithAlias } from "./utility.types";
 
-export interface Engine extends ConfigItem {
+export interface Engine extends WithAlias {
   url: string;
   query?: string;
   package?: string;
