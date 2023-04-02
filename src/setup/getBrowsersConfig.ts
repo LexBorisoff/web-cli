@@ -1,14 +1,14 @@
 import chalk from "chalk";
 import {
-  emptyLine,
   getChoiceTitle,
   getArray,
   select,
   multiselect,
   toggle,
   getText,
-} from "../helpers";
-import { BrowsersConfig } from "../types";
+} from "../helpers/choices";
+import emptyLine from "../helpers/emptyLine";
+import BrowsersConfig, { BrowserObject } from "../types/browsers";
 
 async function getKnownBrowsers(): Promise<string[] | undefined> {
   return multiselect(

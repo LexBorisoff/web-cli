@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import getConfigFileName from "./getConfigFileName";
-import { Config } from "../types";
 
 const configFileName = getConfigFileName();
 

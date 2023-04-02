@@ -3,7 +3,8 @@ import chalk from "chalk";
 import { addDefault } from "./default";
 import { addBrowser } from "./browser";
 import { addProfile } from "./profile";
-import { emptyLine, getChoices } from "../../helpers";
+import { getChoices } from "../../helpers/choices";
+import emptyLine from "../../helpers/emptyLine";
 
 import { ConfigType, PromptAnswer, PromptChoice } from "../../types";
 

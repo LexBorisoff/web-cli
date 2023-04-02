@@ -7,7 +7,8 @@ import {
   select,
   getText,
   toggle,
-} from "../../../helpers";
+} from "../../../helpers/choices";
+import emptyLine from "../../../helpers/emptyLine";
 import {
   getConfigData,
   getDefaultsData,
