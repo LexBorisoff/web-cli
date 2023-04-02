@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import main from "./query/main";
 import { getConfigArgs } from "./command";
-import { configFileExists, configFileIsEmpty } from "./setup/checkConfigFile";
-import setupConfigFile from "./setup/setupConfigFile";
+import { configFileExists, configFileIsEmpty } from "./helpers/checkConfigFile";
+import setupConfig from "./browser_config/setup";
 
 if (!configFileExists() || configFileIsEmpty()) {
-  setupConfigFile();
+  setupConfig();
 } else {
   if (!getConfigArgs().isConfig) {
     main();

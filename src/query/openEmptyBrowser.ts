@@ -1,5 +1,5 @@
 import open from "open";
-import getDefaultsData from "../data/getDefaultsData";
+import { getDefaultsData } from "../data";
 import getBrowserArguments from "../helpers/getBrowserArguments";
 import getBrowserAppName from "../helpers/getBrowserAppName";
 import getProfile from "../helpers/getProfile";

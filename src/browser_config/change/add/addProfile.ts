@@ -1,18 +1,18 @@
 import * as fs from "fs";
 import chalk from "chalk";
-import getConfigFileName from "../../../setup/getConfigFileName";
-import {
-  choicesPrompt,
-  getChoiceTitle,
-  getChoiceArray,
-} from "../../../helpers/choices";
-import emptyLine from "../../../helpers/emptyLine";
 import {
   getConfigData,
   getDefaultsData,
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
+import getConfigFileName from "../../../helpers/getConfigFileName";
+import {
+  choicesPrompt,
+  getChoiceTitle,
+  getChoiceArray,
+} from "../../../helpers/prompts";
+import emptyLine from "../../../helpers/emptyLine";
 import { Profile } from "../../../types/config.types";
 
 const { select, text, toggle } = choicesPrompt;

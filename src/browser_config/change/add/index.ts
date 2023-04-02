@@ -1,18 +1,18 @@
 import prompts from "prompts";
 import chalk from "chalk";
-import { addDefault } from "./default";
-import { addBrowser } from "./browser";
-import { addProfile } from "./profile";
-import { getChoices } from "../../helpers/choices";
-import emptyLine from "../../helpers/emptyLine";
+import addDefault from "./addDefault";
+import addBrowser from "./addBrowser";
+import addProfile from "./addProfile";
+import { getChoices } from "../../../helpers/prompts";
+import emptyLine from "../../../helpers/emptyLine";
 
 import {
   ConfigType,
   PromptAnswer,
   PromptChoice,
-} from "../../types/setup.types";
+} from "../../../types/setup.types";
 
-async function add(type: ConfigType): Promise<boolean> {
+async function addType(type: ConfigType): Promise<boolean> {
   if (type === "default") {
     return addDefault();
   } else if (type === "browser") {
@@ -26,7 +26,7 @@ async function add(type: ConfigType): Promise<boolean> {
 
 export default async function addConfig(type?: ConfigType): Promise<boolean> {
   if (type != null) {
-    return await add(type);
+    return await addType(type);
   }
 
   const configTypes: ConfigType[] = ["default", "browser", "profile"];
@@ -43,7 +43,7 @@ export default async function addConfig(type?: ConfigType): Promise<boolean> {
 
   if (configType != null) {
     emptyLine();
-    return add(configType);
+    return addType(configType);
   }
 
   return false;

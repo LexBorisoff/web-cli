@@ -1,7 +1,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk from "chalk";
-import changeConfigFile from "../setup/changeConfigFile";
+import changeConfig from "../browser_config/change";
 import { ConfigCommand, ConfigType } from "../types/setup.types";
 
 export default function getArgs() {
@@ -75,7 +75,7 @@ function configDesc(desc: string): string {
 function commandBuilder(command: ConfigCommand): CommandBuilderFn {
   function configTypeBuilder(type: ConfigType): ConfigTypeBuilderFn {
     return function () {
-      changeConfigFile(command, type);
+      changeConfig(command, type);
     };
   }
 
@@ -95,7 +95,7 @@ function commandBuilder(command: ConfigCommand): CommandBuilderFn {
 
 function commandHandler(command: ConfigCommand): CommandHandlerFn {
   return function () {
-    changeConfigFile(command);
+    changeConfig(command);
   };
 }
 
@@ -130,7 +130,7 @@ export function getConfigArgs() {
           return;
         }
 
-        changeConfigFile();
+        changeConfig();
       }
     )
     .help(false)

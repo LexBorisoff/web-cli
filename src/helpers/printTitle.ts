@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { Severity } from "../types/setup.types";
+import { Severity } from "../types/utility.types";
 
 const print = console.log;
 

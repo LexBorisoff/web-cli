@@ -1,12 +1,12 @@
 import prompts from "prompts";
-import { getChoices } from "../../helpers/choices";
+import { getChoices } from "../../../helpers/prompts";
 import {
   ConfigType,
   PromptAnswer,
   PromptChoice,
-} from "../../types/setup.types";
+} from "../../../types/setup.types";
 
-export default async function updateConfig(
+export default async function deleteConfig(
   type?: ConfigType
 ): Promise<boolean> {
   if (type != null) {
@@ -20,7 +20,7 @@ export default async function updateConfig(
     name: "answer",
     type: "select",
     choices,
-    message: "What config do you want to update?\n",
+    message: "What config do you want to delete?\n",
     instructions: false,
     hint: "- Space/←/→ to toggle selection. Enter to submit.",
   });

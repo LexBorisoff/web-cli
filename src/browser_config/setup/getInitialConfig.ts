@@ -3,9 +3,9 @@ import {
   choicesPrompt,
   getChoiceTitle,
   getChoiceArray,
-} from "../helpers/choices";
-import emptyLine from "../helpers/emptyLine";
-import { BrowsersConfig, BrowserObject } from "../types/config.types";
+} from "../../helpers/prompts";
+import emptyLine from "../../helpers/emptyLine";
+import { BrowsersConfig, BrowserObject } from "../../types/config.types";
 
 const { text, toggle, select, multiselect } = choicesPrompt;
 

@@ -1,9 +1,11 @@
-import { addConfig, updateConfig, deleteConfig } from "./change";
-import printTitle from "./printTitle";
-import emptyLine from "../helpers/emptyLine";
-import { ConfigCommand, ConfigType } from "../types/setup.types";
+import addConfig from "./add";
+import updateConfig from "./update";
+import deleteConfig from "./delete";
+import printTitle from "../../helpers/printTitle";
+import emptyLine from "../../helpers/emptyLine";
+import { ConfigCommand, ConfigType } from "../../types/setup.types";
 
-export default async function changeConfigFile(
+export default async function changeConfig(
   command?: ConfigCommand,
   type?: ConfigType
 ) {
