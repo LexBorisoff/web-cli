@@ -4,7 +4,7 @@ import {
   ConfigType,
   PromptAnswer,
   PromptChoice,
-} from "../../types/configuration";
+} from "../../types/setup.types";
 
 export default async function deleteConfig(
   type?: ConfigType

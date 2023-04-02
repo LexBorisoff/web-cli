@@ -1,19 +1,5 @@
-import open from "open";
-import { Browser } from "../types";
 import { getBrowsersData } from "../data";
-
-export function getBrowserAppName(browserName: string) {
-  switch (browserName) {
-    case "chrome":
-      return open.apps.chrome;
-    case "firefox":
-      return open.apps.firefox;
-    case "edge":
-      return open.apps.edge;
-    default:
-      return browserName;
-  }
-}
+import { Browser } from "../types/config.types";
 
 export default async function getBrowser(
   browserNameOrAlias: string

@@ -1,6 +1,6 @@
 import { getConfigItemByNameOrAlias } from "./utils";
 import { getProfilesData } from "../data";
-import { Profile } from "../types";
+import { Profile } from "../types/config.types";
 
 export default async function getProfile(
   profileNameOrAlias: string,

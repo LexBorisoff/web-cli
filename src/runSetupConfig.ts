@@ -1,3 +1,3 @@
-import { setupConfigFile } from "./configuration";
+import setupConfigFile from "./setup/setupConfigFile";
 
 setupConfigFile();

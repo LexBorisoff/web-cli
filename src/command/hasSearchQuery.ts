@@ -1,5 +1,5 @@
 import getArgs from "./getArgs";
-import { getUrlPattern } from "../helpers";
+import { getUrlPattern } from "../helpers/utils";
 
 const args = getArgs();
 const urlPattern = getUrlPattern();

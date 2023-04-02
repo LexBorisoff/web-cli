@@ -1,6 +1,6 @@
-import { ConfigItem } from "../types";
+import { WithAlias } from "../types/utility.types";
 
-interface ConfigItemList<Item = ConfigItem> {
+interface ConfigItemList<Item = WithAlias> {
   [item: string]: Item;
 }
 

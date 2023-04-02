@@ -7,6 +7,6 @@ export interface Engine extends WithAlias {
   delimiter?: string;
 }
 
-export default interface EngineList {
+export interface EngineList {
   [engine: string]: Engine;
 }

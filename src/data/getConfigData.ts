@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Config } from "../types";
+import { Config } from "../types/config.types";
 
 export default async function getConfigData(): Promise<Config> {
   const fileName = path.resolve(`${__dirname}/../config.json`);

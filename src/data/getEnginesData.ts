@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-
-import { EngineList } from "../types";
+import { EngineList } from "../types/engines.types";
 
 export const engineFallback = "google";
 

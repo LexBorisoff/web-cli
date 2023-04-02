@@ -9,3 +9,9 @@ export interface PromptChoice {
   title: string;
   value: string;
 }
+
+export type Severity = "neutral" | "info" | "success" | "warning" | "error";
+
+export type ValidateFn = (
+  value: string
+) => boolean | string | Promise<boolean | string>;

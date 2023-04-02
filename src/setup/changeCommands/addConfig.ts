@@ -6,7 +6,11 @@ import { addProfile } from "./profile";
 import { getChoices } from "../../helpers/choices";
 import emptyLine from "../../helpers/emptyLine";
 
-import { ConfigType, PromptAnswer, PromptChoice } from "../../types";
+import {
+  ConfigType,
+  PromptAnswer,
+  PromptChoice,
+} from "../../types/setup.types";
 
 async function add(type: ConfigType): Promise<boolean> {
   if (type === "default") {

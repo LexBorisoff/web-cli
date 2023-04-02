@@ -1,6 +1,6 @@
+import getEngine from "./getEngine";
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import getEngine from "./getEngine";
 import { getArgs, hasSearchQuery } from "../command";
 import { engineFallback } from "../data";
 

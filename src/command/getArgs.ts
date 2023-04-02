@@ -1,8 +1,8 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk from "chalk";
-import { changeConfigFile } from "../configuration";
-import { ConfigCommand, ConfigType } from "../types";
+import changeConfigFile from "../setup/changeConfigFile";
+import { ConfigCommand, ConfigType } from "../types/setup.types";
 
 export default function getArgs() {
   return yargs(hideBin(process.argv))

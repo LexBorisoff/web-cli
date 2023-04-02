@@ -1,12 +1,10 @@
 import * as fs from "fs";
 import chalk from "chalk";
-import getConfigFileName from "../../getConfigFileName";
+import getConfigFileName from "../../../setup/getConfigFileName";
 import {
+  choicesPrompt,
   getChoiceTitle,
-  getArray,
-  select,
-  getText,
-  toggle,
+  getChoiceArray,
 } from "../../../helpers/choices";
 import emptyLine from "../../../helpers/emptyLine";
 import {
@@ -15,7 +13,9 @@ import {
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
-import { Profile } from "../../../types";
+import { Profile } from "../../../types/config.types";
+
+const { select, text, toggle } = choicesPrompt;
 
 const configFileName = getConfigFileName();
 const namePattern = /^[A-Za-z]+$/;
@@ -105,7 +105,7 @@ async function isValidAlias(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const list = getArray(aliases);
+  const list = getChoiceArray(aliases);
   if (list.includes(profileName)) {
     return "Alias must differ from the command-line name";
   }
@@ -198,7 +198,7 @@ export default async function addProfile(): Promise<boolean> {
 
     if (browser != null) {
       emptyLine();
-      const directory = await getText(
+      const directory = await text(
         `What is the ${chalk.italic("exact")} ${chalk.yellow(
           "directory name"
         )} of this profile?\n`,
@@ -208,7 +208,7 @@ export default async function addProfile(): Promise<boolean> {
       if (directory != null) {
         emptyLine();
 
-        const commandLineName = await getText(
+        const commandLineName = await text(
           `Create a ${chalk.yellow("command-line name")} for "${directory}".\n`,
           async (value) => await isValidProfileName(value, browser)
         );
@@ -218,14 +218,14 @@ export default async function addProfile(): Promise<boolean> {
           let alias: string[] | undefined = [];
 
           emptyLine();
-          const list = await getText(
+          const list = await text(
             `List 0 or more aliases for ${chalk.yellow(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
             async (value) => await isValidAlias(value, profileName, browser)
           );
 
-          alias = list != null ? getArray(list) : undefined;
+          alias = list != null ? getChoiceArray(list) : undefined;
 
           if (alias != null) {
             const profile: Profile = {

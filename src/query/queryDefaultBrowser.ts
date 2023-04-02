@@ -3,9 +3,9 @@
  */
 
 import open from "open";
-import { getBrowserArguments } from "../helpers";
 import { getArgs } from "../command";
 import { getDefaultsData } from "../data";
+import getBrowserArguments from "../helpers/getBrowserArguments";
 
 const args = getArgs();
 

@@ -1,6 +1,6 @@
 import query from "./query";
 import chalk from "chalk";
-import { getUrlList } from "../helpers";
+import getUrlList from "../helpers/getUrlList";
 import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
 const args = getArgs();

@@ -1,7 +1,7 @@
 import queryUrl from "./queryUrl";
 import { getArgs } from "../command";
-import { getProfile } from "../helpers";
 import { getDefaultsData } from "../data";
+import getProfile from "../helpers/getProfile";
 
 const args = getArgs();
 

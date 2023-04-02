@@ -1,7 +1,7 @@
-import { getUrlPattern } from "../helpers";
+import { getUrlPattern } from "./utils";
 import { getArgs } from "../command";
 import { getDefaultsData } from "../data";
-import { Engine } from "../types";
+import { Engine } from "../types/engines.types";
 
 const args = getArgs();
 const urlPattern = getUrlPattern();

@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import { getConfigFileName, configFileExists } from "./configuration";
+import getConfigFileName from "./setup/getConfigFileName";
+import { configFileExists } from "./setup/checkConfigFile";
 
 const configFileName = getConfigFileName();
 

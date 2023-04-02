@@ -1,7 +1,7 @@
 import chalk from "chalk";
-const print = console.log;
+import { Severity } from "../types/setup.types";
 
-type Severity = "neutral" | "info" | "success" | "warning" | "error";
+const print = console.log;
 
 export default function printTitle(
   title: string,

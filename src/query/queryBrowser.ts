@@ -1,8 +1,8 @@
 import queryBrowserProfile, { hasProfile } from "./queryBrowserProfile";
 import queryUrl from "./queryUrl";
 import { getArgs } from "../command";
-import { getBrowser } from "../helpers";
 import { getDefaultsData } from "../data";
+import getBrowser from "../helpers/getBrowser";
 
 const args = getArgs();
 

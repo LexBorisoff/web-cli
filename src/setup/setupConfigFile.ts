@@ -3,9 +3,9 @@ import printTitle from "./printTitle";
 import getConfigFileName from "./getConfigFileName";
 import getBrowsersConfig from "./getBrowsersConfig";
 import { configFileExists, configFileIsEmpty } from "./checkConfigFile";
-import emptyLine from "../helpers/emptyLine";
 import { getDefaultsData } from "../data";
-import { Config } from "../types";
+import emptyLine from "../helpers/emptyLine";
+import { Config } from "../types/config.types";
 
 const configFileName = getConfigFileName();
 
