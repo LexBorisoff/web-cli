@@ -13,10 +13,12 @@ import {
   getChoiceArray,
 } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
-import { namePattern, directoryPattern } from "../../../helpers/getPattern";
+import { namePattern, directoryPattern } from "../../../helpers/patterns";
 import { Profile } from "../../../types/config.types";
+import { TextAnswer } from "../../../types/setup.types";
 
 const { select, text, toggle } = choicesPrompt;
+const answer: TextAnswer = {};
 
 const configFileName = getConfigFileName();
 
@@ -76,7 +78,7 @@ async function isValidProfileName(
     return "Empty values are not allowed";
   }
 
-  if (!namePattern.test(profileName)) {
+  if (!namePattern.test(profileName.trim())) {
     return "Only letters are allowed";
   }
 
@@ -196,26 +198,29 @@ export default async function addProfile(): Promise<boolean> {
 
     if (browser != null) {
       emptyLine();
-      const directory = await text(
-        `What is the ${chalk.italic("exact")} ${chalk.yellow(
+      answer.directory = await text(
+        `What is the ${chalk.italic.cyan("exact")} ${chalk.yellow(
           "directory name"
         )} of this profile?\n`,
         async (value) => await isValidDirectory(value, browser)
       );
 
-      if (directory != null) {
+      if (answer.directory != null) {
         emptyLine();
 
-        const commandLineName = await text(
-          `Create a ${chalk.yellow("command-line name")} for "${directory}".\n`,
+        const directory = answer.directory.trim();
+        answer.profileName = await text(
+          `Create a ${chalk.yellow("command-line name")} ${chalk.cyan(
+            "(lowercase)"
+          )} for "${directory}".\n`,
           async (value) => await isValidProfileName(value, browser)
         );
 
-        if (commandLineName != null) {
-          const profileName = commandLineName.toLowerCase();
+        if (answer.profileName != null) {
+          const profileName = answer.profileName.trim().toLowerCase();
 
           emptyLine();
-          const aliasList = await text(
+          answer.alias = await text(
             `List 0 or more aliases for ${chalk.yellow(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
@@ -223,7 +228,7 @@ export default async function addProfile(): Promise<boolean> {
           );
 
           const alias: string[] | undefined =
-            aliasList != null ? getChoiceArray(aliasList) : undefined;
+            answer.alias != null ? getChoiceArray(answer.alias) : undefined;
 
           if (alias != null) {
             const profile: Profile = {

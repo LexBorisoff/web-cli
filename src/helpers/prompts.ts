@@ -2,7 +2,7 @@ import prompts from "prompts";
 import { PromptAnswer, PromptChoice, ValidateFn } from "../types/setup.types";
 
 export function getChoiceTitle(choice: string): string {
-  return `${choice[0].toUpperCase()}${choice.substring(1)}`;
+  return `${choice[0].toUpperCase()}${choice.substring(1).toLowerCase()}`;
 }
 
 export function getChoices(list: string[]): PromptChoice[] {
