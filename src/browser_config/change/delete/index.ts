@@ -10,7 +10,7 @@ export default async function deleteConfig(
   type?: ConfigType
 ): Promise<boolean> {
   if (type != null) {
-    return false;
+    return true;
   }
 
   const configTypes: ConfigType[] = ["default", "browser", "profile"];

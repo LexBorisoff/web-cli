@@ -13,6 +13,10 @@ export function getChoices(list: string[]): PromptChoice[] {
 }
 
 export function getChoiceArray(reply: string): string[] {
+  if (reply === "") {
+    return [];
+  }
+
   const browsers = reply
     .trim()
     .split(/\s+|,+/)

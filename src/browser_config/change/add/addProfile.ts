@@ -13,15 +13,13 @@ import {
   getChoiceArray,
 } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
+import { namePattern, directoryPattern } from "../../../helpers/getPattern";
 import { Profile } from "../../../types/config.types";
 
 const { select, text, toggle } = choicesPrompt;
 
 const configFileName = getConfigFileName();
-const namePattern = /^[A-Za-z]+$/;
-const directoryPattern = /^[A-Za-z0-9 ]+$/;
 
-// PROFILE
 async function getProfileAliases(browser: string): Promise<string[]> {
   const profiles = await getProfilesData();
 
@@ -133,9 +131,9 @@ async function isValidAlias(
 
   return found.length === 0
     ? true
-    : `These names already exist for ${getChoiceTitle(browser)}: ${found.join(
-        ", "
-      )} `;
+    : `These names/aliases already exist for ${getChoiceTitle(
+        browser
+      )}: ${found.join(", ")} `;
 }
 
 interface AddProfileToConfigProps {
@@ -149,7 +147,7 @@ async function addProfileToConfig({
   profile,
   browser,
   isDefault = false,
-}: AddProfileToConfigProps) {
+}: AddProfileToConfigProps): Promise<void> {
   const config = await getConfigData();
   let defaults = await getDefaultsData();
   let profiles = (await getProfilesData()) ?? {};
@@ -215,17 +213,17 @@ export default async function addProfile(): Promise<boolean> {
 
         if (commandLineName != null) {
           const profileName = commandLineName.toLowerCase();
-          let alias: string[] | undefined = [];
 
           emptyLine();
-          const list = await text(
+          const aliasList = await text(
             `List 0 or more aliases for ${chalk.yellow(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
             async (value) => await isValidAlias(value, profileName, browser)
           );
 
-          alias = list != null ? getChoiceArray(list) : undefined;
+          const alias: string[] | undefined =
+            aliasList != null ? getChoiceArray(aliasList) : undefined;
 
           if (alias != null) {
             const profile: Profile = {
