@@ -28,7 +28,3 @@ export function getConfigItemByNameOrAlias<List extends ConfigItemList>(
 
   return found as List[keyof List];
 }
-
-export function getUrlPattern() {
-  return /[a-z\d-]+\.[a-z]{2,}$/is;
-}

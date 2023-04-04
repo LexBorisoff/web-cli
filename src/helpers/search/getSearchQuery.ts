@@ -1,10 +1,9 @@
-import { getUrlPattern } from "../utils";
+import { urlPattern } from "../patterns";
 import { getArgs } from "../../command";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/engines.types";
 
 const args = getArgs();
-const urlPattern = getUrlPattern();
 
 export default async function getSearchQuery(engine?: Engine): Promise<string> {
   const defaults = await getDefaultsData();
