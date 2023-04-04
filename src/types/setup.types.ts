@@ -1,3 +1,5 @@
+import { BrowsersConfig } from "./config.types";
+
 export type ConfigCommand = "add" | "update" | "delete";
 export type ConfigType = "default" | "browser" | "profile";
 
@@ -15,3 +17,8 @@ export interface PromptChoice {
 export type ValidateFn = (
   value: string
 ) => boolean | string | Promise<boolean | string>;
+
+export interface InitialConfig {
+  browsers: BrowsersConfig;
+  defaultBrowser: string;
+}

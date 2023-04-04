@@ -6,6 +6,7 @@ import {
 } from "../../helpers/prompts";
 import emptyLine from "../../helpers/emptyLine";
 import { BrowsersConfig, BrowserObject } from "../../types/config.types";
+import { InitialConfig } from "../../types/setup.types";
 
 const { text, toggle, select, multiselect } = choicesPrompt;
 
@@ -111,13 +112,8 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   return browsersConfig;
 }
 
-interface ReturnConfig {
-  browsers: BrowsersConfig;
-  defaultBrowser: string;
-}
-
-export default async function getBrowsersConfig(): Promise<
-  ReturnConfig | undefined
+export default async function setupInitialConfig(): Promise<
+  InitialConfig | undefined
 > {
   const browserList = await getBrowserList();
 
