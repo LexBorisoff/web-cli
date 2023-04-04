@@ -82,12 +82,14 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
   );
 
   if (keepGoing) {
-    emptyLine();
-
-    const selectedBrowsers = await multiselect(
-      browsers,
-      "Select browsers to add aliases for\n"
-    );
+    let selectedBrowsers: string[] | undefined = [...browsers];
+    if (browsers.length > 1) {
+      emptyLine();
+      selectedBrowsers = await multiselect(
+        browsers,
+        "Select browsers to add aliases for\n"
+      );
+    }
 
     if (selectedBrowsers != null) {
       for (let i = 0; i < selectedBrowsers.length; i++) {
@@ -121,11 +123,14 @@ export default async function setupInitialConfig(): Promise<
     return undefined;
   }
 
-  emptyLine();
-  const defaultBrowser = await select(
-    browserList,
-    `What should be the ${chalk.yellow("default browser")}?\n`
-  );
+  let defaultBrowser: string | undefined = browserList[0];
+  if (browserList.length > 1) {
+    emptyLine();
+    defaultBrowser = await select(
+      browserList,
+      `What should be the ${chalk.yellow("default browser")}?\n`
+    );
+  }
 
   if (defaultBrowser == null) {
     return undefined;

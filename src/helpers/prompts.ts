@@ -63,7 +63,7 @@ export const choicesPrompt = {
       choices,
       message,
       instructions: false,
-      hint: "- Space/←/→ to toggle selection. Enter to submit.",
+      hint: "- Space/←/→/a to toggle selection. Enter to submit.",
     });
 
     return answer;
