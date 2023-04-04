@@ -20,3 +20,7 @@ export function configFileIsEmpty(): boolean {
   const config = JSON.parse(data);
   return config instanceof Object ? Object.keys(config).length === 0 : true;
 }
+
+export default function hasConfig(): boolean {
+  return configFileExists() && !configFileIsEmpty();
+}

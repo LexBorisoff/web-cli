@@ -1,11 +1,7 @@
 import * as fs from "fs";
-import {
-  configFileExists,
-  configFileIsEmpty,
-} from "../../helpers/checkConfigFile";
+import { configFileExists, configFileIsEmpty } from "../../helpers/hasConfig";
 import getConfigFileName from "../../helpers/getConfigFileName";
 import printTitle from "../../helpers/printTitle";
-import emptyLine from "../../helpers/emptyLine";
 import { Config } from "../../types/config.types";
 
 const configFileName = getConfigFileName();
@@ -22,8 +18,5 @@ export default function createConfigFile(config: Config = {}): void {
     if (error != null) {
       throw error;
     }
-
-    printTitle("You are good to go. Have fun!", "success");
-    emptyLine();
   });
 }

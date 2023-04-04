@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import main from "./query/main";
 import { getConfigArgs } from "./command";
-import { configFileExists, configFileIsEmpty } from "./helpers/checkConfigFile";
+import hasConfig from "./helpers/hasConfig";
 import setupConfig from "./browser_config/setup";
 
-if (!configFileExists() || configFileIsEmpty()) {
+if (!hasConfig()) {
   setupConfig();
 } else {
   if (!getConfigArgs().isConfig) {
