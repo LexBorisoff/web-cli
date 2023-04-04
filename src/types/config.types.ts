@@ -1,39 +1,26 @@
-import { WithAlias } from "./utility.types";
+import { BrowsersConfig } from "./data.types";
 
-// DEFAULTS
-export interface DefaultsConfig {
-  browser?: string;
-  profile?: { [key: string]: string };
-  engine?: string;
-  delimiter?: string;
+export type ChangeCommand = "add" | "update" | "delete";
+export type ConfigType = "default" | "browser" | "profile";
+
+export interface PromptAnswer<T> {
+  answer?: T;
 }
 
-// BROWSERS
-export interface BrowserObject extends WithAlias {
-  name: string;
-  path?: string;
+export type TextAnswer = Partial<{ [key: string]: string | undefined }>;
+
+export interface PromptChoice {
+  title: string;
+  value: string;
 }
 
-export type Browser = string | BrowserObject;
+export type ValidateFn = (
+  value: string
+) => boolean | string | Promise<boolean | string>;
 
-export type BrowsersConfig<B = Browser> = Array<B>;
+export type ChangeCommandFn = (configType?: ConfigType) => Promise<boolean>;
 
-// PROFILES
-export interface Profile extends WithAlias {
-  directory: string; // --profile-directory
-  path?: string;
-}
-
-export interface BrowserProfiles {
-  [profile: string]: Profile;
-}
-
-export interface ProfilesConfig {
-  [browser: string]: BrowserProfiles;
-}
-
-export interface Config {
-  defaults?: DefaultsConfig;
-  browsers?: BrowsersConfig;
-  profiles?: ProfilesConfig;
+export interface InitialConfig {
+  browsers: BrowsersConfig;
+  defaultBrowser: string;
 }
