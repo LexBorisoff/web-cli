@@ -1,6 +1,6 @@
 import { BrowsersConfig } from "./config.types";
 
-export type ConfigCommand = "add" | "update" | "delete";
+export type ChangeCommand = "add" | "update" | "delete";
 export type ConfigType = "default" | "browser" | "profile";
 
 export interface PromptAnswer<T> {
@@ -17,6 +17,8 @@ export interface PromptChoice {
 export type ValidateFn = (
   value: string
 ) => boolean | string | Promise<boolean | string>;
+
+export type ChangeCommandFn = (configType?: ConfigType) => Promise<boolean>;
 
 export interface InitialConfig {
   browsers: BrowsersConfig;
