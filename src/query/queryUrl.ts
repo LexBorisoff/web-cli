@@ -1,6 +1,5 @@
 import open from "open";
-import getBrowserArguments from "../helpers/getBrowserArguments";
-import getBrowserAppName from "../helpers/getBrowserAppName";
+import { getBrowserArguments, getBrowserAppName } from "../helpers/browser";
 
 export default async function queryUrl(
   browserName: string,

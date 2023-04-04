@@ -5,7 +5,7 @@
 import open from "open";
 import { getArgs } from "../command";
 import { getDefaultsData } from "../data";
-import getBrowserArguments from "../helpers/getBrowserArguments";
+import { getBrowserArguments } from "../helpers/browser";
 
 const args = getArgs();
 

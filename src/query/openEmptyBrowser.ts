@@ -1,8 +1,10 @@
 import open from "open";
 import { getDefaultsData } from "../data";
-import getBrowserArguments from "../helpers/getBrowserArguments";
-import getBrowserAppName from "../helpers/getBrowserAppName";
-import getProfile from "../helpers/getProfile";
+import {
+  getBrowserArguments,
+  getBrowserAppName,
+  getProfile,
+} from "../helpers/browser";
 
 export default async function openEmptyBrowser() {
   const defaults = await getDefaultsData();
