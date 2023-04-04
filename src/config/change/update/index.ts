@@ -4,7 +4,7 @@ import {
   ConfigType,
   PromptAnswer,
   PromptChoice,
-} from "../../../types/setup.types";
+} from "../../../types/config.types";
 
 export default async function updateConfig(
   type?: ConfigType

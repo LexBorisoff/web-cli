@@ -1,5 +1,5 @@
 import { getBrowsersData } from "../data";
-import { Browser } from "../types/config.types";
+import { Browser } from "../types/data.types";
 
 export default async function getBrowser(
   browserNameOrAlias: string

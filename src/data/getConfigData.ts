@@ -1,7 +1,6 @@
 import * as fs from "fs";
-import hasConfig from "../helpers/hasConfig";
-import getConfigFileName from "../helpers/getConfigFileName";
-import { Config } from "../types/config.types";
+import { hasConfig, getConfigFileName } from "../helpers/config";
+import { Config } from "../types/data.types";
 
 const fileName = getConfigFileName();
 

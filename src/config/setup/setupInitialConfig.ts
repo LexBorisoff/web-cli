@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import { cliPrompts, getTitle, getArray } from "../../helpers/prompts";
-import emptyLine from "../../helpers/emptyLine";
-import { BrowsersConfig, BrowserObject } from "../../types/config.types";
-import { InitialConfig } from "../../types/setup.types";
+import { emptyLine } from "../../helpers/print";
+import { InitialConfig } from "../../types/config.types";
+import { BrowsersConfig, BrowserObject } from "../../types/data.types";
 
 const { text, toggle, select, multiselect } = cliPrompts;
 

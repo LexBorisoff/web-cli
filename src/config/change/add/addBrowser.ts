@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
-import getConfigFileName from "../../../helpers/getConfigFileName";
+import { getConfigFileName } from "../../../helpers/config";
 import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
-import emptyLine from "../../../helpers/emptyLine";
 import { namePattern } from "../../../helpers/patterns";
-import { BrowserObject } from "../../../types/config.types";
-import { TextAnswer } from "../../../types/setup.types";
+import { emptyLine } from "../../../helpers/print";
+import { BrowserObject } from "../../../types/data.types";
+import { TextAnswer } from "../../../types/config.types";
 
 const { text, toggle } = cliPrompts;
 const answer: TextAnswer = {};

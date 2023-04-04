@@ -3,8 +3,8 @@ import addDefault from "./addDefault";
 import addBrowser from "./addBrowser";
 import addProfile from "./addProfile";
 import { cliPrompts } from "../../../helpers/prompts";
-import emptyLine from "../../../helpers/emptyLine";
-import { ConfigType } from "../../../types/setup.types";
+import { emptyLine } from "../../../helpers/print";
+import { ConfigType } from "../../../types/config.types";
 
 const { select } = cliPrompts;
 

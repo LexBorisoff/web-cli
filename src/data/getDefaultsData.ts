@@ -1,6 +1,6 @@
 import getConfigData from "./getConfigData";
 import { engineFallback } from "./getEnginesData";
-import { DefaultsConfig } from "../types/config.types";
+import { DefaultsConfig } from "../types/data.types";
 
 const delimiterFallback = " ";
 

@@ -1,14 +1,13 @@
 import * as fs from "fs";
-import hasConfig from "../../helpers/hasConfig";
-import getConfigFileName from "../../helpers/getConfigFileName";
-import printTitle from "../../helpers/printTitle";
-import { Config } from "../../types/config.types";
+import { hasConfig, getConfigFileName } from "../../helpers/config";
+import { printHeader } from "../../helpers/print";
+import { Config } from "../../types/data.types";
 
 const configFileName = getConfigFileName();
 
 export default function createConfigFile(config: Config = {}): void {
   if (hasConfig()) {
-    printTitle("Config already exists");
+    printHeader("Config already exists");
     return;
   }
 

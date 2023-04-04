@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import main from "./query/main";
 import { getConfigArgs } from "./command";
-import hasConfig from "./helpers/hasConfig";
+import { hasConfig } from "./helpers/config";
 import setupConfig from "./config/setup";
 import changeConfig from "./config/change";
 

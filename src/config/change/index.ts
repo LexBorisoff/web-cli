@@ -2,13 +2,12 @@ import addConfig from "./add";
 import updateConfig from "./update";
 import deleteConfig from "./delete";
 import { getConfigArgs } from "../../command";
-import printTitle from "../../helpers/printTitle";
-import emptyLine from "../../helpers/emptyLine";
+import { printHeader } from "../../helpers/print";
 import {
   ConfigType,
   ChangeCommand,
   ChangeCommandFn,
-} from "../../types/setup.types";
+} from "../../types/config.types";
 import { Severity } from "../../types/utility.types";
 
 const { config: isConfig, _: args } = getConfigArgs();
@@ -21,18 +20,6 @@ function isValidChangeCommand(command: string): command is ChangeCommand {
 
 function isValidConfigType(configType: string): configType is ConfigType {
   return configTypes.includes(configType);
-}
-
-function printHeader() {
-  emptyLine();
-  printTitle("Changing config...", "info");
-  emptyLine();
-}
-
-function printFooter(message: string, severity: Severity) {
-  emptyLine();
-  printTitle(message, severity);
-  emptyLine();
 }
 
 function getChangeCommand(command: string): ChangeCommandFn | undefined {
@@ -74,11 +61,13 @@ export default async function changeConfig(): Promise<void> {
   if (isConfig) {
     let success = false;
 
+    if (args.length >= 0) {
+      printHeader("Changing config...");
+    }
+
     // config from the beginning
     if (args.length === 0) {
-      printHeader();
       console.log("step-by-step config");
-
       return;
     }
 
@@ -94,7 +83,7 @@ export default async function changeConfig(): Promise<void> {
         changeCommand = getChangeCommand(command);
 
         if (!changeCommand) {
-          printFooter(`Invalid command: "${command}"`, "error");
+          printHeader(`Invalid command: "${command}"`, "error");
           return;
         }
 
@@ -103,12 +92,11 @@ export default async function changeConfig(): Promise<void> {
           configType = args[1];
 
           if (!isValidConfigType(configType)) {
-            printFooter(`Invalid config type: "${configType}"`, "error");
+            printHeader(`Invalid config type: "${configType}"`, "error");
             return;
           }
         }
 
-        printHeader();
         success = await changeCommand(configType);
       }
 
@@ -116,7 +104,7 @@ export default async function changeConfig(): Promise<void> {
         ? "Config is successfully changed!"
         : "Config was not changed";
       const severity: Severity = success ? "success" : "error";
-      printFooter(message, severity);
+      printHeader(message, severity);
     }
   }
 }

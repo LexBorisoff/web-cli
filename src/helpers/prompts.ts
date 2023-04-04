@@ -1,5 +1,5 @@
 import prompts from "prompts";
-import { PromptAnswer, PromptChoice, ValidateFn } from "../types/setup.types";
+import { PromptAnswer, PromptChoice, ValidateFn } from "../types/config.types";
 
 export function getTitle(choice: string): string {
   return `${choice[0].toUpperCase()}${choice.substring(1).toLowerCase()}`;

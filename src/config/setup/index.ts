@@ -1,16 +1,12 @@
 import setupInitialConfig from "./setupInitialConfig";
 import createConfigFile from "./createConfigFile";
 import { getDefaultsData } from "../../data";
-import printTitle from "../../helpers/printTitle";
-import emptyLine from "../../helpers/emptyLine";
+import { printHeader } from "../../helpers/print";
 
 export default async function setupConfig(): Promise<void> {
-  printTitle("Let's set up browser config", "info");
-  emptyLine();
+  printHeader("Let's set up browser config", "info");
 
   const config = await setupInitialConfig();
-  emptyLine();
-
   if (config != null) {
     const { browsers, defaultBrowser } = config;
     const defaults = await getDefaultsData();
@@ -24,13 +20,12 @@ export default async function setupConfig(): Promise<void> {
         browsers,
       });
 
-      printTitle("You are good to go. Have fun!", "success");
+      printHeader("You are good to go. Have fun!", "success");
     } catch (error) {
-      printTitle("Couldn't create the config file :(", "error");
+      printHeader("Couldn't create the config file :(", "error");
       console.error(error);
     }
   } else {
-    printTitle("Browser config was not created", "error");
+    printHeader("Browser config was not created", "error");
   }
-  emptyLine();
 }

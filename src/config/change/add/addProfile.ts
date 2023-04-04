@@ -6,12 +6,12 @@ import {
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
-import getConfigFileName from "../../../helpers/getConfigFileName";
+import { getConfigFileName } from "../../../helpers/config";
 import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
-import emptyLine from "../../../helpers/emptyLine";
 import { namePattern, directoryPattern } from "../../../helpers/patterns";
-import { Profile } from "../../../types/config.types";
-import { TextAnswer } from "../../../types/setup.types";
+import { emptyLine } from "../../../helpers/print";
+import { Profile } from "../../../types/data.types";
+import { TextAnswer } from "../../../types/config.types";
 
 const { select, text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
