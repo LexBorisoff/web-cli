@@ -1,5 +1,5 @@
-import { getUrlPattern } from "./utils";
-import { getArgs } from "../command";
+import { getUrlPattern } from "../utils";
+import { getArgs } from "../../command";
 
 const args = getArgs();
 const urlPattern = getUrlPattern();

@@ -1,6 +1,6 @@
-import { getConfigItemByNameOrAlias } from "./utils";
-import { getEnginesData, engineFallback } from "../data";
-import { Engine } from "../types/engines.types";
+import { getConfigItemByNameOrAlias } from "../utils";
+import { getEnginesData, engineFallback } from "../../data";
+import { Engine } from "../../types/engines.types";
 
 export default async function getEngine(
   engineNameOrAlias: string = engineFallback

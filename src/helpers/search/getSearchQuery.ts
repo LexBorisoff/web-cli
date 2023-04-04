@@ -1,7 +1,7 @@
-import { getUrlPattern } from "./utils";
-import { getArgs } from "../command";
-import { getDefaultsData } from "../data";
-import { Engine } from "../types/engines.types";
+import { getUrlPattern } from "../utils";
+import { getArgs } from "../../command";
+import { getDefaultsData } from "../../data";
+import { Engine } from "../../types/engines.types";
 
 const args = getArgs();
 const urlPattern = getUrlPattern();
