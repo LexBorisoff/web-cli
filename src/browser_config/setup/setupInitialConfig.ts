@@ -1,14 +1,10 @@
 import chalk from "chalk";
-import {
-  choicesPrompt,
-  getChoiceTitle,
-  getChoiceArray,
-} from "../../helpers/prompts";
+import { cliPrompts, getTitle, getArray } from "../../helpers/prompts";
 import emptyLine from "../../helpers/emptyLine";
 import { BrowsersConfig, BrowserObject } from "../../types/config.types";
 import { InitialConfig } from "../../types/setup.types";
 
-const { text, toggle, select, multiselect } = choicesPrompt;
+const { text, toggle, select, multiselect } = cliPrompts;
 
 async function getKnownBrowsers(): Promise<string[] | undefined> {
   return multiselect(
@@ -40,7 +36,7 @@ async function getExtraBrowsers(): Promise<string[] | undefined> {
       )}\n`
     );
 
-    return browsers != null ? getChoiceArray(browsers) : [];
+    return browsers != null ? getArray(browsers) : [];
   }
 
   return [];
@@ -98,11 +94,11 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
         const selected = selectedBrowsers[i];
         const list = await text(
           `List 1 or more aliases for ${chalk.yellow(
-            getChoiceTitle(selected)
+            getTitle(selected)
           )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`
         );
 
-        const alias = list != null ? getChoiceArray(list) : [];
+        const alias = list != null ? getArray(list) : [];
         const index = browsersConfig.findIndex(({ name }) => name == selected);
         if (index >= 0) {
           browsersConfig[index] = { name: selected, alias };

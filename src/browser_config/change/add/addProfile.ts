@@ -7,17 +7,13 @@ import {
   getProfilesData,
 } from "../../../data";
 import getConfigFileName from "../../../helpers/getConfigFileName";
-import {
-  choicesPrompt,
-  getChoiceTitle,
-  getChoiceArray,
-} from "../../../helpers/prompts";
+import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
 import { namePattern, directoryPattern } from "../../../helpers/patterns";
 import { Profile } from "../../../types/config.types";
 import { TextAnswer } from "../../../types/setup.types";
 
-const { select, text, toggle } = choicesPrompt;
+const { select, text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
 
 const configFileName = getConfigFileName();
@@ -44,7 +40,7 @@ async function getProfileAliases(browser: string): Promise<string[]> {
   return aliases;
 }
 
-async function isValidDirectory(
+async function validateDirectory(
   value: string,
   browser: string
 ): Promise<true | string> {
@@ -68,10 +64,10 @@ async function isValidDirectory(
 
   return !directories.includes(directory)
     ? true
-    : `${directory} already exists for ${getChoiceTitle(browser)}`;
+    : `${directory} already exists for ${getTitle(browser)}`;
 }
 
-async function isValidProfileName(
+async function validateProfileName(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
@@ -90,7 +86,7 @@ async function isValidProfileName(
 
   const profileAliases = await getProfileAliases(browser);
   if (profileAliases.includes(profileName)) {
-    return `"${profileName}" is an alias for an existing ${getChoiceTitle(
+    return `"${profileName}" is an alias for an existing ${getTitle(
       browser
     )} profile`;
   }
@@ -98,15 +94,15 @@ async function isValidProfileName(
   const browserProfiles = Object.keys(profiles[browser]);
   return !browserProfiles.includes(profileName)
     ? true
-    : `"${profileName}" already exists for ${getChoiceTitle(browser)}`;
+    : `"${profileName}" already exists for ${getTitle(browser)}`;
 }
 
-async function isValidAlias(
+async function validateAlias(
   aliases: string,
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const list = getChoiceArray(aliases);
+  const list = getArray(aliases);
   if (list.includes(profileName)) {
     return "Alias must differ from the command-line name";
   }
@@ -134,23 +130,23 @@ async function isValidAlias(
 
   return found.length === 0
     ? true
-    : `These names/aliases already exist for ${getChoiceTitle(
-        browser
-      )}: ${found.join(", ")} `;
+    : `These names/aliases already exist for ${getTitle(browser)}: ${found.join(
+        ", "
+      )} `;
 }
 
-interface AddProfileToConfigProps {
+interface AddToConfigProps {
   profileName: string;
   profile: Profile;
   browser: string;
   isDefault?: boolean;
 }
-async function addProfileToConfig({
+async function addToConfig({
   profileName,
   profile,
   browser,
   isDefault = false,
-}: AddProfileToConfigProps): Promise<void> {
+}: AddToConfigProps): Promise<void> {
   const config = await getConfigData();
   let defaults = await getDefaultsData();
   let profiles = (await getProfilesData()) ?? {};
@@ -180,8 +176,6 @@ async function addProfileToConfig({
     if (error != null) {
       throw error;
     }
-
-    emptyLine();
   });
 }
 
@@ -203,7 +197,7 @@ export default async function addProfile(): Promise<boolean> {
         `What is the ${chalk.italic.cyan("exact")} ${chalk.yellow(
           "directory name"
         )} of this profile?\n`,
-        async (value) => await isValidDirectory(value, browser)
+        async (value) => await validateDirectory(value, browser)
       );
 
       if (answer.directory != null) {
@@ -214,7 +208,7 @@ export default async function addProfile(): Promise<boolean> {
           `Create a ${chalk.yellow("command-line name")} ${chalk.cyan(
             "(lowercase)"
           )} for "${directory}".\n`,
-          async (value) => await isValidProfileName(value, browser)
+          async (value) => await validateProfileName(value, browser)
         );
 
         if (answer.profileName != null) {
@@ -225,11 +219,11 @@ export default async function addProfile(): Promise<boolean> {
             `List 0 or more aliases for ${chalk.yellow(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-            async (value) => await isValidAlias(value, profileName, browser)
+            async (value) => await validateAlias(value, profileName, browser)
           );
 
           const alias: string[] | undefined =
-            answer.alias != null ? getChoiceArray(answer.alias) : undefined;
+            answer.alias != null ? getArray(answer.alias) : undefined;
 
           if (alias != null) {
             const profile: Profile = {
@@ -240,17 +234,20 @@ export default async function addProfile(): Promise<boolean> {
             let isDefault = true;
             const defaults = (await getDefaultsData()) ?? {};
 
-            if (defaults?.profile?.[browser] != null) {
+            if (
+              defaults?.profile?.[browser] != null &&
+              defaults.profile[browser] !== profileName
+            ) {
               emptyLine();
               isDefault = await toggle(
-                `Should "${profileName}" be default for ${getChoiceTitle(
+                `Should "${profileName}" be default for ${getTitle(
                   browser
                 )}?\n`,
                 false
               );
             }
 
-            await addProfileToConfig({
+            await addToConfig({
               profileName,
               profile,
               browser,
