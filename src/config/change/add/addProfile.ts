@@ -21,7 +21,7 @@ const configFileName = getConfigFileName();
 async function getProfileAliases(browser: string): Promise<string[]> {
   const profiles = await getProfilesData();
 
-  if (!profiles || !(browser in profiles)) {
+  if (!(browser in profiles)) {
     return [];
   }
 
@@ -54,7 +54,7 @@ async function validateDirectory(
   }
 
   const profiles = await getProfilesData();
-  if (profiles == null || !(browser in profiles)) {
+  if (!(browser in profiles)) {
     return true;
   }
 
@@ -80,7 +80,7 @@ async function validateProfileName(
   }
 
   const profiles = await getProfilesData();
-  if (profiles == null || !(browser in profiles)) {
+  if (!(browser in profiles)) {
     return true;
   }
 
@@ -108,7 +108,7 @@ async function validateAlias(
   }
 
   const profiles = await getProfilesData();
-  if (profiles == null || !(browser in profiles)) {
+  if (!(browser in profiles)) {
     return true;
   }
 
@@ -149,7 +149,7 @@ async function addToConfig({
 }: AddToConfigProps): Promise<void> {
   const config = await getConfigData();
   let defaults = await getDefaultsData();
-  let profiles = (await getProfilesData()) ?? {};
+  let profiles = await getProfilesData();
 
   profiles = {
     ...profiles,
