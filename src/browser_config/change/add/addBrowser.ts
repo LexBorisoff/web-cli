@@ -2,22 +2,18 @@ import * as fs from "fs";
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
 import getConfigFileName from "../../../helpers/getConfigFileName";
-import {
-  choicesPrompt,
-  getChoiceArray,
-  getChoiceTitle,
-} from "../../../helpers/prompts";
+import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
 import { namePattern } from "../../../helpers/patterns";
 import { BrowserObject } from "../../../types/config.types";
 import { TextAnswer } from "../../../types/setup.types";
 
-const { text, toggle } = choicesPrompt;
+const { text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
 
 const configFileName = getConfigFileName();
 
-async function isValidBrowserName(value: string): Promise<boolean | string> {
+async function validateBrowserName(value: string): Promise<boolean | string> {
   const browserName = value.trim().toLocaleLowerCase();
   if (!namePattern.test(browserName)) {
     return "Invalid browser name";
@@ -33,7 +29,7 @@ async function isValidBrowserName(value: string): Promise<boolean | string> {
       (browser) => browser.toLowerCase() === browserName
     );
     if (found != null) {
-      return `${getChoiceTitle(found)} already exist`;
+      return `${getTitle(found)} already exist`;
     }
   }
 
@@ -60,7 +56,7 @@ async function isValidAlias(
   aliases: string,
   browserName: string
 ): Promise<boolean | string> {
-  const list = getChoiceArray(aliases);
+  const list = getArray(aliases);
   if (list.includes(browserName)) {
     return "Alias must differ from the browser name";
   }
@@ -93,14 +89,14 @@ async function isValidAlias(
     : `These browser names/aliases already exist: ${found.join(", ")} `;
 }
 
-interface AddBrowserToConfigProps {
+interface AddToConfigProps {
   browser: BrowserObject;
   isDefault: boolean;
 }
-async function addBrowserToConfig({
+async function addToConfig({
   browser,
   isDefault,
-}: AddBrowserToConfigProps): Promise<void> {
+}: AddToConfigProps): Promise<void> {
   const config = await getConfigData();
   let defaults = await getDefaultsData();
   const browsers = await getBrowsersData();
@@ -119,15 +115,13 @@ async function addBrowserToConfig({
     if (error != null) {
       throw error;
     }
-
-    emptyLine();
   });
 }
 
 export default async function addBrowser(): Promise<boolean> {
   answer.browserName = await text(
     `Provide the ${chalk.yellow("browser's name")}:\n`,
-    async (value) => await isValidBrowserName(value)
+    async (value) => await validateBrowserName(value)
   );
   emptyLine();
 
@@ -138,13 +132,13 @@ export default async function addBrowser(): Promise<boolean> {
   const browserName = answer.browserName.trim().toLowerCase();
   answer.alias = await text(
     `List 0 or more aliases for ${chalk.yellow(
-      getChoiceTitle(browserName)
+      getTitle(browserName)
     )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
     async (value) => await isValidAlias(value, browserName)
   );
 
   const alias: string[] | undefined =
-    answer.alias != null ? getChoiceArray(answer.alias) : undefined;
+    answer.alias != null ? getArray(answer.alias) : undefined;
 
   if (alias != null) {
     const browser: BrowserObject = {
@@ -153,17 +147,17 @@ export default async function addBrowser(): Promise<boolean> {
     };
 
     let isDefault = true;
-    const defaults = (await getDefaultsData()) ?? {};
+    const browsers = await getBrowsersData();
 
-    if (defaults?.browser != null && defaults?.browser !== browser.name) {
+    if (browsers.length > 0) {
       emptyLine();
       isDefault = await toggle(
-        `Should "${getChoiceTitle(browser.name)}" be the default browser?\n`,
+        `Should "${getTitle(browser.name)}" be the default browser?\n`,
         false
       );
     }
 
-    await addBrowserToConfig({ browser, isDefault });
+    await addToConfig({ browser, isDefault });
     return true;
   }
 

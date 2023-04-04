@@ -1,50 +1,38 @@
-import prompts from "prompts";
 import chalk from "chalk";
 import addDefault from "./addDefault";
 import addBrowser from "./addBrowser";
 import addProfile from "./addProfile";
-import { getChoices } from "../../../helpers/prompts";
+import { cliPrompts } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
+import { ConfigType } from "../../../types/setup.types";
 
-import {
-  ConfigType,
-  PromptAnswer,
-  PromptChoice,
-} from "../../../types/setup.types";
+const { select } = cliPrompts;
 
-async function addType(type: ConfigType): Promise<boolean> {
-  if (type === "default") {
+async function addType(configType?: ConfigType): Promise<boolean> {
+  if (configType === "default") {
     return addDefault();
-  } else if (type === "browser") {
+  } else if (configType === "browser") {
     return addBrowser();
-  } else if (type === "profile") {
+  } else if (configType === "profile") {
     return addProfile();
   }
 
   return false;
 }
 
-export default async function addConfig(type?: ConfigType): Promise<boolean> {
-  if (type != null) {
-    return await addType(type);
-  }
-
-  const configTypes: ConfigType[] = ["default", "browser", "profile"];
-  const choices: PromptChoice[] = getChoices(configTypes);
-
-  const { answer: configType }: PromptAnswer<ConfigType> = await prompts({
-    name: "answer",
-    type: "select",
-    choices,
-    message: `What ${chalk.yellow("config")} do you want to add?\n`,
-    instructions: false,
-    hint: "- Space/←/→ to toggle selection. Enter to submit.",
-  });
-
+export default async function addConfig(
+  configType?: ConfigType
+): Promise<boolean> {
   if (configType != null) {
-    emptyLine();
     return addType(configType);
   }
 
-  return false;
+  const configTypes: ConfigType[] = ["default", "browser", "profile"];
+  const answer = await select<ConfigType>(
+    configTypes,
+    `What ${chalk.yellow("config")} do you want to add?\n`
+  );
+
+  emptyLine();
+  return addType(answer);
 }

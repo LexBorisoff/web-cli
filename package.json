@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./lib && npx tsc",
     "build:windows": "rm -r -force ./lib && npx tsc",
-    "delete-config": "ts-node ./src/browser_config/deleteConfigFile.ts",
+    "delete-config": "ts-node ./src/browser_config/deleteConfigFile",
     "config": "ts-node ./src/browser_config/runSetupConfig",
     "config:clean": "npm run delete-config && npm run config",
     "config:main": "npm run delete-config && ts-node ./src/main.ts"

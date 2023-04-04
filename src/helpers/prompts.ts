@@ -1,18 +1,18 @@
 import prompts from "prompts";
 import { PromptAnswer, PromptChoice, ValidateFn } from "../types/setup.types";
 
-export function getChoiceTitle(choice: string): string {
+export function getTitle(choice: string): string {
   return `${choice[0].toUpperCase()}${choice.substring(1).toLowerCase()}`;
 }
 
 export function getChoices(list: string[]): PromptChoice[] {
   return list.map((browser) => ({
-    title: getChoiceTitle(browser),
+    title: getTitle(browser),
     value: browser,
   }));
 }
 
-export function getChoiceArray(reply: string): string[] {
+export function getArray(reply: string): string[] {
   if (reply === "") {
     return [];
   }
@@ -31,39 +31,41 @@ const validateInput: ValidateFn = (value) =>
     ? true
     : "Only letters and separators are allowed";
 
-export const choicesPrompt = {
-  select: async function (
-    list: string[],
+export const cliPrompts = {
+  select: async function <ListItem extends string = string>(
+    list: ListItem[],
     message: string
-  ): Promise<string | undefined> {
+  ): Promise<ListItem | undefined> {
     if (list.length === 1) {
       return list[0];
     }
 
     const choices = getChoices(list);
-    const { answer }: PromptAnswer<string> = await prompts({
+    const { answer }: PromptAnswer<ListItem> = await prompts({
       type: "select",
       name: "answer",
       message,
       choices,
+      instructions: false,
+      hint: "- Space/←/→ to toggle selection. Enter to submit.",
     });
 
     return answer;
   },
 
-  multiselect: async function (
-    list: string[],
+  multiselect: async function <ListItem extends string = string>(
+    list: ListItem[],
     message: string
-  ): Promise<string[] | undefined> {
+  ): Promise<ListItem[] | undefined> {
     const choices = getChoices(list);
 
-    const { answer }: PromptAnswer<string[]> = await prompts({
+    const { answer }: PromptAnswer<ListItem[]> = await prompts({
       name: "answer",
       type: "multiselect",
       choices,
       message,
       instructions: false,
-      hint: "- Space/←/→ to toggle selection. Enter to submit.",
+      hint: "- Space/←/→/a to toggle selection. Enter to submit.",
     });
 
     return answer;

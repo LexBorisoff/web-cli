@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import getConfigFileName from "../helpers/getConfigFileName";
-import { configFileExists } from "../helpers/checkConfigFile";
+import { configFileExists } from "../helpers/hasConfig";
 
 const configFileName = getConfigFileName();
 
