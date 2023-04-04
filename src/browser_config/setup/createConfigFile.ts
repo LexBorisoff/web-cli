@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { configFileExists, configFileIsEmpty } from "../../helpers/hasConfig";
+import hasConfig from "../../helpers/hasConfig";
 import getConfigFileName from "../../helpers/getConfigFileName";
 import printTitle from "../../helpers/printTitle";
 import { Config } from "../../types/config.types";
@@ -7,7 +7,7 @@ import { Config } from "../../types/config.types";
 const configFileName = getConfigFileName();
 
 export default function createConfigFile(config: Config = {}): void {
-  if (configFileExists() && !configFileIsEmpty()) {
+  if (hasConfig()) {
     printTitle("Config already exists");
     return;
   }
