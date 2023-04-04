@@ -18,7 +18,8 @@ const answer: TextAnswer = {};
 const configFileName = getConfigFileName();
 
 async function isValidBrowserName(value: string): Promise<boolean | string> {
-  if (!namePattern.test(value.trim())) {
+  const browserName = value.trim().toLocaleLowerCase();
+  if (!namePattern.test(browserName)) {
     return "Invalid browser name";
   }
 
@@ -29,7 +30,7 @@ async function isValidBrowserName(value: string): Promise<boolean | string> {
     );
 
     const found = browserNames.find(
-      (browser) => browser.toLowerCase() === value.toLowerCase()
+      (browser) => browser.toLowerCase() === browserName
     );
     if (found != null) {
       return `${getChoiceTitle(found)} already exist`;

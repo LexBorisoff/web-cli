@@ -45,10 +45,11 @@ async function getProfileAliases(browser: string): Promise<string[]> {
 }
 
 async function isValidDirectory(
-  directory: string,
+  value: string,
   browser: string
 ): Promise<true | string> {
-  if (directory.trim() === "") {
+  const directory = value.trim();
+  if (directory === "") {
     return "Empty values are not allowed";
   }
 
