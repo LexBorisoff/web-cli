@@ -10,7 +10,7 @@ export default async function changeConfig(
   type?: ConfigType
 ) {
   emptyLine();
-  printTitle("Changing config...");
+  printTitle("Changing config...", "info");
   emptyLine();
 
   let success = false;
@@ -27,8 +27,13 @@ export default async function changeConfig(
     console.log("step-by-step config");
   }
 
-  if (success) {
-    emptyLine();
-    printTitle("Config is successfully changed!");
-  }
+  const message: string = success
+    ? "Config is successfully changed!"
+    : "Config was not changed";
+  const severity: Parameters<typeof printTitle>[1] = success
+    ? "success"
+    : "error";
+
+  emptyLine();
+  printTitle(message, severity);
 }

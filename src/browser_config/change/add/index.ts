@@ -5,7 +5,6 @@ import addBrowser from "./addBrowser";
 import addProfile from "./addProfile";
 import { getChoices } from "../../../helpers/prompts";
 import emptyLine from "../../../helpers/emptyLine";
-
 import {
   ConfigType,
   PromptAnswer,
