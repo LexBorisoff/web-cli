@@ -2,8 +2,8 @@
 import main from "./query/main";
 import { getConfigArgs } from "./command";
 import hasConfig from "./helpers/hasConfig";
-import setupConfig from "./browser_config/setup";
-import changeConfig from "./browser_config/change";
+import setupConfig from "./config/setup";
+import changeConfig from "./config/change";
 
 const args = getConfigArgs();
 if (!hasConfig()) {

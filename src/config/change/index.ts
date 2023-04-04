@@ -12,7 +12,6 @@ import {
 import { Severity } from "../../types/utility.types";
 
 const { config: isConfig, _: args } = getConfigArgs();
-
 const changeCommands = ["add", "update", "delete"];
 const configTypes = ["default", "browser", "profile"];
 
@@ -53,7 +52,6 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
 
 /*
 --- Possible Config Change Commands ---
-TODO: change command config to option --config
 sq --config
 
 sq --config add
