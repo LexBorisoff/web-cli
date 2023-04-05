@@ -1,8 +1,10 @@
 import { urlPattern } from "../patterns";
 import { getArgs } from "../../command";
 
-const args = getArgs();
+const { _: args } = getArgs();
 
 export default function getWebsites(): string[] {
-  return args._.filter((arg) => urlPattern.test(`${arg}`)) as string[];
+  return args
+    .map((arg) => (typeof arg === "string" ? arg : `${arg}`))
+    .filter((arg) => urlPattern.test(arg));
 }

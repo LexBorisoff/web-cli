@@ -6,6 +6,7 @@ import setupConfig from "./config/setup";
 import changeConfig from "./config/change";
 
 const args = getConfigArgs();
+
 if (!hasConfig()) {
   setupConfig();
 } else if (args.config) {

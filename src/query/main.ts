@@ -5,7 +5,7 @@ import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
 const args = getArgs();
 
-async function queryEngine(engineNameOrAlias: string) {
+async function queryEngine(engineNameOrAlias?: string) {
   const urls = await getUrlList(engineNameOrAlias);
   urls.forEach(async (url) => {
     console.log(`> ${chalk.green(url)}`);
@@ -14,15 +14,17 @@ async function queryEngine(engineNameOrAlias: string) {
 }
 
 export default async function main() {
+  const { engine } = args;
+
   // perform search query
   if (hasEngine() || hasSearchQuery() || hasWebsite()) {
     // single search engine / website to query
-    if (!Array.isArray(args.engine)) {
-      queryEngine(args.engine as string);
+    if (!Array.isArray(engine)) {
+      queryEngine(engine);
     }
     // multiple search engines / websites to query
     else {
-      Object.values(args.engine).forEach(async (engineNameFromArgs) => {
+      Object.values(engine).forEach(async (engineNameFromArgs) => {
         queryEngine(engineNameFromArgs);
       });
     }

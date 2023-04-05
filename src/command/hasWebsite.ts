@@ -1,8 +1,8 @@
 import getArgs from "./getArgs";
 import { urlPattern } from "../helpers/patterns";
 
-const args = getArgs();
+const { _: args } = getArgs();
 
 export default function hasSearchQuery() {
-  return args._.filter((arg) => urlPattern.test(`${arg}`)).length > 0;
+  return args.filter((arg) => urlPattern.test(`${arg}`)).length > 0;
 }

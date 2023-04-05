@@ -1,7 +1,7 @@
 import getArgs from "./getArgs";
 
-const args = getArgs();
+const { engine } = getArgs();
 
-export default function hasEngine() {
-  return Boolean(args.engine);
+export default function hasEngine(): boolean {
+  return engine != null && engine !== "";
 }
