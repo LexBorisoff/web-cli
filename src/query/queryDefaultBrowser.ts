@@ -9,7 +9,7 @@ import { getBrowserArguments } from "../helpers/browser";
 
 const args = getArgs();
 
-export default async function queryDefaultBrowser(url: string) {
+export default async function queryDefaultBrowser(url: string): Promise<void> {
   const protocol = `http${args.secure ? "s" : ""}://`;
   const fullUrl = /^http/is.test(url) ? url : `${protocol}${url}`;
   const defaults = await getDefaultsData();

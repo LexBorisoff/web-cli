@@ -5,7 +5,7 @@ import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
 
 const args = getArgs();
 
-async function queryEngine(engineNameOrAlias?: string) {
+async function queryEngine(engineNameOrAlias?: string): Promise<void> {
   const urls = await getUrlList(engineNameOrAlias);
   urls.forEach(async (url) => {
     console.log(`> ${chalk.green(url)}`);
@@ -13,7 +13,7 @@ async function queryEngine(engineNameOrAlias?: string) {
   });
 }
 
-export default async function main() {
+export default async function main(): Promise<void> {
   const { engine } = args;
 
   // perform search query

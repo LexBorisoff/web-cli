@@ -6,8 +6,8 @@ import { getBrowser } from "../helpers/browser";
 
 const args = getArgs();
 
-export default async function queryBrowser(url?: string) {
-  async function openBrowser(browserNameOrAlias: string) {
+export default async function queryBrowser(url?: string): Promise<void> {
+  async function openBrowser(browserNameOrAlias: string): Promise<void> {
     const browser = await getBrowser(browserNameOrAlias);
     if (browser != null) {
       const browserName = typeof browser === "string" ? browser : browser.name;

@@ -13,7 +13,7 @@ export async function hasProfile(browserName: string): Promise<boolean> {
 export default async function queryBrowserProfile(
   browserName: string,
   url?: string
-) {
+): Promise<void> {
   function openProfile(profileDirectory?: string) {
     queryUrl(browserName, url, profileDirectory);
   }

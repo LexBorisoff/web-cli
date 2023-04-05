@@ -6,7 +6,7 @@ import {
   getProfile,
 } from "../helpers/browser";
 
-export default async function openEmptyBrowser() {
+export default async function openEmptyBrowser(): Promise<void> {
   const defaults = await getDefaultsData();
 
   if (defaults.browser) {
