@@ -1,4 +1,4 @@
-import { getConfigItemByNameOrAlias } from "../utils";
+import { getConfigItem } from "../config";
 import { getProfilesData } from "../../data";
 import { Profile } from "../../types/data.types";
 
@@ -8,7 +8,7 @@ export default async function getProfile(
 ): Promise<Profile | undefined> {
   const profiles = await getProfilesData();
   const browserProfiles = profiles?.[browserName];
-  return Object.keys(browserProfiles).length > 0
-    ? getConfigItemByNameOrAlias(profileNameOrAlias, browserProfiles)
+  return browserProfiles != null
+    ? getConfigItem(profileNameOrAlias, browserProfiles)
     : undefined;
 }

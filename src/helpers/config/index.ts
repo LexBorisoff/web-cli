@@ -1,4 +1,5 @@
 export { default as getConfigFileName } from "./getConfigFileName";
+export { default as getConfigItem } from "./getConfigItem";
 export {
   default as hasConfig,
   configFileExists,

@@ -1,6 +1,6 @@
 import { WithAlias } from "./utility.types";
 
-export interface Engine extends WithAlias {
+export interface Engine extends Partial<WithAlias> {
   url: string;
   query?: string;
   package?: string;

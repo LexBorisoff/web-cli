@@ -9,7 +9,7 @@ export interface DefaultsConfig {
 }
 
 // BROWSERS
-export interface BrowserObject extends WithAlias {
+export interface BrowserObject extends Partial<WithAlias> {
   name: string;
   path?: string;
 }
@@ -19,7 +19,7 @@ export type Browser = string | BrowserObject;
 export type BrowsersConfig<B = Browser> = Array<B>;
 
 // PROFILES
-export interface Profile extends WithAlias {
+export interface Profile extends Partial<WithAlias> {
   directory: string; // --profile-directory
   path?: string;
 }
