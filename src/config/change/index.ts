@@ -1,6 +1,7 @@
 import addConfig from "./add";
 import updateConfig from "./update";
 import deleteConfig from "./delete";
+import defaultConfig from "./default";
 import { getConfigArgs } from "../../command";
 import { printHeader } from "../../helpers/print";
 import {
@@ -11,8 +12,8 @@ import {
 import { Severity } from "../../types/utility.types";
 
 const { config: isConfig, _: args } = getConfigArgs();
-const changeCommands = ["add", "update", "delete"];
-const configTypes = ["default", "browser", "profile"];
+const changeCommands = ["add", "update", "delete", "default"];
+const configTypes = ["browser", "profile", "engine"];
 
 function isValidChangeCommand(command: string): command is ChangeCommand {
   return changeCommands.includes(command);
@@ -34,6 +35,10 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
       return updateConfig;
     case "delete":
       return deleteConfig;
+    case "default":
+      return defaultConfig;
+    default:
+      return undefined;
   }
 }
 
@@ -42,19 +47,24 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
 sq --config
 
 sq --config add
-sq --config add default
 sq --config add browser
 sq --config add profile
+sq --config add engine
 
 sq --config update
-sq --config update default
 sq --config update browser
 sq --config update profile
+sq --config update engine
 
 sq --config delete
-sq --config delete default
 sq --config delete browser
 sq --config delete profile
+sq --config delete engine
+
+sq --config default
+sq --config default profile
+sq --config default browser
+sq --config default engine
  */
 
 export default async function changeConfig(): Promise<void> {

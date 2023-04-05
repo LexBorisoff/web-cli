@@ -20,7 +20,7 @@ export type BrowsersConfig<B = Browser> = Array<B>;
 
 // PROFILES
 export interface Profile extends Partial<WithAlias> {
-  directory: string; // --profile-directory
+  directory: string; // --profile-directory="Folder Name"
   path?: string;
 }
 

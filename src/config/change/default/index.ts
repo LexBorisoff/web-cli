@@ -1,30 +1,30 @@
 import chalk from "chalk";
-import updateEngine from "./engine";
-import updateBrowser from "./browser";
-import updateProfile from "./profile";
+import defaultEngine from "./engine";
+import defaultBrowser from "./browser";
+import defaultProfile from "./profile";
 import { cliPrompts } from "../../../helpers/prompts";
 import { emptyLine } from "../../../helpers/print";
 import { ConfigType } from "../../../types/config.types";
 
 const { select } = cliPrompts;
 
-async function updateType(configType?: ConfigType): Promise<boolean> {
+async function defaultType(configType?: ConfigType): Promise<boolean> {
   if (configType === "engine") {
-    return updateEngine();
+    return defaultEngine();
   } else if (configType === "browser") {
-    return updateBrowser();
+    return defaultBrowser();
   } else if (configType === "profile") {
-    return updateProfile();
+    return defaultProfile();
   }
 
   return false;
 }
 
-export default async function updateConfig(
+export default async function defaultConfig(
   configType?: ConfigType
 ): Promise<boolean> {
   if (configType != null) {
-    return updateType(configType);
+    return defaultType(configType);
   }
 
   const configTypes: ConfigType[] = ["browser", "profile", "engine"];
@@ -34,5 +34,5 @@ export default async function updateConfig(
   );
 
   emptyLine();
-  return updateType(answer);
+  return defaultType(answer);
 }

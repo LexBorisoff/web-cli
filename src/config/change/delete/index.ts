@@ -1,30 +1,38 @@
-import prompts from "prompts";
-import { getChoices } from "../../../helpers/prompts";
-import {
-  ConfigType,
-  PromptAnswer,
-  PromptChoice,
-} from "../../../types/config.types";
+import chalk from "chalk";
+import deleteEngine from "./engine";
+import deleteBrowser from "./browser";
+import deleteProfile from "./profile";
+import { cliPrompts } from "../../../helpers/prompts";
+import { emptyLine } from "../../../helpers/print";
+import { ConfigType } from "../../../types/config.types";
 
-export default async function deleteConfig(
-  type?: ConfigType
-): Promise<boolean> {
-  if (type != null) {
-    return true;
+const { select } = cliPrompts;
+
+async function deleteType(configType?: ConfigType): Promise<boolean> {
+  if (configType === "engine") {
+    return deleteEngine();
+  } else if (configType === "browser") {
+    return deleteBrowser();
+  } else if (configType === "profile") {
+    return deleteProfile();
   }
 
-  const configTypes: ConfigType[] = ["default", "browser", "profile"];
-  const choices: PromptChoice[] = getChoices(configTypes);
-
-  const { answer: configType }: PromptAnswer<string> = await prompts({
-    name: "answer",
-    type: "select",
-    choices,
-    message: "What config do you want to delete?\n",
-    instructions: false,
-    hint: "- Space/←/→ to toggle selection. Enter to submit.",
-  });
-
-  console.log(configType);
   return false;
+}
+
+export default async function deleteConfig(
+  configType?: ConfigType
+): Promise<boolean> {
+  if (configType != null) {
+    return deleteType(configType);
+  }
+
+  const configTypes: ConfigType[] = ["browser", "profile", "engine"];
+  const answer = await select<ConfigType>(
+    configTypes,
+    `What ${chalk.yellow("config")} do you want to update?\n`
+  );
+
+  emptyLine();
+  return deleteType(answer);
 }

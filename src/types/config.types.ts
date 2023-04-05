@@ -1,7 +1,7 @@
 import { BrowsersConfig } from "./data.types";
 
-export type ChangeCommand = "add" | "update" | "delete";
-export type ConfigType = "default" | "browser" | "profile";
+export type ChangeCommand = "add" | "update" | "delete" | "default";
+export type ConfigType = "browser" | "profile" | "engine";
 
 export interface PromptAnswer<T> {
   answer?: T;

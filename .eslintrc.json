@@ -19,6 +19,7 @@
   },
   "rules": {
     "import/no-unresolved": "error",
-    "import/no-cycle": "error"
+    "import/no-cycle": "error",
+    "prefer-const": "warn"
   }
 }
