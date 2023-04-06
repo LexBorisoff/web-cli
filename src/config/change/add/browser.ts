@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
+import { getBrowserAliases } from "../../../helpers/browser";
 import { getConfigFileName } from "../../../helpers/config";
 import {
   cliPrompts,
@@ -40,23 +41,7 @@ async function validateBrowserName(value: string): Promise<boolean | string> {
   return true;
 }
 
-async function getBrowserAliases(): Promise<string[]> {
-  const browsers = await getBrowsersData();
-
-  let aliases: string[] = [];
-  browsers.forEach((browser) => {
-    if (browser instanceof Object && browser.alias != null) {
-      const { alias } = browser;
-      aliases = Array.isArray(alias)
-        ? [...aliases, ...alias]
-        : [...aliases, alias];
-    }
-  });
-
-  return aliases;
-}
-
-async function isValidAlias(
+async function validateAlias(
   aliases: string,
   browserName: string
 ): Promise<boolean | string> {
@@ -74,7 +59,9 @@ async function isValidAlias(
   const browserNames = browsers.map((browser) =>
     typeof browser === "string" ? browser : browser.name
   );
-  const browserAliases = await getBrowserAliases();
+
+  const browsersConfig = await getBrowsersData();
+  const browserAliases = getBrowserAliases(browsersConfig);
 
   browserNames.forEach((browser) => {
     if (list.includes(browser)) {
@@ -138,7 +125,7 @@ export default async function addBrowser(): Promise<boolean> {
     `List 0 or more aliases for ${chalk.yellow(
       getTitle(browserName)
     )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-    async (value) => await isValidAlias(value, browserName)
+    async (value) => await validateAlias(value, browserName)
   );
 
   const alias: string[] | undefined =
