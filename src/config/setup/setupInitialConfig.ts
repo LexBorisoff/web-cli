@@ -1,6 +1,8 @@
 import chalk from "chalk";
+import { getBrowserAliases } from "../../helpers/browser";
 import { cliPrompts, getTitle, getArrayLowerCase } from "../../helpers/prompts";
 import { emptyLine } from "../../helpers/print";
+import findExistingValues from "../../helpers/findExistingValues";
 import { InitialConfig } from "../../types/config.types";
 import { BrowsersConfig, BrowserObject } from "../../types/data.types";
 
@@ -62,7 +64,32 @@ async function getBrowserList(): Promise<string[] | undefined> {
   return [...new Set(knownBrowsers)];
 }
 
-async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
+async function validateAlias(
+  alias: string,
+  currentBrowser: string,
+  browsersConfig: BrowsersConfig<BrowserObject>
+): Promise<true | string> {
+  if (alias === "") {
+    return "Invalid alias";
+  }
+
+  const list = getArrayLowerCase(alias);
+  if (list.includes(currentBrowser)) {
+    return "Alias must differ from the browser name";
+  }
+
+  const browserNames = browsersConfig.map((browser) => browser.name);
+  const browserAliases = getBrowserAliases(browsersConfig);
+  const found = findExistingValues(list, [...browserNames, ...browserAliases]);
+
+  return found.length === 0
+    ? true
+    : `These browser names/aliases already exist: ${found.join(", ")} `;
+}
+
+async function getAliases(
+  browsers: string[]
+): Promise<BrowsersConfig | undefined> {
   const browsersConfig: BrowsersConfig<BrowserObject> = browsers.map(
     (name) => ({
       name,
@@ -95,10 +122,15 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
         const list = await text(
           `List 1 or more aliases for ${chalk.yellow(
             getTitle(selected)
-          )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`
+          )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
+          async (value) => await validateAlias(value, selected, browsersConfig)
         );
 
-        const alias = list != null ? getArrayLowerCase(list) : [];
+        if (list == null) {
+          return undefined;
+        }
+
+        const alias = getArrayLowerCase(list);
         const index = browsersConfig.findIndex(({ name }) => name == selected);
         if (index >= 0) {
           browsersConfig[index] = { name: selected, alias };
@@ -134,5 +166,10 @@ export default async function setupInitialConfig(): Promise<
 
   emptyLine();
   const browsers = await getAliases(browserList);
+
+  if (browsers == null) {
+    return undefined;
+  }
+
   return { browsers, defaultBrowser };
 }
