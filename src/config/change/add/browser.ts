@@ -10,6 +10,7 @@ import {
 } from "../../../helpers/prompts";
 import { namePattern } from "../../../helpers/patterns";
 import { emptyLine } from "../../../helpers/print";
+import findExistingValues from "../../../helpers/findExistingValues";
 import { BrowserObject } from "../../../types/data.types";
 import { TextAnswer } from "../../../types/config.types";
 
@@ -55,25 +56,12 @@ async function validateAlias(
     return true;
   }
 
-  const found: string[] = [];
   const browserNames = browsers.map((browser) =>
     typeof browser === "string" ? browser : browser.name
   );
-
   const browsersConfig = await getBrowsersData();
   const browserAliases = getBrowserAliases(browsersConfig);
-
-  browserNames.forEach((browser) => {
-    if (list.includes(browser)) {
-      found.push(browser);
-    }
-  });
-
-  browserAliases.forEach((alias) => {
-    if (list.includes(alias)) {
-      found.push(alias);
-    }
-  });
+  const found = findExistingValues(list, [...browserNames, ...browserAliases]);
 
   return found.length === 0
     ? true
