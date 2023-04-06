@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import deleteEngine from "./engine";
 import deleteBrowser from "./browser";
 import deleteProfile from "./profile";
+import deleteEngine from "./engine";
 import { cliPrompts } from "../../../helpers/prompts";
 import { emptyLine } from "../../../helpers/print";
 import { ConfigType } from "../../../types/config.types";
@@ -9,12 +9,12 @@ import { ConfigType } from "../../../types/config.types";
 const { select } = cliPrompts;
 
 async function deleteType(configType?: ConfigType): Promise<boolean> {
-  if (configType === "engine") {
-    return deleteEngine();
-  } else if (configType === "browser") {
+  if (configType === "browser") {
     return deleteBrowser();
   } else if (configType === "profile") {
     return deleteProfile();
+  } else if (configType === "engine") {
+    return deleteEngine();
   }
 
   return false;

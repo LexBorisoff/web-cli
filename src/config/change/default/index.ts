@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import defaultEngine from "./engine";
 import defaultBrowser from "./browser";
 import defaultProfile from "./profile";
+import defaultEngine from "./engine";
 import { cliPrompts } from "../../../helpers/prompts";
 import { emptyLine } from "../../../helpers/print";
 import { ConfigType } from "../../../types/config.types";
@@ -9,12 +9,12 @@ import { ConfigType } from "../../../types/config.types";
 const { select } = cliPrompts;
 
 async function defaultType(configType?: ConfigType): Promise<boolean> {
-  if (configType === "engine") {
-    return defaultEngine();
-  } else if (configType === "browser") {
+  if (configType === "browser") {
     return defaultBrowser();
   } else if (configType === "profile") {
     return defaultProfile();
+  } else if (configType === "engine") {
+    return defaultEngine();
   }
 
   return false;
