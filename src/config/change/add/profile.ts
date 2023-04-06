@@ -7,7 +7,11 @@ import {
   getProfilesData,
 } from "../../../data";
 import { getConfigFileName } from "../../../helpers/config";
-import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
+import {
+  cliPrompts,
+  getTitle,
+  getArrayLowerCase,
+} from "../../../helpers/prompts";
 import { namePattern, directoryPattern } from "../../../helpers/patterns";
 import { emptyLine } from "../../../helpers/print";
 import { Profile } from "../../../types/data.types";
@@ -102,8 +106,8 @@ async function validateAlias(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const list = getArray(aliases);
-  if (list.includes(profileName)) {
+  const list = getArrayLowerCase(aliases);
+  if (list.includes(profileName.toLowerCase())) {
     return "Alias must differ from the command-line name";
   }
 
@@ -225,7 +229,7 @@ export default async function addProfile(): Promise<boolean> {
           );
 
           const alias: string[] | undefined =
-            answer.alias != null ? getArray(answer.alias) : undefined;
+            answer.alias != null ? getArrayLowerCase(answer.alias) : undefined;
 
           if (alias != null) {
             const profile: Profile = {

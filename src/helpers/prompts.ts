@@ -6,24 +6,24 @@ export function getTitle(choice: string): string {
 }
 
 export function getChoices(list: string[]): PromptChoice[] {
-  return list.map((browser) => ({
-    title: getTitle(browser),
-    value: browser,
+  return list.map((item) => ({
+    title: getTitle(item),
+    value: item,
   }));
 }
 
-export function getArray(reply: string): string[] {
+export function getArrayLowerCase(reply: string): string[] {
   if (reply === "") {
     return [];
   }
 
-  const browsers = reply
+  const array = reply
     .trim()
     .split(/\s+|,+/)
     .filter((r) => r !== "")
     .map((r) => r.toLowerCase());
 
-  return [...new Set(browsers)];
+  return [...new Set(array)];
 }
 
 const validateInput: ValidateFn = (value) =>

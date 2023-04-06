@@ -2,7 +2,11 @@ import * as fs from "fs";
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
 import { getConfigFileName } from "../../../helpers/config";
-import { cliPrompts, getTitle, getArray } from "../../../helpers/prompts";
+import {
+  cliPrompts,
+  getTitle,
+  getArrayLowerCase,
+} from "../../../helpers/prompts";
 import { namePattern } from "../../../helpers/patterns";
 import { emptyLine } from "../../../helpers/print";
 import { BrowserObject } from "../../../types/data.types";
@@ -56,8 +60,8 @@ async function isValidAlias(
   aliases: string,
   browserName: string
 ): Promise<boolean | string> {
-  const list = getArray(aliases);
-  if (list.includes(browserName)) {
+  const list = getArrayLowerCase(aliases);
+  if (list.includes(browserName.toLowerCase())) {
     return "Alias must differ from the browser name";
   }
 
@@ -138,7 +142,7 @@ export default async function addBrowser(): Promise<boolean> {
   );
 
   const alias: string[] | undefined =
-    answer.alias != null ? getArray(answer.alias) : undefined;
+    answer.alias != null ? getArrayLowerCase(answer.alias) : undefined;
 
   if (alias != null) {
     const browser: BrowserObject = {

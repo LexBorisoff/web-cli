@@ -24,13 +24,16 @@ export default async function queryBrowserProfile(
   if (args.profile) {
     // one profile provided
     if (!Array.isArray(args.profile)) {
-      const profile = await getProfile(args.profile, browserName);
+      const profile = await getProfile(args.profile.toLowerCase(), browserName);
       openProfile(profile?.directory);
     }
     // multiple profiles provided
     else {
       args.profile.forEach(async (profileFromArgs) => {
-        const profile = await getProfile(profileFromArgs, browserName);
+        const profile = await getProfile(
+          profileFromArgs.toLowerCase(),
+          browserName
+        );
         openProfile(profile?.directory);
       });
     }

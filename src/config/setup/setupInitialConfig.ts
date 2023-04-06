@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { cliPrompts, getTitle, getArray } from "../../helpers/prompts";
+import { cliPrompts, getTitle, getArrayLowerCase } from "../../helpers/prompts";
 import { emptyLine } from "../../helpers/print";
 import { InitialConfig } from "../../types/config.types";
 import { BrowsersConfig, BrowserObject } from "../../types/data.types";
@@ -36,7 +36,7 @@ async function getExtraBrowsers(): Promise<string[] | undefined> {
       )}\n`
     );
 
-    return browsers != null ? getArray(browsers) : [];
+    return browsers != null ? getArrayLowerCase(browsers) : [];
   }
 
   return [];
@@ -98,7 +98,7 @@ async function getAliases(browsers: string[]): Promise<BrowsersConfig> {
           )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`
         );
 
-        const alias = list != null ? getArray(list) : [];
+        const alias = list != null ? getArrayLowerCase(list) : [];
         const index = browsersConfig.findIndex(({ name }) => name == selected);
         if (index >= 0) {
           browsersConfig[index] = { name: selected, alias };
