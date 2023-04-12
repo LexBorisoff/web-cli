@@ -7,7 +7,7 @@ export default async function getProfile(
   browserName: string
 ): Promise<Profile | undefined> {
   const profiles = await getProfilesData();
-  const browserProfiles = profiles?.[browserName];
+  const browserProfiles = profiles[browserName];
   return browserProfiles != null
     ? getConfigItem(profileNameOrAlias, browserProfiles)
     : undefined;

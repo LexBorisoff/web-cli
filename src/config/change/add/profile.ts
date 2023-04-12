@@ -30,7 +30,7 @@ async function getProfileAliases(browser: string): Promise<string[]> {
   }
 
   let aliases: string[] = [];
-  const browserProfiles = profiles[browser];
+  const browserProfiles = profiles[browser] ?? {};
 
   Object.values(browserProfiles).forEach((profile) => {
     const { alias } = profile;
@@ -62,7 +62,8 @@ async function validateDirectory(
     return true;
   }
 
-  const directories = Object.values(profiles[browser]).map(
+  const browserProfiles = profiles[browser] ?? {};
+  const directories = Object.values(browserProfiles).map(
     (profile) => profile.directory
   );
 
@@ -95,8 +96,10 @@ async function validateProfileName(
     )} profile`;
   }
 
-  const browserProfiles = Object.keys(profiles[browser]);
-  return !browserProfiles.includes(profileName)
+  const browserProfiles = profiles[browser] ?? {};
+  const profileNames = Object.keys(browserProfiles);
+
+  return !profileNames.includes(profileName)
     ? true
     : `"${profileName}" already exists for ${getTitle(browser)}`;
 }
@@ -117,10 +120,12 @@ async function validateAlias(
   }
 
   const found: string[] = [];
-  const browserProfiles = Object.keys(profiles[browser]);
+  const browserProfiles = profiles[browser] ?? {};
+  const profileNames = Object.keys(browserProfiles);
+
   const profileAliases = await getProfileAliases(browser);
 
-  browserProfiles.forEach((profile) => {
+  profileNames.forEach((profile) => {
     if (list.includes(profile)) {
       found.push(profile);
     }

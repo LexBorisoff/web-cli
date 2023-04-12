@@ -29,7 +29,7 @@ export interface BrowserProfiles {
 }
 
 export interface ProfilesConfig {
-  [browser: string]: BrowserProfiles;
+  [browser: string]: BrowserProfiles | undefined;
 }
 
 export interface Config {
