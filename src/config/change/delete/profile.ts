@@ -31,7 +31,9 @@ async function removeBrowserFromDefaults(browser: string) {
 
 export default async function deleteProfile(): Promise<boolean> {
   const profiles = await getProfilesData();
-  const browsersWithProfiles = Object.keys(profiles);
+  const browsersWithProfiles = Object.entries(profiles)
+    .filter((entry) => Object.keys(entry[1] ?? {}).length > 0)
+    .map(([key]) => key);
 
   if (browsersWithProfiles.length === 0) {
     printError("No profiles currently exist");
@@ -175,13 +177,28 @@ export default async function deleteProfile(): Promise<boolean> {
 
   if (browsersWithProfiles.length === 1) {
     const [browser] = browsersWithProfiles;
+
+    printInfo(
+      `You have ${chalk.yellow("1")} browser with profile(s): ${chalk.yellow(
+        getTitle(browser)
+      )}`
+    );
+    emptyLine();
+
     return deleteOne(browser);
   }
 
   if (browsersWithProfiles.length > 1) {
+    printInfo(
+      `You have ${chalk.yellow(
+        browsersWithProfiles.length
+      )} browsers with profiles`
+    );
+    emptyLine();
+
     const browser = await select(
       browsersWithProfiles,
-      "Select a browser to delete a profile for.\n"
+      `Select a ${chalk.yellow("browser")} to delete a profile for.\n`
     );
 
     if (!browser) {
