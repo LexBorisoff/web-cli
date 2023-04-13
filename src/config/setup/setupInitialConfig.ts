@@ -1,6 +1,10 @@
 import chalk from "chalk";
 import { getBrowserAliases } from "../../helpers/browser";
-import { cliPrompts, getTitle, getArrayLowerCase } from "../../helpers/prompts";
+import {
+  cliPrompts,
+  getTitle,
+  getUniqueArrayLowerCase,
+} from "../../helpers/prompts";
 import { emptyLine } from "../../helpers/print";
 import findExistingValues from "../../helpers/findExistingValues";
 import { InitialConfig } from "../../types/config.types";
@@ -38,7 +42,7 @@ async function getExtraBrowsers(): Promise<string[] | undefined> {
       )}\n`
     );
 
-    return browsers != null ? getArrayLowerCase(browsers) : [];
+    return browsers != null ? getUniqueArrayLowerCase(browsers) : [];
   }
 
   return [];
@@ -73,7 +77,7 @@ async function validateAlias(
     return "Invalid alias";
   }
 
-  const list = getArrayLowerCase(alias);
+  const list = getUniqueArrayLowerCase(alias);
   if (list.includes(currentBrowser)) {
     return "Alias must differ from the browser name";
   }
@@ -130,7 +134,7 @@ async function getAliases(
           return undefined;
         }
 
-        const alias = getArrayLowerCase(list);
+        const alias = getUniqueArrayLowerCase(list);
         const index = browsersConfig.findIndex(({ name }) => name == selected);
         if (index >= 0) {
           browsersConfig[index] = { name: selected, alias };

@@ -9,7 +9,7 @@ import { writeConfigFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
-  getArrayLowerCase,
+  getUniqueArrayLowerCase,
 } from "../../../helpers/prompts";
 import {
   lettersNumbersPattern,
@@ -81,7 +81,7 @@ async function validateProfileName(
   }
 
   if (!lettersNumbersPattern.test(profileName.trim())) {
-    return "Only letters are allowed";
+    return "Only letters and number are allowed";
   }
 
   const profiles = await getProfilesData();
@@ -109,9 +109,13 @@ async function validateAlias(
   profileName: string,
   browser: string
 ): Promise<boolean | string> {
-  const list = getArrayLowerCase(aliases);
+  const list = getUniqueArrayLowerCase(aliases);
   if (list.includes(profileName.toLowerCase())) {
     return "Alias must differ from the command-line name";
+  }
+
+  if (list.find((alias) => !lettersNumbersPattern.test(alias)) != null) {
+    return "Only letters and numbers are allowed for an alias name.";
   }
 
   const profiles = await getProfilesData();
@@ -229,7 +233,9 @@ export default async function addProfile(): Promise<boolean> {
           );
 
           const alias: string[] | undefined =
-            answer.alias != null ? getArrayLowerCase(answer.alias) : undefined;
+            answer.alias != null
+              ? getUniqueArrayLowerCase(answer.alias)
+              : undefined;
 
           if (alias != null) {
             const profile: Profile = {

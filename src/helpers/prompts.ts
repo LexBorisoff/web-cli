@@ -12,7 +12,7 @@ export function getChoices(list: string[], titleCase = true): PromptChoice[] {
   }));
 }
 
-export function getArrayLowerCase(reply: string): string[] {
+export function getUniqueArrayLowerCase(reply: string): string[] {
   if (reply === "") {
     return [];
   }

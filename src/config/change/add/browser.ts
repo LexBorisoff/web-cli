@@ -5,9 +5,9 @@ import { writeConfigFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
-  getArrayLowerCase,
+  getUniqueArrayLowerCase,
 } from "../../../helpers/prompts";
-import { namePattern } from "../../../helpers/patterns";
+import { namePattern, lettersNumbersPattern } from "../../../helpers/patterns";
 import { emptyLine } from "../../../helpers/print";
 import findExistingValues from "../../../helpers/findExistingValues";
 import { BrowserObject } from "../../../types/data.types";
@@ -43,9 +43,13 @@ async function validateAlias(
   aliases: string,
   browserName: string
 ): Promise<boolean | string> {
-  const list = getArrayLowerCase(aliases);
+  const list = getUniqueArrayLowerCase(aliases);
   if (list.includes(browserName.toLowerCase())) {
     return "Alias must differ from the browser name";
+  }
+
+  if (list.find((alias) => !lettersNumbersPattern.test(alias)) != null) {
+    return "Only letters and numbers are allowed.";
   }
 
   const browsers = await getBrowsersData();
@@ -109,7 +113,7 @@ export default async function addBrowser(): Promise<boolean> {
   );
 
   const alias: string[] | undefined =
-    answer.alias != null ? getArrayLowerCase(answer.alias) : undefined;
+    answer.alias != null ? getUniqueArrayLowerCase(answer.alias) : undefined;
 
   if (alias != null) {
     const browser: BrowserObject = {
