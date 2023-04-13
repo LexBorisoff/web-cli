@@ -53,32 +53,14 @@ export default async function deleteProfile(): Promise<boolean> {
       profileNames,
       `Select a ${getTitle(browser)} ${chalk.yellow(
         "profile"
-      )} to delete from this config.\n`,
+      )} to delete from config.\n`,
       false
     );
 
     if (profileToDelete != null) {
-      if (profileNames.length > 1) {
-        // otherwise the above select question returns without displaying
-        emptyLine();
-      }
-
       // check if delete profile is the default for this browser
       let defaults = await getDefaultsData();
       const currentDefaultProfile = defaults.profile?.[browser];
-
-      if (profileToDelete === currentDefaultProfile) {
-        const yes = await toggle(
-          `"${profileToDelete}" is the ${chalk.yellow(
-            "default profile"
-          )} for ${getTitle(browser)}. Delete it?\n`,
-          true
-        );
-
-        if (!yes) {
-          return false;
-        }
-      }
 
       let config = await getConfigData();
 
@@ -97,15 +79,28 @@ export default async function deleteProfile(): Promise<boolean> {
       const updatedProfileNames = Object.keys(updatedProfiles);
 
       // if default profile is deleted for the browser
-      if (
-        currentDefaultProfile != null &&
-        currentDefaultProfile === profileToDelete
-      ) {
-        emptyLine();
+      if (currentDefaultProfile === profileToDelete) {
+        if (profileNames.length > 1) {
+          // otherwise the above select question returns without displaying
+          emptyLine();
+        }
+
+        const yes = await toggle(
+          `"${profileToDelete}" is the ${chalk.yellow(
+            "default profile"
+          )} for ${getTitle(browser)}. Delete it?\n`,
+          true
+        );
+
+        if (!yes) {
+          return false;
+        }
 
         // no profiles are left for the browser
         if (updatedProfileNames.length === 0) {
           defaults = await removeBrowserFromDefaults(browser);
+
+          emptyLine();
           printInfo(`${getTitle(browser)} has no more profiles.`);
         }
         // 1 profile is left -> make it default automatically
@@ -119,6 +114,7 @@ export default async function deleteProfile(): Promise<boolean> {
             },
           };
 
+          emptyLine();
           printInfo(
             `"${newDefaultProfile}" is the new default profile for ${getTitle(
               browser
@@ -127,6 +123,7 @@ export default async function deleteProfile(): Promise<boolean> {
         }
         // more than 1 profile is left
         else if (updatedProfileNames.length > 1) {
+          emptyLine();
           const newDefaultProfile = await select(
             updatedProfileNames,
             `What should be the ${chalk.italic.cyan("new")} ${chalk.yellow(
@@ -136,6 +133,7 @@ export default async function deleteProfile(): Promise<boolean> {
           );
 
           if (newDefaultProfile == null) {
+            emptyLine();
             printError("Default profile must be selected.");
             return false;
           }
@@ -179,7 +177,7 @@ export default async function deleteProfile(): Promise<boolean> {
     const [browser] = browsersWithProfiles;
 
     printInfo(
-      `You have ${chalk.yellow("1")} browser with profile(s): ${chalk.yellow(
+      `You have ${chalk.yellow("1")} browser with profiles: ${chalk.yellow(
         getTitle(browser)
       )}`
     );
