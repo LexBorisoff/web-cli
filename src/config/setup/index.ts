@@ -1,6 +1,6 @@
 import setupInitialConfig from "./setupInitialConfig";
-import createConfigFile from "./createConfigFile";
 import { getDefaultsData } from "../../data";
+import { writeConfigFile } from "../../helpers/config";
 import { printHeader } from "../../helpers/print";
 
 export default async function setupConfig(): Promise<void> {
@@ -12,7 +12,7 @@ export default async function setupConfig(): Promise<void> {
     const defaults = await getDefaultsData();
 
     try {
-      createConfigFile({
+      writeConfigFile({
         defaults: {
           ...defaults,
           browser: defaultBrowser,

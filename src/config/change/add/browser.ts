@@ -1,8 +1,7 @@
-import * as fs from "fs";
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
 import { getBrowserAliases } from "../../../helpers/browser";
-import { getConfigFileName } from "../../../helpers/config";
+import { writeConfigFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
@@ -16,8 +15,6 @@ import { TextAnswer } from "../../../types/config.types";
 
 const { text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
-
-const configFileName = getConfigFileName();
 
 async function validateBrowserName(value: string): Promise<boolean | string> {
   const browserName = value.trim().toLocaleLowerCase();
@@ -89,12 +86,7 @@ async function addToConfig({
     };
   }
 
-  const json = JSON.stringify({ ...config, defaults, browsers });
-  fs.writeFile(configFileName, json, (error) => {
-    if (error != null) {
-      throw error;
-    }
-  });
+  writeConfigFile({ ...config, defaults, browsers });
 }
 
 export default async function addBrowser(): Promise<boolean> {

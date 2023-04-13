@@ -6,7 +6,7 @@ import {
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
-import { getConfigFileName } from "../../../helpers/config";
+import { writeConfigFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
@@ -180,12 +180,7 @@ async function addToConfig({
     };
   }
 
-  const json = JSON.stringify({ ...config, defaults, profiles });
-  fs.writeFile(configFileName, json, (error) => {
-    if (error != null) {
-      throw error;
-    }
-  });
+  writeConfigFile({ ...config, defaults, profiles });
 }
 
 export default async function addProfile(): Promise<boolean> {
