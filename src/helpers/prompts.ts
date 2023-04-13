@@ -5,9 +5,9 @@ export function getTitle(choice: string): string {
   return `${choice[0].toUpperCase()}${choice.substring(1).toLowerCase()}`;
 }
 
-export function getChoices(list: string[]): PromptChoice[] {
+export function getChoices(list: string[], titleCase = true): PromptChoice[] {
   return list.map((item) => ({
-    title: getTitle(item),
+    title: titleCase ? getTitle(item) : item,
     value: item,
   }));
 }
@@ -34,13 +34,14 @@ const validateInput: ValidateFn = (value) =>
 export const cliPrompts = {
   select: async function <ListItem extends string = string>(
     list: ListItem[],
-    message: string
+    message: string,
+    titleCase = true
   ): Promise<ListItem | undefined> {
     if (list.length === 1) {
       return list[0];
     }
 
-    const choices = getChoices(list);
+    const choices = getChoices(list, titleCase);
     const { answer }: PromptAnswer<ListItem> = await prompts({
       type: "select",
       name: "answer",

@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import chalk from "chalk";
 import {
   getConfigData,
@@ -12,15 +11,16 @@ import {
   getTitle,
   getArrayLowerCase,
 } from "../../../helpers/prompts";
-import { namePattern, directoryPattern } from "../../../helpers/patterns";
+import {
+  lettersNumbersPattern,
+  directoryPattern,
+} from "../../../helpers/patterns";
 import { emptyLine } from "../../../helpers/print";
 import { Profile } from "../../../types/data.types";
 import { TextAnswer } from "../../../types/config.types";
 
 const { select, text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
-
-const configFileName = getConfigFileName();
 
 async function getProfileAliases(browser: string): Promise<string[]> {
   const profiles = await getProfilesData();
@@ -80,7 +80,7 @@ async function validateProfileName(
     return "Empty values are not allowed";
   }
 
-  if (!namePattern.test(profileName.trim())) {
+  if (!lettersNumbersPattern.test(profileName.trim())) {
     return "Only letters are allowed";
   }
 
