@@ -1,4 +1,4 @@
-export default async function updateBrowser(): Promise<boolean> {
+export default async function deleteBrowser(): Promise<boolean> {
   console.log("delete browser");
   return true;
 }
