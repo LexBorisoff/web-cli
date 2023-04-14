@@ -1,20 +1,23 @@
 import chalk from "chalk";
-import { Severity } from "../../types/utility.types";
+import { Severity, BannerType } from "../../types/utility.types";
 
 const print = console.log;
 
 export default function printTitle(
   title: string,
+  titleType: BannerType,
   severity: Severity = "neutral"
 ): void {
   const columnsLength = 2;
   let line = "";
+  let doubleLine = "";
   const lineLength = 70;
   for (let i = 0; i < lineLength; i++) {
-    line += "=";
+    line += "~";
+    doubleLine += "=";
   }
 
-  function printLine() {
+  function printLine(double: boolean) {
     let color: typeof chalk.white;
     switch (severity) {
       case "info":
@@ -33,13 +36,13 @@ export default function printTitle(
         color = chalk.white;
     }
 
-    print(color(line));
+    print(color(double ? doubleLine : line));
   }
 
   if (line.length - title.length - columnsLength <= 0) {
-    printLine();
+    printLine(titleType === "header");
     print(title);
-    printLine();
+    printLine(titleType === "footer");
     return;
   }
 
@@ -58,7 +61,7 @@ export default function printTitle(
 
   const titleLine = `>${spacesLeft}${title}${spacesRight}<`;
 
-  printLine();
+  printLine(titleType === "header");
   print(titleLine);
-  printLine();
+  printLine(titleType === "footer");
 }

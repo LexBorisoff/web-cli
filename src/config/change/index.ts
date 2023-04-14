@@ -3,7 +3,7 @@ import updateConfig from "./update";
 import deleteConfig from "./delete";
 import defaultConfig from "./default";
 import { getConfigArgs } from "../../command";
-import { printHeader } from "../../helpers/print";
+import { printBanner } from "../../helpers/print";
 import {
   ConfigType,
   ChangeCommand,
@@ -72,7 +72,7 @@ export default async function changeConfig(): Promise<void> {
     let success = false;
 
     if (args.length >= 0) {
-      printHeader("Changing config...");
+      printBanner("Changing config...", "header");
     }
 
     // config from the beginning
@@ -93,7 +93,7 @@ export default async function changeConfig(): Promise<void> {
         changeCommand = getChangeCommand(command);
 
         if (!changeCommand) {
-          printHeader(`Invalid command: "${command}"`, "error");
+          printBanner(`Invalid command: "${command}"`, "footer", "error");
           return;
         }
 
@@ -102,7 +102,11 @@ export default async function changeConfig(): Promise<void> {
           configType = args[1];
 
           if (!isValidConfigType(configType)) {
-            printHeader(`Invalid config type: "${configType}"`, "error");
+            printBanner(
+              `Invalid config type: "${configType}"`,
+              "footer",
+              "error"
+            );
             return;
           }
         }
@@ -114,7 +118,7 @@ export default async function changeConfig(): Promise<void> {
         ? "Config is successfully changed!"
         : "Config was not changed";
       const severity: Severity = success ? "success" : "error";
-      printHeader(message, severity);
+      printBanner(message, "footer", severity);
     }
   }
 }
