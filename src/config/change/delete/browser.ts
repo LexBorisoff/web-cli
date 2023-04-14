@@ -67,13 +67,9 @@ export default async function deleteBrowser(): Promise<boolean> {
       if (index >= 0) {
         listToDelete.splice(index, 1);
       }
-    } else {
-      // delete browser from profiles config
-      if (profiles[currentDefaultBrowser] != null) {
-        delete profiles[currentDefaultBrowser];
-      }
-
-      // get the new default browser
+    }
+    // get the new default browser
+    else {
       const remainingBrowserNames = browserNames.filter(
         (browser) => !listToDelete.includes(browser)
       );
@@ -145,26 +141,32 @@ export default async function deleteBrowser(): Promise<boolean> {
         }
       }
     }
+  }
 
-    // update config
-    if (listToDelete.length > 0) {
-      const config = await getConfigData();
-      const remainingBrowsers = browsers.filter(
-        (browser) =>
-          !listToDelete.includes(
-            typeof browser === "string" ? browser : browser.name
-          )
-      );
+  // update config
+  if (listToDelete.length > 0) {
+    // delete selected browsers from defaults and profiles config
+    listToDelete.forEach((browserName) => {
+      delete defaults.profile?.[browserName];
+      delete profiles[browserName];
+    });
 
-      writeConfigFile({
-        ...config,
-        defaults,
-        browsers: remainingBrowsers,
-        profiles,
-      });
+    const config = await getConfigData();
+    const remainingBrowsers = browsers.filter(
+      (browser) =>
+        !listToDelete.includes(
+          typeof browser === "string" ? browser : browser.name
+        )
+    );
 
-      return true;
-    }
+    writeConfigFile({
+      ...config,
+      defaults,
+      browsers: remainingBrowsers,
+      profiles,
+    });
+
+    return true;
   }
 
   return false;
