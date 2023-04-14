@@ -2,12 +2,9 @@ import chalk from "chalk";
 import { getConfigData, getProfilesData, getDefaultsData } from "../../../data";
 import { writeConfigFile } from "../../../helpers/config";
 import { cliPrompts, getTitle } from "../../../helpers/prompts";
-import { emptyLine } from "../../../helpers/print";
+import { emptyLine, printError, printInfo } from "../../../helpers/print";
 
 const { select, toggle } = cliPrompts;
-
-const printError = (message: string) => console.log(chalk.red(message));
-const printInfo = (message: string) => console.log(chalk.cyan(message));
 
 async function removeBrowserFromDefaults(browser: string) {
   let defaults = await getDefaultsData();
@@ -36,7 +33,7 @@ export default async function deleteProfile(): Promise<boolean> {
     .map(([key]) => key);
 
   if (browsersWithProfiles.length === 0) {
-    printError("No profiles currently exist");
+    printError("No profiles currently exist in the config");
     return false;
   }
 
