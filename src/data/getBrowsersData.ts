@@ -3,5 +3,25 @@ import { BrowsersConfig } from "../types/data.types";
 
 export default async function getBrowsersData(): Promise<BrowsersConfig> {
   const config = await getConfigData();
-  return config?.browsers ?? [];
+  const { browsers } = config ?? {};
+
+  if (browsers == null) {
+    return [];
+  }
+
+  return browsers.sort((a, b) => {
+    if (typeof a === "string") {
+      if (typeof b === "string") {
+        return a.localeCompare(b);
+      }
+
+      return a.localeCompare(b.name);
+    }
+
+    if (typeof b === "string") {
+      return a.name.localeCompare(b);
+    }
+
+    return a.name.localeCompare(b.name);
+  });
 }
