@@ -1,10 +1,10 @@
 import setupInitialConfig from "./setupInitialConfig";
 import { getDefaultsData } from "../../data";
 import { writeConfigFile } from "../../helpers/config";
-import { printHeader } from "../../helpers/print";
+import { printBanner } from "../../helpers/print";
 
 export default async function setupConfig(): Promise<void> {
-  printHeader("Let's set up browser config", "info");
+  printBanner("Let's set up browser config", "header", "info");
 
   const config = await setupInitialConfig();
   if (config != null) {
@@ -20,12 +20,12 @@ export default async function setupConfig(): Promise<void> {
         browsers,
       });
 
-      printHeader("You are good to go. Have fun!", "success");
+      printBanner("You are good to go. Have fun!", "footer", "success");
     } catch (error) {
-      printHeader("Couldn't create the config file :(", "error");
+      printBanner("Couldn't create the config file :(", "footer", "error");
       console.error(error);
     }
   } else {
-    printHeader("Browser config was not created", "error");
+    printBanner("Browser config was not created", "footer", "error");
   }
 }

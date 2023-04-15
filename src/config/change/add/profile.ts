@@ -194,8 +194,6 @@ export default async function addProfile(): Promise<boolean> {
       typeof browser === "string" ? browser : browser.name
     );
 
-    browserList.sort((a, b) => a.localeCompare(b));
-
     const browser = await select(
       browserList,
       `Select a ${chalk.yellow("browser")} to add a profile for.\n`
