@@ -56,9 +56,10 @@ export const cliPrompts = {
 
   multiselect: async function <ListItem extends string = string>(
     list: ListItem[],
-    message: string
+    message: string,
+    titleCase = true
   ): Promise<ListItem[] | undefined> {
-    const choices = getChoices(list);
+    const choices = getChoices(list, titleCase);
 
     const { answer }: PromptAnswer<ListItem[]> = await prompts({
       name: "answer",
