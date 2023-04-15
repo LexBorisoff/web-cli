@@ -11,8 +11,7 @@ import { emptyLine, printInfo, printError } from "../../../helpers/print";
 
 const { select, multiselect, toggle } = cliPrompts;
 
-export default async function deleteBrowser(): Promise<boolean> {
-  let yes = false;
+export default async function deleteBrowsers(): Promise<boolean> {
   const browsers = await getBrowsersData();
 
   if (browsers.length === 0) {
@@ -34,7 +33,7 @@ export default async function deleteBrowser(): Promise<boolean> {
   }
 
   emptyLine();
-  yes = await toggle("Are you sure?\n", true);
+  let yes = await toggle("Are you sure?\n", true);
 
   if (!yes) {
     return false;
@@ -54,7 +53,7 @@ export default async function deleteBrowser(): Promise<boolean> {
     yes = await toggle(
       `${getTitle(currentDefaultBrowser)} is the ${chalk.yellow(
         "default browser"
-      )}. Delete it?\n`,
+      )}. ${chalk.redBright("Delete it?")}\n`,
       true
     );
 
@@ -91,53 +90,57 @@ export default async function deleteBrowser(): Promise<boolean> {
         );
       }
 
-      if (newDefaultBrowser != null) {
-        defaults = {
-          ...defaults,
-          browser: newDefaultBrowser,
-        };
+      if (newDefaultBrowser == null) {
+        emptyLine();
+        printError("Default browser must be selected.");
+        return false;
+      }
 
-        delete defaults.profile?.[currentDefaultBrowser];
+      defaults = {
+        ...defaults,
+        browser: newDefaultBrowser,
+      };
 
-        // set the default profile for the new default browser
-        if (defaults.profile?.[newDefaultBrowser] == null) {
-          const browserProfiles = profiles[newDefaultBrowser] ?? {};
-          const profileNames = Object.keys(browserProfiles);
+      delete defaults.profile?.[currentDefaultBrowser];
 
-          if (profileNames.length === 1) {
-            defaults = {
-              ...defaults,
-              profile: {
-                ...defaults.profile,
-                [newDefaultBrowser]: profileNames[0],
-              },
-            };
-          } else if (profileNames.length > 1) {
+      // set the default profile for the new default browser
+      if (defaults.profile?.[newDefaultBrowser] == null) {
+        const browserProfiles = profiles[newDefaultBrowser] ?? {};
+        const profileNames = Object.keys(browserProfiles);
+
+        if (profileNames.length === 1) {
+          defaults = {
+            ...defaults,
+            profile: {
+              ...defaults.profile,
+              [newDefaultBrowser]: profileNames[0],
+            },
+          };
+        } else if (profileNames.length > 1) {
+          emptyLine();
+          const defaultProfile = await select(
+            profileNames,
+            `What should the ${chalk.yellow("default profile")} for ${getTitle(
+              newDefaultBrowser
+            )}\n`,
+            false
+          );
+
+          if (defaultProfile == null) {
             emptyLine();
-            const defaultProfile = await select(
-              profileNames,
-              `What should the ${chalk.yellow(
-                "default profile"
-              )} for ${getTitle(newDefaultBrowser)}\n`,
-              false
+            printError(
+              "Default profile must be selected for the new default browser"
             );
-
-            if (defaultProfile == null) {
-              emptyLine();
-              printError(
-                "Default profile must be selected for the new default browser"
-              );
-              return false;
-            }
-
-            defaults = {
-              ...defaults,
-              profile: {
-                ...defaults.profile,
-                [newDefaultBrowser]: defaultProfile,
-              },
-            };
+            return false;
           }
+
+          defaults = {
+            ...defaults,
+            profile: {
+              ...defaults.profile,
+              [newDefaultBrowser]: defaultProfile,
+            },
+          };
         }
       }
     }
