@@ -98,13 +98,14 @@ export default async function addBrowser(): Promise<boolean> {
     `Provide the ${chalk.yellow("browser's name")}:\n`,
     async (value) => await validateBrowserName(value)
   );
-  emptyLine();
 
   if (answer.browserName == null) {
     return false;
   }
 
   const browserName = answer.browserName.trim().toLowerCase();
+
+  emptyLine();
   answer.alias = await text(
     `List 0 or more aliases for ${chalk.yellow(
       getTitle(browserName)
