@@ -1,11 +1,10 @@
 {
-  "name": "shell-query",
-  "version": "0.0.7",
-  "description": "CLI for making browser search queries from the terminal",
+  "name": "dev-query",
+  "version": "0.0.1",
+  "description": "CLI for making browser search queries from a terminal",
   "main": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && npx tsc",
-    "build:windows": "rm -r -force ./lib && npx tsc",
     "delete-config": "ts-node ./src/config/deleteConfigFile",
     "config": "ts-node ./src/config/runSetupConfig",
     "config:clean": "npm run delete-config && npm run config",
@@ -16,10 +15,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lexborisoff/shell-query.git"
+    "url": "https://github.com/lexborisoff/dev-query.git"
   },
   "bin": {
-    "sq": "lib/main.js"
+    "dq": "lib/main.js"
   },
   "files": [
     "/lib"
