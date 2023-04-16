@@ -23,7 +23,7 @@ export default async function getUrlList(
   let urlList: string[] = [];
   const engine = await getEngine(engineNameOrAlias);
 
-  if (engine != null && hasSearchQuery()) {
+  if (engine != null) {
     const queries: string[] = [];
 
     if (hasSearchQuery()) {
