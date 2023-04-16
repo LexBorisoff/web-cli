@@ -7,20 +7,16 @@ export function configFileExists(): boolean {
   return fs.existsSync(configFileName);
 }
 
-export function configFileIsEmpty(): boolean {
+export function hasConfig(): boolean {
   if (!configFileExists()) {
-    throw new Error("config file does not exist");
+    return false;
   }
 
   const data = fs.readFileSync(configFileName, "utf-8");
   if (data === "") {
-    return true;
+    return false;
   }
 
   const config = JSON.parse(data);
-  return config instanceof Object ? Object.keys(config).length === 0 : true;
-}
-
-export default function hasConfig(): boolean {
-  return configFileExists() && !configFileIsEmpty();
+  return config instanceof Object ? Object.keys(config).length > 0 : false;
 }
