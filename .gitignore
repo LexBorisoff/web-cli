@@ -5,7 +5,8 @@ bin
 lib
 
 # Config files
-src/config.json
+engines.json
+config.json
 .config
 
 # Logs
