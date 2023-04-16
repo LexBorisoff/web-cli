@@ -1,10 +1,33 @@
 import setupInitialConfig from "./setupInitialConfig";
 import { getDefaultsData } from "../../data";
-import { writeConfigFile } from "../../helpers/config";
-import { printBanner } from "../../helpers/print";
+import {
+  writeConfigFile,
+  hasEngines,
+  fetchEngines,
+} from "../../helpers/config";
+import {
+  printBanner,
+  emptyLine,
+  printInfo,
+  printSuccess,
+  printError,
+} from "../../helpers/print";
 
 export default async function setupConfig(): Promise<void> {
   printBanner("Let's set up browser config", "header", "info");
+
+  if (!hasEngines()) {
+    try {
+      printInfo("Fetching engines...");
+
+      await fetchEngines();
+      printSuccess("Success!");
+      emptyLine();
+    } catch (error) {
+      printError("An error occurred when fetching an engines list :(");
+      emptyLine();
+    }
+  }
 
   const config = await setupInitialConfig();
   if (config != null) {
