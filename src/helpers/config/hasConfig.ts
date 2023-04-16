@@ -1,18 +1,11 @@
-import * as fs from "fs";
-import { getConfigFileName } from "./getFileName";
+import { configFileExists, readConfigFile } from "./file";
 
-const configFileName = getConfigFileName();
-
-export function configFileExists(): boolean {
-  return fs.existsSync(configFileName);
-}
-
-export function hasConfig(): boolean {
+export default function hasConfig(): boolean {
   if (!configFileExists()) {
     return false;
   }
 
-  const data = fs.readFileSync(configFileName, "utf-8");
+  const data = readConfigFile();
   if (data === "") {
     return false;
   }

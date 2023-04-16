@@ -1,5 +1,5 @@
 import axios from "axios";
-import { writeEnginesFile } from "./writeFile";
+import { writeEnginesFile } from "./file";
 import { EnginesConfig } from "../../types/engines.types";
 
 const url = "https://dev-query.lexborisoff.dev/api/engines";

@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { getConfigFileName, getEnginesFileName } from "./getFileName";
-import { Config } from "../../types/data.types";
-import { EnginesConfig } from "../../types/engines.types";
+import { Config } from "../../../types/data.types";
+import { EnginesConfig } from "../../../types/engines.types";
 
 const configFileName = getConfigFileName();
 const enginesFileName = getEnginesFileName();

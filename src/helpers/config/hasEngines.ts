@@ -1,17 +1,6 @@
-import * as fs from "fs";
-import { getEnginesFileName } from "./getFileName";
+import { enginesFileExists, readEnginesFile } from "./file";
 
-const fileName = getEnginesFileName();
-
-export function readEnginesFile(): string {
-  return fs.readFileSync(fileName, { encoding: "utf-8" });
-}
-
-export function enginesFileExists(): boolean {
-  return fs.existsSync(fileName);
-}
-
-export function hasEngines(): boolean {
+export default function hasEngines(): boolean {
   if (!enginesFileExists()) {
     return false;
   }
