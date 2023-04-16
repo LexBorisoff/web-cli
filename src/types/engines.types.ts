@@ -7,6 +7,6 @@ export interface Engine extends Partial<WithAlias> {
   delimiter?: string;
 }
 
-export interface EngineList {
+export interface EnginesConfig {
   [engine: string]: Engine;
 }

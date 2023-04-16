@@ -3,6 +3,6 @@ import { urlPattern } from "../helpers/patterns";
 
 const { _: args } = getArgs();
 
-export default function hasSearchQuery() {
+export default function hasWebsite() {
   return args.filter((arg) => urlPattern.test(`${arg}`)).length > 0;
 }

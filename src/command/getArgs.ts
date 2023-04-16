@@ -5,25 +5,25 @@ export default function getArgs() {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",
-      alias: "b",
+      alias: ["b"],
       requireArg: true,
     })
     .option("profile", {
       type: "string",
       description: "Browser profile",
-      alias: "p",
+      alias: ["p"],
       requireArg: true,
     })
     .option("engine", {
       type: "string",
       description: "Search engine / website to query",
-      alias: ["website", "e", "w"],
+      alias: ["e", "website", "w"],
       requireArg: true,
     })
     .option("package", {
       type: "boolean",
       description: "Search packages / libraries on websites that have them",
-      alias: ["pack", "pkg", "library", "lib"],
+      alias: ["pkg", "library", "lib"],
       default: false,
     })
     .option("incognito", {
