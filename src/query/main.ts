@@ -17,7 +17,7 @@ export default async function main(): Promise<void> {
   const { engine } = args;
 
   // perform search query
-  if (hasEngine() || hasSearchQuery() || hasWebsite()) {
+  if (hasEngine || hasSearchQuery || hasWebsite) {
     // single search engine / website to query
     if (!Array.isArray(engine)) {
       queryEngine(engine);
