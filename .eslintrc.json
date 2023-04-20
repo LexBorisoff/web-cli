@@ -21,6 +21,7 @@
     "import/no-unresolved": "error",
     "import/no-cycle": "error",
     "prefer-const": "warn",
-    "no-use-before-define": "error"
+    "no-use-before-define": "error",
+    "consistent-return": "error"
   }
 }
