@@ -114,19 +114,22 @@ async function getAliases(
       emptyLine();
       selectedBrowsers = await multiselect(
         browsers,
-        "Select browsers to add aliases for\n"
+        "Select browsers to add aliases for.\n"
       );
     }
 
     if (selectedBrowsers != null) {
-      for (let i = 0; i < selectedBrowsers.length; i++) {
-        emptyLine();
+      emptyLine();
+      console.log(
+        `List ${chalk.yellowBright(
+          "1 or more"
+        )} aliases ${chalk.italic.cyanBright("(space or comma separated)")}`
+      );
 
+      for (let i = 0; i < selectedBrowsers.length; i++) {
         const selected = selectedBrowsers[i];
         const list = await text(
-          `List 1 or more aliases for ${chalk.yellow(
-            getTitle(selected)
-          )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
+          getTitle(selected),
           async (value) => await validateAlias(value, selected, browsersConfig)
         );
 
