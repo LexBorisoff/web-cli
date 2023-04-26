@@ -7,6 +7,7 @@ import changeConfig from "./config/change";
 
 const args = getConfigArgs();
 
+// TODO: fetch engines if file doesn't exist
 if (!hasConfig()) {
   setupConfig();
 } else if (args.config) {
