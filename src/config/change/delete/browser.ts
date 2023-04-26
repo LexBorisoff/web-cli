@@ -51,7 +51,7 @@ export default async function deleteBrowsers(): Promise<boolean> {
     emptyLine();
 
     yes = await toggle(
-      `${getTitle(currentDefaultBrowser)} is the ${chalk.yellow(
+      `${getTitle(currentDefaultBrowser)} is the ${chalk.yellowBright(
         "default browser"
       )}. ${chalk.redBright("Delete it?")}\n`,
       true
@@ -84,7 +84,7 @@ export default async function deleteBrowsers(): Promise<boolean> {
       else if (remainingBrowserNames.length > 1) {
         newDefaultBrowser = await select(
           remainingBrowserNames,
-          `What should be the ${chalk.italic.cyan("new")} ${chalk.yellow(
+          `What should be the ${chalk.italic.cyan("new")} ${chalk.yellowBright(
             "default browser"
           )}?\n`
         );
@@ -120,9 +120,9 @@ export default async function deleteBrowsers(): Promise<boolean> {
           emptyLine();
           const defaultProfile = await select(
             profileNames,
-            `What should the ${chalk.yellow("default profile")} for ${getTitle(
-              newDefaultBrowser
-            )}\n`,
+            `What should the ${chalk.yellowBright(
+              "default profile"
+            )} for ${getTitle(newDefaultBrowser)}\n`,
             false
           );
 

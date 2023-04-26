@@ -30,7 +30,7 @@ export default async function addConfig(
   const configTypes: ConfigType[] = ["browser", "profile", "engine"];
   const answer = await select<ConfigType>(
     configTypes,
-    `What ${chalk.yellow("config")} do you want to add?\n`
+    `What ${chalk.yellowBright("config")} do you want to add?\n`
   );
 
   emptyLine();

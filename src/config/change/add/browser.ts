@@ -95,7 +95,7 @@ async function addToConfig({
 
 export default async function addBrowser(): Promise<boolean> {
   answer.browserName = await text(
-    `Provide the ${chalk.yellow("browser's name")}:\n`,
+    `Provide the ${chalk.yellowBright("browser's name")}:\n`,
     async (value) => await validateBrowserName(value)
   );
 
@@ -107,7 +107,7 @@ export default async function addBrowser(): Promise<boolean> {
 
   emptyLine();
   answer.alias = await text(
-    `List 0 or more aliases for ${chalk.yellow(
+    `List 0 or more aliases for ${chalk.yellowBright(
       getTitle(browserName)
     )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
     async (value) => await validateAlias(value, browserName)

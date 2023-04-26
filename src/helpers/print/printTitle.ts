@@ -27,7 +27,7 @@ export default function printTitle(
         color = chalk.green;
         break;
       case "warning":
-        color = chalk.yellow;
+        color = chalk.yellowBright;
         break;
       case "error":
         color = chalk.redBright;

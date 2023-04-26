@@ -37,9 +37,9 @@ export default async function deleteProfiles(): Promise<boolean> {
       const [browserName] = browsersWithProfiles;
 
       printInfo(
-        `You have ${chalk.yellow("1")} browser with profiles: ${chalk.yellow(
-          getTitle(browserName)
-        )}`
+        `You have ${chalk.yellowBright(
+          "1"
+        )} browser with profiles: ${chalk.yellowBright(getTitle(browserName))}`
       );
 
       return browserName;
@@ -47,7 +47,7 @@ export default async function deleteProfiles(): Promise<boolean> {
 
     if (browsersWithProfiles.length > 1) {
       printInfo(
-        `You have ${chalk.yellow(
+        `You have ${chalk.yellowBright(
           browsersWithProfiles.length
         )} browsers with profiles`
       );
@@ -55,7 +55,7 @@ export default async function deleteProfiles(): Promise<boolean> {
       emptyLine();
       const browser = await select(
         browsersWithProfiles,
-        `Select a ${chalk.yellow("browser")} to delete a profile for.\n`
+        `Select a ${chalk.yellowBright("browser")} to delete a profile for.\n`
       );
 
       return browser;
@@ -88,7 +88,7 @@ export default async function deleteProfiles(): Promise<boolean> {
       emptyLine();
       list = await multiselect(
         profileNames,
-        `Select all ${getTitle(browserName)} ${chalk.yellow(
+        `Select all ${getTitle(browserName)} ${chalk.yellowBright(
           "profiles"
         )} you want to delete.\n`,
         false
@@ -153,7 +153,7 @@ export default async function deleteProfiles(): Promise<boolean> {
     ) {
       emptyLine();
       yes = await toggle(
-        `"${currentDefaultProfile}" is the ${chalk.yellow(
+        `"${currentDefaultProfile}" is the ${chalk.yellowBright(
           "default profile"
         )} for ${getTitle(browserName)}. ${chalk.redBright("Delete it?")}\n`,
         true
@@ -197,9 +197,11 @@ export default async function deleteProfiles(): Promise<boolean> {
           emptyLine();
           const newDefaultProfile = await select(
             updatedProfileNames,
-            `What should be the ${chalk.italic.cyan("new")} ${chalk.yellow(
-              "default profile"
-            )} for ${getTitle(browserName)}?\n`,
+            `What should be the ${chalk.italic.cyan(
+              "new"
+            )} ${chalk.yellowBright("default profile")} for ${getTitle(
+              browserName
+            )}?\n`,
             false
           );
 

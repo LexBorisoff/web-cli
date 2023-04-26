@@ -15,13 +15,13 @@ const { text, toggle, select, multiselect } = cliPrompts;
 async function getKnownBrowsers(): Promise<string[] | undefined> {
   return multiselect(
     ["chrome", "firefox", "edge", "brave", "opera", "safari"],
-    `What ${chalk.yellow("browser(s)")} do you have installed?\n`
+    `What ${chalk.yellowBright("browser(s)")} do you have installed?\n`
   );
 }
 
 async function getExtraBrowsers(): Promise<string[] | undefined> {
   const keepGoing = await toggle(
-    `Are there browsers you use that were ${chalk.italic.yellow(
+    `Are there browsers you use that were ${chalk.italic.yellowBright(
       "not in the list"
     )}?\n`,
     false
@@ -35,7 +35,7 @@ async function getExtraBrowsers(): Promise<string[] | undefined> {
     emptyLine();
 
     const browsers = await text(
-      `List ${chalk.yellow(
+      `List ${chalk.yellowBright(
         "other browsers"
       )} you want to add ${chalk.italic.cyanBright(
         "(space or comma separated)"
@@ -102,7 +102,7 @@ async function getAliases(
   );
 
   const keepGoing = await toggle(
-    `Do you want to set ${chalk.yellow(
+    `Do you want to set ${chalk.yellowBright(
       "browser aliases"
     )} (e.g. short names)?\n`,
     true
@@ -160,7 +160,7 @@ export default async function setupInitialConfig(): Promise<
     emptyLine();
     defaultBrowser = await select(
       browserList,
-      `What should be the ${chalk.yellow("default browser")}?\n`
+      `What should be the ${chalk.yellowBright("default browser")}?\n`
     );
   }
 

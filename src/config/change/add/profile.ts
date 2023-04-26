@@ -196,13 +196,13 @@ export default async function addProfile(): Promise<boolean> {
 
     const browser = await select(
       browserList,
-      `Select a ${chalk.yellow("browser")} to add a profile for.\n`
+      `Select a ${chalk.yellowBright("browser")} to add a profile for.\n`
     );
 
     if (browser != null) {
       emptyLine();
       answer.directory = await text(
-        `What is the ${chalk.italic.cyan("exact")} ${chalk.yellow(
+        `What is the ${chalk.italic.cyan("exact")} ${chalk.yellowBright(
           "directory name"
         )} of this profile?\n`,
         async (value) => await validateDirectory(value, browser)
@@ -213,7 +213,7 @@ export default async function addProfile(): Promise<boolean> {
 
         const directory = answer.directory.trim();
         answer.profileName = await text(
-          `Create a ${chalk.yellow("command-line name")} ${chalk.cyan(
+          `Create a ${chalk.yellowBright("command-line name")} ${chalk.cyan(
             "(lowercase)"
           )} for "${directory}".\n`,
           async (value) => await validateProfileName(value, browser)
@@ -224,7 +224,7 @@ export default async function addProfile(): Promise<boolean> {
 
           emptyLine();
           answer.alias = await text(
-            `List 0 or more aliases for ${chalk.yellow(
+            `List 0 or more aliases for ${chalk.yellowBright(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
             async (value) => await validateAlias(value, profileName, browser)
