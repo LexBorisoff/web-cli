@@ -1,70 +1,75 @@
 {
   "google": {
+    "name": "Google",
     "url": "www.google.com",
-    "query": "/search?q="
-  },
-  "youtube": {
-    "alias": "yt",
-    "url": "youtube.com",
-    "query": "/results?search_query="
+    "query": "search?q=",
+    "alias": ["g"]
   },
   "duckduckgo": {
-    "alias": ["duck", "ddg"],
+    "name": "DuckDuckGo",
     "url": "duckduckgo.com",
-    "query": "/?q="
+    "query": "?q=",
+    "alias": ["duck", "ddg"]
   },
   "mdn": {
+    "name": "MDN",
     "url": "developer.mozilla.org/en-US",
-    "query": "/search?q="
+    "query": "search?q="
+  },
+  "youtube": {
+    "name": "YouTube",
+    "url": "youtube.com",
+    "query": "results?search_query=",
+    "alias": ["y", "yt"]
   },
   "npm": {
+    "name": "npm",
     "url": "www.npmjs.com",
-    "query": "/search?q=",
-    "package": "/package/"
+    "query": "search?q=",
+    "package": "package/"
   },
   "cdn": {
+    "name": "CDN",
     "url": "cdnjs.com",
-    "query": "/libraries?q=",
+    "query": "libraries?q=",
     "package": "libraries/"
   },
   "csstricks": {
-    "alias": ["css", "css-tricks"],
+    "name": "CSS Tricks",
     "url": "css-tricks.com",
-    "query": "/?s="
+    "query": "?s=",
+    "alias": ["css", "css-tricks"]
+  },
+  "domains": {
+    "name": "Google Domains",
+    "alias": ["domain"],
+    "url": "domains.google.com",
+    "query": "registrar/search?searchTerm="
   },
   "whois": {
+    "name": "Whois",
     "url": "www.whois.com",
-    "query": "/whois/"
-  },
-  "namecheap": {
-    "alias": "nc",
-    "url": "www.namecheap.com",
-    "query": "/domains/registration/results/?domain="
-  },
-  "godaddy": {
-    "alias": "gd",
-    "url": "www.godaddy.com",
-    "query": "/domainsearch/find?domainToCheck="
+    "query": "whois/"
   },
   "unsplash": {
+    "name": "Unsplash",
     "url": "unsplash.com",
-    "query": "/s/photos/",
+    "query": "s/photos/",
     "delimiter": "-"
   },
   "pexels": {
+    "name": "Pexels",
     "url": "www.pexels.com",
-    "query": "/search/"
+    "query": "search/"
   },
   "burst": {
+    "name": "Shopify Burst",
     "url": "burst.shopify.com",
-    "query": "/photos/search?q="
-  },
-  "investopedia": {
-    "url": "www.investopedia.com",
-    "query": "/search?q="
+    "query": "photos/search?q="
   },
   "amazon": {
-    "url": "amazon.ca",
-    "query": "/s?k="
+    "name": "Amazon",
+    "url": "amazon.com",
+    "query": "s?k="
   }
 }
