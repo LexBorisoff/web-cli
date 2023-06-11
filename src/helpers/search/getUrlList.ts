@@ -1,7 +1,7 @@
 import getEngine from "./getEngine";
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import { getArgs, hasSearchQuery, hasWebsite } from "../../command";
+import { getArgs, withSearchQuery, withWebsite } from "../../command";
 import { engineFallback } from "../../data";
 import { Engine } from "../../types/engines.types";
 
@@ -37,8 +37,8 @@ export default async function getUrlList(
   const urlList: string[] = [];
 
   // search query or website is provided
-  if (hasSearchQuery || hasWebsite) {
-    if (hasSearchQuery) {
+  if (withSearchQuery || withWebsite) {
+    if (withSearchQuery) {
       const engine = await getEngine(engineNameOrAlias ?? engineFallback);
       if (engine != null) {
         const searchQuery: string = await getSearchQuery(engine);
@@ -47,7 +47,7 @@ export default async function getUrlList(
       }
     }
 
-    if (hasWebsite) {
+    if (withWebsite) {
       if (engineNameOrAlias == null) {
         const websites = getWebsites();
         websites.forEach((website) => {

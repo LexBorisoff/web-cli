@@ -1,7 +1,7 @@
 import query from "./query";
 import chalk from "chalk";
 import { getUrlList } from "../helpers/search";
-import { getArgs, hasEngine, hasSearchQuery, hasWebsite } from "../command";
+import { getArgs, withEngine, withSearchQuery, withWebsite } from "../command";
 
 const args = getArgs();
 
@@ -17,7 +17,7 @@ export default async function main(): Promise<void> {
   const { engine } = args;
 
   // perform search query
-  if (hasEngine || hasSearchQuery || hasWebsite) {
+  if (withEngine || withSearchQuery || withWebsite) {
     // single search engine / website to query
     if (!Array.isArray(engine)) {
       queryEngine(engine);
