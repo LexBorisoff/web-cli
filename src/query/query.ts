@@ -7,7 +7,7 @@ import { getDefaultsData } from "../data";
 const args = getArgs();
 
 export default async function query(url?: string): Promise<void> {
-  const defaults = await getDefaultsData();
+  const defaults = getDefaultsData();
 
   // browser provided through args or in config defaults
   if (args.browser || defaults.browser) {

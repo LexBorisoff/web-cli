@@ -3,7 +3,8 @@ import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
 import { getArgs, withSearchQuery, withWebsite } from "../../command";
 import { engineFallback } from "../../data";
-import { Engine } from "../../types/engines.types";
+import { Engine } from "../../types/engine.types";
+import { printError } from "../print";
 
 const args = getArgs();
 
@@ -18,7 +19,7 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
-async function getEngineQuery(engine: Engine): Promise<string> {
+function getEngineQuery(engine: Engine): string {
   const engineUrl: string = endsWithSlash.test(engine.url)
     ? engine.url
     : `${engine.url}/`;
@@ -31,18 +32,24 @@ async function getEngineQuery(engine: Engine): Promise<string> {
   return engineUrl + engineQuery;
 }
 
-export default async function getUrlList(
-  engineNameOrAlias?: string
-): Promise<string[]> {
+function printNoEngine(engineNameOrAlias: string) {
+  printError(`Engine with identifier "${engineNameOrAlias}" does not exist.`);
+}
+
+export default function getUrlList(engineNameOrAlias?: string): string[] {
   const urlList: string[] = [];
 
   // search query or website is provided
   if (withSearchQuery || withWebsite) {
     if (withSearchQuery) {
-      const engine = await getEngine(engineNameOrAlias ?? engineFallback);
+      const engine = getEngine(engineNameOrAlias ?? engineFallback);
+      if (engineNameOrAlias != null && engine == null) {
+        printNoEngine(engineNameOrAlias);
+      }
+
       if (engine != null) {
-        const searchQuery: string = await getSearchQuery(engine);
-        const engineQuery = await getEngineQuery(engine);
+        const searchQuery: string = getSearchQuery(engine);
+        const engineQuery = getEngineQuery(engine);
         urlList.push(engineQuery + searchQuery);
       }
     }
@@ -54,9 +61,13 @@ export default async function getUrlList(
           urlList.push(website);
         });
       } else {
-        const engine = await getEngine(engineNameOrAlias);
+        const engine = getEngine(engineNameOrAlias);
+        if (engine == null) {
+          printNoEngine(engineNameOrAlias);
+        }
+
         if (engine != null) {
-          const engineQuery = await getEngineQuery(engine);
+          const engineQuery = getEngineQuery(engine);
           const websites = getWebsites();
 
           websites.forEach((website) => {
@@ -68,7 +79,11 @@ export default async function getUrlList(
   }
   // only engine is provided
   else if (engineNameOrAlias != null) {
-    const engine = await getEngine(engineNameOrAlias);
+    const engine = getEngine(engineNameOrAlias);
+    if (engine == null) {
+      printNoEngine(engineNameOrAlias);
+    }
+
     if (engine != null) {
       urlList.push(engine.url);
     }

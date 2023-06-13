@@ -1,10 +1,10 @@
 import { getBrowsersData } from "../../data";
 import { Browser } from "../../types/data.types";
 
-export default async function getBrowser(
+export default function getBrowser(
   browserNameOrAlias: string
-): Promise<Browser | undefined> {
-  const browsers = await getBrowsersData();
+): Browser | undefined {
+  const browsers = getBrowsersData();
   return browsers.find((browserFromConfig) => {
     if (typeof browserFromConfig === "string") {
       return browserFromConfig === browserNameOrAlias;

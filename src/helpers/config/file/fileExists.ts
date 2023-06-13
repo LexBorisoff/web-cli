@@ -1,13 +1,8 @@
 import * as fs from "fs";
-import { getConfigFileName, getEnginesFileName } from "./getFileName";
+import getFileName from "./getFileName";
+import { ConfigFileType } from "../../../types/config.types";
 
-const configFileName = getConfigFileName();
-const fileName = getEnginesFileName();
-
-export function configFileExists(): boolean {
-  return fs.existsSync(configFileName);
-}
-
-export function enginesFileExists(): boolean {
+export default function fileExists(type: ConfigFileType): boolean {
+  const fileName = getFileName(type);
   return fs.existsSync(fileName);
 }

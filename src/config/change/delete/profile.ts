@@ -1,13 +1,13 @@
 import chalk from "chalk";
 import { getConfigData, getProfilesData, getDefaultsData } from "../../../data";
-import { writeConfigFile } from "../../../helpers/config";
+import { writeFile } from "../../../helpers/config";
 import { cliPrompts, getTitle } from "../../../helpers/prompts";
 import { emptyLine, printError, printInfo } from "../../../helpers/print";
 
 const { select, multiselect, toggle } = cliPrompts;
 
-async function removeBrowserFromProfileDefaults(browserName: string) {
-  const defaults = await getDefaultsData();
+function removeBrowserFromProfileDefaults(browserName: string) {
+  const defaults = getDefaultsData();
 
   if (defaults.profile != null) {
     delete defaults.profile[browserName];
@@ -22,7 +22,7 @@ async function removeBrowserFromProfileDefaults(browserName: string) {
 }
 
 export default async function deleteProfiles(): Promise<boolean> {
-  const profiles = await getProfilesData();
+  const profiles = getProfilesData();
   const browsersWithProfiles = Object.entries(profiles)
     .filter((entry) => Object.keys(entry[1] ?? {}).length > 0)
     .map(([key]) => key);
@@ -122,7 +122,7 @@ export default async function deleteProfiles(): Promise<boolean> {
     return Object.keys(getUpdatedProfiles());
   }
 
-  let defaults = await getDefaultsData();
+  let defaults = getDefaultsData();
 
   function updateDefaultProfile(newDefaultProfile: string) {
     if (browserName != null) {
@@ -175,7 +175,7 @@ export default async function deleteProfiles(): Promise<boolean> {
 
         // no profiles are left for the browser
         if (updatedProfileNames.length === 0) {
-          defaults = await removeBrowserFromProfileDefaults(browserName);
+          defaults = removeBrowserFromProfileDefaults(browserName);
 
           emptyLine();
           printInfo(`${getTitle(browserName)} has no more profiles.`);
@@ -228,7 +228,7 @@ export default async function deleteProfiles(): Promise<boolean> {
         delete updatedProfilesConfig[browserName];
       }
 
-      let config = await getConfigData();
+      let config = getConfigData();
       config = {
         ...config,
         defaults,
@@ -240,7 +240,7 @@ export default async function deleteProfiles(): Promise<boolean> {
         delete config.profiles;
       }
 
-      writeConfigFile(config);
+      writeFile({ config });
       return true;
     }
   }

@@ -1,5 +1,7 @@
 import { BrowsersConfig } from "./data.types";
 
+export type ConfigFileType = "config" | "engines";
+
 export type ChangeCommand = "add" | "update" | "delete" | "default";
 export type ConfigType = "browser" | "profile" | "engine";
 

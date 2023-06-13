@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { getConfigData, getBrowsersData, getDefaultsData } from "../../../data";
 import { getBrowserAliases } from "../../../helpers/browser";
-import { writeConfigFile } from "../../../helpers/config";
+import { writeFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
@@ -16,13 +16,13 @@ import { TextAnswer } from "../../../types/config.types";
 const { text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
 
-async function validateBrowserName(value: string): Promise<boolean | string> {
+function validateBrowserName(value: string): boolean | string {
   const browserName = value.trim().toLocaleLowerCase();
   if (!namePattern.test(browserName)) {
     return "Invalid browser name";
   }
 
-  const browsers = await getBrowsersData();
+  const browsers = getBrowsersData();
   if (browsers.length > 0) {
     const browserNames = browsers.map((browser) =>
       typeof browser === "string" ? browser : browser.name
@@ -39,10 +39,7 @@ async function validateBrowserName(value: string): Promise<boolean | string> {
   return true;
 }
 
-async function validateAlias(
-  aliases: string,
-  browserName: string
-): Promise<boolean | string> {
+function validateAlias(aliases: string, browserName: string): boolean | string {
   const list = getUniqueArrayLowerCase(aliases);
   if (list.includes(browserName.toLowerCase())) {
     return "Alias must differ from the browser name";
@@ -52,7 +49,7 @@ async function validateAlias(
     return "Only letters and numbers are allowed.";
   }
 
-  const browsers = await getBrowsersData();
+  const browsers = getBrowsersData();
   if (browsers.length === 0) {
     return true;
   }
@@ -60,7 +57,7 @@ async function validateAlias(
   const browserNames = browsers.map((browser) =>
     typeof browser === "string" ? browser : browser.name
   );
-  const browsersConfig = await getBrowsersData();
+  const browsersConfig = getBrowsersData();
   const browserAliases = getBrowserAliases(browsersConfig);
   const found = findExistingValues(list, [...browserNames, ...browserAliases]);
 
@@ -73,13 +70,10 @@ interface AddToConfigProps {
   browser: BrowserObject;
   isDefault: boolean;
 }
-async function addToConfig({
-  browser,
-  isDefault,
-}: AddToConfigProps): Promise<void> {
-  const config = await getConfigData();
-  let defaults = await getDefaultsData();
-  const browsers = await getBrowsersData();
+function addToConfig({ browser, isDefault }: AddToConfigProps): void {
+  const config = getConfigData();
+  let defaults = getDefaultsData();
+  const browsers = getBrowsersData();
 
   browsers.push(browser);
 
@@ -90,13 +84,19 @@ async function addToConfig({
     };
   }
 
-  writeConfigFile({ ...config, defaults, browsers });
+  writeFile({
+    config: {
+      ...config,
+      defaults,
+      browsers,
+    },
+  });
 }
 
 export default async function addBrowser(): Promise<boolean> {
   answer.browserName = await text(
     `Provide the ${chalk.yellowBright("browser's name")}:\n`,
-    async (value) => await validateBrowserName(value)
+    (value) => validateBrowserName(value)
   );
 
   if (answer.browserName == null) {
@@ -110,7 +110,7 @@ export default async function addBrowser(): Promise<boolean> {
     `List 0 or more aliases for ${chalk.yellowBright(
       getTitle(browserName)
     )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-    async (value) => await validateAlias(value, browserName)
+    (value) => validateAlias(value, browserName)
   );
 
   const alias: string[] | undefined =
@@ -123,7 +123,7 @@ export default async function addBrowser(): Promise<boolean> {
     };
 
     let isDefault = true;
-    const browsers = await getBrowsersData();
+    const browsers = getBrowsersData();
 
     if (browsers.length > 0) {
       emptyLine();
@@ -133,7 +133,7 @@ export default async function addBrowser(): Promise<boolean> {
       );
     }
 
-    await addToConfig({ browser, isDefault });
+    addToConfig({ browser, isDefault });
     return true;
   }
 

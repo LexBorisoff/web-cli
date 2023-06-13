@@ -1,6 +1,7 @@
 import setupInitialConfig from "./setupInitialConfig";
+import setupInitialEngines from "./setupInitialEngines";
 import { getDefaultsData } from "../../data";
-import { writeConfigFile } from "../../helpers/config";
+import { writeFile, hasData } from "../../helpers/config";
 import { printBanner } from "../../helpers/print";
 
 export default async function setupConfig(): Promise<void> {
@@ -9,16 +10,23 @@ export default async function setupConfig(): Promise<void> {
   const config = await setupInitialConfig();
   if (config != null) {
     const { browsers, defaultBrowser } = config;
-    const defaults = await getDefaultsData();
+    const defaults = getDefaultsData();
 
     try {
-      writeConfigFile({
-        defaults: {
-          ...defaults,
-          browser: defaultBrowser,
+      writeFile({
+        config: {
+          defaults: {
+            ...defaults,
+            browser: defaultBrowser,
+          },
+          browsers,
         },
-        browsers,
       });
+
+      const hasEngines = hasData("engines");
+      if (!hasEngines) {
+        setupInitialEngines();
+      }
 
       printBanner("You are good to go. Have fun!", "footer", "success");
     } catch (error) {

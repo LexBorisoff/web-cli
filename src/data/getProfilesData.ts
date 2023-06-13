@@ -1,7 +1,7 @@
 import getConfigData from "./getConfigData";
 import { ProfilesConfig } from "../types/data.types";
 
-export default async function getProfilesData(): Promise<ProfilesConfig> {
-  const config = await getConfigData();
+export default function getProfilesData(): ProfilesConfig {
+  const config = getConfigData();
   return config?.profiles ?? {};
 }

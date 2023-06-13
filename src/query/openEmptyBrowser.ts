@@ -7,7 +7,7 @@ import {
 } from "../helpers/browser";
 
 export default async function openEmptyBrowser(): Promise<void> {
-  const defaults = await getDefaultsData();
+  const defaults = getDefaultsData();
 
   if (defaults.browser) {
     const browser = getBrowserAppName(defaults.browser);
@@ -16,7 +16,7 @@ export default async function openEmptyBrowser(): Promise<void> {
       const defaultProfile = defaults.profile?.[defaults.browser];
       const profile =
         defaultProfile != null
-          ? await getProfile(defaultProfile, defaults.browser)
+          ? getProfile(defaultProfile, defaults.browser)
           : null;
 
       const browserArguments = getBrowserArguments(

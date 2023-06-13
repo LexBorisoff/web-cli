@@ -12,7 +12,7 @@ const args = getArgs();
 export default async function queryDefaultBrowser(url: string): Promise<void> {
   const protocol = `http${args.secure ? "s" : ""}://`;
   const fullUrl = /^http/is.test(url) ? url : `${protocol}${url}`;
-  const defaults = await getDefaultsData();
+  const defaults = getDefaultsData();
 
   if (defaults.browser) {
     const browserName = getBrowserAppName(defaults.browser);

@@ -1,25 +1,25 @@
 import * as fs from "fs";
-import { getConfigFileName, getEnginesFileName } from "./getFileName";
+import getFileName from "./getFileName";
 import { Config } from "../../../types/data.types";
-import { EnginesConfig } from "../../../types/engines.types";
+import { EnginesConfig } from "../../../types/engine.types";
 
-const configFileName = getConfigFileName();
-const enginesFileName = getEnginesFileName();
-
-export function writeConfigFile(config: Config): void {
-  const json = JSON.stringify(config);
-  fs.writeFile(configFileName, json, (error) => {
-    if (error != null) {
-      throw error;
-    }
-  });
+interface Data {
+  config?: Config;
+  engines?: EnginesConfig;
 }
 
-export function writeEnginesFile(engines: EnginesConfig): void {
-  const json = JSON.stringify(engines);
-  fs.writeFile(enginesFileName, json, (error) => {
-    if (error != null) {
-      throw error;
-    }
-  });
+export default function writeFile(data: Data) {
+  if (data.config != null) {
+    const { config } = data;
+    const json = JSON.stringify(config);
+    const fileName = getFileName("config");
+    fs.writeFileSync(fileName, json);
+  }
+
+  if (data.engines != null) {
+    const { engines } = data;
+    const json = JSON.stringify(engines);
+    const fileName = getFileName("engines");
+    fs.writeFileSync(fileName, json);
+  }
 }

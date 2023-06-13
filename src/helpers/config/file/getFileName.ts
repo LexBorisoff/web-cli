@@ -1,9 +1,10 @@
 import * as path from "path";
+import { ConfigFileType } from "../../../types/config.types";
 
-export function getConfigFileName(): string {
+export default function getFileName(type: ConfigFileType) {
+  if (type === "engines") {
+    return path.resolve(`${__dirname}/../../../engines.json`);
+  }
+
   return path.resolve(`${__dirname}/../../../config.json`);
-}
-
-export function getEnginesFileName(): string {
-  return path.resolve(`${__dirname}/../../../engines.json`);
 }

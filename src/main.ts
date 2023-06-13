@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import main from "./query/main";
 import { getConfigArgs } from "./command";
-import { hasConfig } from "./helpers/config";
+import { hasData } from "./helpers/config";
 import setupConfig from "./config/setup";
 import changeConfig from "./config/change";
 
 const args = getConfigArgs();
+const hasConfig = hasData("config");
 
-// TODO: fetch engines if file doesn't exist
-if (!hasConfig()) {
+if (!hasConfig) {
   setupConfig();
 } else if (args.config) {
   changeConfig();

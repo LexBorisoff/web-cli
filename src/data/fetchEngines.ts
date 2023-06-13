@@ -1,6 +1,6 @@
 import axios from "axios";
 import { printError } from "../helpers/print";
-import { EnginesConfig } from "../types/engines.types";
+import { EnginesConfig } from "../types/engine.types";
 
 const url = "https://shell-query.lexborisoff.dev/engines.json";
 

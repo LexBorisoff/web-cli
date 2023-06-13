@@ -1,8 +1,8 @@
 import getConfigData from "./getConfigData";
 import { BrowsersConfig } from "../types/data.types";
 
-export default async function getBrowsersData(): Promise<BrowsersConfig> {
-  const config = await getConfigData();
+export default function getBrowsersData(): BrowsersConfig {
+  const config = getConfigData();
   const { browsers } = config ?? {};
 
   if (browsers == null) {

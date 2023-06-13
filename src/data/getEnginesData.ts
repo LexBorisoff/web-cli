@@ -1,9 +1,13 @@
-import { readEnginesFile } from "../helpers/config";
-import { EnginesConfig } from "../types/engines.types";
+import { fileExists, readFile } from "../helpers/config";
+import { EnginesConfig } from "../types/engine.types";
 
 export const engineFallback = "google";
 
-export default async function getEnginesData(): Promise<EnginesConfig> {
-  const data = readEnginesFile();
-  return JSON.parse(data);
+export default function getEnginesData(): EnginesConfig {
+  if (!fileExists("engines")) {
+    return {};
+  }
+
+  const data = readFile("engines");
+  return data !== "" ? JSON.parse(data) : {};
 }

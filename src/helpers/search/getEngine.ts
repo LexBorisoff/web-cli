@@ -1,14 +1,20 @@
-import { getConfigItem } from "../config";
+import { getConfigItem, hasData } from "../config";
 import { getEnginesData } from "../../data";
-import { Engine } from "../../types/engines.types";
+import { Engine } from "../../types/engine.types";
+import setupInitialEngines from "../../config/setup/setupInitialEngines";
 
-export default async function getEngine(
+export default function getEngine(
   engineNameOrAlias?: string
-): Promise<Engine | undefined> {
+): Engine | undefined {
   if (engineNameOrAlias == null) {
     return undefined;
   }
 
-  const engines = await getEnginesData();
+  const hasEngines = hasData("engines");
+  if (!hasEngines) {
+    setupInitialEngines();
+  }
+
+  const engines = getEnginesData();
   return getConfigItem(engineNameOrAlias, engines);
 }

@@ -5,14 +5,14 @@ import {
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
-import { writeConfigFile } from "../../../helpers/config";
+import { writeFile } from "../../../helpers/config";
 import { cliPrompts, getTitle } from "../../../helpers/prompts";
 import { emptyLine, printInfo, printError } from "../../../helpers/print";
 
 const { select, multiselect, toggle } = cliPrompts;
 
 export default async function deleteBrowsers(): Promise<boolean> {
-  const browsers = await getBrowsersData();
+  const browsers = getBrowsersData();
 
   if (browsers.length === 0) {
     printError(`No browsers currently exist in the config`);
@@ -39,8 +39,8 @@ export default async function deleteBrowsers(): Promise<boolean> {
     return false;
   }
 
-  const profiles = await getProfilesData();
-  let defaults = await getDefaultsData();
+  const profiles = getProfilesData();
+  let defaults = getDefaultsData();
   const currentDefaultBrowser = defaults.browser;
 
   // deleting a default browser
@@ -154,7 +154,7 @@ export default async function deleteBrowsers(): Promise<boolean> {
       delete profiles[browserName];
     });
 
-    const config = await getConfigData();
+    const config = getConfigData();
     const remainingBrowsers = browsers.filter(
       (browser) =>
         !listToDelete.includes(
@@ -162,11 +162,13 @@ export default async function deleteBrowsers(): Promise<boolean> {
         )
     );
 
-    writeConfigFile({
-      ...config,
-      defaults,
-      browsers: remainingBrowsers,
-      profiles,
+    writeFile({
+      config: {
+        ...config,
+        defaults,
+        browsers: remainingBrowsers,
+        profiles,
+      },
     });
 
     return true;

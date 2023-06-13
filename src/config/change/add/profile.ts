@@ -5,7 +5,7 @@ import {
   getBrowsersData,
   getProfilesData,
 } from "../../../data";
-import { writeConfigFile } from "../../../helpers/config";
+import { writeFile } from "../../../helpers/config";
 import {
   cliPrompts,
   getTitle,
@@ -22,8 +22,8 @@ import { TextAnswer } from "../../../types/config.types";
 const { select, text, toggle } = cliPrompts;
 const answer: TextAnswer = {};
 
-async function getProfileAliases(browser: string): Promise<string[]> {
-  const profiles = await getProfilesData();
+function getProfileAliases(browser: string): string[] {
+  const profiles = getProfilesData();
 
   if (!(browser in profiles)) {
     return [];
@@ -44,10 +44,7 @@ async function getProfileAliases(browser: string): Promise<string[]> {
   return aliases;
 }
 
-async function validateDirectory(
-  value: string,
-  browser: string
-): Promise<true | string> {
+function validateDirectory(value: string, browser: string): true | string {
   const directory = value.trim();
   if (directory === "") {
     return "Empty values are not allowed";
@@ -57,7 +54,7 @@ async function validateDirectory(
     return "Enter a valid directory name";
   }
 
-  const profiles = await getProfilesData();
+  const profiles = getProfilesData();
   if (!(browser in profiles)) {
     return true;
   }
@@ -72,10 +69,10 @@ async function validateDirectory(
     : `${directory} already exists for ${getTitle(browser)}`;
 }
 
-async function validateProfileName(
+function validateProfileName(
   profileName: string,
   browser: string
-): Promise<boolean | string> {
+): boolean | string {
   if (profileName.trim() === "") {
     return "Empty values are not allowed";
   }
@@ -84,12 +81,12 @@ async function validateProfileName(
     return "Only letters and number are allowed";
   }
 
-  const profiles = await getProfilesData();
+  const profiles = getProfilesData();
   if (!(browser in profiles)) {
     return true;
   }
 
-  const profileAliases = await getProfileAliases(browser);
+  const profileAliases = getProfileAliases(browser);
   if (profileAliases.includes(profileName)) {
     return `"${profileName}" is an alias for an existing ${getTitle(
       browser
@@ -104,11 +101,11 @@ async function validateProfileName(
     : `"${profileName}" already exists for ${getTitle(browser)}`;
 }
 
-async function validateAlias(
+function validateAlias(
   aliases: string,
   profileName: string,
   browser: string
-): Promise<boolean | string> {
+): boolean | string {
   const list = getUniqueArrayLowerCase(aliases);
   if (list.includes(profileName.toLowerCase())) {
     return "Alias must differ from the command-line name";
@@ -118,7 +115,7 @@ async function validateAlias(
     return "Only letters and numbers are allowed for an alias name.";
   }
 
-  const profiles = await getProfilesData();
+  const profiles = getProfilesData();
   if (!(browser in profiles)) {
     return true;
   }
@@ -127,7 +124,7 @@ async function validateAlias(
   const browserProfiles = profiles[browser] ?? {};
   const profileNames = Object.keys(browserProfiles);
 
-  const profileAliases = await getProfileAliases(browser);
+  const profileAliases = getProfileAliases(browser);
 
   profileNames.forEach((profile) => {
     if (list.includes(profile)) {
@@ -154,15 +151,15 @@ interface AddToConfigProps {
   browser: string;
   isDefault?: boolean;
 }
-async function addToConfig({
+function addToConfig({
   profileName,
   profile,
   browser,
   isDefault = false,
-}: AddToConfigProps): Promise<void> {
-  const config = await getConfigData();
-  let defaults = await getDefaultsData();
-  let profiles = await getProfilesData();
+}: AddToConfigProps): void {
+  const config = getConfigData();
+  let defaults = getDefaultsData();
+  let profiles = getProfilesData();
 
   profiles = {
     ...profiles,
@@ -184,11 +181,17 @@ async function addToConfig({
     };
   }
 
-  writeConfigFile({ ...config, defaults, profiles });
+  writeFile({
+    config: {
+      ...config,
+      defaults,
+      profiles,
+    },
+  });
 }
 
 export default async function addProfile(): Promise<boolean> {
-  const browsers = await getBrowsersData();
+  const browsers = getBrowsersData();
   if (browsers.length > 0) {
     const browserList = browsers.map((browser) =>
       typeof browser === "string" ? browser : browser.name
@@ -205,7 +208,7 @@ export default async function addProfile(): Promise<boolean> {
         `What is the ${chalk.italic.cyan("exact")} ${chalk.yellowBright(
           "directory name"
         )} of this profile?\n`,
-        async (value) => await validateDirectory(value, browser)
+        (value) => validateDirectory(value, browser)
       );
 
       if (answer.directory != null) {
@@ -216,7 +219,7 @@ export default async function addProfile(): Promise<boolean> {
           `Create a ${chalk.yellowBright("command-line name")} ${chalk.cyan(
             "(lowercase)"
           )} for "${directory}".\n`,
-          async (value) => await validateProfileName(value, browser)
+          (value) => validateProfileName(value, browser)
         );
 
         if (answer.profileName != null) {
@@ -227,7 +230,7 @@ export default async function addProfile(): Promise<boolean> {
             `List 0 or more aliases for ${chalk.yellowBright(
               profileName
             )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-            async (value) => await validateAlias(value, profileName, browser)
+            (value) => validateAlias(value, profileName, browser)
           );
 
           const alias: string[] | undefined =
@@ -242,7 +245,7 @@ export default async function addProfile(): Promise<boolean> {
             };
 
             let isDefault = true;
-            const defaults = (await getDefaultsData()) ?? {};
+            const defaults = getDefaultsData() ?? {};
 
             if (
               defaults?.profile?.[browser] != null &&
@@ -257,7 +260,7 @@ export default async function addProfile(): Promise<boolean> {
               );
             }
 
-            await addToConfig({
+            addToConfig({
               profileName,
               profile,
               browser,

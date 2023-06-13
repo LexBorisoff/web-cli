@@ -26,6 +26,8 @@ export default function getConfigItem<List extends object>(
         return item;
       }
     }
+
+    return undefined;
   });
 
   return found;

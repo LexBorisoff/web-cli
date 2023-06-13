@@ -8,11 +8,11 @@ const args = getArgs();
 
 export default async function queryBrowser(url?: string): Promise<void> {
   async function openBrowser(browserNameOrAlias: string): Promise<void> {
-    const browser = await getBrowser(browserNameOrAlias);
+    const browser = getBrowser(browserNameOrAlias);
     if (browser != null) {
       const browserName = typeof browser === "string" ? browser : browser.name;
 
-      if (await hasProfile(browserName)) {
+      if (hasProfile(browserName)) {
         await queryBrowserProfile(browserName, url);
       }
       // profile NOT provided
@@ -22,7 +22,7 @@ export default async function queryBrowser(url?: string): Promise<void> {
     }
   }
 
-  const defaults = await getDefaultsData();
+  const defaults = getDefaultsData();
   const browser = args.browser ?? defaults.browser;
 
   if (browser != null) {

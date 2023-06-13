@@ -9,10 +9,8 @@ interface RequiredDefaults {
   delimiter: string;
 }
 
-export default async function getDefaultsData(): Promise<
-  DefaultsConfig & RequiredDefaults
-> {
-  const config = await getConfigData();
+export default function getDefaultsData(): DefaultsConfig & RequiredDefaults {
+  const config = getConfigData();
   const defaults: DefaultsConfig & RequiredDefaults = {
     ...config.defaults,
     engine: config.defaults?.engine ?? engineFallback,
