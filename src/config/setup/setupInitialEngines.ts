@@ -16,5 +16,5 @@ const initialEngines: EnginesConfig = {
 };
 
 export default function setupInitialEngines() {
-  writeFile({ engines: initialEngines });
+  writeFile("engines", initialEngines);
 }

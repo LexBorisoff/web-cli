@@ -1,12 +1,12 @@
 import { fileExists, readFile } from "./file";
 import { ConfigFileType } from "../../types/config.types";
 
-export default function hasData(type: ConfigFileType): boolean {
-  if (!fileExists(type)) {
+export default function hasData(fileType: ConfigFileType): boolean {
+  if (!fileExists(fileType)) {
     return false;
   }
 
-  const data = readFile(type);
+  const data = readFile(fileType);
   if (data === "") {
     return false;
   }

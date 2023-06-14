@@ -162,13 +162,11 @@ export default async function deleteBrowsers(): Promise<boolean> {
         )
     );
 
-    writeFile({
-      config: {
-        ...config,
-        defaults,
-        browsers: remainingBrowsers,
-        profiles,
-      },
+    writeFile("config", {
+      ...config,
+      defaults,
+      browsers: remainingBrowsers,
+      profiles,
     });
 
     return true;

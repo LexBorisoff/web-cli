@@ -181,12 +181,10 @@ function addToConfig({
     };
   }
 
-  writeFile({
-    config: {
-      ...config,
-      defaults,
-      profiles,
-    },
+  writeFile("config", {
+    ...config,
+    defaults,
+    profiles,
   });
 }
 

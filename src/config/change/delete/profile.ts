@@ -240,7 +240,7 @@ export default async function deleteProfiles(): Promise<boolean> {
         delete config.profiles;
       }
 
-      writeFile({ config });
+      writeFile("config", config);
       return true;
     }
   }

@@ -84,12 +84,10 @@ function addToConfig({ browser, isDefault }: AddToConfigProps): void {
     };
   }
 
-  writeFile({
-    config: {
-      ...config,
-      defaults,
-      browsers,
-    },
+  writeFile("config", {
+    ...config,
+    defaults,
+    browsers,
   });
 }
 

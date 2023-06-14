@@ -13,14 +13,12 @@ export default async function setupConfig(): Promise<void> {
     const defaults = getDefaultsData();
 
     try {
-      writeFile({
-        config: {
-          defaults: {
-            ...defaults,
-            browser: defaultBrowser,
-          },
-          browsers,
+      writeFile("config", {
+        defaults: {
+          ...defaults,
+          browser: defaultBrowser,
         },
+        browsers,
       });
 
       const hasEngines = hasData("engines");
