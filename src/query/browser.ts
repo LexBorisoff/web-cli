@@ -1,5 +1,5 @@
 import open from "open";
-import queryBrowserProfile, { hasProfile } from "./profile";
+import queryProfile, { hasProfile } from "./profile";
 import openBrowser from "./openBrowser";
 import { getArgs } from "../command";
 import { getDefaultsData } from "../data";
@@ -15,7 +15,7 @@ export default async function queryBrowser(url?: string): Promise<void> {
       const browserName = typeof browser === "string" ? browser : browser.name;
 
       if (hasProfile(browserName)) {
-        await queryBrowserProfile(browserName, url);
+        await queryProfile(browserName, url);
       } else {
         await openBrowser(browserName, url);
       }
@@ -26,6 +26,7 @@ export default async function queryBrowser(url?: string): Promise<void> {
   const browserArg = args.browser as typeof args.browser | string[];
   const browser = browserArg ?? defaults.browser;
 
+  // with provided or default browser
   if (browser != null) {
     // one browser provided
     if (!Array.isArray(browser)) {
@@ -37,9 +38,13 @@ export default async function queryBrowser(url?: string): Promise<void> {
         handleBrowser(browserName);
       });
     }
-  } else if (url != null) {
+  }
+  // no browser but has url
+  else if (url != null) {
     await open(url);
-  } else {
+  }
+  // no browser and no url
+  else {
     printError("Provide default browser to open");
   }
 }

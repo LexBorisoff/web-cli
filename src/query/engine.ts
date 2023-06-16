@@ -16,6 +16,7 @@ export default async function queryEngine(): Promise<void> {
 
   const engineArg = args.engine as typeof args.engine | string[];
 
+  // single search engine / website to query
   if (!Array.isArray(engineArg)) {
     await handleEngine(engineArg);
   }
