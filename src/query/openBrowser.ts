@@ -1,7 +1,7 @@
 import open from "open";
 import { getBrowserArguments, getBrowserAppName } from "../helpers/browser";
 
-export default async function queryUrl(
+export default async function openBrowser(
   browserName: string,
   url?: string,
   profileDirectory?: string
@@ -16,5 +16,6 @@ export default async function queryUrl(
     return;
   }
 
+  // opens empty browser
   await open.openApp(browserAppName, { arguments: browserArguments });
 }

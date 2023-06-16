@@ -1,17 +1,36 @@
 #!/usr/bin/env node
-import main from "./query/main";
-import { getConfigArgs } from "./command";
+import query from "./query";
+import {
+  getConfigArgs,
+  withEngine,
+  withSearchQuery,
+  withWebsite,
+} from "./command";
 import { hasData } from "./helpers/config";
 import setupConfig from "./config/setup";
 import changeConfig from "./config/change";
 
 const args = getConfigArgs();
-const hasConfig = hasData("config");
 
-if (!hasConfig) {
-  setupConfig();
-} else if (args.config) {
-  changeConfig();
-} else {
-  main();
+async function main() {
+  const hasConfig = hasData("config");
+  const withArgs = withEngine || withSearchQuery || withWebsite;
+  const proceed = hasConfig || (!hasConfig && withArgs);
+
+  if (args.config) {
+    if (hasConfig) {
+      changeConfig();
+    }
+    return;
+  }
+
+  if (!hasConfig) {
+    await setupConfig();
+  }
+
+  if (proceed) {
+    query();
+  }
 }
+
+main();
