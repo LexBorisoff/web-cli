@@ -23,6 +23,7 @@
     "no-duplicate-imports": "error",
     "prefer-const": "warn",
     "no-use-before-define": "error",
+    "no-else-return": "error",
     "consistent-return": "error"
   }
 }
