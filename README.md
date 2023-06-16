@@ -1,0 +1,3 @@
+# shell-query
+CLI for making browser search queries from a terminal...
+(currently under active development, check back soon!)
