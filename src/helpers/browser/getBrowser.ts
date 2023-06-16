@@ -10,12 +10,15 @@ export default function getBrowser(
       return browserFromConfig === browserNameOrAlias;
     }
 
-    return (
-      browserFromConfig.name === browserNameOrAlias ||
+    const isBrowserName = browserFromConfig.name === browserNameOrAlias;
+    const isBrowserAlias =
+      // alias is a string
       (typeof browserFromConfig?.alias === "string" &&
         browserFromConfig.alias === browserNameOrAlias) ||
+      // alias is an array
       (Array.isArray(browserFromConfig.alias) &&
-        browserFromConfig.alias.includes(browserNameOrAlias))
-    );
+        browserFromConfig.alias.includes(browserNameOrAlias));
+
+    return isBrowserName || isBrowserAlias;
   });
 }
