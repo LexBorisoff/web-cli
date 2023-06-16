@@ -201,7 +201,10 @@ export default async function addProfile(): Promise<boolean> {
     );
 
     if (browser != null) {
-      emptyLine();
+      if (browsers.length > 1) {
+        emptyLine();
+      }
+
       answer.directory = await text(
         `What is the ${chalk.italic.cyan("exact")} ${chalk.yellowBright(
           "directory name"

@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import queryBrowser from "./browser";
 import { getUrlList } from "../helpers/search";
+import { emptyLine } from "../helpers/print";
 import { getArgs } from "../command";
 
 const args = getArgs();
@@ -12,6 +13,8 @@ export default async function queryEngine(): Promise<void> {
       console.log(`> ${chalk.green(url)}`);
       await queryBrowser(url);
     });
+
+    emptyLine();
   }
 
   const engineArg = args.engine as typeof args.engine | string[];
