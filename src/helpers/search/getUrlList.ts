@@ -2,7 +2,7 @@ import getEngine from "./getEngine";
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
 import { getArgs, withSearchQuery, withWebsite } from "../../command";
-import { engineFallback } from "../../data";
+import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/engine.types";
 import { printError } from "../print";
 
@@ -39,10 +39,16 @@ function printNoEngine(engineNameOrAlias: string) {
 export default function getUrlList(engineNameOrAlias?: string): string[] {
   const urlList: string[] = [];
 
+  function getFullUrl(url: string) {
+    const protocol = `http${args.secure ? "s" : ""}://`;
+    return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
+  }
+
   // search query or website is provided
   if (withSearchQuery || withWebsite) {
     if (withSearchQuery) {
-      const engine = getEngine(engineNameOrAlias ?? engineFallback);
+      const defaults = getDefaultsData();
+      const engine = getEngine(engineNameOrAlias ?? defaults.engine);
       if (engineNameOrAlias != null && engine == null) {
         printNoEngine(engineNameOrAlias);
       }
@@ -50,7 +56,7 @@ export default function getUrlList(engineNameOrAlias?: string): string[] {
       if (engine != null) {
         const searchQuery: string = getSearchQuery(engine);
         const engineQuery = getEngineQuery(engine);
-        urlList.push(engineQuery + searchQuery);
+        urlList.push(getFullUrl(engineQuery + searchQuery));
       }
     }
 
@@ -58,7 +64,7 @@ export default function getUrlList(engineNameOrAlias?: string): string[] {
       if (engineNameOrAlias == null) {
         const websites = getWebsites();
         websites.forEach((website) => {
-          urlList.push(website);
+          urlList.push(getFullUrl(website));
         });
       } else {
         const engine = getEngine(engineNameOrAlias);
@@ -71,7 +77,7 @@ export default function getUrlList(engineNameOrAlias?: string): string[] {
           const websites = getWebsites();
 
           websites.forEach((website) => {
-            urlList.push(engineQuery + website);
+            urlList.push(getFullUrl(engineQuery + website));
           });
         }
       }
@@ -85,7 +91,7 @@ export default function getUrlList(engineNameOrAlias?: string): string[] {
     }
 
     if (engine != null) {
-      urlList.push(engine.url);
+      urlList.push(getFullUrl(engine.url));
     }
   }
 
