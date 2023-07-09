@@ -4,4 +4,4 @@ export interface WithAlias {
 
 export type Severity = "neutral" | "info" | "success" | "warning" | "error";
 
-export type BannerType = "header" | "footer";
+export type BannerType = "neutral" | "header" | "footer";

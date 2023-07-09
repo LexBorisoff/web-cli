@@ -30,9 +30,9 @@ export default async function defaultConfig(
 
   const answer = await select<ConfigType>(
     configTypes,
-    `What ${chalk.yellowBright("config")} do you want to update?\n`
+    `What ${chalk.yellowBright("default")} do you want to change?\n`
   );
 
-  emptyLine();
+  answer != null && emptyLine();
   return defaultType(answer);
 }

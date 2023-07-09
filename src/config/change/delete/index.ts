@@ -30,9 +30,9 @@ export default async function deleteConfig(
 
   const answer = await select<ConfigType>(
     configTypes,
-    `What ${chalk.yellowBright("config")} do you want to update?\n`
+    `What ${chalk.yellowBright("config")} do you want to delete?\n`
   );
 
-  emptyLine();
+  answer != null && emptyLine();
   return deleteType(answer);
 }

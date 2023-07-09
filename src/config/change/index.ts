@@ -42,6 +42,10 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
   }
 }
 
+function printHeader() {
+  printBanner("Changing config...", "header", "info");
+}
+
 /*
 --- Possible Config Change Commands ---
 sq --config
@@ -71,54 +75,50 @@ export default async function changeConfig(): Promise<void> {
   if (isConfig) {
     let success = false;
 
-    if (args.length >= 0) {
-      printBanner("Changing config...", "header");
-    }
-
     // config from the beginning
     if (args.length === 0) {
+      printHeader();
       console.log("step-by-step config");
       return;
     }
 
     // using config commands
-    if (args.length >= 1) {
-      let changeCommand: ChangeCommandFn | undefined = undefined;
+    let changeCommand: ChangeCommandFn | undefined = undefined;
 
-      // get the first arg
-      const [command] = args;
-      let configType: string | undefined = undefined;
+    // get the first arg
+    const [command] = args;
+    let configType: string | undefined = undefined;
 
-      if (typeof command === "string") {
-        changeCommand = getChangeCommand(command);
+    if (typeof command === "string") {
+      changeCommand = getChangeCommand(command);
 
-        if (!changeCommand) {
-          printBanner(`Invalid command: "${command}"`, "footer", "error");
-          return;
-        }
-
-        // get the second arg, if it was provided
-        if (args.length >= 2 && typeof args[1] === "string") {
-          configType = args[1];
-
-          if (!isValidConfigType(configType)) {
-            printBanner(
-              `Invalid config type: "${configType}"`,
-              "footer",
-              "error"
-            );
-            return;
-          }
-        }
-
-        success = await changeCommand(configType);
+      if (!changeCommand) {
+        printBanner(`Invalid command: "${command}"`, "neutral", "error");
+        return;
       }
 
-      const message: string = success
-        ? "Config is successfully changed!"
-        : "Config was not changed";
-      const severity: Severity = success ? "success" : "error";
-      printBanner(message, "footer", severity);
+      // get the second arg, if it was provided
+      if (args.length >= 2 && typeof args[1] === "string") {
+        configType = args[1];
+
+        if (!isValidConfigType(configType)) {
+          printBanner(
+            `Invalid config type: "${configType}"`,
+            "neutral",
+            "error"
+          );
+          return;
+        }
+      }
+
+      printHeader();
+      success = await changeCommand(configType);
     }
+
+    const message: string = success
+      ? "Config is successfully changed!"
+      : "Config was not changed";
+    const severity: Severity = success ? "success" : "error";
+    printBanner(message, "footer", severity);
   }
 }

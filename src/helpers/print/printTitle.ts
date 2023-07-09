@@ -39,10 +39,14 @@ export default function printTitle(
     print(color(double ? doubleLine : line));
   }
 
+  function isDoubleLine(checkTitleType: BannerType): boolean {
+    return titleType === "neutral" || titleType === checkTitleType;
+  }
+
   if (line.length - title.length - columnsLength <= 0) {
-    printLine(titleType === "header");
+    printLine(isDoubleLine("header"));
     print(title);
-    printLine(titleType === "footer");
+    printLine(isDoubleLine("footer"));
     return;
   }
 
@@ -61,7 +65,7 @@ export default function printTitle(
 
   const titleLine = `>${spacesLeft}${title}${spacesRight}<`;
 
-  printLine(titleType === "header");
+  printLine(isDoubleLine("header"));
   print(titleLine);
-  printLine(titleType === "footer");
+  printLine(isDoubleLine("footer"));
 }

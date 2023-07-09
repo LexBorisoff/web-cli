@@ -33,6 +33,6 @@ export default async function updateConfig(
     `What ${chalk.yellowBright("config")} do you want to update?\n`
   );
 
-  emptyLine();
+  answer != null && emptyLine();
   return updateType(answer);
 }
