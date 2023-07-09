@@ -4,20 +4,21 @@ import addProfile from "./profile";
 import addEngine from "./engine";
 import { cliPrompts } from "../../../helpers/prompts";
 import { emptyLine } from "../../../helpers/print";
-import { ConfigType } from "../../../types/config.types";
+import { configTypes, ConfigType } from "../../../types/config.types";
 
 const { select } = cliPrompts;
 
 async function addType(configType?: ConfigType): Promise<boolean> {
-  if (configType === "browser") {
-    return addBrowser();
-  } else if (configType === "profile") {
-    return addProfile();
-  } else if (configType === "engine") {
-    return addEngine();
+  switch (configType) {
+    case ConfigType.browser:
+      return addBrowser();
+    case ConfigType.profile:
+      return addProfile();
+    case ConfigType.engine:
+      return addEngine();
+    default:
+      return false;
   }
-
-  return false;
 }
 
 export default async function addConfig(
@@ -27,7 +28,6 @@ export default async function addConfig(
     return addType(configType);
   }
 
-  const configTypes: ConfigType[] = ["browser", "profile", "engine"];
   const answer = await select<ConfigType>(
     configTypes,
     `What ${chalk.yellowBright("config")} do you want to add?\n`

@@ -21,7 +21,7 @@ function removeBrowserFromProfileDefaults(browserName: string) {
   return defaults;
 }
 
-export default async function deleteProfiles(): Promise<boolean> {
+export default async function deleteProfile(): Promise<boolean> {
   const profiles = getProfilesData();
   const browsersWithProfiles = Object.entries(profiles)
     .filter((entry) => Object.keys(entry[1] ?? {}).length > 0)

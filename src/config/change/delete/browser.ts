@@ -11,7 +11,7 @@ import { emptyLine, printInfo, printError } from "../../../helpers/print";
 
 const { select, multiselect, toggle } = cliPrompts;
 
-export default async function deleteBrowsers(): Promise<boolean> {
+export default async function deleteBrowser(): Promise<boolean> {
   const browsers = getBrowsersData();
 
   if (browsers.length === 0) {

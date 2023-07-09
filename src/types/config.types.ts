@@ -2,8 +2,20 @@ import { BrowsersConfig } from "./data.types";
 
 export type ConfigFileType = "config" | "engines";
 
-export type ChangeCommand = "add" | "update" | "delete" | "default";
-export type ConfigType = "browser" | "profile" | "engine";
+export enum ChangeCommand {
+  add = "add",
+  update = "update",
+  delete = "delete",
+  default = "default",
+}
+export const changeCommands = Object.values(ChangeCommand);
+
+export enum ConfigType {
+  browser = "browser",
+  profile = "profile",
+  engine = "engine",
+}
+export const configTypes = Object.values(ConfigType);
 
 export interface PromptAnswer<T> {
   answer?: T;

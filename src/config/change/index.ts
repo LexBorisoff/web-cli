@@ -5,22 +5,22 @@ import defaultConfig from "./default";
 import { getConfigArgs } from "../../command";
 import { printBanner } from "../../helpers/print";
 import {
-  ConfigType,
+  changeCommands,
+  configTypes,
   ChangeCommand,
+  ConfigType,
   ChangeCommandFn,
 } from "../../types/config.types";
 import { Severity } from "../../types/utility.types";
 
 const { config: isConfig, _: args } = getConfigArgs();
-const changeCommands = ["add", "update", "delete", "default"];
-const configTypes = ["browser", "profile", "engine"];
 
 function isValidChangeCommand(command: string): command is ChangeCommand {
-  return changeCommands.includes(command);
+  return (changeCommands as string[]).includes(command);
 }
 
 function isValidConfigType(configType: string): configType is ConfigType {
-  return configTypes.includes(configType);
+  return (configTypes as string[]).includes(configType);
 }
 
 function getChangeCommand(command: string): ChangeCommandFn | undefined {
@@ -29,13 +29,13 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
   }
 
   switch (command) {
-    case "add":
+    case ChangeCommand.add:
       return addConfig;
-    case "update":
+    case ChangeCommand.update:
       return updateConfig;
-    case "delete":
+    case ChangeCommand.delete:
       return deleteConfig;
-    case "default":
+    case ChangeCommand.default:
       return defaultConfig;
     default:
       return undefined;

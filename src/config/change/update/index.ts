@@ -4,20 +4,21 @@ import updateProfile from "./profile";
 import updateEngine from "./engine";
 import { cliPrompts } from "../../../helpers/prompts";
 import { emptyLine } from "../../../helpers/print";
-import { ConfigType } from "../../../types/config.types";
+import { configTypes, ConfigType } from "../../../types/config.types";
 
 const { select } = cliPrompts;
 
 async function updateType(configType?: ConfigType): Promise<boolean> {
-  if (configType === "browser") {
-    return updateBrowser();
-  } else if (configType === "profile") {
-    return updateProfile();
-  } else if (configType === "engine") {
-    return updateEngine();
+  switch (configType) {
+    case ConfigType.browser:
+      return updateBrowser();
+    case ConfigType.profile:
+      return updateProfile();
+    case ConfigType.engine:
+      return updateEngine();
+    default:
+      return false;
   }
-
-  return false;
 }
 
 export default async function updateConfig(
@@ -27,7 +28,6 @@ export default async function updateConfig(
     return updateType(configType);
   }
 
-  const configTypes: ConfigType[] = ["browser", "profile", "engine"];
   const answer = await select<ConfigType>(
     configTypes,
     `What ${chalk.yellowBright("config")} do you want to update?\n`
