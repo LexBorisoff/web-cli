@@ -11,26 +11,23 @@ import setupConfig from "./config/setup";
 import changeConfig from "./config/change";
 
 const args = getConfigArgs();
+const hasConfig = hasData("config");
 
 async function main() {
-  const hasConfig = hasData("config");
   const withArgs = withEngine || withSearchQuery || withWebsite;
-  const proceed = hasConfig || (!hasConfig && withArgs);
-
-  if (args.config) {
-    if (hasConfig) {
-      changeConfig();
-    }
-    return;
-  }
+  const proceedToQuery = hasConfig || (!hasConfig && withArgs);
 
   if (!hasConfig) {
     await setupConfig();
   }
 
-  if (proceed) {
+  if (proceedToQuery) {
     query();
   }
 }
 
-main();
+if (!args.config) {
+  main();
+} else if (hasConfig) {
+  changeConfig();
+}
