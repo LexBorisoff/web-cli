@@ -6,8 +6,11 @@ import { EnginesConfig } from "../../../types/engine.types";
 
 type Data = Config | EnginesConfig;
 
-export default function writeFile(fileType: ConfigFileType, data: Data) {
+export default function writeFile(fileType: ConfigFileType, data: Data): void {
   const fileName = getFileName(fileType);
-  const json = JSON.stringify(data);
-  fs.writeFileSync(fileName, json);
+
+  if (fileName != null) {
+    const json = JSON.stringify(data);
+    fs.writeFileSync(fileName, json);
+  }
 }

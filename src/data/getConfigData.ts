@@ -7,5 +7,5 @@ export default function getConfigData(): Config {
   }
 
   const data = readFile("config");
-  return data !== "" ? JSON.parse(data) : {};
+  return data != null ? JSON.parse(data) : {};
 }

@@ -4,5 +4,5 @@ import { ConfigFileType } from "../../../types/config.types";
 
 export default function fileExists(fileType: ConfigFileType): boolean {
   const fileName = getFileName(fileType);
-  return fs.existsSync(fileName);
+  return fileName != null && fs.existsSync(fileName);
 }

@@ -7,7 +7,7 @@ export default function hasData(fileType: ConfigFileType): boolean {
   }
 
   const data = readFile(fileType);
-  if (data === "") {
+  if (data == null) {
     return false;
   }
 
