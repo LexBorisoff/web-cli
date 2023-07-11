@@ -32,7 +32,7 @@ function validateBrowserName(value: string): boolean | string {
       (browser) => browser.toLowerCase() === browserName
     );
     if (found != null) {
-      return `${getTitle(found)} already exist`;
+      return `${getTitle(found)} already exists`;
     }
   }
 
@@ -46,7 +46,7 @@ function validateAlias(aliases: string, browserName: string): boolean | string {
   }
 
   if (list.find((alias) => !lettersNumbersPattern.test(alias)) != null) {
-    return "Only letters and numbers are allowed.";
+    return "Only letters and numbers are allowed";
   }
 
   const browsers = getBrowsersData();
@@ -63,7 +63,7 @@ function validateAlias(aliases: string, browserName: string): boolean | string {
 
   return found.length === 0
     ? true
-    : `These browser names/aliases already exist: ${found.join(", ")} `;
+    : `These browser names/aliases already exist: ${found.join(", ")}`;
 }
 
 interface AddToConfigProps {

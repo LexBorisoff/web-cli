@@ -12,5 +12,5 @@ export default function hasData(fileType: ConfigFileType): boolean {
   }
 
   const config = JSON.parse(data);
-  return config instanceof Object ? Object.keys(config).length > 0 : false;
+  return config instanceof Object && Object.keys(config).length > 0;
 }
