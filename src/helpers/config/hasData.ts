@@ -7,10 +7,14 @@ export default function hasData(fileType: ConfigFileType): boolean {
   }
 
   const data = readFile(fileType);
-  if (data == null) {
+  if (data == null || data === "") {
     return false;
   }
 
-  const config = JSON.parse(data);
-  return config instanceof Object && Object.keys(config).length > 0;
+  try {
+    const config = JSON.parse(data);
+    return config instanceof Object && Object.keys(config).length > 0;
+  } catch {
+    return false;
+  }
 }

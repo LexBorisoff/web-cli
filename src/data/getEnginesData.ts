@@ -9,5 +9,10 @@ export default function getEnginesData(): EnginesConfig {
   }
 
   const data = readFile("engines");
-  return data != null ? JSON.parse(data) : {};
+
+  try {
+    return data != null && data !== "" ? JSON.parse(data) : {};
+  } catch {
+    return {};
+  }
 }
