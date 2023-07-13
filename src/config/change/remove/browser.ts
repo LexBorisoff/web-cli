@@ -11,7 +11,7 @@ import { emptyLine, printInfo, printError } from "../../../helpers/print";
 
 const { select, multiselect, toggle } = cliPrompts;
 
-export default async function deleteBrowser(): Promise<boolean> {
+export default async function removeBrowser(): Promise<boolean> {
   const browsers = getBrowsersData();
 
   if (browsers.length === 0) {
@@ -25,7 +25,7 @@ export default async function deleteBrowser(): Promise<boolean> {
 
   const listToDelete = await multiselect(
     browserNames,
-    "Select all browsers you want to delete.\n"
+    "Select all browsers you want to remove.\n"
   );
 
   if (listToDelete == null) {
@@ -58,7 +58,7 @@ export default async function deleteBrowser(): Promise<boolean> {
     );
 
     if (!yes) {
-      // remove current default browser from the list of browsers to delete
+      // delete current default browser from the list of browsers
       const index = listToDelete.findIndex(
         (browser) => browser === currentDefaultBrowser
       );

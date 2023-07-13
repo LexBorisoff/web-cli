@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import { getConfigFileName, configFileExists } from "../helpers/config";
+import { getFileName, fileExists } from "../helpers/config";
 
-const configFileName = getConfigFileName();
+const configFileName = getFileName("config");
 
-if (configFileExists()) {
+if (configFileName != null && fileExists("config")) {
   fs.unlinkSync(configFileName);
 }

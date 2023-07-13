@@ -1,6 +1,6 @@
 import addConfig from "./add";
 import updateConfig from "./update";
-import deleteConfig from "./delete";
+import removeConfig from "./remove";
 import defaultConfig from "./default";
 import { getConfigArgs } from "../../command";
 import { printBanner } from "../../helpers/print";
@@ -33,8 +33,8 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
       return addConfig;
     case ChangeCommand.update:
       return updateConfig;
-    case ChangeCommand.delete:
-      return deleteConfig;
+    case ChangeCommand.remove:
+      return removeConfig;
     case ChangeCommand.default:
       return defaultConfig;
     default:
@@ -60,10 +60,10 @@ sq --config update browser
 sq --config update profile
 sq --config update engine
 
-sq --config delete
-sq --config delete browser
-sq --config delete profile
-sq --config delete engine
+sq --config remove
+sq --config remove browser
+sq --config remove profile
+sq --config remove engine
 
 sq --config default
 sq --config default profile

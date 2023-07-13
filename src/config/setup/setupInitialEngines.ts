@@ -8,11 +8,6 @@ const initialEngines: EnginesConfig = {
     query: "search?q=",
     alias: ["g"],
   },
-  mdn: {
-    name: "MDN",
-    url: "developer.mozilla.org/en-US",
-    query: "search?q=",
-  },
 };
 
 export default function setupInitialEngines() {

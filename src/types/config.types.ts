@@ -5,7 +5,7 @@ export type ConfigFileType = "config" | "engines";
 export enum ChangeCommand {
   add = "add",
   update = "update",
-  delete = "delete",
+  remove = "remove",
   default = "default",
 }
 export const changeCommands = Object.values(ChangeCommand);
