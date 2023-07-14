@@ -1,7 +1,15 @@
 import { getConfigItem, hasData } from "../config";
 import { getEnginesData } from "../../data";
-import { Engine } from "../../types/engine.types";
-import setupInitialEngines from "../../config/setup/setupInitialEngines";
+import { Engine, EnginesConfig } from "../../types/engine.types";
+
+const defaultEngineConfig: EnginesConfig = {
+  google: {
+    name: "Google",
+    url: "www.google.com",
+    query: "search?q=",
+    alias: ["g"],
+  },
+};
 
 export default function getEngine(
   engineNameOrAlias?: string
@@ -10,11 +18,6 @@ export default function getEngine(
     return undefined;
   }
 
-  const hasEngines = hasData("engines");
-  if (!hasEngines) {
-    setupInitialEngines();
-  }
-
-  const engines = getEnginesData();
+  const engines = hasData("engines") ? getEnginesData() : defaultEngineConfig;
   return getConfigItem(engineNameOrAlias, engines);
 }
