@@ -2,6 +2,13 @@ import { BrowsersConfig } from "./data.types";
 
 export type ConfigFileType = "config" | "engines";
 
+export enum FileCommand {
+  setup = "setup",
+  open = "open",
+  delete = "delete",
+}
+export const fileCommands = Object.values(FileCommand);
+
 export enum ChangeCommand {
   add = "add",
   update = "update",

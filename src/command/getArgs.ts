@@ -5,12 +5,13 @@ export default function getArgs() {
   return yargs(hideBin(process.argv))
     .option("browser", {
       type: "string",
+      description: "Browser to open",
       alias: ["b"],
       requireArg: true,
     })
     .option("profile", {
       type: "string",
-      description: "Browser profile",
+      description: "Browser profile to use",
       alias: ["p"],
       requireArg: true,
     })

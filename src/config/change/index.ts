@@ -15,7 +15,9 @@ import { Severity } from "../../types/utility.types";
 
 const { config: isConfig, _: args } = getConfigArgs();
 
-function isValidChangeCommand(command: string): command is ChangeCommand {
+export function isValidChangeCommand(
+  command: string
+): command is ChangeCommand {
   return (changeCommands as string[]).includes(command);
 }
 
@@ -47,29 +49,27 @@ function printHeader() {
 }
 
 /*
---- Possible Config Change Commands ---
-sq --config
+--- Possible Change Config Commands ---
 
-sq --config add
-sq --config add browser
-sq --config add profile
-sq --config add engine
+--config
 
-sq --config update
-sq --config update browser
-sq --config update profile
-sq --config update engine
+--config add
+--config add browser
+--config add profile
 
-sq --config remove
-sq --config remove browser
-sq --config remove profile
-sq --config remove engine
+--config update
+--config update browser
+--config update profile
 
-sq --config default
-sq --config default profile
-sq --config default browser
-sq --config default engine
- */
+--config remove
+--config remove browser
+--config remove profile
+
+--config default
+--config default profile
+--config default browser
+
+*/
 
 export default async function changeConfig(): Promise<void> {
   if (isConfig) {

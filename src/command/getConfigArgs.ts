@@ -6,6 +6,11 @@ export default function getConfigArgs() {
     .option("config", {
       type: "boolean",
     })
+    .option("force", {
+      type: "boolean",
+      alias: ["f"],
+      default: false,
+    })
     .help(false)
     .parseSync();
 }
