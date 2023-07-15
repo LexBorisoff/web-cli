@@ -11,32 +11,44 @@ export default function getArgs() {
     })
     .option("profile", {
       type: "string",
-      description: "Browser profile to use",
+      description: "Browser profile to use (if applicable)",
       alias: ["p"],
       requireArg: true,
     })
-    .option("engine", {
+    .option("website", {
       type: "string",
-      description: "Search engine / website to query",
-      alias: ["e", "website", "w"],
+      description: "Search engine / Website to query",
+      alias: ["w", "engine", "e"],
       requireArg: true,
     })
     .option("package", {
       type: "boolean",
-      description: "Search packages / libraries on websites that have them",
+      description: "Query packages / libraries (if applicable)",
       alias: ["pkg", "library", "lib"],
       default: false,
     })
     .option("incognito", {
       type: "boolean",
+      description: "Query in the incognito / private tab",
       alias: ["i", "private"],
       default: false,
     })
-    .option("secure", {
+    .option("http", {
       type: "boolean",
-      description: "Use https protocol during search",
-      alias: ["s", "https"],
+      description: `Query using the "http" protocol`,
+      default: false,
+    })
+    .option("https", {
+      type: "boolean",
+      description: `Query using the secure "https" protocol (default)`,
+      alias: ["secure", "s"],
       default: true,
+    })
+    .option("lookup", {
+      type: "boolean",
+      description: "Look up the website(s) instead of visiting directly",
+      default: false,
+      alias: ["l"],
     })
     .help(false)
     .parseSync();
