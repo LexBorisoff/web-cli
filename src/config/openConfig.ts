@@ -11,9 +11,9 @@ export default function openConfig() {
   if (!fileExists("config")) {
     printError("Config file is not set up.");
     print(
-      `Use the ${chalk.italic.cyanBright(
+      `Use ${chalk.italic.cyanBright(
         `"--config setup"`
-      )} command to create a config file.`
+      )} to create a config file.\n`
     );
     return;
   }
