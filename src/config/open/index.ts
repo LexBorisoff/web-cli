@@ -1,8 +1,6 @@
 import open from "open";
-import chalk from "chalk";
-import { getFileName, fileExists } from "../helpers/config/file";
-import { print, printError } from "../helpers/print";
-import getConfigArgs from "../command/getConfigArgs";
+import getConfigArgs from "../../command/getConfigArgs";
+import { getFileName, fileExists, writeFile } from "../../helpers/config/file";
 
 const configFile = getFileName("config");
 const { _: args } = getConfigArgs();

@@ -1,6 +1,6 @@
 import setupConfig from "./setup";
-import openConfig from "./openConfig";
-import deleteConfig from "./deleteConfig";
+import openConfig from "./open";
+import deleteConfig from "./delete";
 import changeConfig, { isValidChangeCommand } from "./change";
 import getConfigArgs from "../command/getConfigArgs";
 import { FileCommand, fileCommands } from "../types/config.types";
@@ -21,7 +21,7 @@ function isValidFileCommand(command: string): command is FileCommand {
   return (fileCommands as string[]).includes(command);
 }
 
-export default async function handleConfig() {
+export default function handleConfig() {
   if (args.length > 0) {
     const [command] = args;
 

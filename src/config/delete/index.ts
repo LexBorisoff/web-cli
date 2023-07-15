@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import chalk from "chalk";
-import { getFileName, fileExists } from "../helpers/config";
-import { cliPrompts } from "../helpers/prompts";
-import { printSuccess, printError } from "../helpers/print";
-import getConfigArgs from "../command/getConfigArgs";
+import getConfigArgs from "../../command/getConfigArgs";
+import { getFileName, fileExists } from "../../helpers/config";
+import { cliPrompts } from "../../helpers/prompts";
+import { printSuccess, printError, emptyLine } from "../../helpers/print";
 
 const configFileName = getFileName("config");
 const { force } = getConfigArgs();
