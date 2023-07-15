@@ -15,10 +15,10 @@ export default function getArgs() {
       alias: ["p"],
       requireArg: true,
     })
-    .option("website", {
+    .option("engine", {
       type: "string",
       description: "Search engine / Website to query",
-      alias: ["w", "engine", "e"],
+      alias: ["e", "website", "w"],
       requireArg: true,
     })
     .option("package", {
