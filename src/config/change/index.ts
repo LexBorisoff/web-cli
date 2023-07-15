@@ -5,7 +5,6 @@ import defaultConfig from "./default";
 import { getConfigArgs } from "../../command";
 import { printBanner } from "../../helpers/print";
 import {
-  changeCommands,
   configTypes,
   ChangeCommand,
   ConfigType,
@@ -13,23 +12,17 @@ import {
 } from "../../types/config.types";
 import { Severity } from "../../types/utility.types";
 
-const { config: isConfig, _: args } = getConfigArgs();
+const { _: args } = getConfigArgs();
+type CommandArg = (typeof args)[0];
 
-export function isValidChangeCommand(
-  command: string
-): command is ChangeCommand {
-  return (changeCommands as string[]).includes(command);
+function isValidConfigType(configType: CommandArg): configType is ConfigType {
+  return (
+    typeof configType === "string" &&
+    (configTypes as string[]).includes(configType)
+  );
 }
 
-function isValidConfigType(configType: string): configType is ConfigType {
-  return (configTypes as string[]).includes(configType);
-}
-
-function getChangeCommand(command: string): ChangeCommandFn | undefined {
-  if (!isValidChangeCommand(command)) {
-    return undefined;
-  }
-
+function getChangeCommand(command: ChangeCommand): ChangeCommandFn {
   switch (command) {
     case ChangeCommand.add:
       return addConfig;
@@ -37,10 +30,8 @@ function getChangeCommand(command: string): ChangeCommandFn | undefined {
       return updateConfig;
     case ChangeCommand.remove:
       return removeConfig;
-    case ChangeCommand.default:
-      return defaultConfig;
     default:
-      return undefined;
+      return defaultConfig;
   }
 }
 
@@ -71,54 +62,31 @@ function printHeader() {
 
 */
 
-export default async function changeConfig(): Promise<void> {
-  if (isConfig) {
-    let success = false;
+export default async function changeConfig(
+  command: ChangeCommand
+): Promise<void> {
+  let success = false;
 
-    // config from the beginning
-    if (args.length === 0) {
-      printHeader();
-      console.log("step-by-step config");
-      return;
-    }
-
-    // using config commands
-    let changeCommand: ChangeCommandFn | undefined = undefined;
-
-    // get the first arg
-    const [command] = args;
-    let configType: string | undefined = undefined;
-
-    if (typeof command === "string") {
-      changeCommand = getChangeCommand(command);
-
-      if (!changeCommand) {
-        printBanner(`Invalid command: "${command}"`, "neutral", "error");
-        return;
-      }
-
-      // get the second arg, if it was provided
-      if (args.length >= 2 && typeof args[1] === "string") {
-        configType = args[1];
-
-        if (!isValidConfigType(configType)) {
-          printBanner(
-            `Invalid config type: "${configType}"`,
-            "neutral",
-            "error"
-          );
-          return;
-        }
-      }
-
-      printHeader();
-      success = await changeCommand(configType);
-    }
-
-    const message: string = success
-      ? "Config is successfully changed!"
-      : "Config was not changed";
-    const severity: Severity = success ? "success" : "error";
-    printBanner(message, "footer", severity);
+  if (args.length > 2) {
+    printBanner("Invalid number of arguments", "neutral", "error");
+    return;
   }
+
+  // get the second arg, if it was provided
+  const configType = args.at(1);
+  if (configType != null && !isValidConfigType(configType)) {
+    printBanner(`Invalid config type: "${configType}"`, "neutral", "error");
+    return;
+  }
+
+  printHeader();
+
+  const changeCommand = getChangeCommand(command);
+  success = await changeCommand(configType);
+
+  const message: string = success
+    ? "Config is successfully changed!"
+    : "Config was not changed.";
+  const severity: Severity = success ? "success" : "error";
+  printBanner(message, "footer", severity);
 }

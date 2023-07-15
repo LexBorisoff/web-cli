@@ -1,9 +1,15 @@
 import setupConfig from "./setup";
 import openConfig from "./open";
 import deleteConfig from "./delete";
-import changeConfig, { isValidChangeCommand } from "./change";
+import changeConfig from "./change";
 import getConfigArgs from "../command/getConfigArgs";
-import { FileCommand, fileCommands } from "../types/config.types";
+import { printBanner } from "../helpers/print";
+import {
+  FileCommand,
+  ChangeCommand,
+  fileCommands,
+  changeCommands,
+} from "../types/config.types";
 
 /**
 --config open [app]
@@ -16,16 +22,27 @@ import { FileCommand, fileCommands } from "../types/config.types";
 */
 
 const { _: args } = getConfigArgs();
+type CommandArg = (typeof args)[0];
 
-function isValidFileCommand(command: string): command is FileCommand {
-  return (fileCommands as string[]).includes(command);
+function isValidFileCommand(command: CommandArg): command is FileCommand {
+  return (
+    typeof command === "string" && (fileCommands as string[]).includes(command)
+  );
 }
 
-export default function handleConfig() {
+function isValidChangeCommand(command: CommandArg): command is ChangeCommand {
+  return (
+    typeof command === "string" &&
+    (changeCommands as string[]).includes(command)
+  );
+}
+
+export default function handleConfig(): void {
   if (args.length > 0) {
     const [command] = args;
 
-    if (typeof command !== "string") {
+    if (!isValidFileCommand(command) && !isValidChangeCommand(command)) {
+      printBanner(`Invalid command: "${command}"`, "neutral", "error");
       return;
     }
 
@@ -42,10 +59,12 @@ export default function handleConfig() {
           deleteConfig();
           break;
       }
+      return;
     }
+
     // changing config
-    else if (isValidChangeCommand(command)) {
-      changeConfig();
+    if (isValidChangeCommand(command)) {
+      changeConfig(command);
     }
   }
 }
