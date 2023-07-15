@@ -11,18 +11,26 @@ const { toggle } = cliPrompts;
 
 export default async function deleteConfig() {
   if (configFileName != null && fileExists("config")) {
-    let continueToDelete = force;
+    let continueToDelete: boolean | undefined = force;
     if (!continueToDelete) {
       continueToDelete = await toggle(
-        `${chalk.yellow("Are you sure you want to delete the config file?\n")}`,
+        `${chalk.yellowBright(
+          "Are you sure you want to delete the config file?\n"
+        )}`,
         false
       );
     }
 
     if (continueToDelete) {
       fs.unlinkSync(configFileName);
-      printSuccess("Deleted!\n");
     }
+
+    if (!force) {
+      emptyLine();
+    }
+
+    continueToDelete ? printSuccess("Deleted!") : printError("Aborted!");
+    emptyLine();
   } else {
     printError("There is no config file to delete.\n");
   }

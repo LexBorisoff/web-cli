@@ -108,6 +108,10 @@ async function getAliases(
     true
   );
 
+  if (keepGoing == null) {
+    return undefined;
+  }
+
   if (keepGoing) {
     let selectedBrowsers: string[] | undefined = [...browsers];
     if (browsers.length > 1) {

@@ -245,7 +245,7 @@ export default async function addProfile(): Promise<boolean> {
               alias,
             };
 
-            let isDefault = true;
+            let isDefault: boolean | undefined = true;
             const defaults = getDefaultsData() ?? {};
 
             if (
@@ -254,11 +254,15 @@ export default async function addProfile(): Promise<boolean> {
             ) {
               emptyLine();
               isDefault = await toggle(
-                `Should "${profileName}" be default for ${getTitle(
-                  browser
-                )}?\n`,
+                `Should "${profileName}" be the ${chalk.yellowBright(
+                  "default profile"
+                )} for ${getTitle(browser)}?\n`,
                 false
               );
+
+              if (isDefault == null) {
+                return false;
+              }
             }
 
             addToConfig({

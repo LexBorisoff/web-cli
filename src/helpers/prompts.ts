@@ -73,7 +73,10 @@ export const cliPrompts = {
     return answer;
   },
 
-  toggle: async function (message: string, initial: boolean): Promise<boolean> {
+  toggle: async function (
+    message: string,
+    initial: boolean
+  ): Promise<boolean | undefined> {
     const { answer }: PromptAnswer<boolean> = await prompts({
       name: "answer",
       type: "toggle",
@@ -83,7 +86,7 @@ export const cliPrompts = {
       initial,
     });
 
-    return !!answer;
+    return answer;
   },
 
   text: async function (

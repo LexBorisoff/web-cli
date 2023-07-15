@@ -33,11 +33,7 @@ export default async function removeBrowser(): Promise<boolean> {
   }
 
   emptyLine();
-  let yes = await toggle("Are you sure?\n", true);
-
-  if (!yes) {
-    return false;
-  }
+  let yes: boolean | undefined;
 
   const profiles = getProfilesData();
   let defaults = getDefaultsData();
@@ -48,14 +44,16 @@ export default async function removeBrowser(): Promise<boolean> {
     currentDefaultBrowser != null &&
     listToDelete.includes(currentDefaultBrowser)
   ) {
-    emptyLine();
-
     yes = await toggle(
       `${getTitle(currentDefaultBrowser)} is the ${chalk.yellowBright(
         "default browser"
-      )}. ${chalk.redBright("Delete it?")}\n`,
-      true
+      )}. ${chalk.cyanBright("Remove it?")}\n`,
+      false
     );
+
+    if (yes == null) {
+      return false;
+    }
 
     if (!yes) {
       // delete current default browser from the list of browsers
@@ -143,6 +141,12 @@ export default async function removeBrowser(): Promise<boolean> {
           };
         }
       }
+    }
+  } else {
+    yes = await toggle("Are you sure?\n", false);
+
+    if (!yes) {
+      return false;
     }
   }
 

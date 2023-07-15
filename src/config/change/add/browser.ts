@@ -120,15 +120,21 @@ export default async function addBrowser(): Promise<boolean> {
       alias,
     };
 
-    let isDefault = true;
+    let isDefault: boolean | undefined = true;
     const browsers = getBrowsersData();
 
     if (browsers.length > 0) {
       emptyLine();
       isDefault = await toggle(
-        `Should "${getTitle(browser.name)}" be the default browser?\n`,
+        `Should "${getTitle(browser.name)}" be the ${chalk.yellowBright(
+          "default browser"
+        )}?\n`,
         false
       );
+
+      if (isDefault == null) {
+        return false;
+      }
     }
 
     addToConfig({ browser, isDefault });

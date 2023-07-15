@@ -7,13 +7,7 @@ const { _: args } = getConfigArgs();
 
 export default function openConfig() {
   if (!fileExists("config")) {
-    printError("Config file is not set up.");
-    print(
-      `Use ${chalk.italic.cyanBright(
-        `"--config setup"`
-      )} to create a config file.\n`
-    );
-    return;
+    writeFile("config", "");
   }
 
   if (configFile != null) {
