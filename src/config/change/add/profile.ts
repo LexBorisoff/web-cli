@@ -15,7 +15,7 @@ import {
   lettersNumbersPattern,
   directoryPattern,
 } from "../../../helpers/patterns";
-import { emptyLine } from "../../../helpers/print";
+import { print, printError, emptyLine } from "../../../helpers/print";
 import { Profile } from "../../../types/data.types";
 import { TextAnswer } from "../../../types/config.types";
 
@@ -190,90 +190,101 @@ function addToConfig({
 
 export default async function addProfile(): Promise<boolean> {
   const browsers = getBrowsersData();
-  if (browsers.length > 0) {
-    const browserList = browsers.map((browser) =>
-      typeof browser === "string" ? browser : browser.name
+  if (browsers.length === 0) {
+    printError("There are no browsers in the config to add a profile for.");
+    return false;
+  }
+
+  if (browsers.length === 1) {
+    const [browser] = browsers;
+    const browserName = typeof browser === "string" ? browser : browser.name;
+
+    print(`Adding a profile for ${chalk.yellowBright(getTitle(browserName))}`);
+    emptyLine();
+  }
+
+  const browserList = browsers.map((browser) =>
+    typeof browser === "string" ? browser : browser.name
+  );
+
+  const browser = await select(
+    browserList,
+    `Select a ${chalk.yellowBright("browser")} to add a profile for.\n`
+  );
+
+  if (browser != null) {
+    if (browsers.length > 1) {
+      emptyLine();
+    }
+
+    answer.directory = await text(
+      `What is the ${chalk.italic.cyan("exact")} ${chalk.yellowBright(
+        "directory name"
+      )} of this profile?\n`,
+      (value) => validateDirectory(value, browser)
     );
 
-    const browser = await select(
-      browserList,
-      `Select a ${chalk.yellowBright("browser")} to add a profile for.\n`
-    );
+    if (answer.directory != null) {
+      emptyLine();
 
-    if (browser != null) {
-      if (browsers.length > 1) {
-        emptyLine();
-      }
-
-      answer.directory = await text(
-        `What is the ${chalk.italic.cyan("exact")} ${chalk.yellowBright(
-          "directory name"
-        )} of this profile?\n`,
-        (value) => validateDirectory(value, browser)
+      const directory = answer.directory.trim();
+      answer.profileName = await text(
+        `Create a ${chalk.yellowBright("command-line name")} ${chalk.cyan(
+          "(lowercase)"
+        )} for "${directory}".\n`,
+        (value) => validateProfileName(value, browser)
       );
 
-      if (answer.directory != null) {
-        emptyLine();
+      if (answer.profileName != null) {
+        const profileName = answer.profileName.trim().toLowerCase();
 
-        const directory = answer.directory.trim();
-        answer.profileName = await text(
-          `Create a ${chalk.yellowBright("command-line name")} ${chalk.cyan(
-            "(lowercase)"
-          )} for "${directory}".\n`,
-          (value) => validateProfileName(value, browser)
+        emptyLine();
+        answer.alias = await text(
+          `List 0 or more aliases for ${chalk.yellowBright(
+            profileName
+          )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
+          (value) => validateAlias(value, profileName, browser)
         );
 
-        if (answer.profileName != null) {
-          const profileName = answer.profileName.trim().toLowerCase();
+        const alias: string[] | undefined =
+          answer.alias != null
+            ? getUniqueArrayLowerCase(answer.alias)
+            : undefined;
 
-          emptyLine();
-          answer.alias = await text(
-            `List 0 or more aliases for ${chalk.yellowBright(
-              profileName
-            )} ${chalk.italic.cyanBright("(space or comma separated)")}\n`,
-            (value) => validateAlias(value, profileName, browser)
-          );
+        if (alias != null) {
+          const profile: Profile = {
+            directory,
+            alias,
+          };
 
-          const alias: string[] | undefined =
-            answer.alias != null
-              ? getUniqueArrayLowerCase(answer.alias)
-              : undefined;
+          let isDefault: boolean | undefined = true;
+          const defaults = getDefaultsData() ?? {};
 
-          if (alias != null) {
-            const profile: Profile = {
-              directory,
-              alias,
-            };
+          if (
+            defaults?.profile?.[browser] != null &&
+            defaults.profile[browser] !== profileName
+          ) {
+            emptyLine();
+            isDefault = await toggle(
+              `Should "${profileName}" be the ${chalk.yellowBright(
+                "default profile"
+              )} for ${getTitle(browser)}?\n`,
+              false
+            );
 
-            let isDefault: boolean | undefined = true;
-            const defaults = getDefaultsData() ?? {};
-
-            if (
-              defaults?.profile?.[browser] != null &&
-              defaults.profile[browser] !== profileName
-            ) {
-              emptyLine();
-              isDefault = await toggle(
-                `Should "${profileName}" be the ${chalk.yellowBright(
-                  "default profile"
-                )} for ${getTitle(browser)}?\n`,
-                false
-              );
-
-              if (isDefault == null) {
-                return false;
-              }
+            if (isDefault == null) {
+              return false;
             }
-
-            addToConfig({
-              profileName,
-              profile,
-              browser,
-              isDefault,
-            });
-
-            return true;
           }
+
+          addToConfig({
+            profileName,
+            profile,
+            browser,
+            isDefault,
+          });
+
+          return true;
         }
       }
     }
