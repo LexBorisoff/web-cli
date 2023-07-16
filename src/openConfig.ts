@@ -11,10 +11,9 @@ async function config(): Promise<void> {
   }
 
   if (configFile != null) {
-    if (args.length > 1) {
-      const [, ...apps] = args;
+    if (args.length > 0) {
       await Promise.all(
-        apps.map((app) => {
+        args.map((app) => {
           if (typeof app === "string") {
             open(configFile, { app: { name: app } });
           }
