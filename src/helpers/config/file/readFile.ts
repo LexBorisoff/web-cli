@@ -1,11 +1,8 @@
 import * as fs from "fs";
 import getFileName from "./getFileName";
 import fileExists from "./fileExists";
-import { ConfigFileType } from "../../../types/config.types";
 
-export default function readFile(fileType: ConfigFileType): string | null {
-  const fileName = getFileName(fileType);
-  return fileExists(fileType) && fileName != null
-    ? fs.readFileSync(fileName, { encoding: "utf-8" })
-    : null;
+export default function readFile(): string | null {
+  const fileName = getFileName();
+  return fileExists() ? fs.readFileSync(fileName, { encoding: "utf-8" }) : null;
 }

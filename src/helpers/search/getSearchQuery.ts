@@ -1,7 +1,7 @@
 import { baseUrlPattern } from "../patterns";
 import { getArgs } from "../../command";
 import { getDefaultsData } from "../../data";
-import { Engine } from "../../types/engine.types";
+import { Engine } from "../../types/config.types";
 
 const args = getArgs();
 

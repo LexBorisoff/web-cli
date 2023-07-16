@@ -1,12 +1,12 @@
 import { fileExists, readFile } from "../helpers/config";
-import { Config } from "../types/data.types";
+import { Config } from "../types/config.types";
 
 export default function getConfigData(): Config {
-  if (!fileExists("config")) {
+  if (!fileExists()) {
     return {};
   }
 
-  const data = readFile("config");
+  const data = readFile();
 
   try {
     return data != null && data !== "" ? JSON.parse(data) : {};

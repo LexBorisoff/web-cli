@@ -3,7 +3,7 @@ import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
 import { getArgs, withSearchQuery, withWebsite } from "../../command";
 import { getDefaultsData } from "../../data";
-import { Engine } from "../../types/engine.types";
+import { Engine } from "../../types/config.types";
 import { printError } from "../print";
 
 const args = getArgs();

@@ -1,6 +1,6 @@
 import { getConfigItem } from "../config";
 import { getProfilesData } from "../../data";
-import { Profile } from "../../types/data.types";
+import { Profile } from "../../types/config.types";
 
 export default function getProfile(
   profileNameOrAlias: string,

@@ -1,47 +1,52 @@
-import { BrowsersConfig } from "./data.types";
+import { WithAlias } from "./utility.types";
 
-export type ConfigFileType = "config" | "engines";
-
-export enum FileCommand {
-  setup = "setup",
-  open = "open",
-  delete = "delete",
-}
-export const fileCommands = Object.values(FileCommand);
-
-export enum ChangeCommand {
-  add = "add",
-  update = "update",
-  remove = "remove",
-  default = "default",
-}
-export const changeCommands = Object.values(ChangeCommand);
-
-export enum ConfigType {
-  browser = "browser",
-  profile = "profile",
-  engine = "engine",
-}
-export const configTypes = Object.values(ConfigType);
-
-export interface PromptAnswer<T> {
-  answer?: T;
+// DEFAULTS
+export interface DefaultsConfig {
+  browser?: string;
+  profile?: { [key: string]: string };
+  engine?: string;
+  delimiter?: string;
 }
 
-export type TextAnswer = Partial<{ [key: string]: string | undefined }>;
-
-export interface PromptChoice {
-  title: string;
-  value: string;
+// BROWSERS
+export interface BrowserObject extends Partial<WithAlias> {
+  name: string;
+  privateFlag?: string; // TODO: implement (--incognito, --private, etc.)
 }
 
-export type ValidateFn = (
-  value: string
-) => boolean | string | Promise<boolean | string>;
+export type Browser = string | BrowserObject;
 
-export type ChangeCommandFn = (configType?: ConfigType) => Promise<boolean>;
+export type BrowsersConfig<B = Browser> = Array<B>;
 
-export interface InitialConfig {
-  browsers: BrowsersConfig;
-  defaultBrowser: string;
+// PROFILES
+export interface Profile extends Partial<WithAlias> {
+  directory: string; // --profile-directory="Folder Name"
+}
+
+export interface BrowserProfiles {
+  [profile: string]: Profile;
+}
+
+export interface ProfilesConfig {
+  [browser: string]: BrowserProfiles | undefined;
+}
+
+// ENGINES
+export interface Engine extends Partial<WithAlias> {
+  name: string;
+  url: string;
+  query?: string;
+  package?: string;
+  delimiter?: string;
+}
+
+export interface EnginesConfig {
+  [engine: string]: Engine;
+}
+
+export interface Config {
+  defaults?: DefaultsConfig;
+  browsers?: BrowsersConfig;
+  profiles?: ProfilesConfig;
+  engines?: EnginesConfig;
 }

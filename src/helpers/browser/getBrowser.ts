@@ -1,5 +1,5 @@
 import { getBrowsersData } from "../../data";
-import { Browser } from "../../types/data.types";
+import { Browser } from "../../types/config.types";
 
 /**
  * returns the found browser from config or the provided argument

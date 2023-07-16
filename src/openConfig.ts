@@ -1,13 +1,14 @@
 import open from "open";
+import * as fs from "fs";
 import getConfigArgs from "./command/getConfigArgs";
-import { getFileName, fileExists, writeFile } from "./helpers/config/file";
+import { getFileName, fileExists } from "./helpers/config/file";
 
-const configFile = getFileName("config");
+const configFile = getFileName();
 const { _: args } = getConfigArgs();
 
 async function config(): Promise<void> {
-  if (!fileExists("config")) {
-    writeFile("config", "");
+  if (!fileExists()) {
+    fs.writeFileSync(getFileName(), "");
   }
 
   if (configFile != null) {

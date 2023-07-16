@@ -1,4 +1,4 @@
-import { BrowsersConfig } from "../../types/data.types";
+import { BrowsersConfig } from "../../types/config.types";
 
 export default function getBrowserAliases(
   browsersConfig: BrowsersConfig

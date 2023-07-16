@@ -1,6 +1,6 @@
 import { getConfigItem, hasData } from "../config";
 import { getEnginesData } from "../../data";
-import { Engine, EnginesConfig } from "../../types/engine.types";
+import { Engine, EnginesConfig } from "../../types/config.types";
 
 const defaultEngineConfig: EnginesConfig = {
   google: {
@@ -18,6 +18,6 @@ export default function getEngine(
     return undefined;
   }
 
-  const engines = hasData("engines") ? getEnginesData() : defaultEngineConfig;
+  const engines = hasData() ? getEnginesData() : defaultEngineConfig;
   return getConfigItem(engineNameOrAlias, engines);
 }
