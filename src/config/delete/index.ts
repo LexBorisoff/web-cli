@@ -12,11 +12,10 @@ const { toggle } = cliPrompts;
 export default async function deleteConfig() {
   if (configFileName != null && fileExists("config")) {
     let continueToDelete: boolean | undefined = force;
+
     if (!continueToDelete) {
       continueToDelete = await toggle(
-        `${chalk.yellowBright(
-          "Are you sure you want to delete the config file?\n"
-        )}`,
+        `${chalk.yellowBright("Delete")} the config file?\n`,
         false
       );
     }

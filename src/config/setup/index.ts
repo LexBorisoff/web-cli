@@ -4,7 +4,7 @@ import { getDefaultsData } from "../../data";
 import getConfigArgs from "../../command/getConfigArgs";
 import { writeFile, hasData } from "../../helpers/config";
 import { cliPrompts } from "../../helpers/prompts";
-import { printBanner, printError } from "../../helpers/print";
+import { printBanner, printError, emptyLine } from "../../helpers/print";
 
 const { force } = getConfigArgs();
 const { toggle } = cliPrompts;
@@ -16,47 +16,41 @@ export default async function setupConfig(): Promise<void> {
   if (!continueToSetup) {
     overrideAttempt = true;
     continueToSetup = await toggle(
-      `${chalk.yellowBright(
-        `This will ${chalk.bold.italic.cyanBright(
-          "override"
-        )} the existing config file.`
-      )} ${chalk.cyanBright("Proceed")}?\n`,
+      `${chalk.yellowBright("Override")} the existing config?\n`,
       false
     );
 
-    if (continueToSetup == null) {
-      printError("\nAborted!\n");
+    if (!continueToSetup) {
+      emptyLine();
+      printError("Aborted!");
+      emptyLine();
       return;
     }
   }
 
-  if (continueToSetup) {
-    printBanner("Let's set up browser config", "header", "info");
+  printBanner("Let's set up browser config", "header", "info");
 
-    const config = await setupInitialConfig();
-    if (config != null) {
-      const { browsers, defaultBrowser } = config;
-      const defaults = getDefaultsData();
+  const config = await setupInitialConfig();
 
-      try {
-        writeFile("config", {
-          defaults: {
-            ...defaults,
-            browser: defaultBrowser,
-          },
-          browsers,
-        });
-
-        printBanner("You are good to go. Have fun!", "footer", "success");
-      } catch (error) {
-        printBanner("Couldn't create the config file :(", "footer", "error");
-      }
-    } else {
-      printBanner(
-        `Browser config was not ${overrideAttempt ? "overridden" : "created"}.`,
-        "footer",
-        "error"
-      );
-    }
+  if (config == null) {
+    printBanner(
+      `Browser config was not ${overrideAttempt ? "overridden" : "created"}`,
+      "footer",
+      "error"
+    );
+    return;
   }
+
+  const { browsers, defaultBrowser } = config;
+  const defaults = getDefaultsData();
+
+  writeFile("config", {
+    defaults: {
+      ...defaults,
+      browser: defaultBrowser,
+    },
+    browsers,
+  });
+
+  printBanner("Great Success!", "footer", "success");
 }

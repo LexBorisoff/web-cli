@@ -122,30 +122,32 @@ async function getAliases(
       );
     }
 
-    if (selectedBrowsers != null) {
-      emptyLine();
-      console.log(
-        `List ${chalk.yellowBright(
-          "1 or more"
-        )} aliases ${chalk.italic.cyanBright("(space or comma separated)")}`
+    if (selectedBrowsers == null) {
+      return undefined;
+    }
+
+    emptyLine();
+    console.log(
+      `List ${chalk.yellowBright(
+        "1 or more"
+      )} aliases ${chalk.italic.cyanBright("(space or comma separated)")}`
+    );
+
+    for (let i = 0; i < selectedBrowsers.length; i++) {
+      const selected = selectedBrowsers[i];
+      const list = await text(
+        getTitle(selected),
+        async (value) => await validateAlias(value, selected, browsersConfig)
       );
 
-      for (let i = 0; i < selectedBrowsers.length; i++) {
-        const selected = selectedBrowsers[i];
-        const list = await text(
-          getTitle(selected),
-          async (value) => await validateAlias(value, selected, browsersConfig)
-        );
+      if (list == null) {
+        return undefined;
+      }
 
-        if (list == null) {
-          return undefined;
-        }
-
-        const alias = getUniqueArrayLowerCase(list);
-        const index = browsersConfig.findIndex(({ name }) => name == selected);
-        if (index >= 0) {
-          browsersConfig[index] = { name: selected, alias };
-        }
+      const alias = getUniqueArrayLowerCase(list);
+      const index = browsersConfig.findIndex(({ name }) => name == selected);
+      if (index >= 0) {
+        browsersConfig[index] = { name: selected, alias };
       }
     }
   }
