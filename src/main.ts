@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { getConfigArgs } from "./command";
 import query from "./query";
-import handleConfig from "./config/handleConfig";
+import openConfig from "./openConfig";
 
-getConfigArgs().config ? handleConfig() : query();
+getConfigArgs().config ? openConfig() : query();
