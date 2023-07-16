@@ -45,6 +45,7 @@ export default function getArgs() {
       default: true,
     })
     .option("lookup", {
+      // TODO: implement
       type: "boolean",
       description: "Look up the website(s) instead of visiting directly",
       default: false,

@@ -2,10 +2,10 @@ import { WithAlias } from "./utility.types";
 
 // DEFAULTS
 export interface DefaultsConfig {
-  browser?: string;
-  profile?: { [key: string]: string };
-  engine?: string;
-  delimiter?: string;
+  browser?: string | null;
+  profile?: { [key: string]: string } | null;
+  engine?: string | null;
+  delimiter?: string | null;
 }
 
 // BROWSERS

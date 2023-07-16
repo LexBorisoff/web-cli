@@ -1,8 +1,6 @@
 import getConfigData from "./getConfigData";
-import { engineFallback } from "./getEnginesData";
+import { defaultEngine, defaultDelimiter } from "../helpers/config";
 import { DefaultsConfig } from "../types/config.types";
-
-const delimiterFallback = " ";
 
 interface RequiredDefaults {
   engine: string;
@@ -13,8 +11,8 @@ export default function getDefaultsData(): DefaultsConfig & RequiredDefaults {
   const config = getConfigData();
   const defaults: DefaultsConfig & RequiredDefaults = {
     ...config.defaults,
-    engine: config.defaults?.engine ?? engineFallback,
-    delimiter: config.defaults?.delimiter ?? delimiterFallback,
+    engine: config.defaults?.engine ?? defaultEngine,
+    delimiter: config.defaults?.delimiter ?? defaultDelimiter,
   };
   return defaults;
 }

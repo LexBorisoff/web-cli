@@ -1,15 +1,6 @@
-import { getConfigItem, hasData } from "../config";
+import { getConfigItem, hasData, defaultEngineConfig } from "../config";
 import { getEnginesData } from "../../data";
-import { Engine, EnginesConfig } from "../../types/config.types";
-
-const defaultEngineConfig: EnginesConfig = {
-  google: {
-    name: "Google",
-    url: "www.google.com",
-    query: "search?q=",
-    alias: ["g"],
-  },
-};
+import { Engine } from "../../types/config.types";
 
 export default function getEngine(
   engineNameOrAlias?: string
