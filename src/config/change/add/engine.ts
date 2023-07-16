@@ -54,7 +54,9 @@ function removeWhiteSpace(value: string) {
 
 export default async function addEngine(): Promise<boolean> {
   answer.engineName = await text(
-    `Provide the ${chalk.yellowBright("engine's name")}:\n`,
+    `Type the ${chalk.yellowBright(
+      "engine's name"
+    )} you want to add ${chalk.italic.cyanBright(`(e.g. "Google")`)}\n`,
     (value) => validateEngineName(value)
   );
 
@@ -66,7 +68,7 @@ export default async function addEngine(): Promise<boolean> {
 
   emptyLine();
   answer.baseUrl = await text(
-    `Type ${engineName}'${
+    `Provide ${engineName}'${
       !engineName.toLowerCase().endsWith("s") && "s"
     } ${chalk.yellowBright("base URL")} ${chalk.italic.cyanBright(
       `(e.g. "${removeWhiteSpace(engineName.toLowerCase())}.com")`
@@ -79,6 +81,8 @@ export default async function addEngine(): Promise<boolean> {
   }
 
   const baseUrl = answer.baseUrl.trim();
+
+  emptyLine();
 
   return true;
 }
