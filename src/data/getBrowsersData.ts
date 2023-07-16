@@ -1,7 +1,7 @@
 import getConfigData from "./getConfigData";
 import { BrowsersConfig } from "../types/config.types";
 
-export default function getBrowsersData(): BrowsersConfig {
+export default function getBrowsersData(sort = false): BrowsersConfig {
   const config = getConfigData();
   const { browsers } = config ?? {};
 
@@ -9,19 +9,21 @@ export default function getBrowsersData(): BrowsersConfig {
     return [];
   }
 
-  return browsers.sort((a, b) => {
-    if (typeof a === "string") {
-      if (typeof b === "string") {
-        return a.localeCompare(b);
-      }
+  return sort
+    ? browsers.sort((a, b) => {
+        if (typeof a === "string") {
+          if (typeof b === "string") {
+            return a.localeCompare(b);
+          }
 
-      return a.localeCompare(b.name);
-    }
+          return a.localeCompare(b.name);
+        }
 
-    if (typeof b === "string") {
-      return a.name.localeCompare(b);
-    }
+        if (typeof b === "string") {
+          return a.name.localeCompare(b);
+        }
 
-    return a.name.localeCompare(b.name);
-  });
+        return a.name.localeCompare(b.name);
+      })
+    : browsers;
 }
