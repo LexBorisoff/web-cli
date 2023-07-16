@@ -85,7 +85,7 @@ export default async function changeConfig(
   success = await changeCommand(configType);
 
   const message: string = success
-    ? "Config is successfully changed!"
+    ? "Great Success!"
     : "Config was not changed.";
   const severity: Severity = success ? "success" : "error";
   printBanner(message, "footer", severity);

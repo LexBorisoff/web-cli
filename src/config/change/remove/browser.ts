@@ -23,59 +23,82 @@ export default async function removeBrowser(): Promise<boolean> {
     typeof browser === "string" ? browser : browser.name
   );
 
-  const listToDelete = await multiselect(
-    browserNames,
-    "Select all browsers you want to remove.\n"
-  );
+  const listToRemove =
+    browserNames.length > 1
+      ? await multiselect(
+          browserNames,
+          "Select all browsers you want to remove.\n"
+        )
+      : [...browserNames];
 
-  if (listToDelete == null) {
+  if (listToRemove == null) {
     return false;
   }
-
-  emptyLine();
-  let yes: boolean | undefined;
 
   const profiles = getProfilesData();
   let defaults = getDefaultsData();
   const currentDefaultBrowser = defaults.browser;
 
-  // deleting a default browser
-  if (
+  const withDefaultBrowser =
     currentDefaultBrowser != null &&
-    listToDelete.includes(currentDefaultBrowser)
-  ) {
-    yes = await toggle(
+    listToRemove.includes(currentDefaultBrowser);
+
+  // only 1 browser exists in the config and is not default
+  if (browserNames.length === 1 && !withDefaultBrowser) {
+    const [browserName] = listToRemove;
+    const proceed = await toggle(
+      `${chalk.yellowBright(
+        getTitle(browserName)
+      )} is the only config browser. ${chalk.cyanBright("Remove it")}?\n`,
+      false
+    );
+
+    if (!proceed) {
+      return false;
+    }
+  }
+
+  // confirm removing if browser is not default or if > 1 browser selected
+  if (!withDefaultBrowser || listToRemove.length > 1) {
+    emptyLine();
+    const proceed = await toggle("Are you sure?\n", false);
+    if (!proceed) {
+      return false;
+    }
+  }
+
+  // handle removing a default browser
+  if (withDefaultBrowser) {
+    if (browserNames.length > 1) {
+      emptyLine();
+    }
+
+    const proceed = await toggle(
       `${getTitle(currentDefaultBrowser)} is the ${chalk.yellowBright(
         "default browser"
       )}. ${chalk.cyanBright("Remove it?")}\n`,
       false
     );
 
-    if (yes == null) {
+    if (proceed == null) {
       return false;
     }
 
-    if (!yes) {
-      // delete current default browser from the list of browsers
-      const index = listToDelete.findIndex(
-        (browser) => browser === currentDefaultBrowser
-      );
-
-      if (index >= 0) {
-        listToDelete.splice(index, 1);
-      }
-    }
     // get the new default browser
-    else {
+    if (proceed) {
       const remainingBrowserNames = browserNames.filter(
-        (browser) => !listToDelete.includes(browser)
+        (browser) => !listToRemove.includes(browser)
       );
 
-      let newDefaultBrowser: string | undefined = remainingBrowserNames[0];
-      emptyLine();
+      if (remainingBrowserNames.length > 0) {
+        emptyLine();
+      }
+
+      let newDefaultBrowser: string | undefined;
 
       // re-assign a default browser automatically
       if (remainingBrowserNames.length === 1) {
+        [newDefaultBrowser] = remainingBrowserNames;
         printInfo(`${getTitle(newDefaultBrowser)} is the new default browser.`);
       }
       // choose a new default browser
@@ -86,25 +109,21 @@ export default async function removeBrowser(): Promise<boolean> {
             "default browser"
           )}?\n`
         );
+
+        if (newDefaultBrowser == null) {
+          return false;
+        }
       }
 
-      if (newDefaultBrowser == null) {
-        emptyLine();
-        printError("Default browser must be selected.");
-        return false;
-      }
-
-      defaults = {
-        ...defaults,
-        browser: newDefaultBrowser,
-      };
-
-      delete defaults.profile?.[currentDefaultBrowser];
+      // set the default browser
+      defaults.browser = newDefaultBrowser;
 
       // set the default profile for the new default browser
-      if (defaults.profile?.[newDefaultBrowser] == null) {
-        const browserProfiles = profiles[newDefaultBrowser] ?? {};
-        const profileNames = Object.keys(browserProfiles);
+      if (
+        newDefaultBrowser != null &&
+        defaults.profile?.[newDefaultBrowser] == null
+      ) {
+        const profileNames = Object.keys(profiles[newDefaultBrowser] ?? {});
 
         if (profileNames.length === 1) {
           defaults = {
@@ -125,10 +144,6 @@ export default async function removeBrowser(): Promise<boolean> {
           );
 
           if (defaultProfile == null) {
-            emptyLine();
-            printError(
-              "Default profile must be selected for the new default browser"
-            );
             return false;
           }
 
@@ -142,39 +157,47 @@ export default async function removeBrowser(): Promise<boolean> {
         }
       }
     }
-  } else {
-    yes = await toggle("Are you sure?\n", false);
+    // exclude the default browser from the list of browsers to remove
+    else {
+      const index = listToRemove.findIndex(
+        (browser) => browser === currentDefaultBrowser
+      );
 
-    if (!yes) {
-      return false;
+      if (index >= 0) {
+        listToRemove.splice(index, 1);
+      }
     }
   }
 
-  // update config
-  if (listToDelete.length > 0) {
-    // delete selected browsers from defaults and profiles config
-    listToDelete.forEach((browserName) => {
-      delete defaults.profile?.[browserName];
-      delete profiles[browserName];
-    });
-
-    const config = getConfigData();
-    const remainingBrowsers = browsers.filter(
-      (browser) =>
-        !listToDelete.includes(
-          typeof browser === "string" ? browser : browser.name
-        )
-    );
-
-    writeFile("config", {
-      ...config,
-      defaults,
-      browsers: remainingBrowsers,
-      profiles,
-    });
-
-    return true;
+  if (listToRemove.length === 0) {
+    return false;
   }
 
-  return false;
+  // remove selected browsers from defaults.profile and profiles config
+  listToRemove.forEach((browserName) => {
+    delete defaults.profile?.[browserName];
+    delete profiles[browserName];
+  });
+
+  // remove defaults.profile if no browsers with profiles left
+  if (Object.keys(defaults.profile ?? {}).length === 0) {
+    delete defaults.profile;
+  }
+
+  const config = getConfigData();
+  const remainingBrowsers = browsers.filter(
+    (browser) =>
+      !listToRemove.includes(
+        typeof browser === "string" ? browser : browser.name
+      )
+  );
+
+  writeFile("config", {
+    ...config,
+    defaults,
+    browsers: remainingBrowsers.length > 0 ? remainingBrowsers : undefined,
+    profiles: Object.keys(profiles).length > 0 ? profiles : undefined,
+  });
+
+  return true;
 }
