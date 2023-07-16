@@ -9,8 +9,11 @@ import { printError } from "../helpers/print";
 const args = getArgs();
 
 export default async function queryBrowser(url?: string): Promise<void> {
+  const defaults = getDefaultsData();
+
   async function handleBrowser(browserNameOrAlias: string): Promise<void> {
-    const browser = getBrowser(browserNameOrAlias);
+    const browser = getBrowser(browserNameOrAlias) ?? defaults.browser;
+
     if (browser != null) {
       const browserName = typeof browser === "string" ? browser : browser.name;
 
@@ -20,22 +23,25 @@ export default async function queryBrowser(url?: string): Promise<void> {
         await openBrowser(browserName, url);
       }
     }
+    // no browser but has url
+    else if (url != null) {
+      await open(url, { app: { name: browserNameOrAlias } });
+    }
   }
 
-  const defaults = getDefaultsData();
   const browserArg = args.browser as typeof args.browser | string[];
-  const browser = browserArg ?? defaults.browser;
+  const browserName = browserArg ?? defaults.browser;
 
   // with provided or default browser
-  if (browser != null) {
+  if (browserName != null) {
     // one browser provided
-    if (!Array.isArray(browser)) {
-      handleBrowser(browser);
+    if (!Array.isArray(browserName)) {
+      handleBrowser(browserName);
     }
     // multiple browsers provided
     else {
-      browser.forEach((browserName) => {
-        handleBrowser(browserName);
+      browserName.forEach((browser) => {
+        handleBrowser(browser);
       });
     }
   }
@@ -45,6 +51,6 @@ export default async function queryBrowser(url?: string): Promise<void> {
   }
   // no browser and no url
   else {
-    printError("Provide default browser to open");
+    printError("Provide default browser to open\n");
   }
 }
