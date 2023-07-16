@@ -12,7 +12,7 @@ export default async function queryBrowser(url?: string): Promise<void> {
   const defaults = getDefaultsData();
 
   async function handleBrowser(browserNameOrAlias: string): Promise<void> {
-    const browser = getBrowser(browserNameOrAlias) ?? defaults.browser;
+    const browser = getBrowser(browserNameOrAlias);
 
     if (browser != null) {
       const browserName = typeof browser === "string" ? browser : browser.name;
