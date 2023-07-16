@@ -31,7 +31,7 @@ export default async function removeBrowser(): Promise<boolean> {
         )
       : [...browserNames];
 
-  if (listToRemove == null) {
+  if (listToRemove == null || listToRemove.length === 0) {
     return false;
   }
 
