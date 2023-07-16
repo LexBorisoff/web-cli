@@ -1,4 +1,4 @@
-import open from "open";
+import open, { openApp } from "open";
 import { getBrowserArguments, getBrowserAppName } from "../helpers/browser";
 
 export default async function openBrowser(
@@ -17,5 +17,5 @@ export default async function openBrowser(
   }
 
   // opens empty browser
-  await open.openApp(browserAppName, { arguments: browserArguments });
+  await openApp(browserAppName, { arguments: browserArguments });
 }

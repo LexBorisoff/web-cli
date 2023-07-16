@@ -1,13 +1,13 @@
-import open from "open";
+import { apps } from "open";
 
 export default function getBrowserAppName(browserName: string) {
   switch (browserName) {
     case "chrome":
-      return open.apps.chrome;
+      return apps.chrome;
     case "firefox":
-      return open.apps.firefox;
+      return apps.firefox;
     case "edge":
-      return open.apps.edge;
+      return apps.edge;
     default:
       return browserName;
   }
