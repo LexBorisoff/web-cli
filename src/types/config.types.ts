@@ -9,26 +9,20 @@ export interface DefaultsConfig {
 }
 
 // BROWSERS
-export interface BrowserObject extends Partial<WithAlias> {
-  name: string;
-  privateFlag?: string; // TODO: implement (--incognito, --private, etc.)
-}
-
-export type Browser = string | BrowserObject;
-
-export type BrowsersConfig<B = Browser> = Array<B>;
-
-// PROFILES
 export interface Profile extends Partial<WithAlias> {
   directory: string; // --profile-directory="Folder Name"
 }
 
-export interface BrowserProfiles {
+export interface ProfilesConfig {
   [profile: string]: Profile;
 }
 
-export interface ProfilesConfig {
-  [browser: string]: BrowserProfiles | undefined;
+export interface Browser extends Partial<WithAlias> {
+  profiles?: ProfilesConfig;
+}
+
+export interface BrowsersConfig {
+  [browser: string]: Browser;
 }
 
 // ENGINES
@@ -47,6 +41,5 @@ export interface EnginesConfig {
 export interface Config {
   defaults?: DefaultsConfig;
   browsers?: BrowsersConfig;
-  profiles?: ProfilesConfig;
   engines?: EnginesConfig;
 }

@@ -26,13 +26,13 @@ export default async function queryProfile(
   if (profileArg != null) {
     // one profile provided
     if (!Array.isArray(profileArg)) {
-      const profile = getProfile(profileArg.toLowerCase(), browserName);
+      const profile = getProfile(profileArg, browserName);
       await handleProfile(profile?.directory);
     }
     // multiple profiles provided
     else {
-      profileArg.forEach(async (profileName) => {
-        const profile = getProfile(profileName.toLowerCase(), browserName);
+      profileArg.forEach(async (p) => {
+        const profile = getProfile(p, browserName);
         await handleProfile(profile?.directory);
       });
     }

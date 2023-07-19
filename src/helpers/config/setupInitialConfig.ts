@@ -9,8 +9,7 @@ const defaultConfig: Config = {
     browser: null,
     profile: {},
   },
-  browsers: [],
-  profiles: {},
+  browsers: {},
   engines: defaultEngineConfig,
 };
 
