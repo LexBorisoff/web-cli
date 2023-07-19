@@ -35,21 +35,14 @@ export default function getArgs() {
     })
     .option("http", {
       type: "boolean",
-      description: `Query using the "http" protocol`,
+      description: `Query using the "http" (not secure) protocol`,
       default: false,
     })
     .option("https", {
       type: "boolean",
-      description: `Query using the secure "https" protocol (default)`,
+      description: `Query using the "https" (secure) protocol`,
       alias: ["secure", "s"],
       default: true,
-    })
-    .option("lookup", {
-      // TODO: implement
-      type: "boolean",
-      description: "Look up the website(s) instead of visiting directly",
-      default: false,
-      alias: ["l"],
     })
     .help(false)
     .parseSync();

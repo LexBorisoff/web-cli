@@ -40,7 +40,7 @@ export default function getUrlList(engineNameOrAlias?: string): string[] {
   const urlList: string[] = [];
 
   function getFullUrl(url: string) {
-    const protocol = `http${args.secure ? "s" : ""}://`;
+    const protocol = `http${args.http || !args.https ? "" : "s"}://`;
     return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
   }
 
