@@ -1,33 +1,36 @@
 import { WithAlias } from "../../types/utility.types";
 
-function hasAlias<T>(item: T): item is T & WithAlias {
+interface List<Item> {
+  [key: string]: Item;
+}
+
+function withAlias<Item>(item: Item): item is Item & WithAlias {
   return item instanceof Object && "alias" in item;
 }
 
 // get config item by name or alias
-export default function getConfigItem<List extends object>(
-  name: string,
-  list: List
-): List[keyof List] | undefined {
+export default function getConfigItem<Item>(
+  nameOrAlias: string,
+  list: List<Item>
+): Item | undefined {
   // name is object's key
-  if (Object.keys(list).includes(name)) {
-    return list[name as keyof List];
+  if (Object.keys(list).includes(nameOrAlias)) {
+    return list[nameOrAlias];
   }
 
   // name is an alias
-  const listNames: List[keyof List][] = Object.values(list);
+  const listNames = Object.values(list);
   const found = listNames.find((item) => {
-    if (hasAlias(item)) {
-      const { alias } = item;
-      if (
-        (Array.isArray(alias) && alias.includes(name)) ||
-        (typeof alias === "string" && alias === name)
-      ) {
-        return item;
-      }
+    if (!withAlias(item)) {
+      return undefined;
     }
 
-    return undefined;
+    const { alias } = item;
+    const hasAlias =
+      (Array.isArray(alias) && alias.includes(nameOrAlias)) ||
+      (typeof alias === "string" && alias === nameOrAlias);
+
+    return hasAlias ? item : undefined;
   });
 
   return found;
