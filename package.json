@@ -14,7 +14,7 @@
     "url": "https://github.com/lexborisoff/shell-query.git"
   },
   "bin": {
-    "dq": "lib/main.js"
+    "sq": "lib/main.js"
   },
   "files": [
     "/lib"
