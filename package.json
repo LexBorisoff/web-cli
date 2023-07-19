@@ -1,14 +1,10 @@
 {
   "name": "shell-query",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "CLI for making browser search queries from a terminal",
   "main": "./lib/main.js",
   "scripts": {
-    "build": "rm -rf ./lib && npx tsc",
-    "delete-config": "ts-node ./src/config/deleteConfigFile",
-    "config": "ts-node ./src/config/runSetupConfig",
-    "config:clean": "npm run delete-config && npm run config",
-    "config:main": "npm run delete-config && ts-node ./src/main.ts"
+    "build": "rm -rf ./lib && npx tsc"
   },
   "keywords": [],
   "author": "Lex Borisoff <hello@lexborisoff.com>",
