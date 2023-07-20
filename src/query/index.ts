@@ -2,11 +2,11 @@ import queryBrowser from "./browser";
 import queryEngine from "./engine";
 import { withEngine, withSearchQuery, withWebsite } from "../command";
 
-export default async function query(): Promise<void> {
+export default function query(): void {
   if (withEngine || withSearchQuery || withWebsite) {
-    await queryEngine();
+    queryEngine();
     return;
   }
 
-  await queryBrowser();
+  queryBrowser();
 }

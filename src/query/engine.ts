@@ -6,27 +6,27 @@ import { getArgs } from "../command";
 
 const args = getArgs();
 
-export default async function queryEngine(): Promise<void> {
-  async function handleEngine(engineNameOrAlias?: string) {
-    const urls = getUrlList(engineNameOrAlias);
-    urls.forEach(async (url) => {
-      console.log(`> ${chalk.green(url)}`);
-      await queryBrowser(url);
-    });
+function handleEngine(engineNameOrAlias?: string): void {
+  const urls = getUrlList(engineNameOrAlias);
+  urls.forEach((url) => {
+    console.log(`> ${chalk.green(url)}`);
+    queryBrowser(url);
+  });
+}
 
-    emptyLine();
-  }
-
+export default function queryEngine(): void {
   const engineArg = args.engine as typeof args.engine | string[];
 
   // single search engine / website to query
   if (!Array.isArray(engineArg)) {
-    await handleEngine(engineArg);
+    handleEngine(engineArg);
   }
   // multiple search engines / websites to query
   else {
-    Object.values(engineArg).forEach(async (engineName) => {
-      await handleEngine(engineName);
+    Object.values(engineArg).forEach((arg) => {
+      handleEngine(arg);
     });
   }
+
+  emptyLine();
 }

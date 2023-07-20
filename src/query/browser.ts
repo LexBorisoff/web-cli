@@ -1,18 +1,18 @@
 import open from "open";
-import queryProfile, { hasProfile } from "./profile";
+import queryProfile from "./profile";
 import openBrowser from "./openBrowser";
 import { getArgs } from "../command";
 import { getDefaultsData, getBrowsersData } from "../data";
 import { printError } from "../helpers/print";
 
 const args = getArgs();
+const defaults = getDefaultsData();
+const browsers = getBrowsersData();
 
 /**
  * returns the found browser key from config or the provided argument
  */
 function getBrowserName(browserNameOrAlias: string): string {
-  const browsers = getBrowsersData();
-
   const foundBrowser = Object.entries(browsers).find(([key, browser]) => {
     const isConfigKey = browserNameOrAlias === key;
     const isAlias =
@@ -34,36 +34,41 @@ function getBrowserName(browserNameOrAlias: string): string {
   return browserNameOrAlias;
 }
 
-export default async function queryBrowser(url?: string): Promise<void> {
-  const defaults = getDefaultsData();
+function hasProfile(browserName: string): boolean {
+  return args.profile != null || defaults.profile?.[browserName] != null;
+}
 
-  async function handleBrowser(browserName: string): Promise<void> {
-    if (hasProfile(browserName)) {
-      await queryProfile(browserName, url);
-    } else {
-      await openBrowser(browserName, url);
-    }
+function handleBrowser(browserName: string, url?: string): void {
+  if (hasProfile(browserName)) {
+    queryProfile(browserName, url);
+  } else {
+    openBrowser(browserName, url);
   }
+}
 
+export default function queryBrowser(url?: string): void {
   const browserArg = args.browser as typeof args.browser | string[];
-  const browser = browserArg ?? defaults.browser;
 
   // with provided or default browser
-  if (browser != null) {
+  if (browserArg != null) {
     // one browser provided
-    if (!Array.isArray(browser)) {
-      handleBrowser(getBrowserName(browser));
+    if (!Array.isArray(browserArg)) {
+      handleBrowser(getBrowserName(browserArg), url);
     }
     // multiple browsers provided
     else {
-      browser.forEach((b) => {
-        handleBrowser(getBrowserName(b));
+      browserArg.forEach((arg) => {
+        handleBrowser(getBrowserName(arg), url);
       });
     }
   }
+  // default browser exists in config
+  else if (defaults.browser != null) {
+    handleBrowser(getBrowserName(defaults.browser), url);
+  }
   // no browser but has url
   else if (url != null) {
-    await open(url);
+    open(url);
   }
   // no browser and no url
   else {

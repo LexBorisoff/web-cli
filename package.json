@@ -4,7 +4,7 @@
   "description": "CLI for making browser search queries from a terminal",
   "main": "./lib/main.js",
   "scripts": {
-    "build": "rm -rf ./lib && npx tsc"
+    "build": "rm -rf ./lib && tsc"
   },
   "keywords": [],
   "author": "Lex Borisoff <hello@lexborisoff.com>",

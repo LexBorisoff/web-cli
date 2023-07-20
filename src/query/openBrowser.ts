@@ -1,21 +1,21 @@
 import open, { openApp } from "open";
 import { getBrowserArguments, getBrowserAppName } from "../helpers/browser";
 
-export default async function openBrowser(
+export default function openBrowser(
   browserName: string,
   url?: string,
   profileDirectory?: string
-): Promise<void> {
+): void {
   const browserAppName = getBrowserAppName(browserName);
   const browserArguments = getBrowserArguments(browserName, profileDirectory);
 
   if (url != null) {
-    await open(url, {
+    open(url, {
       app: { name: browserAppName, arguments: browserArguments },
     });
     return;
   }
 
   // opens empty browser
-  await openApp(browserAppName, { arguments: browserArguments });
+  openApp(browserAppName, { arguments: browserArguments });
 }
