@@ -19,9 +19,13 @@ export default function queryEngine(): void {
   const customArgs = getEngineArgs();
   const list = getArgsList(engineArgs, customArgs);
 
-  list.forEach((engineNameOrAlias) => {
-    handleEngine(engineNameOrAlias);
-  });
+  if (list.length > 0) {
+    list.forEach((engineNameOrAlias) => {
+      handleEngine(engineNameOrAlias);
+    });
+  } else {
+    handleEngine();
+  }
 
   emptyLine();
 }
