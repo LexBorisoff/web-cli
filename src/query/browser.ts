@@ -1,7 +1,12 @@
 import open from "open";
 import queryProfile from "./profile";
 import openBrowser from "./openBrowser";
-import { getArgs, getBrowserArgs, getArgsList } from "../command";
+import {
+  getArgs,
+  getBrowserArgs,
+  getBrowserProfileArgs,
+  getArgsList,
+} from "../command";
 import { getDefaultsData, getBrowsersData } from "../data";
 import { printError } from "../helpers/print";
 
@@ -35,7 +40,12 @@ function getBrowserName(browserNameOrAlias: string): string {
 }
 
 function hasProfile(browserName: string): boolean {
-  return args.profile != null || defaults.profile?.[browserName] != null;
+  const profilesArgs = getBrowserProfileArgs(browserName);
+  return (
+    args.profile != null ||
+    defaults.profile?.[browserName] != null ||
+    profilesArgs.length > 0
+  );
 }
 
 function handleBrowser(browserName: string, url?: string): void {

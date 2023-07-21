@@ -15,7 +15,7 @@ export default function getCustomArgs<T extends Partial<WithAlias>>(
   data: Data<T>
 ): string[] {
   const customArgs = Object.keys(args).filter(
-    (key) => !optionList.includes(key) && !aliasList.includes(key)
+    (key) => ![...optionList, ...aliasList].includes(key)
   );
 
   return Object.entries(data)
