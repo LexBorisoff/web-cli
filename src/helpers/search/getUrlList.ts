@@ -33,7 +33,9 @@ function getEngineQuery(engine: Engine): string {
 }
 
 function printNoEngine(engineNameOrAlias: string) {
-  printError(`Engine with identifier "${engineNameOrAlias}" does not exist.`);
+  printError(
+    `There is no engine with identifier "${engineNameOrAlias}" in the config.`
+  );
 }
 
 export default function getUrlList(engineNameOrAlias?: string): string[] {
