@@ -1,5 +1,10 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { getBrowsersList, getProfilesList, getEnginesList } from "../data";
+
+const browsersList = getBrowsersList();
+const enginesList = getEnginesList();
+const profilesList = getProfilesList();
 
 export enum Options {
   browser = "browser",
@@ -24,6 +29,21 @@ export const alias = {
   https: ["secure", "s"],
   force: ["f"],
 };
+
+export const optionList = Object.values(Options) as string[];
+export const aliasList = Object.values(alias).flat();
+
+/**
+ * Allows to interpret provided args that correspond to config's
+ * names and aliases of browsers, profiles, and engines
+ * as booleans and to not set the value to the arg's key
+ */
+function getFlagOptions() {
+  const options = [...optionList, ...aliasList];
+  return [...browsersList, ...profilesList, ...enginesList].filter(
+    (customOption) => !options.includes(customOption)
+  );
+}
 
 export default function getArgs() {
   return yargs(hideBin(process.argv))
@@ -69,8 +89,6 @@ export default function getArgs() {
       default: true,
     })
     .help(false)
+    .boolean(getFlagOptions())
     .parseSync();
 }
-
-export const options = Object.values(Options) as string[];
-export const aliases = Object.values(alias).flat();

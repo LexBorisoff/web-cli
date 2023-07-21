@@ -1,4 +1,4 @@
-import getArgs, { options, aliases } from "./getArgs";
+import getArgs, { optionList, aliasList } from "./getArgs";
 import { WithAlias } from "../types/utility.types";
 
 const args = getArgs();
@@ -15,7 +15,7 @@ export default function getCustomArgs<T extends Partial<WithAlias>>(
   data: Data<T>
 ): string[] {
   const customArgs = Object.keys(args).filter(
-    (key) => !options.includes(key) && !aliases.includes(key)
+    (key) => !optionList.includes(key) && !aliasList.includes(key)
   );
 
   return Object.entries(data)

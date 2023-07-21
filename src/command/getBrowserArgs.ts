@@ -7,6 +7,6 @@ import { getBrowsersData } from "../data";
  * based on the browser names and aliases provided in the config file
  */
 export default function getBrowserArgs(): string[] {
-  const enginesData = getBrowsersData();
-  return getCustomArgs(enginesData);
+  const browsersData = getBrowsersData();
+  return getCustomArgs(browsersData);
 }
