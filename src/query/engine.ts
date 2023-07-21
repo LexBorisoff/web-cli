@@ -2,7 +2,7 @@ import chalk from "chalk";
 import queryBrowser from "./browser";
 import { getUrlList } from "../helpers/search";
 import { emptyLine } from "../helpers/print";
-import { getArgs } from "../command";
+import { getArgs, getEngineArgs, getArgsList } from "../command";
 
 const args = getArgs();
 
@@ -15,18 +15,13 @@ function handleEngine(engineNameOrAlias?: string): void {
 }
 
 export default function queryEngine(): void {
-  const engineArg = args.engine as typeof args.engine | string[];
+  const engineArgs = args.engine as typeof args.engine | string[];
+  const customArgs = getEngineArgs();
+  const list = getArgsList(engineArgs, customArgs);
 
-  // single search engine / website to query
-  if (!Array.isArray(engineArg)) {
-    handleEngine(engineArg);
-  }
-  // multiple search engines / websites to query
-  else {
-    Object.values(engineArg).forEach((arg) => {
-      handleEngine(arg);
-    });
-  }
+  list.forEach((engineNameOrAlias) => {
+    handleEngine(engineNameOrAlias);
+  });
 
   emptyLine();
 }
