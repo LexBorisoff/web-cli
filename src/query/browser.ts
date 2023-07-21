@@ -72,6 +72,6 @@ export default function queryBrowser(url?: string): void {
   }
   // no browser and no url
   else {
-    printError("Provide default browser to open\n");
+    printError("Provide a default browser to open\n");
   }
 }
