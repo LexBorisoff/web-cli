@@ -9,17 +9,20 @@ export enum Options {
   incognito = "incognito",
   http = "http",
   https = "https",
+  config = "config",
+  force = "force",
   _ = "_",
   $0 = "$0",
 }
 
-const alias = {
+export const alias = {
   browser: ["b"],
   profile: ["p"],
   engine: ["e", "website", "w"],
   package: ["pkg", "library", "lib"],
   incognito: ["i", "private"],
   https: ["secure", "s"],
+  force: ["f"],
 };
 
 export default function getArgs() {
@@ -69,7 +72,5 @@ export default function getArgs() {
     .parseSync();
 }
 
-const options = Object.values(Options) as string[];
-const aliases = Object.values(alias).flat();
-
-export { options, aliases };
+export const options = Object.values(Options) as string[];
+export const aliases = Object.values(alias).flat();
