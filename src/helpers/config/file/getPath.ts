@@ -7,7 +7,7 @@ function hasPath(data: unknown): data is Config {
   );
 }
 
-export default function getConfigPath(): string | undefined {
+export default function getPath(): string | undefined {
   try {
     const json = fs.readFileSync("../../../config.json", { encoding: "utf-8" });
     const config = JSON.parse(json);
