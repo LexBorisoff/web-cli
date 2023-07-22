@@ -1,7 +1,7 @@
 import { fileExists, readFile } from "../helpers/config";
-import { Config } from "../types/config.types";
+import { ConfigData } from "../types/config.types";
 
-export default function getConfigData(): Config {
+export default function getConfigData(): ConfigData {
   if (!fileExists()) {
     return {};
   }

@@ -1,5 +1,5 @@
 import getBrowsersData from "./getBrowsersData";
-import getBrowserProfiles from "./getBrowserProfiles";
+import getProfilesData from "./getProfilesData";
 import getEnginesData from "./getEnginesData";
 import { WithAlias } from "../types/utility.types";
 
@@ -28,7 +28,7 @@ export function getBrowsersList(): string[] {
 export function getProfilesList(): string[] {
   return Object.keys(browsersData)
     .map((browserName) => {
-      const profilesData = getBrowserProfiles(browserName);
+      const profilesData = getProfilesData(browserName);
       return getList(profilesData);
     })
     .flat();

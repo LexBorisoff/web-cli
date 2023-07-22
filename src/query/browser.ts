@@ -4,7 +4,7 @@ import openBrowser from "./openBrowser";
 import {
   getArgs,
   getBrowserArgs,
-  getBrowserProfileArgs,
+  getProfileArgs,
   getArgsList,
 } from "../command";
 import { getDefaultsData, getBrowsersData } from "../data";
@@ -40,7 +40,7 @@ function getBrowserName(browserNameOrAlias: string): string {
 }
 
 function hasProfile(browserName: string): boolean {
-  const profilesArgs = getBrowserProfileArgs(browserName);
+  const profilesArgs = getProfileArgs(browserName);
   return (
     args.profile != null ||
     defaults.profile?.[browserName] != null ||
