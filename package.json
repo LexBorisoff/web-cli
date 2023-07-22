@@ -1,7 +1,7 @@
 {
-  "name": "shell-query",
-  "version": "1.0.0",
-  "description": "CLI for making browser search queries from a terminal",
+  "name": "websearch-cli",
+  "version": "1.0.1",
+  "description": "CLI for making web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && tsc"
@@ -11,10 +11,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lexborisoff/shell-query.git"
+    "url": "https://github.com/lexborisoff/websearch-cli.git"
   },
   "bin": {
-    "sq": "lib/main.js"
+    "web": "lib/main.js"
   },
   "files": [
     "/lib"
