@@ -45,8 +45,6 @@ export interface ConfigData {
   engines?: EnginesData;
 }
 
-export interface Config {
-  defaults?: DefaultsConfig;
-  browsers?: BrowsersConfig;
-  engines?: EnginesConfig;
+export interface ConfigSettings {
+  path: string;
 }

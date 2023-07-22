@@ -1,11 +1,6 @@
 #!/usr/bin/env node
 import { getConfigArgs } from "./command";
-import { hasData, setupInitialConfig } from "./helpers/config";
 import query from "./query";
-import openConfig from "./openConfig";
+import handleConfig from "./config/handleConfig";
 
-if (!hasData()) {
-  setupInitialConfig();
-}
-
-getConfigArgs().config ? openConfig() : query();
+getConfigArgs().config ? handleConfig() : query();
