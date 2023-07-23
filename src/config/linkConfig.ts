@@ -1,10 +1,9 @@
-import chalk from "chalk";
 import * as fs from "fs";
 import * as path from "path";
+import chalk from "chalk";
 import { printFormat } from "./utils";
 import getConfigArgs from "../command/getConfigArgs";
 import { getSettingsData } from "../data";
-
 import { getSettingsPath } from "../helpers/config";
 import {
   print,

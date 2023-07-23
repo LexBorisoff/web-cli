@@ -6,6 +6,7 @@ lib
 
 # Config files
 config.json
+settings.json
 websearch.json
 
 # Logs
