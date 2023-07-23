@@ -43,7 +43,7 @@ export default async function linkFile(): Promise<void> {
 
   const configPath = path.resolve(configArg);
   if (!fs.existsSync(configPath)) {
-    printError("Filename does not exist");
+    printError("Could not access the provided config file");
     emptyLine();
     return;
   }

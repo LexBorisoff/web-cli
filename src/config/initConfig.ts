@@ -10,9 +10,15 @@ import {
   defaultEngine,
   defaultEngineConfig,
 } from "../helpers/config";
-import { print, printSuccess, printError, emptyLine } from "../helpers/print";
+import {
+  print,
+  printInfo,
+  printSuccess,
+  printError,
+  emptyLine,
+} from "../helpers/print";
 import { cliPrompts } from "../helpers/prompts";
-import { ConfigData } from "../types/config.types";
+import { ConfigData, ConfigSettings } from "../types/config.types";
 
 const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
@@ -65,9 +71,8 @@ export default async function initConfig() {
     return;
   }
 
-  let proceed: boolean | undefined = force;
+  let proceed: boolean | undefined = true;
   let directoryPath = path.resolve(".");
-  let successWithPath = true;
 
   const pathArg = values.at(0);
 
@@ -88,41 +93,36 @@ export default async function initConfig() {
 
   // there is an existing config file in memory
   if (fileExists() && configPath != null && configPath !== newConfigPath) {
-    // ask to proceed
-    if (!proceed) {
+    if (force) {
+      printInfo(`using "--force" to delete the old config file:`);
+      print(configPath);
+    } else {
       proceed = await toggle(
         `${chalk.italic.yellowBright(
           "Config file already exists at the following path:"
         )}\n  ${configPath}\n\n  ${chalk.cyanBright("Delete it?")}`,
         false
       );
-      emptyLine();
     }
 
-    if (proceed) {
+    emptyLine();
+    if (proceed || force) {
       fs.unlinkSync(configPath);
     }
   }
   // config file exists at the same path
-  else if (fs.existsSync(newConfigPath) && !proceed) {
-    // ask to proceed
-    proceed = await toggle(
-      `${chalk.italic.yellowBright(
-        "Config file already exists in this directory"
-      )}\n  ${chalk.cyanBright("Override it?")}`,
-      false
-    );
-    emptyLine();
-  }
-  // creating a new file
-  else if (!proceed) {
-    successWithPath = false;
-    proceed = await toggle(
-      `${chalk.italic.yellowBright(
-        "Store the config file at this path?"
-      )}\n  ${newConfigPath}\n`,
-      true
-    );
+  else if (fs.existsSync(newConfigPath)) {
+    if (force) {
+      printInfo(`using "--force" to override the config file`);
+    } else {
+      proceed = await toggle(
+        `${chalk.italic.yellowBright(
+          "Config file already exists in this directory"
+        )}\n  ${chalk.cyanBright("Override it?")}`,
+        false
+      );
+    }
+
     emptyLine();
   }
 
@@ -133,19 +133,14 @@ export default async function initConfig() {
   try {
     writeConfigFile(newConfigPath);
     writeSettingsFile(newConfigPath);
-    const message = "Initialzed a new config file";
 
-    if (successWithPath) {
-      printSuccess(`${message}:`);
-      print(newConfigPath);
-      emptyLine();
-    } else {
-      printSuccess(message);
-    }
+    printSuccess(`Initialzed a new config file:`);
+    print(newConfigPath);
+    emptyLine();
 
     printFormat.open();
   } catch {
-    printError("Failed to create the config file at the provided path");
+    printError("Failed to create the config file");
   }
 
   emptyLine();
