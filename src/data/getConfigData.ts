@@ -1,9 +1,10 @@
 import { getSettings, fileExists, readFile } from "../helpers/config";
 import { ConfigData } from "../types/config.types";
 
+const settings = getSettings();
+
 export default function getConfigData(): ConfigData {
-  const settings = getSettings();
-  if (settings.config != null) {
+  if (settings?.config != null) {
     return settings.config;
   }
 

@@ -4,13 +4,13 @@ import { ConfigSettings } from "../../types/config.types";
 
 const settingsPath = getSettingsPath();
 
-export default function getSettings(): ConfigSettings {
+export default function getSettings(): ConfigSettings | null {
   try {
     const json = fs.existsSync(settingsPath)
       ? fs.readFileSync(settingsPath, { encoding: "utf-8" })
       : null;
-    return json != null ? JSON.parse(json) : {};
+    return json != null ? JSON.parse(json) : null;
   } catch {
-    return {};
+    return null;
   }
 }

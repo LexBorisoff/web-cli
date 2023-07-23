@@ -13,14 +13,11 @@ import { ConfigData } from "../types/config.types";
 
 const { _: args } = getConfigArgs();
 const settingsPath = getSettingsPath();
+const settings = getSettings() ?? {};
+const { link } = settings;
 
 function clearCache() {
-  if (!fs.existsSync(settingsPath)) {
-    return;
-  }
-
-  const settings = getSettings();
-  if (settings.config == null) {
+  if (settings?.config == null) {
     printInfo("No cache exists");
     emptyLine();
     return;
@@ -56,8 +53,6 @@ export default function cacheConfig() {
   }
 
   let configPath: string | undefined;
-  const settings = getSettings();
-  const { link } = settings;
 
   try {
     if (link != null && link !== "") {
@@ -78,10 +73,7 @@ export default function cacheConfig() {
   try {
     const json = fs.readFileSync(configPath, { encoding: "utf-8" });
     const config: ConfigData = JSON.parse(json);
-    const cache = {
-      ...settings,
-      config,
-    };
+    const cache = { ...settings, config };
 
     fs.writeFileSync(settingsPath, JSON.stringify(cache));
 

@@ -17,6 +17,10 @@ import { ConfigSettings } from "../types/config.types";
 const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
 
+const settingsPath = getSettingsPath();
+const settings = getSettings() || {};
+const { link } = settings;
+
 export default async function linkFile(): Promise<void> {
   const [, ...values] = args;
 
@@ -48,9 +52,6 @@ export default async function linkFile(): Promise<void> {
     return;
   }
 
-  const settingsPath = getSettingsPath();
-  const settings = getSettings();
-  const { link } = settings;
   let proceed: boolean | undefined = force || !fs.existsSync(settingsPath);
 
   if (link != null) {

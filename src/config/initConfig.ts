@@ -22,6 +22,7 @@ import { ConfigData, ConfigSettings } from "../types/config.types";
 
 const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
+const settingsPath = getSettingsPath();
 
 const defaultConfig: ConfigData = {
   defaults: {
@@ -58,7 +59,7 @@ function writeConfigFile(configPath: string) {
 
 function writeSettingsFile(configPath: string) {
   const settings: ConfigSettings = { link: configPath };
-  fs.writeFileSync(getSettingsPath(), JSON.stringify(settings));
+  fs.writeFileSync(settingsPath, JSON.stringify(settings));
 }
 
 export default async function initConfig() {
@@ -113,7 +114,7 @@ export default async function initConfig() {
   // config file exists at the same path
   else if (fs.existsSync(newConfigPath)) {
     if (force) {
-      printInfo(`using "--force" to override the config file`);
+      printInfo(`using "--force" to override the existing config file`);
     } else {
       proceed = await toggle(
         `${chalk.italic.yellowBright(
@@ -137,7 +138,6 @@ export default async function initConfig() {
     printSuccess(`Initialzed a new config file:`);
     print(newConfigPath);
     emptyLine();
-
     printFormat.open();
   } catch {
     printError("Failed to create the config file");
