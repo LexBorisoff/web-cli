@@ -128,6 +128,10 @@ export default async function initConfig() {
   }
 
   if (!proceed) {
+    // create config settings with if it doesn't exist
+    if (!fs.existsSync(settingsPath)) {
+      fs.writeFileSync(settingsPath, JSON.stringify({ link: newConfigPath }));
+    }
     return;
   }
 
