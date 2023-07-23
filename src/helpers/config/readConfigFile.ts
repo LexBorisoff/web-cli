@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import getConfigLink from "./getConfigLink";
+import getSettings from "./getSettings";
 import configFileExists from "./configFileExists";
 
-const configLink = getConfigLink();
+const configLink = getSettings()?.link;
 
 export default function readConfigFile(): string | null {
   // checking if file exists because configLink might be outdated

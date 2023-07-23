@@ -3,8 +3,7 @@ import * as path from "path";
 import chalk from "chalk";
 import { printFormat } from "./utils";
 import getConfigArgs from "../command/getConfigArgs";
-import { getSettingsData } from "../data";
-import { getSettingsPath } from "../helpers/config";
+import { getSettings, getSettingsPath } from "../helpers/config";
 import {
   print,
   printInfo,
@@ -19,8 +18,8 @@ const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
 
 const settingsPath = getSettingsPath();
-const settings = getSettingsData() || {};
-const { link } = settings;
+const settings = getSettings() ?? {};
+const { link: configLink } = settings;
 
 export default async function linkFile(): Promise<void> {
   const [, ...values] = args;
@@ -55,8 +54,8 @@ export default async function linkFile(): Promise<void> {
 
   let proceed: boolean | undefined = force || !fs.existsSync(settingsPath);
 
-  if (link != null) {
-    if (configPath === link) {
+  if (configLink != null) {
+    if (configPath === configLink) {
       printInfo("This file is already linked");
       emptyLine();
       return;
@@ -66,7 +65,7 @@ export default async function linkFile(): Promise<void> {
       proceed = await toggle(
         `${chalk.italic.yellowBright(
           "The following config file will be replaced:"
-        )}\n  ${link}\n\n  ${chalk.cyan("Proceed?")}`,
+        )}\n  ${configLink}\n\n  ${chalk.cyan("Proceed?")}`,
         false
       );
       emptyLine();

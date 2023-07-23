@@ -1,8 +1,7 @@
 import * as fs from "fs";
 import { printFormat } from "./utils";
 import getConfigArgs from "../command/getConfigArgs";
-import { getSettingsData } from "../data";
-import { getSettingsPath } from "../helpers/config";
+import { getSettingsPath, getSettings } from "../helpers/config";
 import {
   print,
   printInfo,
@@ -14,7 +13,7 @@ import { ConfigData } from "../types/config.types";
 
 const { _: args } = getConfigArgs();
 const settingsPath = getSettingsPath();
-const settings = getSettingsData() ?? {};
+const settings = getSettings() ?? {};
 const { link } = settings;
 
 function clearCache() {

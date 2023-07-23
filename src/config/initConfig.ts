@@ -4,7 +4,7 @@ import * as path from "path";
 import { printFormat } from "./utils";
 import { getConfigArgs } from "../command";
 import {
-  getConfigLink,
+  getSettings,
   getSettingsPath,
   defaultEngine,
   defaultEngineConfig,
@@ -23,7 +23,7 @@ const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
 
 const settingsPath = getSettingsPath();
-const configLink = getConfigLink();
+const configLink = getSettings()?.link;
 
 const defaultConfig: ConfigData = {
   defaults: {

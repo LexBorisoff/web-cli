@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import getConfigLink from "./getConfigLink";
+import getSettings from "./getSettings";
 
 export default function configFileExists(): boolean {
-  const configLink = getConfigLink();
+  const configLink = getSettings()?.link;
   return configLink != null && fs.existsSync(configLink);
 }
