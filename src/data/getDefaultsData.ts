@@ -10,7 +10,7 @@ interface RequiredDefaults {
 export default function getDefaultsData(): DefaultsData & RequiredDefaults {
   const config = getConfigData();
   const defaults: DefaultsData & RequiredDefaults = {
-    ...config.defaults,
+    ...(config.defaults ?? {}),
     engine: config.defaults?.engine ?? defaultEngine,
     delimiter: config.defaults?.delimiter ?? defaultDelimiter,
   };

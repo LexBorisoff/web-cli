@@ -9,14 +9,13 @@ export default function getConfigData(): ConfigData {
     return settings.config;
   }
 
-  if (!configFileExists()) {
+  const data = readConfigFile();
+  if (!configFileExists() || data == null || data === "") {
     return {};
   }
 
-  const data = readConfigFile();
-
   try {
-    return data != null && data !== "" ? JSON.parse(data) : {};
+    return JSON.parse(data);
   } catch {
     return {};
   }
