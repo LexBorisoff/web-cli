@@ -4,7 +4,6 @@ import * as path from "path";
 import { printFormat } from "./utils";
 import { getConfigArgs } from "../command";
 import {
-  fileExists,
   getLink,
   getSettingsPath,
   defaultEngine,
@@ -22,7 +21,9 @@ import { ConfigData, ConfigSettings } from "../types/config.types";
 
 const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
+
 const settingsPath = getSettingsPath();
+const configLink = getLink();
 
 const defaultConfig: ConfigData = {
   defaults: {
@@ -88,27 +89,30 @@ export default async function initConfig() {
     }
   }
 
-  const configPath = getLink();
   const filename = "websearch.json";
   const newConfigPath = path.resolve(`${directoryPath}/${filename}`);
 
-  // there is an existing config file in memory
-  if (fileExists() && configPath != null && configPath !== newConfigPath) {
+  // there is an existing config file somewhere in memory
+  if (
+    configLink != null &&
+    fs.existsSync(configLink) &&
+    configLink !== newConfigPath
+  ) {
     if (force) {
       printInfo(`using "--force" to delete the old config file:`);
-      print(configPath);
+      print(configLink);
     } else {
       proceed = await toggle(
         `${chalk.italic.yellowBright(
           "Config file already exists at the following path:"
-        )}\n  ${configPath}\n\n  ${chalk.cyanBright("Delete it?")}`,
+        )}\n  ${configLink}\n\n  ${chalk.cyanBright("Delete it?")}`,
         false
       );
     }
 
     emptyLine();
     if (proceed || force) {
-      fs.unlinkSync(configPath);
+      fs.unlinkSync(configLink);
     }
   }
   // config file exists at the same path

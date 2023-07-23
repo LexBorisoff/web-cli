@@ -5,14 +5,13 @@ import { getLink } from "../helpers/config";
 import { print, printError, emptyLine } from "../helpers/print";
 
 const { _: args } = getConfigArgs();
+const configLink = getLink();
 
 async function openFile(): Promise<void> {
-  const configPath = getLink();
-
-  if (configPath != null) {
-    if (!fs.existsSync(configPath)) {
+  if (configLink != null) {
+    if (!fs.existsSync(configLink)) {
       printError("Could not access the linked config file:");
-      print(configPath);
+      print(configLink);
       emptyLine();
       return;
     }
@@ -21,11 +20,11 @@ async function openFile(): Promise<void> {
     if (apps.length > 0) {
       apps.map((app) => {
         if (typeof app === "string") {
-          open(configPath, { app: { name: app } });
+          open(configLink, { app: { name: app } });
         }
       });
     } else {
-      await open(configPath);
+      await open(configLink);
     }
   }
 }

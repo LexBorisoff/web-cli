@@ -2,17 +2,17 @@ import * as fs from "fs";
 import getLink from "./getLink";
 import fileExists from "./fileExists";
 
-export default function readFile(): string | null {
-  const configPath = getLink();
+const configLink = getLink();
 
-  // checking if file exists because configPath might be outdated
+export default function readFile(): string | null {
+  // checking if file exists because configLink might be outdated
   // and point to a file that was moved, renamed, or deleted
-  if (configPath == null || !fileExists()) {
+  if (configLink == null || !fileExists()) {
     return null;
   }
 
   try {
-    return fs.readFileSync(configPath, { encoding: "utf-8" });
+    return fs.readFileSync(configLink, { encoding: "utf-8" });
   } catch {
     return null;
   }
