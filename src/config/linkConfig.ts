@@ -2,15 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import chalk from "chalk";
 import { printFormat } from "./utils";
-import getConfigArgs from "../command/getConfigArgs";
+import { getConfigArgs } from "../command";
 import { getSettings, getSettingsPath } from "../helpers/config";
-import {
-  print,
-  printInfo,
-  printSuccess,
-  printError,
-  emptyLine,
-} from "../helpers/print";
+import { print, printInfo, printError, emptyLine } from "../helpers/print";
 import { cliPrompts } from "../helpers/prompts";
 import { ConfigSettings } from "../types/config.types";
 
@@ -52,7 +46,11 @@ export default async function linkFile(): Promise<void> {
     return;
   }
 
-  let proceed: boolean | undefined = force || !fs.existsSync(settingsPath);
+  let proceed: boolean | undefined =
+    force ||
+    configLink == null ||
+    configLink === "" ||
+    !fs.existsSync(settingsPath);
 
   if (configLink != null) {
     if (configPath === configLink) {
@@ -73,16 +71,10 @@ export default async function linkFile(): Promise<void> {
   }
 
   if (proceed) {
-    const updated: ConfigSettings = {
-      ...settings,
-      link: configPath,
-    };
-    fs.writeFileSync(settingsPath, JSON.stringify(updated));
+    const updatedSettings: ConfigSettings = { ...settings, link: configPath };
+    fs.writeFileSync(settingsPath, JSON.stringify(updatedSettings));
 
-    printSuccess(`Linked the config file:`);
-    print(configPath);
-    emptyLine();
-    printFormat.open();
+    print(`${chalk.greenBright("Linked")} ${configPath}`);
     emptyLine();
   }
 }

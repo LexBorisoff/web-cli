@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { printFormat } from "./utils";
-import getConfigArgs from "../command/getConfigArgs";
+import { getConfigArgs } from "../command";
 import { getSettingsPath, getSettings } from "../helpers/config";
 import {
   print,

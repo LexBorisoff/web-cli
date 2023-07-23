@@ -1,6 +1,6 @@
 import open from "open";
 import * as fs from "fs";
-import getConfigArgs from "../command/getConfigArgs";
+import { getConfigArgs } from "../command";
 import { getSettings } from "../helpers/config";
 import { print, printError, emptyLine } from "../helpers/print";
 
