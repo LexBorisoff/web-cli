@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import queryBrowser from "./browser";
 import { getUrlList } from "../helpers/search";
-import { emptyLine } from "../helpers/print";
+import { print, emptyLine } from "../helpers/print";
 import { getArgs, getEngineArgs, getArgsList } from "../command";
 
 const args = getArgs();
@@ -9,7 +9,7 @@ const args = getArgs();
 function handleEngine(engineNameOrAlias?: string): void {
   const urls = getUrlList(engineNameOrAlias);
   urls.forEach((url) => {
-    console.log(`> ${chalk.green(url)}`);
+    print(`> ${chalk.green(url)}`);
     queryBrowser(url);
   });
 }

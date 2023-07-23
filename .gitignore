@@ -5,9 +5,8 @@ bin
 lib
 
 # Config files
-.config
 config.json
-engines.json
+websearch.json
 
 # Logs
 logs

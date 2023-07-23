@@ -5,7 +5,7 @@ export const defaultEngine = "google";
 export const defaultEngineConfig: EnginesData = {
   google: {
     name: "Google",
-    url: "www.google.com",
+    url: "google.com",
     query: "search?q=",
   },
 };

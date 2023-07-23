@@ -8,8 +8,9 @@ async function openFile(): Promise<void> {
   const configPath = getPath();
 
   if (configPath != null) {
-    if (args.length > 0) {
-      args.map((app) => {
+    const [, ...apps] = args;
+    if (apps.length > 0) {
+      apps.map((app) => {
         if (typeof app === "string") {
           open(configPath, { app: { name: app } });
         }
