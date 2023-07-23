@@ -46,6 +46,6 @@ export interface ConfigData {
 }
 
 export interface ConfigSettings {
-  path?: string;
+  link?: string;
   config?: ConfigData;
 }

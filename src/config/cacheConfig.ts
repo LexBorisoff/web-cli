@@ -57,10 +57,11 @@ export default function cacheConfig() {
 
   let configPath: string | undefined;
   const settings = getSettings();
+  const { link } = settings;
 
   try {
-    if (settings.path != null && settings.path !== "") {
-      configPath = settings.path;
+    if (link != null && link !== "") {
+      configPath = link;
     }
   } catch {
     printError("Something went wrong :(");

@@ -50,10 +50,11 @@ export default async function linkFile(): Promise<void> {
 
   const settingsPath = getSettingsPath();
   const settings = getSettings();
+  const { link } = settings;
   let proceed: boolean | undefined = force || !fs.existsSync(settingsPath);
 
-  if (settings.path != null) {
-    if (configPath === settings.path) {
+  if (link != null) {
+    if (configPath === link) {
       printInfo("This file is already linked");
       emptyLine();
       return;
@@ -63,7 +64,7 @@ export default async function linkFile(): Promise<void> {
       proceed = await toggle(
         `${chalk.italic.yellowBright(
           "The following config file will be replaced:"
-        )}\n  ${settings.path}\n\n  ${chalk.cyan("Proceed?")}`,
+        )}\n  ${link}\n\n  ${chalk.cyan("Proceed?")}`,
         false
       );
       emptyLine();
@@ -73,7 +74,7 @@ export default async function linkFile(): Promise<void> {
   if (proceed) {
     const updated: ConfigSettings = {
       ...settings,
-      path: configPath,
+      link: configPath,
     };
     fs.writeFileSync(settingsPath, JSON.stringify(updated));
 
