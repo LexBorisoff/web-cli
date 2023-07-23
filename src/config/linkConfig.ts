@@ -77,7 +77,7 @@ export default async function linkFile(): Promise<void> {
     };
     fs.writeFileSync(settingsPath, JSON.stringify(updated));
 
-    printSuccess(`Linked the config file at:`);
+    printSuccess(`Linked the config file:`);
     print(configPath);
     emptyLine();
     printFormat.open();

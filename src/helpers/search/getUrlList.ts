@@ -34,7 +34,7 @@ function getEngineQuery(engine: Engine): string {
 
 function printNoEngine(engineNameOrAlias: string) {
   printError(
-    `There is no engine with identifier "${engineNameOrAlias}" in the config.`
+    `There is no engine with an identifier "${engineNameOrAlias}" in the config.`
   );
 }
 

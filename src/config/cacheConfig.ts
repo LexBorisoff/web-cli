@@ -84,11 +84,11 @@ export default function cacheConfig() {
 
     fs.writeFileSync(settingsPath, JSON.stringify(cache));
 
-    printSuccess("Cached the config file at:");
+    printSuccess("Cached the config file:");
     print(configPath);
     emptyLine();
   } catch {
-    printError("Cannot access the linked config file at:");
+    printError("Cannot access the linked config file:");
     print(configPath);
     emptyLine();
     return;

@@ -136,7 +136,7 @@ export default async function initConfig() {
     const message = "Initialzed a new config file";
 
     if (successWithPath) {
-      printSuccess(`${message} at:`);
+      printSuccess(`${message}:`);
       print(newConfigPath);
       emptyLine();
     } else {
