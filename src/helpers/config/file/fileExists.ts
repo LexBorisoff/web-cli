@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import getPath from "./getPath";
+import getLink from "./getLink";
 
 export default function fileExists(): boolean {
-  const configPath = getPath();
+  const configPath = getLink();
   return configPath != null && fs.existsSync(configPath);
 }

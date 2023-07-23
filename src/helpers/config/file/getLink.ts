@@ -1,20 +1,20 @@
 import * as fs from "fs";
-import { ConfigSettings } from "../../../types/config.types";
 import getSettingsPath from "../getSettingsPath";
+import { ConfigSettings } from "../../../types/config.types";
 
-function hasPath(data: unknown): data is ConfigSettings {
+function hasLink(settings: unknown): settings is ConfigSettings {
   return (
-    data instanceof Object &&
-    "path" in data &&
-    typeof data.path === "string" &&
-    data.path !== ""
+    settings instanceof Object &&
+    "link" in settings &&
+    typeof settings.link === "string" &&
+    settings.link !== ""
   );
 }
 
 /**
  * Returns the config file's path provided in the project's config settings
  */
-export default function getPath(): string | undefined {
+export default function getLink(): string | undefined {
   const settingsPath = getSettingsPath();
 
   if (!fs.existsSync(settingsPath)) {
@@ -24,7 +24,7 @@ export default function getPath(): string | undefined {
   try {
     const json = fs.readFileSync(settingsPath, { encoding: "utf-8" });
     const settings = JSON.parse(json);
-    return hasPath(settings) ? settings.path : undefined;
+    return hasLink(settings) ? settings.link : undefined;
   } catch {
     return undefined;
   }

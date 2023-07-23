@@ -5,7 +5,7 @@ import { printFormat } from "./utils";
 import { getConfigArgs } from "../command";
 import {
   fileExists,
-  getPath,
+  getLink,
   getSettingsPath,
   defaultEngine,
   defaultEngineConfig,
@@ -51,7 +51,7 @@ function writeConfigFile(configPath: string) {
 }
 
 function writeSettingsFile(configPath: string) {
-  const settings = { path: configPath };
+  const settings: ConfigSettings = { link: configPath };
   fs.writeFileSync(getSettingsPath(), JSON.stringify(settings));
 }
 
@@ -82,7 +82,7 @@ export default async function initConfig() {
     }
   }
 
-  const configPath = getPath();
+  const configPath = getLink();
   const filename = "websearch.json";
   const newConfigPath = path.resolve(`${directoryPath}/${filename}`);
 

@@ -1,17 +1,17 @@
 import open from "open";
 import * as fs from "fs";
 import getConfigArgs from "../command/getConfigArgs";
-import { getPath } from "../helpers/config";
+import { getLink } from "../helpers/config";
 import { print, printError, emptyLine } from "../helpers/print";
 
 const { _: args } = getConfigArgs();
 
 async function openFile(): Promise<void> {
-  const configPath = getPath();
+  const configPath = getLink();
 
   if (configPath != null) {
     if (!fs.existsSync(configPath)) {
-      printError("The linked config file does not exist:");
+      printError("Could not access the linked config file:");
       print(configPath);
       emptyLine();
       return;
