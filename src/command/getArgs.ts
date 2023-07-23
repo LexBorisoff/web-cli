@@ -1,37 +1,11 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { Options, alias, optionList, aliasList } from "./options";
 import { getBrowsersList, getProfilesList, getEnginesList } from "../data";
 
 const browsersList = getBrowsersList();
 const enginesList = getEnginesList();
 const profilesList = getProfilesList();
-
-export enum Options {
-  browser = "browser",
-  profile = "profile",
-  engine = "engine",
-  package = "package",
-  incognito = "incognito",
-  http = "http",
-  https = "https",
-  config = "config",
-  force = "force",
-  _ = "_",
-  $0 = "$0",
-}
-
-export const alias = {
-  browser: ["b"],
-  profile: ["p"],
-  engine: ["e", "website", "w"],
-  package: ["pkg", "library", "lib"],
-  incognito: ["i", "private"],
-  https: ["secure", "s"],
-  force: ["f"],
-};
-
-export const optionList = Object.values(Options) as string[];
-export const aliasList = Object.values(alias).flat();
 
 /**
  * Allows to interpret provided args that correspond to config's

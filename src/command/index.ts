@@ -1,4 +1,4 @@
-export { default as getArgs, optionList, aliasList } from "./getArgs";
+export { default as getArgs } from "./getArgs";
 export { default as getArgsList } from "./getArgsList";
 export { default as getConfigArgs } from "./getConfigArgs";
 export { default as getCustomArgs } from "./getCustomArgs";
