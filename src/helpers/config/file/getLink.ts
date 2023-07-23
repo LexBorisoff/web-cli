@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import getSettingsPath from "../getSettingsPath";
+import { getSettingsPath } from "../settings";
 import { ConfigSettings } from "../../../types/config.types";
 
 function hasLink(settings: unknown): settings is ConfigSettings {

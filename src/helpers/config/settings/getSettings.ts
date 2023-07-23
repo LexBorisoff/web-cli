@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import getSettingsPath from "./getSettingsPath";
-import { ConfigSettings } from "../../types/config.types";
+import { ConfigSettings } from "../../../types/config.types";
 
 const settingsPath = getSettingsPath();
 
