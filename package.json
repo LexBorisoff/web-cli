@@ -5,7 +5,7 @@
   "main": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && npx tsc",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "Lex Borisoff <hello@LexBorisoff.com>",
