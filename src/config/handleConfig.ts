@@ -3,7 +3,7 @@ import initConfig from "./initConfig";
 import linkConfig from "./linkConfig";
 import cacheConfig from "./cacheConfig";
 import whereConfig from "./whereConfig";
-import whatConfig from "./whatConfig";
+import usingConfig from "./usingConfig";
 import openConfig from "./openConfig";
 import listConfig from "./listConfig";
 
@@ -17,7 +17,7 @@ import listConfig from "./listConfig";
  * --config cache [clear]                     -> caches data of the linked config file
  *                                            ("clear" argument deletes the cached data)
  * --config where                             -> shows the path to the linked config file
- * --config what                              -> shows if uses cached or linked config
+ * --config using                             -> shows if uses cached or linked config
  * --config open [app]                        -> opens [cached] config in the app
  * --config list <defaults|browsers|engines>  -> lists config contents
  * --config help                              -> help with config commands
@@ -30,7 +30,7 @@ enum ConfigOption {
   link = "link",
   cache = "cache",
   where = "where",
-  what = "what",
+  using = "using",
   open = "open",
   list = "list",
   help = "help",
@@ -61,8 +61,8 @@ export default async function handleConfig() {
       case ConfigOption.where:
         whereConfig();
         break;
-      case ConfigOption.what:
-        whatConfig();
+      case ConfigOption.using:
+        usingConfig();
         break;
       case ConfigOption.open:
         openConfig();
