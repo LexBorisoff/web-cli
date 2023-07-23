@@ -10,7 +10,7 @@ import {
   printError,
   emptyLine,
 } from "../helpers/print";
-import { getSettingsPath } from "../helpers/config";
+import { getSettings, getSettingsPath } from "../helpers/config";
 import { cliPrompts } from "../helpers/prompts";
 import { ConfigSettings } from "../types/config.types";
 
@@ -49,19 +49,8 @@ export default async function linkFile(): Promise<void> {
   }
 
   const settingsPath = getSettingsPath();
-  let settings: ConfigSettings = {};
+  const settings = getSettings();
   let proceed: boolean | undefined = force || !fs.existsSync(settingsPath);
-
-  try {
-    const json = fs.existsSync(settingsPath)
-      ? fs.readFileSync(settingsPath, { encoding: "utf-8" })
-      : null;
-    settings = json != null ? JSON.parse(json) : {};
-  } catch {
-    proceed = false;
-    printError("Something wrong happened :(");
-    return;
-  }
 
   if (settings.path != null) {
     if (configPath === settings.path) {
