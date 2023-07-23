@@ -1,7 +1,7 @@
 import { WithAlias } from "./utility.types";
 
 // DEFAULTS
-export interface DefaultsConfig {
+export interface DefaultsData {
   browser?: string | null;
   profile?: { [key: string]: string } | null;
   engine?: string | null;
@@ -13,15 +13,15 @@ export interface Profile extends Partial<WithAlias> {
   directory: string; // --profile-directory="Folder Name"
 }
 
-export interface ProfilesConfig {
+export interface ProfilesData {
   [profile: string]: Profile;
 }
 
 export interface Browser extends Partial<WithAlias> {
-  profiles?: ProfilesConfig;
+  profiles?: ProfilesData;
 }
 
-export interface BrowsersConfig {
+export interface BrowsersData {
   [browser: string]: Browser;
 }
 
@@ -34,12 +34,18 @@ export interface Engine extends Partial<WithAlias> {
   delimiter?: string;
 }
 
-export interface EnginesConfig {
+export interface EnginesData {
   [engine: string]: Engine;
 }
 
-export interface Config {
-  defaults?: DefaultsConfig;
-  browsers?: BrowsersConfig;
-  engines?: EnginesConfig;
+// CONFIG
+export interface ConfigData {
+  defaults?: DefaultsData;
+  browsers?: BrowsersData;
+  engines?: EnginesData;
+}
+
+export interface ConfigSettings {
+  path?: string;
+  config?: ConfigData;
 }

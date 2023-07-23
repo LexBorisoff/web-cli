@@ -4,14 +4,14 @@
   "description": "CLI for making web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
-    "build": "rm -rf ./lib && tsc"
+    "build": "rm -rf ./lib && npx tsc"
   },
   "keywords": [],
-  "author": "Lex Borisoff <hello@lexborisoff.com>",
+  "author": "Lex Borisoff <hello@LexBorisoff.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lexborisoff/websearch-cli.git"
+    "url": "https://github.com/LexBorisoff/websearch-cli.git"
   },
   "bin": {
     "web": "lib/main.js"

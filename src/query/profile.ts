@@ -1,5 +1,5 @@
 import openBrowser from "./openBrowser";
-import { getArgs, getArgsList, getBrowserProfileArgs } from "../command";
+import { getArgs, getArgsList, getProfileArgs } from "../command";
 import { getDefaultsData } from "../data";
 import { getProfile } from "../helpers/browser";
 
@@ -13,7 +13,7 @@ export default function queryProfile(browserName: string, url?: string): void {
   const profileArg = args.profile as typeof args.profile | string[];
   const defaults = getDefaultsData();
   const defaultProfile = defaults.profile?.[browserName];
-  const customArgs = getBrowserProfileArgs(browserName);
+  const customArgs = getProfileArgs(browserName);
   const list = getArgsList(profileArg, customArgs);
 
   // profile(s) provided in args

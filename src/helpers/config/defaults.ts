@@ -1,13 +1,12 @@
-import { EnginesConfig } from "../../types/config.types";
+import { EnginesData } from "../../types/config.types";
 
 export const defaultEngine = "google";
 
-export const defaultEngineConfig: EnginesConfig = {
+export const defaultEngineConfig: EnginesData = {
   google: {
     name: "Google",
-    url: "www.google.com",
+    url: "google.com",
     query: "search?q=",
-    alias: ["g"],
   },
 };
 

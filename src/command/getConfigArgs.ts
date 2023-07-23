@@ -1,15 +1,15 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { Options, alias } from "./getArgs";
+import { ConfigOptions, configAlias } from "./options";
 
 export default function getConfigArgs() {
   return yargs(hideBin(process.argv))
-    .option(Options.config, {
+    .option(ConfigOptions.config, {
       type: "boolean",
     })
-    .option(Options.force, {
+    .option(ConfigOptions.force, {
       type: "boolean",
-      alias: alias.force,
+      alias: configAlias.force,
       default: false,
     })
     .help(false)

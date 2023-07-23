@@ -1,9 +1,9 @@
-export { default as getArgs, optionList, aliasList } from "./getArgs";
+export { default as getArgs } from "./getArgs";
 export { default as getArgsList } from "./getArgsList";
 export { default as getConfigArgs } from "./getConfigArgs";
 export { default as getCustomArgs } from "./getCustomArgs";
 export { default as getBrowserArgs } from "./getBrowserArgs";
-export { default as getBrowserProfileArgs } from "./getBrowserProfileArgs";
+export { default as getProfileArgs } from "./getProfileArgs";
 export { default as getEngineArgs } from "./getEngineArgs";
 export { default as withEngine } from "./withEngine";
 export { default as withSearchQuery } from "./withSearchQuery";

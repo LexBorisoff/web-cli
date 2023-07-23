@@ -1,7 +1,7 @@
 import getConfigData from "./getConfigData";
-import { BrowsersConfig } from "../types/config.types";
+import { BrowsersData } from "../types/config.types";
 
-export default function getBrowsersData(): BrowsersConfig {
+export default function getBrowsersData(): BrowsersData {
   const config = getConfigData();
   return config.browsers ?? {};
 }

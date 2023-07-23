@@ -1,6 +1,7 @@
 import * as fs from "fs";
-import getFileName from "./getFileName";
+import getPath from "./getPath";
 
 export default function fileExists(): boolean {
-  return fs.existsSync(getFileName());
+  const configPath = getPath();
+  return configPath != null && fs.existsSync(configPath);
 }
