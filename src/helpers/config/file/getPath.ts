@@ -4,7 +4,10 @@ import getSettingsPath from "../getSettingsPath";
 
 function hasPath(data: unknown): data is ConfigSettings {
   return (
-    data instanceof Object && "path" in data && typeof data.path === "string"
+    data instanceof Object &&
+    "path" in data &&
+    typeof data.path === "string" &&
+    data.path !== ""
   );
 }
 

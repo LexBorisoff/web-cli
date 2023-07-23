@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import * as fs from "fs";
 import * as path from "path";
+import { printFormat } from "./utils";
 import { getConfigArgs } from "../command";
 import {
   fileExists,
@@ -15,7 +16,6 @@ import { ConfigData } from "../types/config.types";
 
 const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
-const space = 2;
 
 const defaultConfig: ConfigData = {
   defaults: {
@@ -46,12 +46,13 @@ async function isDirectory(directoryPath: string): Promise<true | string> {
 }
 
 function writeConfigFile(configPath: string) {
+  const space = 2;
   fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, space));
 }
 
 function writeSettingsFile(configPath: string) {
   const settings = { path: configPath };
-  fs.writeFileSync(getSettingsPath(), JSON.stringify(settings, null, space));
+  fs.writeFileSync(getSettingsPath(), JSON.stringify(settings));
 }
 
 export default async function initConfig() {
@@ -59,11 +60,7 @@ export default async function initConfig() {
 
   if (values.length > 1) {
     printError("Invalid number of arguments.");
-    print(
-      chalk.gray(
-        `Use the format "${chalk.cyanBright("--config init [directory]")}"`
-      )
-    );
+    printFormat.init();
     emptyLine();
     return;
   }
@@ -146,9 +143,7 @@ export default async function initConfig() {
       printSuccess(message);
     }
 
-    print(
-      chalk.gray(`Use "${chalk.cyanBright(`--config open [app]`)}" to open it`)
-    );
+    printFormat.open();
   } catch {
     printError("Failed to create the config file at the provided path");
   }
