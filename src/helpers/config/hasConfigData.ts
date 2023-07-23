@@ -1,11 +1,12 @@
-import { fileExists, readFile } from "./file";
+import configFileExists from "./configFileExists";
+import readConfigFile from "./readConfigFile";
 
-export default function hasData(): boolean {
-  if (!fileExists()) {
+export default function hasConfigData(): boolean {
+  if (!configFileExists()) {
     return false;
   }
 
-  const data = readFile();
+  const data = readConfigFile();
   if (data == null || data === "") {
     return false;
   }

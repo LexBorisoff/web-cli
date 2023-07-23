@@ -3,6 +3,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { printFormat } from "./utils";
 import getConfigArgs from "../command/getConfigArgs";
+import { getSettingsData } from "../data";
+
+import { getSettingsPath } from "../helpers/config";
 import {
   print,
   printInfo,
@@ -10,7 +13,6 @@ import {
   printError,
   emptyLine,
 } from "../helpers/print";
-import { getSettings, getSettingsPath } from "../helpers/config";
 import { cliPrompts } from "../helpers/prompts";
 import { ConfigSettings } from "../types/config.types";
 
@@ -18,7 +20,7 @@ const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
 
 const settingsPath = getSettingsPath();
-const settings = getSettings() || {};
+const settings = getSettingsData() || {};
 const { link } = settings;
 
 export default async function linkFile(): Promise<void> {

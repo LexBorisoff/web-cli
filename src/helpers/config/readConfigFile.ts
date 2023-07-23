@@ -1,13 +1,13 @@
 import * as fs from "fs";
-import getLink from "./getLink";
-import fileExists from "./fileExists";
+import getConfigLink from "./getConfigLink";
+import configFileExists from "./configFileExists";
 
-const configLink = getLink();
+const configLink = getConfigLink();
 
-export default function readFile(): string | null {
+export default function readConfigFile(): string | null {
   // checking if file exists because configLink might be outdated
   // and point to a file that was moved, renamed, or deleted
-  if (configLink == null || !fileExists()) {
+  if (configLink == null || !configFileExists()) {
     return null;
   }
 

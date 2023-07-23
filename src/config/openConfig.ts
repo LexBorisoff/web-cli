@@ -1,11 +1,11 @@
 import open from "open";
 import * as fs from "fs";
 import getConfigArgs from "../command/getConfigArgs";
-import { getLink } from "../helpers/config";
+import { getConfigLink } from "../helpers/config";
 import { print, printError, emptyLine } from "../helpers/print";
 
 const { _: args } = getConfigArgs();
-const configLink = getLink();
+const configLink = getConfigLink();
 
 async function openFile(): Promise<void> {
   if (configLink != null) {

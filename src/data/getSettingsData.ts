@@ -1,10 +1,10 @@
 import * as fs from "fs";
-import getSettingsPath from "./getSettingsPath";
-import { ConfigSettings } from "../../../types/config.types";
+import getSettingsPath from "../helpers/config/getSettingsPath";
+import { ConfigSettings } from "../types/config.types";
 
 const settingsPath = getSettingsPath();
 
-export default function getSettings(): ConfigSettings | null {
+export default function getSettingsData(): ConfigSettings | null {
   try {
     const json = fs.existsSync(settingsPath)
       ? fs.readFileSync(settingsPath, { encoding: "utf-8" })

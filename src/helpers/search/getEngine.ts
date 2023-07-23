@@ -1,4 +1,4 @@
-import { getConfigItem, hasData, defaultEngineConfig } from "../config";
+import { getConfigItem, hasConfigData, defaultEngineConfig } from "../config";
 import { getEnginesData } from "../../data";
 import { Engine } from "../../types/config.types";
 
@@ -9,6 +9,6 @@ export default function getEngine(
     return undefined;
   }
 
-  const engines = hasData() ? getEnginesData() : defaultEngineConfig;
+  const engines = hasConfigData() ? getEnginesData() : defaultEngineConfig;
   return getConfigItem(engineNameOrAlias, engines);
 }
