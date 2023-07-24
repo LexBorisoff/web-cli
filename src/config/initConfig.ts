@@ -103,8 +103,8 @@ export default async function initConfig() {
       print(configLink);
     } else {
       proceed = await toggle(
-        `${chalk.italic.yellowBright(
-          "Config file already exists at the following path:"
+        `${chalk.yellowBright(
+          "Config file already exists:"
         )}\n  ${configLink}\n\n  ${chalk.cyanBright("Delete it?")}`,
         false
       );
@@ -121,7 +121,7 @@ export default async function initConfig() {
       printInfo(`using "--force" to override the existing config file`);
     } else {
       proceed = await toggle(
-        `${chalk.italic.yellowBright(
+        `${chalk.yellowBright(
           "Config file already exists in this directory"
         )}\n  ${chalk.cyanBright("Override it?")}`,
         false

@@ -46,13 +46,12 @@ export default async function linkFile(): Promise<void> {
     return;
   }
 
-  let proceed: boolean | undefined =
-    force ||
-    configLink == null ||
-    configLink === "" ||
-    !fs.existsSync(settingsPath);
+  const hasConfigLink = configLink != null && configLink !== "";
 
-  if (configLink != null) {
+  let proceed: boolean | undefined =
+    force || !hasConfigLink || !fs.existsSync(settingsPath);
+
+  if (hasConfigLink) {
     if (configPath === configLink) {
       printInfo("This file is already linked");
       emptyLine();
@@ -61,7 +60,7 @@ export default async function linkFile(): Promise<void> {
 
     if (!force) {
       proceed = await toggle(
-        `${chalk.italic.yellowBright(
+        `${chalk.yellowBright(
           "The following config file will be replaced:"
         )}\n  ${configLink}\n\n  ${chalk.cyan("Proceed?")}`,
         false
