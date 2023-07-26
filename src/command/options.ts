@@ -24,7 +24,6 @@ export const alias = {
   engine: ["e", "website", "w"],
   package: ["pkg", "library", "lib"],
   incognito: ["i", "private"],
-  https: ["secure", "s"],
 };
 
 export const configAlias = {

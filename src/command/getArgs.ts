@@ -59,7 +59,6 @@ export default function getArgs() {
     .option(Options.https, {
       type: "boolean",
       description: `Query using the "https" (secure) protocol`,
-      alias: alias.https,
       default: true,
     })
     .help(false)
