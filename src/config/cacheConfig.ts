@@ -1,7 +1,13 @@
 import * as fs from "fs";
+import chalk from "chalk";
 import { printFormat } from "./utils";
 import { getConfigArgs } from "../command";
-import { getSettingsPath, getSettings } from "../helpers/config";
+import {
+  getSettingsPath,
+  getSettings,
+  isValidConfigFile,
+  isValidResponse,
+} from "../helpers/config";
 import {
   print,
   printInfo,
@@ -15,6 +21,22 @@ const { _: args } = getConfigArgs();
 const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
 const { link } = settings;
+
+function cacheFile(filePath: string) {
+  try {
+    const json = fs.readFileSync(filePath, { encoding: "utf-8" });
+    const config: ConfigData = JSON.parse(json);
+    const cache = { ...settings, config };
+    fs.writeFileSync(settingsPath, JSON.stringify(cache));
+
+    print(`${chalk.greenBright("Cached")} ${filePath}`);
+    emptyLine();
+  } catch {
+    printError("Cannot access the config file:");
+    print(filePath);
+    emptyLine();
+  }
+}
 
 function clearCache() {
   if (settings?.config == null) {
@@ -31,7 +53,7 @@ function clearCache() {
 }
 
 export default function cacheConfig() {
-  const [, ...values] = args;
+  const [, ...values] = <Partial<typeof args>>args;
   if (values.length > 1) {
     printError("Invalid number of arguments");
     printFormat.cache();
@@ -40,50 +62,34 @@ export default function cacheConfig() {
   }
 
   if (values.length === 1) {
+    // clear cache
     const [arg] = values;
-    if (arg !== "clear") {
-      printError("Invalid argument");
-      printFormat.cache();
+    if (arg === "clear") {
+      clearCache();
+      return;
+    }
+
+    // cache provided file
+    const validation = isValidConfigFile(values);
+    if (!isValidResponse(validation)) {
+      printError(validation.message);
+      if (validation.format) {
+        printFormat.link();
+      }
       emptyLine();
       return;
     }
 
-    clearCache();
+    cacheFile(validation.configPath);
     return;
   }
 
-  let configPath: string | undefined;
-
-  try {
-    if (link != null && link !== "") {
-      configPath = link;
-    }
-  } catch {
-    printError("Something went wrong :(");
-    emptyLine();
-    return;
-  }
-
-  if (configPath == null) {
+  if (link == null || link === "") {
     printError("Cannot cache: No config file is linked");
     emptyLine();
     return;
   }
 
-  try {
-    const json = fs.readFileSync(configPath, { encoding: "utf-8" });
-    const config: ConfigData = JSON.parse(json);
-    const cache = { ...settings, config };
-
-    fs.writeFileSync(settingsPath, JSON.stringify(cache));
-
-    printSuccess("Cached the config file:");
-    print(configPath);
-    emptyLine();
-  } catch {
-    printError("Cannot access the linked config file:");
-    print(configPath);
-    emptyLine();
-    return;
-  }
+  // cache the linked file
+  cacheFile(link);
 }

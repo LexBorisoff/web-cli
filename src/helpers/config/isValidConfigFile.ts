@@ -8,7 +8,7 @@ interface ValidResponse {
 
 interface InvalidResponse {
   message: string;
-  printFormat: boolean;
+  format: boolean;
 }
 
 export function isValidResponse(
@@ -26,7 +26,7 @@ export default function isValidConfigFile(
   if (values.length > 1) {
     return {
       message: "Invalid number of arguments",
-      printFormat: true,
+      format: true,
     };
   }
 
@@ -34,14 +34,14 @@ export default function isValidConfigFile(
   if (configArg == null) {
     return {
       message: "Filename must be provided",
-      printFormat: true,
+      format: true,
     };
   }
 
   if (typeof configArg !== "string" || !configArg.endsWith(".json")) {
     return {
       message: "Config must a .json file",
-      printFormat: false,
+      format: false,
     };
   }
 
@@ -49,7 +49,7 @@ export default function isValidConfigFile(
   if (!fs.existsSync(configPath)) {
     return {
       message: "Could not access the provided config file",
-      printFormat: false,
+      format: false,
     };
   }
 

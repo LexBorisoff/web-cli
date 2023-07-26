@@ -21,10 +21,12 @@ export const printFormat = {
       chalk.gray(`Use "${chalk.cyanBright("--config open [app]")}" to open it`)
     );
   },
-  cache: function formatOpen() {
+  cache: function formatCache() {
     print(
       chalk.gray(
-        `Use the format "${chalk.cyanBright("--config cache [clear]")}"`
+        `Use the format "${chalk.cyanBright(
+          "--config cache [clear]"
+        )}" or "${chalk.cyanBright("--config cache <filename>")}"`
       )
     );
   },

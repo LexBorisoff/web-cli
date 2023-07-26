@@ -18,7 +18,7 @@ const { toggle } = cliPrompts;
 
 const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
-const { link: configLink } = settings;
+const { link } = settings;
 
 export default async function linkFile(): Promise<void> {
   const [, ...values] = <Partial<typeof args>>args;
@@ -26,7 +26,7 @@ export default async function linkFile(): Promise<void> {
 
   if (!isValidResponse(validation)) {
     printError(validation.message);
-    if (validation.printFormat) {
+    if (validation.format) {
       printFormat.link();
     }
     emptyLine();
@@ -34,13 +34,13 @@ export default async function linkFile(): Promise<void> {
   }
 
   const { configPath } = validation;
-  const hasConfigLink = configLink != null && configLink !== "";
+  const hasConfigLink = link != null && link !== "";
 
   let proceed: boolean | undefined =
     force || !hasConfigLink || !fs.existsSync(settingsPath);
 
   if (hasConfigLink) {
-    if (configPath === configLink) {
+    if (configPath === link) {
       printInfo("This file is already linked");
       emptyLine();
       return;
@@ -50,7 +50,7 @@ export default async function linkFile(): Promise<void> {
       proceed = await toggle(
         `${chalk.yellowBright(
           "The following config file will be replaced:"
-        )}\n  ${configLink}\n\n  ${chalk.cyan("Proceed?")}`,
+        )}\n  ${link}\n\n  ${chalk.cyan("Proceed?")}`,
         false
       );
       emptyLine();
