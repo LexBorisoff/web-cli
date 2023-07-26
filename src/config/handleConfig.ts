@@ -59,7 +59,7 @@ function isValidOption(
 }
 
 export default async function handleConfig() {
-  const option = args.at(0);
+  const [option] = <Partial<typeof args>>args;
 
   if (option == null) {
     printWarning("--config must be used with a valid command:");

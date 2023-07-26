@@ -76,7 +76,7 @@ export default async function initConfig() {
   let proceed: boolean | undefined = true;
   let directoryPath = path.resolve(".");
 
-  const pathArg = values.at(0);
+  const [pathArg] = <Partial<typeof values>>values;
 
   if (pathArg != null) {
     directoryPath = path.resolve(pathArg.toString());

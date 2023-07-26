@@ -25,7 +25,7 @@ export default async function linkFile(): Promise<void> {
     return;
   }
 
-  const configArg = args.at(1);
+  const [, configArg] = <Partial<typeof args>>args;
   if (configArg == null) {
     printError("Filename must be provided");
     printFormat.link();

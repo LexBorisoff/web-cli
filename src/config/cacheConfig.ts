@@ -40,7 +40,7 @@ export default function cacheConfig() {
   }
 
   if (values.length === 1) {
-    const arg = values.at(0);
+    const [arg] = values;
     if (arg !== "clear") {
       printError("Invalid argument");
       printFormat.cache();
