@@ -30,6 +30,7 @@ import helpConfig from "./helpConfig";
  * --config where                             -> shows the path to the linked config file
  * --config cache [clear]                     -> caches data of the linked config file
  *                                            ("clear" argument deletes the cached data)
+ * --config cache <filename>                  -> caches data of the provided config file
  * --config using                             -> shows if cached, linked, or no config is used
  * --config list <defaults|browsers|engines>  -> lists config contents
  * --config help                              -> help with config commands

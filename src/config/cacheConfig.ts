@@ -20,7 +20,7 @@ import { ConfigData } from "../types/config.types";
 const { _: args } = getConfigArgs();
 const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
-const { link } = settings;
+const { linkedPath } = settings;
 
 function cacheFile(filePath: string) {
   try {
@@ -84,12 +84,12 @@ export default function cacheConfig() {
     return;
   }
 
-  if (link == null || link === "") {
+  if (linkedPath == null || linkedPath === "") {
     printError("Cannot cache: No config file is linked");
     emptyLine();
     return;
   }
 
   // cache the linked file
-  cacheFile(link);
+  cacheFile(linkedPath);
 }

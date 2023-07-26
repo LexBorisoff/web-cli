@@ -5,20 +5,20 @@ import { print, printInfo, emptyLine } from "../helpers/print";
 
 const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
-const configLink = settings?.link;
+const { linkedPath } = settings;
 
 export default function unlinkConfig() {
-  if (configLink == null) {
-    printInfo("There is no linked config file");
+  if (linkedPath == null) {
+    printInfo("No config file is linked");
     emptyLine();
     return;
   }
 
-  if (fs.existsSync(configLink)) {
-    delete settings.link;
+  if (fs.existsSync(linkedPath)) {
+    delete settings.linkedPath;
     fs.writeFileSync(settingsPath, JSON.stringify(settings));
   }
 
-  print(`${chalk.greenBright("Unlinked")} ${configLink}`);
+  print(`${chalk.greenBright("Unlinked")} ${linkedPath}`);
   emptyLine();
 }

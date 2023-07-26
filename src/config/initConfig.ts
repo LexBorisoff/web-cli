@@ -23,7 +23,7 @@ const { _: args, force } = getConfigArgs();
 const { toggle } = cliPrompts;
 
 const settingsPath = getSettingsPath();
-const configLink = getSettings()?.link;
+const { linkedPath } = getSettings() ?? {};
 
 const defaultConfig: ConfigData = {
   defaults: {
@@ -59,7 +59,7 @@ function writeConfigFile(configPath: string) {
 }
 
 function writeSettingsFile(configPath: string) {
-  const settings: ConfigSettings = { link: configPath };
+  const settings: ConfigSettings = { linkedPath: configPath };
   fs.writeFileSync(settingsPath, JSON.stringify(settings));
 }
 
@@ -94,25 +94,25 @@ export default async function initConfig() {
 
   // there is an existing config file somewhere in memory
   if (
-    configLink != null &&
-    fs.existsSync(configLink) &&
-    configLink !== newConfigPath
+    linkedPath != null &&
+    fs.existsSync(linkedPath) &&
+    linkedPath !== newConfigPath
   ) {
     if (force) {
       printInfo(`using "--force" to delete the old config file:`);
-      print(configLink);
+      print(linkedPath);
     } else {
       proceed = await toggle(
         `${chalk.yellowBright(
           "Config file already exists:"
-        )}\n  ${configLink}\n\n  ${chalk.cyanBright("Delete it?")}`,
+        )}\n  ${linkedPath}\n\n  ${chalk.cyanBright("Delete it?")}`,
         false
       );
     }
 
     emptyLine();
     if (proceed || force) {
-      fs.unlinkSync(configLink);
+      fs.unlinkSync(linkedPath);
     }
   }
   // config file exists at the same path
@@ -134,7 +134,8 @@ export default async function initConfig() {
   if (!proceed) {
     // create config settings with if it doesn't exist
     if (!fs.existsSync(settingsPath)) {
-      fs.writeFileSync(settingsPath, JSON.stringify({ link: newConfigPath }));
+      const configSettings: ConfigSettings = { linkedPath: newConfigPath };
+      fs.writeFileSync(settingsPath, JSON.stringify(configSettings));
     }
     return;
   }

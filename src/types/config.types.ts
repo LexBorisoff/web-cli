@@ -46,6 +46,7 @@ export interface ConfigData {
 }
 
 export interface ConfigSettings {
-  link?: string;
-  config?: ConfigData;
+  linkedPath?: string; // path to config file
+  cachedPath?: string; // path to cached file
+  config?: ConfigData; // config cache
 }

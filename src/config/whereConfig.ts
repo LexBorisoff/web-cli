@@ -5,7 +5,9 @@ import { print, printWarning, emptyLine } from "../helpers/print";
 const settings = getSettings() ?? {};
 
 export default function whereConfig() {
-  if (settings.link == null || settings.link === "") {
+  const { linkedPath } = settings;
+
+  if (linkedPath == null || linkedPath === "") {
     printWarning("No config file is linked");
     print(
       `Use "${chalk.cyanBright(
@@ -16,6 +18,6 @@ export default function whereConfig() {
     return;
   }
 
-  print(settings.link);
+  print(linkedPath);
   emptyLine();
 }
