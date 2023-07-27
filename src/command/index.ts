@@ -7,4 +7,4 @@ export { default as getProfileArgs } from "./getProfileArgs";
 export { default as getEngineArgs } from "./getEngineArgs";
 export { default as withEngine } from "./withEngine";
 export { default as withSearchQuery } from "./withSearchQuery";
-export { default as withWebsite } from "./withWebsite";
+export { default as withURL } from "./withURL";

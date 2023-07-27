@@ -10,6 +10,7 @@ export enum Options {
   package = "package",
   incognito = "incognito",
   http = "http",
+  query = "query",
 }
 
 export enum ConfigOptions {
@@ -25,6 +26,7 @@ export const alias: Alias<Options> = {
   engine: ["e", "website", "w"],
   package: ["pkg", "library", "lib"],
   incognito: ["i", "private"],
+  query: ["q"],
 };
 
 export const configAlias: Alias<ConfigOptions> = {

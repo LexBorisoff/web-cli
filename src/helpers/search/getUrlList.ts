@@ -1,7 +1,7 @@
 import getEngine from "./getEngine";
 import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import { getArgs, withSearchQuery, withWebsite } from "../../command";
+import { getArgs, withSearchQuery, withURL } from "../../command";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/config.types";
 import { printError } from "../print";
@@ -19,7 +19,7 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
-function getEngineQuery(engine: Engine): string {
+function getEngineQueryURL(engine: Engine): string {
   const engineUrl: string = endsWithSlash.test(engine.url)
     ? engine.url
     : `${engine.url}/`;
@@ -32,68 +32,61 @@ function getEngineQuery(engine: Engine): string {
   return engineUrl + engineQuery;
 }
 
-function printNoEngine(engineNameOrAlias: string) {
-  printError(
-    `There is no engine with an identifier "${engineNameOrAlias}" in the config.`
-  );
+function printNoEngine(engineNameOrAlias: string): void {
+  printError(`No engine "${engineNameOrAlias}" found in the config.`);
 }
 
 export default function getUrlList(engineNameOrAlias?: string): string[] {
   const urlList: string[] = [];
 
-  function getFullUrl(url: string) {
+  function getFullUrl(url: string): string {
     const protocol = `http${args.http ? "" : "s"}://`;
     return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
   }
 
-  // search query or website is provided
-  if (withSearchQuery || withWebsite) {
-    if (withSearchQuery) {
-      const defaults = getDefaultsData();
-      const engine = getEngine(engineNameOrAlias ?? defaults.engine);
-      if (engineNameOrAlias != null && engine == null) {
-        printNoEngine(engineNameOrAlias);
-      }
+  function queryOnly(): void {
+    const defaults = getDefaultsData();
+    const engine = getEngine(engineNameOrAlias ?? defaults.engine);
 
-      if (engine != null) {
-        const searchQuery: string = getSearchQuery(engine);
-        const engineQuery = getEngineQuery(engine);
-        urlList.push(getFullUrl(engineQuery + searchQuery));
-      }
+    if (engine != null) {
+      const engineQuery = getEngineQueryURL(engine) + getSearchQuery(engine);
+      urlList.push(getFullUrl(engineQuery));
+    } else if (engineNameOrAlias != null) {
+      printNoEngine(engineNameOrAlias);
     }
+  }
 
-    if (withWebsite) {
-      if (engineNameOrAlias == null) {
-        const websites = getWebsites();
-        websites.forEach((website) => {
-          urlList.push(getFullUrl(website));
+  // search query
+  if (withSearchQuery) {
+    queryOnly();
+  }
+  // URL
+  else if (withURL) {
+    if (args.query) {
+      queryOnly();
+    } else if (engineNameOrAlias == null) {
+      getWebsites().forEach((website) => {
+        urlList.push(getFullUrl(website));
+      });
+    } else {
+      const engine = getEngine(engineNameOrAlias);
+      if (engine != null) {
+        const engineQuery = getEngineQueryURL(engine);
+        getWebsites().forEach((website) => {
+          urlList.push(getFullUrl(engineQuery + website));
         });
       } else {
-        const engine = getEngine(engineNameOrAlias);
-        if (engine == null) {
-          printNoEngine(engineNameOrAlias);
-        }
-
-        if (engine != null) {
-          const engineQuery = getEngineQuery(engine);
-          const websites = getWebsites();
-
-          websites.forEach((website) => {
-            urlList.push(getFullUrl(engineQuery + website));
-          });
-        }
+        printNoEngine(engineNameOrAlias);
       }
     }
   }
   // only engine is provided
   else if (engineNameOrAlias != null) {
     const engine = getEngine(engineNameOrAlias);
-    if (engine == null) {
-      printNoEngine(engineNameOrAlias);
-    }
-
     if (engine != null) {
       urlList.push(getFullUrl(engine.url));
+    } else {
+      printNoEngine(engineNameOrAlias);
     }
   }
 

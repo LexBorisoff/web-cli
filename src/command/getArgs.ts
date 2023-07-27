@@ -56,6 +56,12 @@ export default function getArgs() {
       description: `Search using the "http" (not secure) protocol`,
       default: false,
     })
+    .option(Options.query, {
+      type: "boolean",
+      description: `Query only without visiting the provided URL(s)`,
+      default: false,
+      alias: alias.query,
+    })
     .help(false)
     .boolean(getFlagOptions())
     .parseSync();
