@@ -1,3 +1,7 @@
+import { Arguments } from "yargs";
+
+export type Args = Partial<Arguments["_"]>;
+
 export interface WithAlias {
   alias: string | string[];
 }

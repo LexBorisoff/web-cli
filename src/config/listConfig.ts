@@ -1,3 +1,3 @@
-export default function listConfig() {
+export default function listConfig(): void {
   //
 }

@@ -31,6 +31,7 @@ import helpConfig from "./helpConfig";
  * --config cache [clear]                     -> caches data of the linked config file
  *                                            ("clear" argument deletes the cached data)
  * --config cache <filename>                  -> caches data of the provided config file
+ * --config cache export [filename]           -> exports cache into the cachedPath or provided file
  * --config using                             -> shows if cached, linked, or no config is used
  * --config list <defaults|browsers|engines>  -> lists config contents
  * --config help                              -> help with config commands
@@ -59,7 +60,7 @@ function isValidOption(
   return typeof option === "string" && validOptions.includes(option);
 }
 
-export default async function handleConfig() {
+export default function handleConfig(): void {
   const [option] = <Partial<typeof args>>args;
 
   if (option == null) {
@@ -111,4 +112,6 @@ export default async function handleConfig() {
       helpConfig();
       break;
   }
+
+  // emptyLine(); TODO: remove empty lines in other places
 }

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Arguments } from "yargs";
+import { Args } from "../../types/utility.types";
 
 interface ValidResponse {
   configPath: string;
@@ -21,7 +21,7 @@ export function isValidResponse(
  * Returns the config path if passes file validation
  */
 export default function isValidConfigFile(
-  values: Partial<Arguments["_"]>
+  values: Args
 ): ValidResponse | InvalidResponse {
   if (values.length > 1) {
     return {
@@ -40,7 +40,7 @@ export default function isValidConfigFile(
 
   if (typeof configArg !== "string" || !configArg.endsWith(".json")) {
     return {
-      message: "Config must a .json file",
+      message: "Config must be a .json file",
       format: false,
     };
   }
