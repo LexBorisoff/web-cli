@@ -1,5 +1,7 @@
 type Alias<T extends string> = Partial<Record<T, string | string[]>>;
 
+export const yargsOptions = ["_", "$0"];
+
 // WEB SEARCH OPTIONS
 export enum Option {
   Browser = "browser",
