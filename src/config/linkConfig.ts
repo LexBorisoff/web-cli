@@ -10,18 +10,17 @@ import {
   isValidResponse,
 } from "../helpers/config";
 import { print, printInfo, printError, emptyLine } from "../helpers/print";
-import { cliPrompts } from "../helpers/prompts";
 import { ConfigSettings } from "../types/config.types";
+import { Args } from "../types/utility.types";
 
-const { _: args, force } = getConfigArgs();
-const { toggle } = cliPrompts;
+const { _: args } = getConfigArgs();
 
 const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
 const { linkedPath } = settings;
 
 export default async function linkFile(): Promise<void> {
-  const [, ...values] = <Partial<typeof args>>args;
+  const [, ...values] = <Args>args;
   const validation = isValidConfigFile(values);
 
   if (!isValidResponse(validation)) {
@@ -34,37 +33,19 @@ export default async function linkFile(): Promise<void> {
   }
 
   const { configPath } = validation;
-  const hasConfigLink = linkedPath != null && linkedPath !== "";
 
-  let proceed: boolean | undefined =
-    force || !hasConfigLink || !fs.existsSync(settingsPath);
-
-  if (hasConfigLink) {
-    if (configPath === linkedPath) {
-      printInfo("This file is already linked");
-      emptyLine();
-      return;
-    }
-
-    if (!force) {
-      proceed = await toggle(
-        `${chalk.yellowBright(
-          "The following config file will be replaced:"
-        )}\n  ${linkedPath}\n\n  ${chalk.cyan("Proceed?")}`,
-        false
-      );
-      emptyLine();
-    }
-  }
-
-  if (proceed) {
-    const updatedSettings: ConfigSettings = {
-      ...settings,
-      linkedPath: configPath,
-    };
-    fs.writeFileSync(settingsPath, JSON.stringify(updatedSettings));
-
-    print(`${chalk.greenBright("Linked")} ${configPath}`);
+  if (linkedPath != null && linkedPath !== "" && configPath === linkedPath) {
+    printInfo("This file is already linked");
     emptyLine();
+    return;
   }
+
+  const updatedSettings: ConfigSettings = {
+    ...settings,
+    linkedPath: configPath,
+  };
+  fs.writeFileSync(settingsPath, JSON.stringify(updatedSettings));
+
+  print(`${chalk.greenBright("Linked")} ${configPath}`);
+  emptyLine();
 }
