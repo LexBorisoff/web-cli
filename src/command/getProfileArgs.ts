@@ -1,12 +1,17 @@
+import getArgs from "./getArgs";
 import getCustomArgs from "./getCustomArgs";
+import { combineArgLists } from "./utils";
 import { getProfilesData } from "../data";
 
+const { profile } = getArgs();
+
 /**
- * Returns a list of profile names and aliases supplied in args
- * using the form "--name" instead of "--profile name" or "-p name"
- * based on the profile names and aliases provided in the config file
+ * Returns a list of profile names and aliases supplied to the CLI
+ * using both "--profile name" and "--name" formats
  */
 export default function getProfileArgs(browserName: string): string[] {
+  const optionArg = profile as typeof profile | string[];
   const profilesData = getProfilesData(browserName);
-  return getCustomArgs(profilesData);
+  const customArgs = getCustomArgs(profilesData);
+  return combineArgLists(optionArg, customArgs);
 }

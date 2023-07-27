@@ -33,6 +33,10 @@ function getEngineQueryURL(engine: Engine): string {
 }
 
 function printNoEngine(engineNameOrAlias: string): void {
+  if (engineNameOrAlias === "") {
+    printError("Engine option must have a value");
+    return;
+  }
   printError(`No engine "${engineNameOrAlias}" found in the config.`);
 }
 

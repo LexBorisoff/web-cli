@@ -1,16 +1,10 @@
 import open from "open";
 import queryProfile from "./profile";
 import openBrowser from "./openBrowser";
-import {
-  getArgs,
-  getBrowserArgs,
-  getProfileArgs,
-  getArgsList,
-} from "../command";
+import { getBrowserArgs, getProfileArgs } from "../command";
 import { getDefaultsData, getBrowsersData } from "../data";
 import { printError } from "../helpers/print";
 
-const args = getArgs();
 const defaults = getDefaultsData();
 const browsers = getBrowsersData();
 
@@ -40,12 +34,7 @@ function getBrowserName(browserNameOrAlias: string): string {
 }
 
 function hasProfile(browserName: string): boolean {
-  const profilesArgs = getProfileArgs(browserName);
-  return (
-    args.profile != null ||
-    defaults.profile?.[browserName] != null ||
-    profilesArgs.length > 0
-  );
+  return getProfileArgs(browserName).length > 0;
 }
 
 function handleBrowser(browserName: string, url?: string): void {
@@ -57,13 +46,11 @@ function handleBrowser(browserName: string, url?: string): void {
 }
 
 export default function queryBrowser(url?: string): void {
-  const browserArgs = args.browser as typeof args.browser | string[];
-  const customArgs = getBrowserArgs();
-  const list = getArgsList(browserArgs, customArgs);
+  const browserArgs = getBrowserArgs();
 
   // browser(s) provided in args
-  if (list.length > 0) {
-    list.forEach((browserNameOrAlias) => {
+  if (browserArgs.length > 0) {
+    browserArgs.forEach((browserNameOrAlias) => {
       handleBrowser(getBrowserName(browserNameOrAlias), url);
     });
   }

@@ -1,12 +1,17 @@
+import getArgs from "./getArgs";
 import getCustomArgs from "./getCustomArgs";
+import { combineArgLists } from "./utils";
 import { getEnginesData } from "../data";
 
+const { engine } = getArgs();
+
 /**
- * Returns a list of engine names and aliases supplied in args
- * using the form "--name" instead of "--engine name" or "-e name"
- * based on the engine names and aliases provided in the config file
+ * Returns a list of engine names and aliases supplied to the CLI
+ * using both "--engine name" and "--name" formats
  */
 export default function getEngineArgs(): string[] {
+  const optionArg = engine as typeof engine | string[];
   const enginesData = getEnginesData();
-  return getCustomArgs(enginesData);
+  const customArgs = getCustomArgs(enginesData);
+  return combineArgLists(optionArg, customArgs);
 }
