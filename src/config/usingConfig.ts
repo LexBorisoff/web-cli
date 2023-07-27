@@ -3,7 +3,7 @@ import { getSettings } from "../helpers/config";
 
 const settings = getSettings() ?? {};
 
-export default function usingConfig() {
+export default function usingConfig(): void {
   const { config, linkedPath } = settings;
 
   if (config != null) {

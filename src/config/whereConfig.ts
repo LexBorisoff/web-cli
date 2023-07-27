@@ -4,7 +4,7 @@ import { print, printWarning, emptyLine } from "../helpers/print";
 
 const settings = getSettings() ?? {};
 
-export default function whereConfig() {
+export default function whereConfig(): void {
   const { linkedPath } = settings;
 
   if (linkedPath == null || linkedPath === "") {

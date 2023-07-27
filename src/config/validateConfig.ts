@@ -1,3 +1,3 @@
-export default function validateConfig() {
+export default function validateConfig(): void {
   //
 }

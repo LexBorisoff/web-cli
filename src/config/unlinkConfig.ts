@@ -7,7 +7,7 @@ const settingsPath = getSettingsPath();
 const settings = getSettings() ?? {};
 const { linkedPath } = settings;
 
-export default function unlinkConfig() {
+export default function unlinkConfig(): void {
   if (linkedPath == null) {
     printInfo("No config file is linked");
     emptyLine();

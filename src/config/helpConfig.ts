@@ -1,3 +1,3 @@
-export default function helpConfig() {
+export default function helpConfig(): void {
   //
 }

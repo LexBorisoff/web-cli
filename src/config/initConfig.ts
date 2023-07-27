@@ -53,17 +53,17 @@ async function isDirectory(directoryPath: string): Promise<true | string> {
   });
 }
 
-function writeConfigFile(configPath: string) {
+function writeConfigFile(configPath: string): void {
   const space = 2;
   fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, space));
 }
 
-function writeSettingsFile(configPath: string) {
+function writeSettingsFile(configPath: string): void {
   const settings: ConfigSettings = { linkedPath: configPath };
   fs.writeFileSync(settingsPath, JSON.stringify(settings));
 }
 
-export default async function initConfig() {
+export default async function initConfig(): Promise<void> {
   const [, ...values] = args;
 
   if (values.length > 1) {
