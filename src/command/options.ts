@@ -10,7 +10,6 @@ export enum Options {
   package = "package",
   incognito = "incognito",
   http = "http",
-  https = "https",
 }
 
 export enum ConfigOptions {
@@ -18,7 +17,9 @@ export enum ConfigOptions {
   force = "force",
 }
 
-export const alias = {
+type Alias<T extends string> = Partial<Record<T, string | string[]>>;
+
+export const alias: Alias<Options> = {
   browser: ["b"],
   profile: ["p"],
   engine: ["e", "website", "w"],
@@ -26,7 +27,7 @@ export const alias = {
   incognito: ["i", "private"],
 };
 
-export const configAlias = {
+export const configAlias: Alias<ConfigOptions> = {
   force: ["f"],
 };
 

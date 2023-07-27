@@ -35,7 +35,7 @@ export default function getArgs() {
     })
     .option(Options.engine, {
       type: "string",
-      description: "Search engine / Website to query",
+      description: "Engine / Website to use",
       alias: alias.engine,
       requireArg: true,
     })
@@ -47,19 +47,14 @@ export default function getArgs() {
     })
     .option(Options.incognito, {
       type: "boolean",
-      description: "Query in the incognito / private tab",
+      description: "Search in the incognito / private tab",
       alias: alias.incognito,
       default: false,
     })
     .option(Options.http, {
       type: "boolean",
-      description: `Query using the "http" (not secure) protocol`,
+      description: `Search using the "http" (not secure) protocol`,
       default: false,
-    })
-    .option(Options.https, {
-      type: "boolean",
-      description: `Query using the "https" (secure) protocol`,
-      default: true,
     })
     .help(false)
     .boolean(getFlagOptions())
