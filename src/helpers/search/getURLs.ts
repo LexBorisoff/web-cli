@@ -40,7 +40,7 @@ function printNoEngine(engineNameOrAlias: string): void {
   printError(`No engine "${engineNameOrAlias}" found in the config.`);
 }
 
-export default function getUrlList(engineNameOrAlias?: string): string[] {
+export default function getURLs(engineNameOrAlias?: string): string[] {
   const urlList: string[] = [];
 
   function getFullUrl(url: string): string {

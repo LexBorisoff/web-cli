@@ -24,6 +24,7 @@
     "prefer-const": "warn",
     "no-use-before-define": "error",
     "no-else-return": "error",
-    "consistent-return": "error"
+    "consistent-return": "error",
+    "eqeqeq": ["error", "smart"]
   }
 }

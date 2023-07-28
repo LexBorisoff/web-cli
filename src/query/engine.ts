@@ -1,11 +1,11 @@
 import chalk from "chalk";
 import queryBrowser from "./browser";
-import { getUrlList } from "../helpers/search";
+import { getURLs } from "../helpers/search";
 import { print, emptyLine } from "../helpers/print";
 import { getEngineArgs } from "../command";
 
 function handleEngine(engineNameOrAlias?: string): void {
-  const urls = getUrlList(engineNameOrAlias);
+  const urls = getURLs(engineNameOrAlias);
   urls.forEach((url) => {
     print(`> ${chalk.green(url)}`);
     queryBrowser(url);
