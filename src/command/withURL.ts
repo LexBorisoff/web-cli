@@ -3,6 +3,7 @@ import { urlPattern } from "../helpers/patterns";
 
 const { _: args } = getArgs();
 
-const withURL = args.every((arg) => urlPattern.test(`${arg}`));
+const withURL =
+  args.length > 0 && args.every((arg) => urlPattern.test(`${arg}`));
 
 export default withURL;
