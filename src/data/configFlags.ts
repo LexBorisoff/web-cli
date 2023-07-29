@@ -1,6 +1,6 @@
-import getBrowsersData from "../data/getBrowsersData";
-import getProfilesData from "../data/getProfilesData";
-import getEnginesData from "../data/getEnginesData";
+import getBrowsersData from "./getBrowsersData";
+import getProfilesData from "./getProfilesData";
+import getEnginesData from "./getEnginesData";
 import { WithAlias } from "../types/utility.types";
 
 const browsersData = getBrowsersData();
@@ -25,14 +25,21 @@ function getFlags<T extends Partial<WithAlias>>(data: Data<T>): string[] {
     .flat();
 }
 
-const browserFlags = getFlags(browsersData);
-const profileFlags = Object.keys(browsersData)
+export const browserFlags = getFlags(browsersData);
+
+type BrowserProfileFlags = Record<string, string[]>;
+export const browserProfileFlags: BrowserProfileFlags = {};
+
+export const profileFlags = Object.keys(browsersData)
   .map((browserName) => {
     const profilesData = getProfilesData(browserName);
-    return getFlags(profilesData);
+    const flags = getFlags(profilesData);
+    browserProfileFlags[browserName] = flags;
+    return flags;
   })
   .flat();
-const engineFlags = getFlags(enginesData);
+
+export const engineFlags = getFlags(enginesData);
 
 /**
  * A list of identifiers (keys and aliases) from config data:

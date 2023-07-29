@@ -1,3 +1,5 @@
+export * from "./configFlags";
+export { default as configFlags } from "./configFlags";
 export { default as getConfigData } from "./getConfigData";
 export { default as getDefaultsData } from "./getDefaultsData";
 export { default as getBrowsersData } from "./getBrowsersData";

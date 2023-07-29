@@ -1,6 +1,6 @@
 import getArgs from "./getArgs";
 import { options, yargsOptions } from "./options";
-import configFlags from "./configFlags";
+import { configFlags } from "../data";
 
 const args = getArgs();
 
