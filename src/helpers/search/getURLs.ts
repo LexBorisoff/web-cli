@@ -1,16 +1,15 @@
 import getEngine from "./getEngine";
 import getSearchQuery from "./getSearchQuery";
-import {
-  getArgs,
-  getWebsiteArgs,
-  withSearchQuery,
-  withURL,
-} from "../../command";
+import { urlPattern } from "../patterns";
+import { getArgs, withSearchQuery, withURL } from "../../command";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/config.types";
 import { printError } from "../print";
 
 const args = getArgs();
+const urlArgs = args._.map((arg) =>
+  typeof arg === "string" ? arg : `${arg}`
+).filter((arg) => urlPattern.test(arg));
 
 const endsWithSlash = /\/$/;
 const startsWithSlash = /^\//;
@@ -80,7 +79,7 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
     }
     // no engine is provided to the query the URL
     else if (engineNameOrAlias == null) {
-      getWebsiteArgs().forEach((website) => {
+      urlArgs.forEach((website) => {
         urlList.push(getFullUrl(website));
       });
     }
@@ -89,7 +88,7 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
       const engine = getEngine(engineNameOrAlias);
       if (engine != null) {
         const engineQuery = getEngineQueryURL(engine);
-        getWebsiteArgs().forEach((website) => {
+        urlArgs.forEach((website) => {
           urlList.push(getFullUrl(engineQuery + website));
         });
       } else {
