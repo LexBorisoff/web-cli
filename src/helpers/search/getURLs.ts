@@ -31,10 +31,12 @@ function getEngineQueryURL(engine: Engine): string {
     ? engine.url
     : `${engine.url}/`;
 
-  const engineQuery =
-    args.package && engine.package != null
-      ? removeLeadingSlash(engine.package)
-      : removeLeadingSlash(engine.query);
+  let engineQuery = "";
+  if (args.package && engine.package != null) {
+    engineQuery = removeLeadingSlash(engine.package);
+  } else if (engine.query != null) {
+    engineQuery = removeLeadingSlash(engine.query);
+  }
 
   return engineUrl + engineQuery;
 }
