@@ -1,7 +1,7 @@
 import getArgs from "./getArgs";
 import getCustomArgs from "./getCustomArgs";
 import { combineArgLists } from "./utils";
-import { getEnginesData } from "../data";
+import { getEnginesData } from "../../data";
 
 const { engine } = getArgs();
 

@@ -1,7 +1,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { Option, alias, options } from "./options";
-import { configFlags } from "../data";
+import { Option, alias, options } from "../options";
+import { configFlags } from "../../data";
 
 export default function getArgs() {
   return yargs(hideBin(process.argv))

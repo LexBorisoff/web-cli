@@ -1,6 +1,6 @@
 /**
  * Returns a combined list of values that were supplied to the CLI
- * as standard options or custom flags
+ * as standard options and custom flags
  */
 export function combineArgLists(
   optionArg: string | string[] | null | undefined,
@@ -12,8 +12,4 @@ export function combineArgLists(
   }
 
   return argList;
-}
-
-export function isEmptyArg(args: string[]): boolean {
-  return args.length === 1 && args[0] === "";
 }

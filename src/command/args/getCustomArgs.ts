@@ -1,6 +1,6 @@
 import getArgs from "./getArgs";
-import { options } from "./options";
-import { WithAlias } from "../types/utility.types";
+import { options } from "../options";
+import { WithAlias } from "../../types/utility.types";
 
 const args = getArgs();
 

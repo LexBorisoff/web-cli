@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { ConfigOption, configAlias } from "./options";
+import { ConfigOption, configAlias } from "../options";
 
 export default function getConfigArgs() {
   return yargs(hideBin(process.argv))

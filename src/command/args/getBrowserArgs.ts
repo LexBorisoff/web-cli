@@ -1,7 +1,7 @@
 import getArgs from "./getArgs";
 import getCustomArgs from "./getCustomArgs";
 import { combineArgLists } from "./utils";
-import { getBrowsersData } from "../data";
+import { getBrowsersData } from "../../data";
 
 const { browser } = getArgs();
 

@@ -1,7 +1,7 @@
 import getArgs from "./getArgs";
 import getCustomArgs from "./getCustomArgs";
 import { combineArgLists } from "./utils";
-import { getProfilesData } from "../data";
+import { getProfilesData } from "../../data";
 
 const { profile } = getArgs();
 

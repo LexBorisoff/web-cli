@@ -1,4 +1,4 @@
-import getArgs from "./getArgs";
+import { getArgs } from "./args";
 import { urlPattern } from "../helpers/patterns";
 
 const { _: args } = getArgs();
