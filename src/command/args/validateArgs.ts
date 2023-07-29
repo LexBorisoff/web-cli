@@ -1,13 +1,10 @@
-import getEngineArgs from "./getEngineArgs";
-import getBrowserArgs from "./getBrowserArgs";
+import getDataArgs from "./getDataArgs";
 import getInvalidArgs from "./getInvalidArgs";
 import isEmptyArg from "./isEmptyArg";
 import { engineFlags, browserFlags } from "../../data";
 import { warning, error } from "../../helpers/print";
 
 const invalidArgs = getInvalidArgs();
-const engineArgs = getEngineArgs();
-const browserArgs = getBrowserArgs();
 
 /**
  * Validates engine and browser args
@@ -24,6 +21,9 @@ export default function validateArgs(): string[] {
   if (invalidArgs.length > 0) {
     add(error(`Invalid options: ${invalidArgs.join(", ")}`));
   }
+
+  const engineArgs = getDataArgs.engine();
+  const browserArgs = getDataArgs.browser();
 
   // single option was provided without a value
   if (isEmptyArg(engineArgs)) {

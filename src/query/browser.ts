@@ -1,7 +1,7 @@
 import open from "open";
 import queryProfile from "./profile";
 import openBrowser from "./openBrowser";
-import { getBrowserArgs, getProfileArgs } from "../command";
+import { getDataArgs } from "../command";
 import { getDefaultsData, getBrowsersData } from "../data";
 import { printError } from "../helpers/print";
 
@@ -9,8 +9,8 @@ const defaults = getDefaultsData();
 const browsers = getBrowsersData();
 
 /**
- * Returns the browser key from the config
- * or the provided argument, if cannot find
+ * Returns the browser key from the config if it can be found,
+ * otherwise returns the provided argument
  */
 function getBrowserName(browserNameOrAlias: string): string {
   const foundBrowser = Object.entries(browsers).find(([key, browser]) => {
@@ -35,19 +35,19 @@ function getBrowserName(browserNameOrAlias: string): string {
 }
 
 function hasProfile(browserName: string): boolean {
-  return getProfileArgs(browserName).length > 0;
+  return getDataArgs.profile(browserName).length > 0;
 }
 
 function handleBrowser(browserName: string, url?: string): void {
   if (hasProfile(browserName)) {
     queryProfile(browserName, url);
-  } else {
-    openBrowser(browserName, url);
+    return;
   }
+  openBrowser(browserName, url);
 }
 
 export default function queryBrowser(url?: string): void {
-  const browserArgs = getBrowserArgs();
+  const browserArgs = getDataArgs.browser();
 
   // browser(s) provided in args
   if (browserArgs.length > 0) {

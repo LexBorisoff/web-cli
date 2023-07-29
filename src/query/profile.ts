@@ -1,5 +1,5 @@
 import openBrowser from "./openBrowser";
-import { getProfileArgs, isEmptyArg } from "../command";
+import { getDataArgs, isEmptyArg } from "../command";
 import { getDefaultsData, browserProfileFlags } from "../data";
 import { getProfile } from "../helpers/browser";
 import { printWarning, printError, emptyLine } from "../helpers/print";
@@ -10,7 +10,7 @@ export default function queryProfile(browserName: string, url?: string): void {
     openBrowser(browserName, url, profileDirectory);
   }
 
-  const profileArgs = getProfileArgs(browserName);
+  const profileArgs = getDataArgs.profile(browserName);
 
   // single option was provided without a value
   if (isEmptyArg(profileArgs)) {
