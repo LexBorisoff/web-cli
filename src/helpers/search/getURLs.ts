@@ -55,7 +55,7 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
     return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
   }
 
-  function queryOnly(): void {
+  function singleSearchQuery(): void {
     const defaults = getDefaultsData();
     const engine = getEngine(engineNameOrAlias ?? defaults.engine);
 
@@ -69,21 +69,21 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
 
   // search query
   if (withSearchQuery) {
-    queryOnly();
+    singleSearchQuery();
   }
   // URL
   else if (withURL) {
-    // query only (URL can be part of the whole search)
+    // single search query with URL args as part of the query string
     if (args.query) {
-      queryOnly();
+      singleSearchQuery();
     }
-    // no engine is provided to the query the URL
+    // full URLs based on the provided URL args
     else if (engineNameOrAlias == null) {
       urlArgs.forEach((website) => {
         urlList.push(getFullUrl(website));
       });
     }
-    //
+    // search queries with URL args as part of the provided engine's query string
     else {
       const engine = getEngine(engineNameOrAlias);
       if (engine != null) {
@@ -96,7 +96,7 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
       }
     }
   }
-  // only engine is provided
+  // engine only
   else if (engineNameOrAlias != null) {
     const engine = getEngine(engineNameOrAlias);
     if (engine != null) {

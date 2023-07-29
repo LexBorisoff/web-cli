@@ -9,7 +9,8 @@ const defaults = getDefaultsData();
 const browsers = getBrowsersData();
 
 /**
- * returns the found browser key from config or the provided argument
+ * Returns the browser key from the config
+ * or the provided argument, if cannot find
  */
 function getBrowserName(browserNameOrAlias: string): string {
   const foundBrowser = Object.entries(browsers).find(([key, browser]) => {
