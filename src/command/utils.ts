@@ -13,3 +13,7 @@ export function combineArgLists(
 
   return argList;
 }
+
+export function isEmptyArg(args: string[]): boolean {
+  return args.length === 1 && args[0] === "";
+}
