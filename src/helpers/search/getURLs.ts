@@ -1,7 +1,11 @@
 import getEngine from "./getEngine";
-import getWebsites from "./getWebsites";
 import getSearchQuery from "./getSearchQuery";
-import { getArgs, withSearchQuery, withURL } from "../../command";
+import {
+  getArgs,
+  getWebsiteArgs,
+  withSearchQuery,
+  withURL,
+} from "../../command";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/config.types";
 import { printError } from "../print";
@@ -19,6 +23,10 @@ function removeLeadingSlash(str?: string): string {
   return startsWithSlash.test(str) ? str.substring(1) : str;
 }
 
+/**
+ * Returns the engine's "search" URL that can be used
+ * to query the engine by adding the query string
+ */
 function getEngineQueryURL(engine: Engine): string {
   const engineUrl: string = endsWithSlash.test(engine.url)
     ? engine.url
@@ -37,7 +45,7 @@ function printNoEngine(engineNameOrAlias: string): void {
     printError("Engine option must have a value");
     return;
   }
-  printError(`No engine "${engineNameOrAlias}" found in the config.`);
+  printError(`Invalid engine: "${engineNameOrAlias}"`);
 }
 
 export default function getURLs(engineNameOrAlias?: string): string[] {
@@ -66,17 +74,22 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
   }
   // URL
   else if (withURL) {
+    // query only (URL can be part of the whole search)
     if (args.query) {
       queryOnly();
-    } else if (engineNameOrAlias == null) {
-      getWebsites().forEach((website) => {
+    }
+    // no engine is provided to the query the URL
+    else if (engineNameOrAlias == null) {
+      getWebsiteArgs().forEach((website) => {
         urlList.push(getFullUrl(website));
       });
-    } else {
+    }
+    //
+    else {
       const engine = getEngine(engineNameOrAlias);
       if (engine != null) {
         const engineQuery = getEngineQueryURL(engine);
-        getWebsites().forEach((website) => {
+        getWebsiteArgs().forEach((website) => {
           urlList.push(getFullUrl(engineQuery + website));
         });
       } else {
