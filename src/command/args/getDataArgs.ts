@@ -48,8 +48,8 @@ const getDataArgs = {
    * If true, removes the empty value from the list
    */
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
-    const { engine } = args;
-    const optionArg = engine as typeof engine | string[];
+    const { search } = args;
+    const optionArg = search as typeof search | string[];
     const customArgs = getCustomArgs(enginesData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },

@@ -17,10 +17,10 @@ export default function getArgs() {
       alias: alias.profile,
       requireArg: true,
     })
-    .option(Option.Engine, {
+    .option(Option.Search, {
       type: "string",
       description: "Search the provided engine / website",
-      alias: alias.engine,
+      alias: alias.search,
       requireArg: true,
     })
     .option(Option.Package, {
