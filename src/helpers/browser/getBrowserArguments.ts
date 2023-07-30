@@ -2,7 +2,7 @@ const empty = "--";
 
 export default function getBrowserArguments(
   browserName?: string,
-  profileDirectory?: string,
+  profileDirectory?: string | null,
   incognito = false
 ) {
   let browserArguments: string[] = [empty];

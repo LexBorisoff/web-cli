@@ -1,5 +1,5 @@
 import prompts from "prompts";
-import title from "./title";
+import { title } from "./transformText";
 import { PromptAnswer, PromptChoice, ValidateFn } from "../types/prompt.types";
 
 export function getChoices(list: string[], titleCase = true): PromptChoice[] {

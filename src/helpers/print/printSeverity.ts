@@ -4,6 +4,7 @@ export const info = chalk.cyanBright;
 export const success = chalk.greenBright;
 export const warning = chalk.yellowBright;
 export const error = chalk.redBright;
+export const neutral = chalk.gray;
 
 export const print = console.log;
 export const printInfo = (message: string) => print(info(message));

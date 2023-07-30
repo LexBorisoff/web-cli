@@ -1,11 +1,11 @@
-import queryBrowser from "./browser";
-import { validateArgs } from "../command";
+import queryBrowsers from "./queryBrowsers";
+import { validateArgs } from "../command/args";
 import { getURLs } from "../helpers/search";
-import { print, success } from "../helpers/print";
+import { print, info, success, neutral, emptyLine } from "../helpers/print";
+import { capitalize } from "../helpers/transformText";
 
 export default function query(): void {
   const errors = validateArgs();
-
   if (errors.length > 0) {
     errors.forEach((message) => {
       print(message);
@@ -14,14 +14,21 @@ export default function query(): void {
   }
 
   const urls = getURLs();
-  if (urls.length > 0) {
-    urls.forEach((url) => {
-      queryBrowser(url);
-      print(`> ${success(url)}`);
-    });
+  const browserQueries = queryBrowsers(urls);
 
-    return;
-  }
+  browserQueries.forEach((browserQuery) => {
+    const { browser, profiles } = browserQuery;
+    let browserInfo = info(capitalize(browser));
+    if (profiles.length > 0) {
+      browserInfo += ` (${neutral(profiles.join(", "))})`;
+    }
 
-  queryBrowser();
+    print(browserInfo);
+  });
+
+  urls.forEach((url) => {
+    print(`> ${success(url)}`);
+  });
+
+  emptyLine();
 }
