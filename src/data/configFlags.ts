@@ -25,11 +25,14 @@ function getFlags<T extends Partial<WithAlias>>(data: Data<T>): string[] {
     .flat();
 }
 
+/** a list of all browser keys and aliases in the config */
 export const browserFlags = getFlags(browsersData);
 
-type BrowserProfileFlags = Record<string, string[]>;
+type BrowserProfileFlags = Partial<Record<string, string[]>>;
+/** profile keys and aliases per each browser */
 export const browserProfileFlags: BrowserProfileFlags = {};
 
+/** a list of all profile keys and aliases in the config */
 export const profileFlags = Object.keys(browsersData)
   .map((browserName) => {
     const profilesData = getProfilesData(browserName);
@@ -39,6 +42,7 @@ export const profileFlags = Object.keys(browsersData)
   })
   .flat();
 
+/** a list of all engine keys and aliases in the config */
 export const engineFlags = getFlags(enginesData);
 
 /**

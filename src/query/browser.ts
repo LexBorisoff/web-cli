@@ -2,41 +2,11 @@ import open from "open";
 import queryProfile from "./profile";
 import openBrowser from "./openBrowser";
 import { getDataArgs } from "../command";
-import { getDefaultsData, getBrowsersData } from "../data";
+import { getDefaultsData } from "../data";
+import { getBrowserName, hasProfile } from "../helpers/browser";
 import { printError } from "../helpers/print";
 
 const defaults = getDefaultsData();
-const browsers = getBrowsersData();
-
-/**
- * Returns the browser key from the config if it can be found,
- * otherwise returns the provided argument
- */
-function getBrowserName(browserNameOrAlias: string): string {
-  const foundBrowser = Object.entries(browsers).find(([key, browser]) => {
-    const isConfigKey = browserNameOrAlias === key;
-    const isAlias =
-      // alias is a string
-      (typeof browser.alias === "string" &&
-        browserNameOrAlias === browser.alias) ||
-      // alias is an array
-      (Array.isArray(browser.alias) &&
-        browser.alias.includes(browserNameOrAlias));
-
-    return isConfigKey || isAlias;
-  });
-
-  if (foundBrowser != null) {
-    const [key] = foundBrowser;
-    return key;
-  }
-
-  return browserNameOrAlias;
-}
-
-function hasProfile(browserName: string): boolean {
-  return getDataArgs.profile(browserName).length > 0;
-}
 
 function handleBrowser(browserName: string, url?: string): void {
   if (hasProfile(browserName)) {

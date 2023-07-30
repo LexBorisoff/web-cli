@@ -3,11 +3,22 @@ import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
+import { getBrowserName } from "../../helpers/browser";
 
 const args = getArgs();
 
 interface Data<T> {
   [key: string]: T;
+}
+
+function getUniqueList(
+  optionArg: string | string[] | undefined,
+  customArgs: string[],
+  removeEmptyArg: boolean
+) {
+  const list = combineArgLists(optionArg, customArgs);
+  const uniqueList = [...new Set(list)];
+  return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
 }
 
 /**
@@ -29,26 +40,73 @@ function getCustomArgs<T extends Partial<WithAlias>>(data: Data<T>): string[] {
 }
 
 const getDataArgs = {
-  engine: function getEngineArgs(): string[] {
+  /**
+   * Returns a unique list of engine args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  engine: function getEngineArgs(removeEmptyArg = true): string[] {
     const { engine } = args;
     const optionArg = engine as typeof engine | string[];
     const enginesData = getEnginesData();
     const customArgs = getCustomArgs(enginesData);
-    return combineArgLists(optionArg, customArgs);
+    return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
-  browser: function getBrowserArgs(): string[] {
+  /**
+   * Returns a unique list of browser args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  browser: function getBrowserArgs(removeEmptyArg = true): string[] {
     const { browser } = args;
     const optionArg = browser as typeof browser | string[];
     const browsersData = getBrowsersData();
     const customArgs = getCustomArgs(browsersData);
-    return combineArgLists(optionArg, customArgs);
+    return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
-  profile: function getProfileArgs(browserName: string): string[] {
+  /**
+   * Returns a unique list of profile args provided to the CLI.
+   *
+   * @param browserName
+   * If provided value is not null, returns profile args for that
+   * browser name, otherwise returns all profile args
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  profile: function getProfileArgs(
+    browserName: string | null,
+    removeEmptyArg = true
+  ): string[] {
     const { profile } = args;
     const optionArg = profile as typeof profile | string[];
+
+    if (browserName == null) {
+      const list: string[] = [];
+
+      // push option arg values (--profile <name>) to the list
+      if (optionArg != null) {
+        list.push(...(Array.isArray(optionArg) ? optionArg : [optionArg]));
+      }
+
+      // push custom args (--profileName) to the list
+      Object.keys(getBrowsersData()).forEach((arg) => {
+        const browserName = getBrowserName(arg);
+        const profilesData = getProfilesData(browserName);
+        const customArgs = getCustomArgs(profilesData);
+        list.push(...customArgs);
+      });
+
+      return [
+        ...new Set(removeEmptyArg ? list.filter((arg) => arg !== "") : list),
+      ];
+    }
+
     const profilesData = getProfilesData(browserName);
     const customArgs = getCustomArgs(profilesData);
-    return combineArgLists(optionArg, customArgs);
+    return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
 };
 

@@ -1,4 +1,4 @@
-import { getArgs } from "../../command";
+import { getArgs } from "../../command/args";
 
 const args = getArgs();
 const empty = "--";
@@ -19,7 +19,7 @@ export default function getBrowserArguments(
 
   if (args.incognito) {
     let incognito = "incognito";
-    if (browserName == "edge") {
+    if (browserName === "edge") {
       incognito = "inprivate";
     } else if (browserName === "firefox" || browserName === "opera") {
       incognito = "private";

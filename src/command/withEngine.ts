@@ -1,4 +1,5 @@
-import getEngineArgs from "./getEngineArgs";
+import { getDataArgs } from "./args";
 
-const withEngine = getEngineArgs().length > 0;
+const withEngine = getDataArgs.engine().length > 0;
+
 export default withEngine;
