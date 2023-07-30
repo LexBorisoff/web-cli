@@ -1,24 +1,25 @@
 import queryBrowser from "./browser";
-import queryEngine from "./engine";
-import {
-  getInvalidArgs,
-  withEngine,
-  withSearchQuery,
-  withURL,
-} from "../command";
-import { printError, emptyLine } from "../helpers/print";
-
-const invalidArgs = getInvalidArgs();
+import { validateArgs } from "../command";
+import { getURLs } from "../helpers/search";
+import { print, success } from "../helpers/print";
 
 export default function query(): void {
-  if (invalidArgs.length > 0) {
-    printError(`Invalid options: ${invalidArgs.join(", ")}`);
-    emptyLine();
+  const errors = validateArgs();
+
+  if (errors.length > 0) {
+    errors.forEach((message) => {
+      print(message);
+    });
     return;
   }
 
-  if (withEngine || withSearchQuery || withURL) {
-    queryEngine();
+  const urls = getURLs();
+  if (urls.length > 0) {
+    urls.forEach((url) => {
+      queryBrowser(url);
+      print(`> ${success(url)}`);
+    });
+
     return;
   }
 

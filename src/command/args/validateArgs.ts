@@ -58,8 +58,6 @@ export default function validateArgs(): string[] {
    * profile keys and aliases of all config browsers
    */
   function validateProfileArgs(browser?: string | string[] | null) {
-    // if browser is an array or null - ,
-    // otherwise - just for the provided browser name
     const profileArgs = getDataArgs.profile(
       browser == null || Array.isArray(browser) ? null : browser,
       false
@@ -89,7 +87,6 @@ export default function validateArgs(): string[] {
       (arg) => arg !== "" && !Object.values(flags).flat().includes(arg)
     );
 
-    // check invalid profiles against each browser
     if (invalidProfiles.length > 0) {
       add(error(`Invalid profiles: ${warning(invalidProfiles.join(" "))}`));
     }

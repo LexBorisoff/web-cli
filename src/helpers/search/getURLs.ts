@@ -1,10 +1,10 @@
 import getEngine from "./getEngine";
-import getSearchQuery from "./getSearchQuery";
+import getQueryString from "./getQueryString";
 import { urlPattern } from "../patterns";
-import { getArgs, withSearchQuery, withURL } from "../../command";
+import { withEngine, withSearchQuery, withURL } from "../../command";
+import { getArgs, getDataArgs } from "../../command/args";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/config.types";
-import { printError } from "../print";
 
 const args = getArgs();
 const urlArgs = args._.map((arg) =>
@@ -23,10 +23,10 @@ function removeLeadingSlash(str?: string): string {
 }
 
 /**
- * Returns the engine's "search" URL that can be used
- * to query the engine by adding the query string
+ * Returns the provided engine's URL that can be used
+ * to query it by adding the query string
  */
-function getEngineQueryURL(engine: Engine): string {
+function getEngineURL(engine: Engine): string {
   const engineUrl: string = endsWithSlash.test(engine.url)
     ? engine.url
     : `${engine.url}/`;
@@ -41,16 +41,14 @@ function getEngineQueryURL(engine: Engine): string {
   return engineUrl + engineQuery;
 }
 
-function printNoEngine(engineNameOrAlias: string): void {
-  if (engineNameOrAlias === "") {
-    printError("Engine option must have a value");
-    return;
-  }
-  printError(`Invalid engine: "${engineNameOrAlias}"`);
-}
-
-export default function getURLs(engineNameOrAlias?: string): string[] {
-  const urlList: string[] = [];
+/**
+ * Returns a list of constructed URLs based on the engine
+ *
+ * @param engineNameOrAlias
+ * if not provided, the default engine will be used
+ */
+function constructURLs(engineNameOrAlias?: string): string[] {
+  const urls: string[] = [];
 
   function getFullUrl(url: string): string {
     const protocol = `http${args.http ? "" : "s"}://`;
@@ -62,10 +60,8 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
     const engine = getEngine(engineNameOrAlias ?? defaults.engine);
 
     if (engine != null) {
-      const engineQuery = getEngineQueryURL(engine) + getSearchQuery(engine);
-      urlList.push(getFullUrl(engineQuery));
-    } else if (engineNameOrAlias != null) {
-      printNoEngine(engineNameOrAlias);
+      const engineQuery = getEngineURL(engine) + getQueryString(engine);
+      urls.push(getFullUrl(engineQuery));
     }
   }
 
@@ -82,19 +78,17 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
     // full URLs based on the provided URL args
     else if (engineNameOrAlias == null) {
       urlArgs.forEach((website) => {
-        urlList.push(getFullUrl(website));
+        urls.push(getFullUrl(website));
       });
     }
-    // search queries with URL args as part of the provided engine's query string
+    // search engine queries with URL args as part of the query string
     else {
       const engine = getEngine(engineNameOrAlias);
       if (engine != null) {
-        const engineQuery = getEngineQueryURL(engine);
+        const engineQuery = getEngineURL(engine);
         urlArgs.forEach((website) => {
-          urlList.push(getFullUrl(engineQuery + website));
+          urls.push(getFullUrl(engineQuery + website));
         });
-      } else {
-        printNoEngine(engineNameOrAlias);
       }
     }
   }
@@ -102,11 +96,29 @@ export default function getURLs(engineNameOrAlias?: string): string[] {
   else if (engineNameOrAlias != null) {
     const engine = getEngine(engineNameOrAlias);
     if (engine != null) {
-      urlList.push(getFullUrl(engine.url));
-    } else {
-      printNoEngine(engineNameOrAlias);
+      urls.push(getFullUrl(engine.url));
     }
   }
 
-  return urlList;
+  return urls;
+}
+
+/**
+ * Returns a list of URLs based on the CLI args and options
+ */
+export default function getURLs(): string[] {
+  const urls: string[] = [];
+  const engineArgs = getDataArgs.engine();
+
+  if (withEngine || withSearchQuery || withURL) {
+    if (engineArgs.length > 0) {
+      engineArgs.forEach((engineNameOrAlias) => {
+        urls.push(...constructURLs(engineNameOrAlias));
+      });
+    } else {
+      urls.push(...constructURLs());
+    }
+  }
+
+  return urls;
 }

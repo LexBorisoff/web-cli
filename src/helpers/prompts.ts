@@ -1,9 +1,6 @@
 import prompts from "prompts";
+import getTitle from "./getTitle";
 import { PromptAnswer, PromptChoice, ValidateFn } from "../types/prompt.types";
-
-export function getTitle(choice: string): string {
-  return `${choice[0].toUpperCase()}${choice.substring(1).toLowerCase()}`;
-}
 
 export function getChoices(list: string[], titleCase = true): PromptChoice[] {
   return list.map((item) => ({

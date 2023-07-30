@@ -70,14 +70,14 @@ const getDataArgs = {
    * Returns a unique list of profile args provided to the CLI.
    *
    * @param browserName
-   * If provided value is not null, returns profile args for that
-   * browser name, otherwise returns all profile args
+   * If value is provided, returns profile args for that browser name,
+   * otherwise returns all profile args supplied to the CLI
    *
    * @param removeEmptyArg
-   * If true, removes the empty value from the list
+   * If true, removes an empty arg value from the list
    */
   profile: function getProfileArgs(
-    browserName: string | null,
+    browserName?: string | null,
     removeEmptyArg = true
   ): string[] {
     const { profile } = args;
