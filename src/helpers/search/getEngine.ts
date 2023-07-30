@@ -3,12 +3,13 @@ import { getEnginesData } from "../../data";
 import { Engine } from "../../types/config.types";
 
 /**
- * Returns an Engine object from the config if it can be found
- * by the provided name or alias, and undefined otherwise
+ * Returns a tuple with the engine's config key and the Engine object
+ * if it can be found in the config by the provided name or alias.
+ * Otherwise returns undefined
  */
 export default function getEngine(
   engineNameOrAlias?: string
-): Engine | undefined {
+): [string, Engine] | undefined {
   if (engineNameOrAlias == null) {
     return undefined;
   }

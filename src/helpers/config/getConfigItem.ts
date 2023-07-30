@@ -8,30 +8,30 @@ function withAlias<Item>(item: Item): item is Item & WithAlias {
   return item instanceof Object && "alias" in item;
 }
 
-// get config item by name or alias
+/**
+ * Returns a tuple with the item's config key and the Item object
+ * found in the config by provided name or alias. Otherwise returns undefined
+ */
 export default function getConfigItem<Item>(
   nameOrAlias: string,
   list: List<Item>
-): Item | undefined {
-  // name is object's key
-  if (Object.keys(list).includes(nameOrAlias)) {
-    return list[nameOrAlias];
-  }
-
-  // name is an alias
-  const listNames = Object.values(list);
-  const found = listNames.find((item) => {
-    if (!withAlias(item)) {
-      return undefined;
+): [string, Item] | undefined {
+  return Object.entries(list).find(([key, item]) => {
+    // name is list's key
+    if (nameOrAlias === key) {
+      return true;
     }
 
+    // item does not have aliases
+    if (!withAlias(item)) {
+      return false;
+    }
+
+    // name is item's alias
     const { alias } = item;
-    const hasAlias =
+    return (
       (Array.isArray(alias) && alias.includes(nameOrAlias)) ||
-      (typeof alias === "string" && alias === nameOrAlias);
-
-    return hasAlias ? item : undefined;
+      (typeof alias === "string" && alias === nameOrAlias)
+    );
   });
-
-  return found;
 }

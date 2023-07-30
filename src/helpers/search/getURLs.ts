@@ -57,7 +57,7 @@ function constructURLs(engineNameOrAlias?: string): string[] {
 
   function singleSearchQuery(): void {
     const defaults = getDefaultsData();
-    const engine = getEngine(engineNameOrAlias ?? defaults.engine);
+    const [, engine] = getEngine(engineNameOrAlias ?? defaults.engine) ?? [];
 
     if (engine != null) {
       const engineQuery = getEngineURL(engine) + getQueryString(engine);
@@ -83,7 +83,7 @@ function constructURLs(engineNameOrAlias?: string): string[] {
     }
     // search engine queries with URL args as part of the query string
     else {
-      const engine = getEngine(engineNameOrAlias);
+      const [, engine] = getEngine(engineNameOrAlias) ?? [];
       if (engine != null) {
         const engineQuery = getEngineURL(engine);
         urlArgs.forEach((website) => {
@@ -94,7 +94,7 @@ function constructURLs(engineNameOrAlias?: string): string[] {
   }
   // engine only
   else if (engineNameOrAlias != null) {
-    const engine = getEngine(engineNameOrAlias);
+    const [, engine] = getEngine(engineNameOrAlias) ?? [];
     if (engine != null) {
       urls.push(getFullUrl(engine.url));
     }
