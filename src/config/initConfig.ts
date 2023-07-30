@@ -69,7 +69,6 @@ export default async function initConfig(): Promise<void> {
   if (values.length > 1) {
     printError("Invalid number of arguments.");
     printFormat.init();
-    emptyLine();
     return;
   }
 
@@ -84,7 +83,6 @@ export default async function initConfig(): Promise<void> {
 
     if (response !== true) {
       printError(response);
-      emptyLine();
       return;
     }
   }
@@ -151,6 +149,4 @@ export default async function initConfig(): Promise<void> {
   } catch {
     printError("Failed to create the config file");
   }
-
-  emptyLine();
 }

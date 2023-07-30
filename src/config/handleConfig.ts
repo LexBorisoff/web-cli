@@ -60,7 +60,7 @@ function isValidOption(
   return typeof option === "string" && validOptions.includes(option);
 }
 
-export default function handleConfig(): void {
+export default async function handleConfig(): Promise<void> {
   const [option] = <Partial<typeof args>>args;
 
   if (option == null) {
@@ -82,7 +82,7 @@ export default function handleConfig(): void {
 
   switch (option) {
     case ConfigOption.init:
-      initConfig();
+      await initConfig();
       break;
     case ConfigOption.open:
       openConfig();
@@ -100,7 +100,7 @@ export default function handleConfig(): void {
       whereConfig();
       break;
     case ConfigOption.cache:
-      cacheConfig();
+      await cacheConfig();
       break;
     case ConfigOption.using:
       usingConfig();
@@ -113,5 +113,5 @@ export default function handleConfig(): void {
       break;
   }
 
-  // emptyLine(); TODO: remove empty lines in other places
+  emptyLine();
 }

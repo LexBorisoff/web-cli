@@ -1,4 +1,4 @@
-import { printInfo, emptyLine } from "../helpers/print";
+import { printInfo } from "../helpers/print";
 import { getSettings } from "../helpers/config";
 
 const settings = getSettings() ?? {};
@@ -13,6 +13,4 @@ export default function usingConfig(): void {
   } else {
     printInfo("none");
   }
-
-  emptyLine();
 }

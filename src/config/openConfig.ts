@@ -2,17 +2,16 @@ import open from "open";
 import * as fs from "fs";
 import { getConfigArgs } from "../command/args";
 import { getSettings } from "../helpers/config";
-import { print, printError, emptyLine } from "../helpers/print";
+import { print, printError } from "../helpers/print";
 
 const { _: args } = getConfigArgs();
 const { linkedPath } = getSettings() ?? {};
 
-async function openFile(): Promise<void> {
+function openFile(): void {
   if (linkedPath != null) {
     if (!fs.existsSync(linkedPath)) {
       printError("Could not access the linked config file:");
       print(linkedPath);
-      emptyLine();
       return;
     }
 
@@ -24,7 +23,7 @@ async function openFile(): Promise<void> {
         }
       });
     } else {
-      await open(linkedPath);
+      open(linkedPath);
     }
   }
 }

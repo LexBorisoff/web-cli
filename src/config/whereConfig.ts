@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { getSettings } from "../helpers/config";
-import { print, printWarning, emptyLine } from "../helpers/print";
+import { print, printWarning } from "../helpers/print";
 
 const settings = getSettings() ?? {};
 
@@ -14,10 +14,8 @@ export default function whereConfig(): void {
         "--config link <filename>"
       )}" to link a config file`
     );
-    emptyLine();
     return;
   }
 
   print(linkedPath);
-  emptyLine();
 }

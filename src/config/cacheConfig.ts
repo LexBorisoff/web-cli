@@ -10,7 +10,6 @@ import {
 } from "../helpers/config";
 import {
   print,
-  printInfo,
   printSuccess,
   printWarning,
   printError,
@@ -37,11 +36,9 @@ function cacheFile(filePath: string): void {
     fs.writeFileSync(settingsPath, JSON.stringify(cache));
 
     print(`${chalk.greenBright("Cached")} ${filePath}`);
-    emptyLine();
   } catch {
     printError("Cannot access the config file:");
     print(filePath);
-    emptyLine();
   }
 }
 
@@ -66,31 +63,27 @@ async function exportFile(config: ConfigData, filePath: string): Promise<void> {
     force || !fs.existsSync(filePath) || !hasData;
 
   if (!proceed) {
-    proceed = await toggle(
+    print(
       `${chalk.yellowBright(
         "This config file will be overridden:"
-      )}\n  ${filePath}\n\n  ${chalk.cyan("Proceed?")}`,
-      false
+      )}\n${filePath}\n`
     );
-    emptyLine();
+    proceed = await toggle(chalk.cyan("Proceed?"), false);
   }
 
   if (proceed) {
     try {
       fs.writeFileSync(filePath, JSON.stringify(config, null, space));
       print(`${chalk.greenBright("Exported to")} ${filePath}`);
-      emptyLine();
     } catch {
       printError("Could not write to file");
-      emptyLine();
     }
   }
 }
 
-function exportCache(filePath?: Args[number]): void {
+async function exportCache(filePath?: Args[number]): Promise<void> {
   if (settings.config == null) {
     printError("No cache exists");
-    emptyLine();
     return;
   }
 
@@ -102,28 +95,25 @@ function exportCache(filePath?: Args[number]): void {
         emptyLine();
         printFormat.cache();
       }
-      emptyLine();
       return;
     }
 
-    exportFile(settings.config, validation.configPath);
+    await exportFile(settings.config, validation.configPath);
     return;
   }
 
   if (settings.cachedPath == null) {
     printError("Cached file's original path is unknown");
     printError("Please provide a file path");
-    emptyLine();
     return;
   }
 
-  exportFile(settings.config, settings.cachedPath);
+  await exportFile(settings.config, settings.cachedPath);
 }
 
 function clearCache(): void {
   if (settings.config == null) {
-    printInfo("No cache exists");
-    emptyLine();
+    printError("No cache exists");
     return;
   }
 
@@ -132,10 +122,9 @@ function clearCache(): void {
 
   fs.writeFileSync(settingsPath, JSON.stringify(settings));
   printSuccess("Cache cleared");
-  emptyLine();
 }
 
-export default function cacheConfig(): void {
+export default async function cacheConfig(): Promise<void> {
   const [, ...values] = <Args>args;
   const [command] = values;
 
@@ -143,14 +132,14 @@ export default function cacheConfig(): void {
     printError("Invalid number of arguments");
     emptyLine();
     printFormat.cache();
-    emptyLine();
     return;
   }
 
   // export cache
   if (command === "export") {
     const [, filePath] = values;
-    exportCache(filePath);
+
+    await exportCache(filePath);
     return;
   }
 
@@ -169,7 +158,6 @@ export default function cacheConfig(): void {
         emptyLine();
         printFormat.cache();
       }
-      emptyLine();
       return;
     }
 
@@ -182,7 +170,6 @@ export default function cacheConfig(): void {
     emptyLine();
     printWarning("Link a config file before caching");
     printWarning(`or use "--config cache <filename>"`);
-    emptyLine();
     return;
   }
 
