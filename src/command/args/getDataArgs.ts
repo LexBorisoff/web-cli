@@ -3,9 +3,10 @@ import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
-import { getBrowserName } from "../../helpers/browser";
 
 const args = getArgs();
+const browsersData = getBrowsersData();
+const enginesData = getEnginesData();
 
 interface Data<T> {
   [key: string]: T;
@@ -49,7 +50,6 @@ const getDataArgs = {
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
     const { engine } = args;
     const optionArg = engine as typeof engine | string[];
-    const enginesData = getEnginesData();
     const customArgs = getCustomArgs(enginesData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
@@ -62,7 +62,6 @@ const getDataArgs = {
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
     const { browser } = args;
     const optionArg = browser as typeof browser | string[];
-    const browsersData = getBrowsersData();
     const customArgs = getCustomArgs(browsersData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
@@ -92,9 +91,8 @@ const getDataArgs = {
       }
 
       // push custom args (--profileName) to the list
-      Object.keys(getBrowsersData()).forEach((arg) => {
-        const browserName = getBrowserName(arg);
-        const profilesData = getProfilesData(browserName);
+      Object.keys(browsersData).forEach((arg) => {
+        const profilesData = getProfilesData(arg);
         const customArgs = getCustomArgs(profilesData);
         list.push(...customArgs);
       });

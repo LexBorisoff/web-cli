@@ -46,14 +46,15 @@ export default function validateArgs(): string[] {
    * A browser value that does not exist in the config should still be valid
    * because it is an app that should be attempted to open
    */
-  if (isEmptyArg(browserArgs)) {
+  const emptyBrowserArg = isEmptyArg(browserArgs);
+  if (emptyBrowserArg) {
     add(error("Browser option must have a value"));
   }
 
   /**
    * @param browser
    * * If a single string is provided - profile args are checked against
-   * profile keys and aliases of the provided browser name
+   * profile keys and aliases of the provided config browser
    * * String array, null or undefined - profile args are validated against
    * profile keys and aliases of all config browsers
    */
@@ -93,7 +94,11 @@ export default function validateArgs(): string[] {
   }
 
   /* VALIDATE PROFILE ARGS */
-  validateProfileArgs(browserArgs.length > 0 ? browserArgs : defaults.browser);
+  if (!emptyBrowserArg) {
+    validateProfileArgs(
+      browserArgs.length > 0 ? browserArgs : defaults.browser
+    );
+  }
 
   return errors.sort((a, b) => a.localeCompare(b));
 }

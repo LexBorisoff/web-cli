@@ -1,10 +1,10 @@
 import prompts from "prompts";
-import getTitle from "./getTitle";
+import title from "./title";
 import { PromptAnswer, PromptChoice, ValidateFn } from "../types/prompt.types";
 
 export function getChoices(list: string[], titleCase = true): PromptChoice[] {
   return list.map((item) => ({
-    title: titleCase ? getTitle(item) : item,
+    title: titleCase ? title(item) : item,
     value: item,
   }));
 }

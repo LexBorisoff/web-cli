@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getConfigArgs } from "../command";
+import { getConfigArgs } from "../command/args";
 import {
   printInfo,
   printError,

@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import chalk from "chalk";
 import { printFormat } from "./utils";
-import { getConfigArgs } from "../command";
+import { getConfigArgs } from "../command/args";
 import {
   getSettingsPath,
   getSettings,
