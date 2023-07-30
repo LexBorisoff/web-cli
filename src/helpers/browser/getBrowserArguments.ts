@@ -1,11 +1,9 @@
-import { getArgs } from "../../command/args";
-
-const args = getArgs();
 const empty = "--";
 
 export default function getBrowserArguments(
   browserName?: string,
-  profileDirectory?: string
+  profileDirectory?: string,
+  incognito = false
 ) {
   let browserArguments: string[] = [empty];
   function removeEmpty() {
@@ -17,7 +15,7 @@ export default function getBrowserArguments(
     removeEmpty();
   }
 
-  if (args.incognito) {
+  if (incognito) {
     let incognito = "incognito";
     if (browserName === "edge") {
       incognito = "inprivate";

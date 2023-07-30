@@ -1,5 +1,8 @@
 import open, { openApp } from "open";
+import { getArgs } from "../command/args";
 import { getBrowserArguments, getBrowserAppName } from "../helpers/browser";
+
+const { incognito } = getArgs();
 
 export default function openBrowser(
   browserName: string,
@@ -7,7 +10,11 @@ export default function openBrowser(
   profileDirectory?: string
 ): void {
   const browserAppName = getBrowserAppName(browserName);
-  const browserArguments = getBrowserArguments(browserName, profileDirectory);
+  const browserArguments = getBrowserArguments(
+    browserName,
+    profileDirectory,
+    incognito
+  );
 
   if (url != null) {
     open(url, {
