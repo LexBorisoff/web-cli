@@ -11,6 +11,7 @@ export enum Option {
   Incognito = "incognito",
   Http = "http",
   Query = "query",
+  Split = "split", 
 }
 
 export const alias: Alias<Option> = {

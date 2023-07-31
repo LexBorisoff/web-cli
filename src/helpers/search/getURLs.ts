@@ -1,5 +1,4 @@
 import getEngine from "./getEngine";
-import getQueryString from "./getQueryString";
 import { urlPattern } from "../patterns";
 import { withEngine, withSearchQuery, withURL } from "../../command";
 import { getArgs, getDataArgs } from "../../command/args";
@@ -10,7 +9,7 @@ const args = getArgs();
 const urlArgs = args._.map((arg) =>
   typeof arg === "string" ? arg : `${arg}`
 ).filter((arg) => urlPattern.test(arg));
-
+const defaults = getDefaultsData();
 const endsWithSlash = /\/$/;
 const startsWithSlash = /^\//;
 
@@ -56,13 +55,23 @@ function constructURLs(engineNameOrAlias?: string): string[] {
   }
 
   function singleSearchQuery(): void {
-    const defaults = getDefaultsData();
     const [, engine] = getEngine(engineNameOrAlias ?? defaults.engine) ?? [];
-
-    if (engine != null) {
-      const engineQuery = getEngineURL(engine) + getQueryString(engine);
-      urls.push(getFullUrl(engineQuery));
+    if (engine == null) {
+      return;
     }
+
+    if (args.split) {
+      args._.forEach((value) => {
+        const engineQuery = getEngineURL(engine) + value;
+        urls.push(getFullUrl(engineQuery));
+      });
+      return;
+    }
+
+    const delimiter = engine.delimiter ?? defaults.delimiter;
+    const searchQuery = args._.join(delimiter);
+    const engineQuery = getEngineURL(engine) + searchQuery;
+    urls.push(getFullUrl(engineQuery));
   }
 
   // search query

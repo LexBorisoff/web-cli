@@ -46,6 +46,11 @@ export default function getArgs() {
       default: false,
       alias: alias.query,
     })
+    .option(Option.Split, {
+      type: "boolean",
+      description: `Split each value into a separate search query`,
+      default: false,
+    })
     .help(false)
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
     .parseSync();
