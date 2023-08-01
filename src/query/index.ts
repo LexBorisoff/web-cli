@@ -1,8 +1,11 @@
+import chalk from "chalk";
 import queryBrowsers from "./queryBrowsers";
-import { validateArgs } from "../command/args";
+import { getArgs, validateArgs } from "../command/args";
 import { getURLs } from "../helpers/search";
-import { print, info, success, neutral, emptyLine } from "../helpers/print";
+import { print, info, success, emptyLine } from "../helpers/print";
 import { capitalize } from "../helpers/transformText";
+
+const { incognito } = getArgs();
 
 export default function query(): void {
   const errors = validateArgs();
@@ -10,6 +13,7 @@ export default function query(): void {
     errors.forEach((message) => {
       print(message);
     });
+    emptyLine();
     return;
   }
 
@@ -20,7 +24,9 @@ export default function query(): void {
     const { browser, profiles } = browserQuery;
     let browserInfo = info(capitalize(browser));
     if (profiles.length > 0) {
-      browserInfo += ` (${neutral(profiles.join(", "))})`;
+      browserInfo += ` (${chalk.gray(profiles.join(", "))})${
+        incognito ? chalk.gray(" [private tab]") : ""
+      }`;
     }
 
     print(browserInfo);

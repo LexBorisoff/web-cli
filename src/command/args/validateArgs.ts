@@ -52,6 +52,8 @@ export default function validateArgs(): string[] {
   }
 
   /**
+   * VALIDATE PROFILE ARGS
+   *
    * @param browser
    * * If a single string is provided - profile args are checked against
    * profile keys and aliases of the provided config browser
