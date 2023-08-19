@@ -1,31 +1,23 @@
 import open from "open";
 import * as fs from "fs";
 import { getConfigArgs } from "../command/args";
-import { getSettings } from "../helpers/config";
-import { print, printError } from "../helpers/print";
 
-const { _: args } = getConfigArgs();
-const { linkedPath } = getSettings() ?? {};
+const { _: apps } = getConfigArgs();
 
-function openFile(): void {
-  if (linkedPath != null) {
-    if (!fs.existsSync(linkedPath)) {
-      printError("Could not access the linked config file:");
-      print(linkedPath);
-      return;
-    }
+function openConfig(filePath: string): void {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
 
-    const [, ...apps] = args;
-    if (apps.length > 0) {
-      apps.map((app) => {
-        if (typeof app === "string") {
-          open(linkedPath, { app: { name: app } });
-        }
-      });
-    } else {
-      open(linkedPath);
-    }
+  if (apps.length > 0) {
+    apps.map((app) => {
+      if (typeof app === "string") {
+        open(filePath, { app: { name: app } });
+      }
+    });
+  } else {
+    open(filePath);
   }
 }
 
-export default openFile;
+export default openConfig;
