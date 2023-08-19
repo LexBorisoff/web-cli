@@ -1,11 +1,11 @@
 import getEngine from "./getEngine";
 import { urlPattern } from "../patterns";
 import { withEngine, withSearchQuery, withURL } from "../../command";
-import { getArgs, getDataArgs } from "../../command/args";
+import { getQueryArgs, getDataArgs } from "../../command/args";
 import { getDefaultsData } from "../../data";
 import { Engine } from "../../types/config.types";
 
-const args = getArgs();
+const args = getQueryArgs();
 const urlArgs = args._.map((arg) =>
   typeof arg === "string" ? arg : `${arg}`
 ).filter((arg) => urlPattern.test(arg));

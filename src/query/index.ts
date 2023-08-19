@@ -1,11 +1,11 @@
 import chalk from "chalk";
 import queryBrowsers from "./queryBrowsers";
-import { getArgs, validateArgs } from "../command/args";
+import { getQueryArgs, validateArgs } from "../command/args";
 import { getURLs } from "../helpers/search";
 import { print, severity, emptyLine } from "../helpers/print";
 import { capitalize } from "../helpers/transformText";
 
-const { incognito } = getArgs();
+const { incognito } = getQueryArgs();
 const { info, success } = severity;
 
 export default function query(): void {

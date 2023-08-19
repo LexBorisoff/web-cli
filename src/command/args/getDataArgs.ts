@@ -1,10 +1,10 @@
-import getArgs from "./getArgs";
+import getQueryArgs from "./getQueryArgs";
 import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
 
-const args = getArgs();
+const args = getQueryArgs();
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
 

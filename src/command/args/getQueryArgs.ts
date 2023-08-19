@@ -3,7 +3,7 @@ import { hideBin } from "yargs/helpers";
 import { Option, alias, options } from "../options";
 import { configFlags } from "../../data";
 
-export default function getArgs() {
+export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
     .option(Option.Browser, {
       type: "string",

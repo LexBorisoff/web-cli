@@ -1,8 +1,8 @@
-import getArgs from "./getArgs";
+import getQueryArgs from "./getQueryArgs";
 import { options, yargsOptions } from "../options";
 import { configFlags } from "../../data";
 
-const args = getArgs();
+const args = getQueryArgs();
 
 /**
  * Returns a list of args that do not match CLI and yargs' options,

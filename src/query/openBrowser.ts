@@ -1,12 +1,12 @@
 import open, { openApp } from "open";
-import { getArgs } from "../command/args";
+import { getQueryArgs } from "../command/args";
 import {
   getBrowserArguments,
   getBrowserAppName,
   getProfile,
 } from "../helpers/browser";
 
-const { incognito } = getArgs();
+const { incognito } = getQueryArgs();
 
 export default function openBrowser(
   browserName: string,
