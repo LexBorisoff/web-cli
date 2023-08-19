@@ -27,29 +27,24 @@ export default function getArgs() {
       type: "boolean",
       description: "Query packages / libraries (if applicable)",
       alias: alias.package,
-      default: false,
     })
     .option(Option.Incognito, {
       type: "boolean",
       description: "Use incognito / private tab",
       alias: alias.incognito,
-      default: false,
     })
     .option(Option.Http, {
       type: "boolean",
       description: `Use the "http" protocol (not secure)`,
-      default: false,
     })
     .option(Option.Query, {
       type: "boolean",
       description: `Query only without visiting the provided URL(s)`,
-      default: false,
       alias: alias.query,
     })
     .option(Option.Split, {
       type: "boolean",
       description: `Split each value into a separate search query`,
-      default: false,
     })
     .help(false)
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
