@@ -4,7 +4,7 @@ interface List<Item> {
   [key: string]: Item;
 }
 
-function withAlias<Item>(item: Item): item is Item & WithAlias {
+function withAlias<Item>(item: Item): item is Item & Required<WithAlias> {
   return item instanceof Object && "alias" in item;
 }
 

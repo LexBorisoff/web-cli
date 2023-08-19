@@ -9,7 +9,7 @@ export interface DefaultsData {
 }
 
 // BROWSERS
-export interface Profile extends Partial<WithAlias> {
+export interface Profile extends WithAlias {
   directory: string; // --profile-directory="Folder Name"
 }
 
@@ -17,7 +17,7 @@ export interface ProfilesData {
   [profile: string]: Profile;
 }
 
-export interface Browser extends Partial<WithAlias> {
+export interface Browser extends WithAlias {
   profiles?: ProfilesData;
 }
 
@@ -26,7 +26,7 @@ export interface BrowsersData {
 }
 
 // ENGINES
-export interface Engine extends Partial<WithAlias> {
+export interface Engine extends WithAlias {
   name: string;
   url: string;
   query?: string;

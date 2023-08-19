@@ -14,7 +14,7 @@ interface Data<T> {
  * Returns a flat array of names and aliases from the config
  * based on the provided config data
  */
-function getFlags<T extends Partial<WithAlias>>(data: Data<T>): string[] {
+function getFlags<T extends WithAlias>(data: Data<T>): string[] {
   return Object.entries(data)
     .map(([key, { alias }]) => {
       if (alias != null) {
