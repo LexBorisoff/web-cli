@@ -3,8 +3,9 @@ import getInvalidArgs from "./getInvalidArgs";
 import isEmptyArg from "./isEmptyArg";
 import { getDefaultsData, engineFlags, browserProfileFlags } from "../../data";
 import { getBrowserName } from "../../helpers/browser";
-import { warning, error } from "../../helpers/print";
+import { severity } from "../../helpers/print";
 
+const { warning, error } = severity;
 const defaults = getDefaultsData();
 const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
