@@ -29,7 +29,7 @@ export default function validateArgs(): string[] {
 
   /* VALIDATE ENGINE ARGS */
   if (isEmptyArg(engineArgs)) {
-    add(error("Engine option must have a value"));
+    add(error("Search option must have a value"));
   }
 
   const invalidEngines = engineArgs.filter(
@@ -37,7 +37,7 @@ export default function validateArgs(): string[] {
   );
 
   if (invalidEngines.length > 0) {
-    add(error(`Invalid engines: ${warning(invalidEngines.join(" "))}`));
+    add(error(`Invalid search engines: ${warning(invalidEngines.join(" "))}`));
   }
 
   /**

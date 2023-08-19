@@ -33,18 +33,12 @@ export const options = [
 
 // CONFIG OPTIONS
 export enum ConfigOption {
+  Browsers = "browsers",
+  Engines = "engines",
   Config = "config",
-  Force = "force",
 }
-
-export const configAlias: Alias<ConfigOption> = {
-  force: ["f"],
-};
 
 /**
  * CLI options and their aliases related to config
  */
-export const configOptions = [
-  ...Object.values(ConfigOption),
-  ...Object.values(configAlias).flat(),
-] as string[];
+export const configOptions = Object.values(ConfigOption) as string[];
