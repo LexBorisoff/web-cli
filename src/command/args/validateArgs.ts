@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import getDataArgs from "./getDataArgs";
 import getInvalidArgs from "./getInvalidArgs";
 import isEmptyArg from "./isEmptyArg";
@@ -29,7 +30,7 @@ export default function validateArgs(): string[] {
 
   /* VALIDATE ENGINE ARGS */
   if (isEmptyArg(engineArgs)) {
-    add(error("Search option must have a value"));
+    add(error(`${chalk.italic("--search")} option must have a value`));
   }
 
   const invalidEngines = engineArgs.filter(
@@ -49,7 +50,7 @@ export default function validateArgs(): string[] {
    */
   const emptyBrowserArg = isEmptyArg(browserArgs);
   if (emptyBrowserArg) {
-    add(error("Browser option must have a value"));
+    add(error(`${chalk.italic("--open")} option must have a value`));
   }
 
   /**
@@ -68,7 +69,7 @@ export default function validateArgs(): string[] {
     );
 
     if (isEmptyArg(profileArgs)) {
-      add(error("Profile option must have a value"));
+      add(error(`${chalk.italic("--profile")} option must have a value`));
     }
 
     let flags: { [browserName: string]: string[] } = {};

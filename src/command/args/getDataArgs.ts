@@ -60,7 +60,7 @@ const getDataArgs = {
    * If true, removes the empty value from the list
    */
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
-    const { browser } = args;
+    const { open: browser } = args;
     const optionArg = browser as typeof browser | string[];
     const customArgs = getCustomArgs(browsersData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);

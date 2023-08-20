@@ -5,10 +5,10 @@ import { configFlags } from "../../data";
 
 export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
-    .option(Option.Browser, {
+    .option(Option.Open, {
       type: "string",
       description: "Browser to open",
-      alias: alias.browser,
+      alias: alias.open,
       requireArg: true,
     })
     .option(Option.Profile, {

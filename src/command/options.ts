@@ -4,7 +4,7 @@ export const yargsOptions = ["_", "$0"];
 
 // WEB SEARCH OPTIONS
 export enum Option {
-  Browser = "browser",
+  Open = "open",
   Profile = "profile",
   Search = "search",
   Package = "package",
@@ -15,7 +15,7 @@ export enum Option {
 }
 
 export const alias: Alias<Option> = {
-  browser: ["b"],
+  open: ["o"],
   profile: ["p"],
   search: ["s"],
   package: ["pkg", "library", "lib"],
