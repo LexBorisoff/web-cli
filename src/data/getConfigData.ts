@@ -1,24 +1,24 @@
-import {
-  getSettings,
-  configFileExists,
-  readConfigFile,
-} from "../helpers/config";
-import { ConfigData } from "../types/config.types";
+import { ConfigOption } from "../command/options";
+import { readConfigFile } from "../helpers/config";
+import { BrowsersData, EnginesData } from "../types/config.types";
 
-const configCache = getSettings()?.config;
+interface Data {
+  [ConfigOption.Browsers]: BrowsersData;
+  [ConfigOption.Engines]: EnginesData;
+}
 
-export default function getConfigData(): ConfigData {
-  if (configCache != null) {
-    return configCache;
-  }
+type ValidOption = ConfigOption.Browsers | ConfigOption.Engines;
 
-  const data = readConfigFile();
-  if (!configFileExists() || data == null || data === "") {
+export default function getConfigData<Option extends ValidOption>(
+  configOption: Option
+): Data[Option] {
+  const config = readConfigFile(configOption);
+  if (config == null || config === "") {
     return {};
   }
 
   try {
-    return JSON.parse(data);
+    return JSON.parse(config);
   } catch {
     return {};
   }
