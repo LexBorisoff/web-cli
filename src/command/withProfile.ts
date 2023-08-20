@@ -6,6 +6,6 @@ const defaults = getDefaultsData();
 export default function withProfile(browserName: string): boolean {
   return (
     getDataArgs.profile(browserName).length > 0 ||
-    defaults.profile?.[browserName] != null
+    defaults.profile(browserName) != null
   );
 }

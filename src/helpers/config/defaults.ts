@@ -3,7 +3,7 @@ import { EnginesData } from "../../types/config.types";
 export const defaultEngine = "google";
 
 export const defaultEngineConfig: EnginesData = {
-  google: {
+  [defaultEngine]: {
     name: "Google",
     url: "google.com",
     query: "search?q=",

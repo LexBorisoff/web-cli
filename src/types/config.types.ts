@@ -1,15 +1,15 @@
-import { WithAlias } from "./utility.types";
+import { WithAlias, WithDefault } from "./utility.types";
 
 // DEFAULTS
 export interface DefaultsData {
-  browser?: string | null;
-  profile?: { [key: string]: string } | null;
-  engine?: string | null;
-  delimiter?: string | null;
+  delimiter: string;
+  engine: string;
+  browser: string | null;
+  profile: (browserName: string) => string | null;
 }
 
 // BROWSERS
-export interface Profile extends WithAlias {
+export interface Profile extends WithAlias, WithDefault {
   directory: string; // --profile-directory="Folder Name"
 }
 
@@ -17,7 +17,7 @@ export interface ProfilesData {
   [profile: string]: Profile;
 }
 
-export interface Browser extends WithAlias {
+export interface Browser extends WithAlias, WithDefault {
   profiles?: ProfilesData;
 }
 
@@ -26,7 +26,7 @@ export interface BrowsersData {
 }
 
 // ENGINES
-export interface Engine extends WithAlias {
+export interface Engine extends WithAlias, WithDefault {
   name: string;
   url: string;
   query?: string;
@@ -36,17 +36,4 @@ export interface Engine extends WithAlias {
 
 export interface EnginesData {
   [engine: string]: Engine;
-}
-
-// CONFIG
-export interface ConfigData {
-  defaults?: DefaultsData;
-  browsers?: BrowsersData;
-  engines?: EnginesData;
-}
-
-export interface ConfigSettings {
-  linkedPath?: string; // path to config file
-  cachedPath?: string; // path to cached file
-  config?: ConfigData; // config cache
 }

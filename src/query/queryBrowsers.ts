@@ -27,7 +27,7 @@ function getProfiles(browserName: string): string[] {
 
   if (withProfile(browserName)) {
     const profileArgs = getDataArgs.profile(browserName);
-    const defaultProfile = getDefaultsData().profile?.[browserName];
+    const defaultProfile = defaults.profile(browserName);
 
     if (profileArgs.length > 0) {
       profileArgs.forEach((profileNameOrAlias) => {

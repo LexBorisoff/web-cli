@@ -1,18 +1,49 @@
-import getConfigData from "./getConfigData";
-import { defaultEngine, defaultDelimiter } from "../helpers/config";
+import getBrowsersData from "./getBrowsersData";
+import getProfilesData from "./getProfilesData";
+import getEnginesData from "./getEnginesData";
+import {
+  defaultEngine,
+  defaultDelimiter as delimiter,
+} from "../helpers/config";
 import { DefaultsData } from "../types/config.types";
+import { WithDefault } from "../types/utility.types";
 
-interface RequiredDefaults {
-  engine: string;
-  delimiter: string;
+function getDefault<Data extends WithDefault>(data: Data) {
+  const withDefault = Object.entries(data).find(([, item]) => !!item.default);
+
+  if (withDefault != null) {
+    const [itemName] = withDefault;
+    return itemName;
+  }
+
+  const first = Object.keys(data).at(0);
+  if (first != null) {
+    return first;
+  }
+
+  return null;
 }
 
-export default function getDefaultsData(): DefaultsData & RequiredDefaults {
-  const config = getConfigData();
-  const defaults: DefaultsData & RequiredDefaults = {
-    ...(config.defaults ?? {}),
-    engine: config.defaults?.engine ?? defaultEngine,
-    delimiter: config.defaults?.delimiter ?? defaultDelimiter,
+function getDefaultEngine(): DefaultsData["engine"] {
+  const engines = getEnginesData();
+  return getDefault(engines) ?? defaultEngine;
+}
+
+function getDefaultBrowser(): DefaultsData["browser"] {
+  const browsers = getBrowsersData();
+  return getDefault(browsers);
+}
+
+const getDefaultProfile: DefaultsData["profile"] = (browserName) => {
+  const profiles = getProfilesData(browserName);
+  return getDefault(profiles);
+};
+
+export default function getDefaultsData(): DefaultsData {
+  return {
+    delimiter,
+    engine: getDefaultEngine(),
+    browser: getDefaultBrowser(),
+    profile: getDefaultProfile,
   };
-  return defaults;
 }
