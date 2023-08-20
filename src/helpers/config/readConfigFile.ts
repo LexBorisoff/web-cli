@@ -1,18 +1,17 @@
 import * as fs from "fs";
-import getSettings from "./getSettings";
-import configFileExists from "./configFileExists";
+import { getConfigFilePath } from "./getConfigPath";
+import { ConfigOption } from "../../command/options";
 
-const { linkedPath } = getSettings() ?? {};
-
-export default function readConfigFile(): string | null {
-  // checking if file exists because linkedPath might be outdated
-  // and point to a file that was moved, renamed, or deleted
-  if (linkedPath == null || !configFileExists()) {
+export default function readConfigFile(
+  configOption: ConfigOption.Browsers | ConfigOption.Engines
+): string | null {
+  const filePath = getConfigFilePath(configOption);
+  if (!fs.existsSync(filePath)) {
     return null;
   }
 
   try {
-    return fs.readFileSync(linkedPath, { encoding: "utf-8" });
+    return fs.readFileSync(filePath, { encoding: "utf-8" });
   } catch {
     return null;
   }
