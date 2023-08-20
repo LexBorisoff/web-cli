@@ -1,5 +1,7 @@
+import chalk from "chalk";
 import getEngine from "./getEngine";
 import { urlPattern } from "../patterns";
+import { emptyLine, printWarning, printError } from "../print";
 import { withEngine, withSearchQuery, withURL } from "../../command";
 import { getQueryArgs, getDataArgs } from "../../command/args";
 import { getDefaultsData } from "../../data";
@@ -9,7 +11,10 @@ const args = getQueryArgs();
 const urlArgs = args._.map((arg) =>
   typeof arg === "string" ? arg : `${arg}`
 ).filter((arg) => urlPattern.test(arg));
+
 const defaults = getDefaultsData();
+const noQueryEngines: string[] = [];
+
 const trailingSlash = /\/$/;
 const leadingSlash = /^\//;
 
@@ -33,15 +38,21 @@ function getEngineBaseURL(engine: Engine): string {
  * Returns the provided engine's URL that can be used
  * to query it by adding the query string
  */
-function getEngineQueryURL(engine: Engine): string {
-  let engineQuery = "";
+function getEngineQueryURL(engine: Engine, searchQuery: string): string {
+  const baseURL = getEngineBaseURL(engine);
+
   if (args.package && engine.package != null) {
-    engineQuery = removeLeadingSlash(engine.package);
-  } else if (engine.query != null) {
-    engineQuery = removeLeadingSlash(engine.query);
+    const engineQuery = removeLeadingSlash(engine.package);
+    return baseURL + engineQuery + searchQuery;
   }
 
-  return getEngineBaseURL(engine) + engineQuery;
+  if (engine.query != null) {
+    const engineQuery = removeLeadingSlash(engine.query);
+    return baseURL + engineQuery + searchQuery;
+  }
+
+  noQueryEngines.push(engine.name);
+  return baseURL;
 }
 
 function getEngineRoute(engine: Engine, route: string): string {
@@ -87,7 +98,7 @@ function constructURLs(engineNameOrAlias?: string): string[] {
 
     if (args.split) {
       args._.forEach((value) => {
-        const engineQuery = getEngineQueryURL(engine) + value;
+        const engineQuery = getEngineQueryURL(engine, value.toString());
         urls.push(getFullURL(engineQuery));
       });
       return;
@@ -95,7 +106,7 @@ function constructURLs(engineNameOrAlias?: string): string[] {
 
     const delimiter = engine.delimiter ?? defaults.delimiter;
     const searchQuery = args._.join(delimiter);
-    const engineQuery = getEngineQueryURL(engine) + searchQuery;
+    const engineQuery = getEngineQueryURL(engine, searchQuery);
     urls.push(getFullURL(engineQuery));
   }
 
@@ -119,9 +130,9 @@ function constructURLs(engineNameOrAlias?: string): string[] {
     else {
       const [, engine] = getEngine(engineNameOrAlias) ?? [];
       if (engine != null) {
-        const engineQuery = getEngineQueryURL(engine);
         urlArgs.forEach((website) => {
-          urls.push(getFullURL(engineQuery + website));
+          const engineQuery = getEngineQueryURL(engine, website);
+          urls.push(getFullURL(engineQuery));
         });
       }
     }
@@ -152,6 +163,16 @@ export default function getURLs(): string[] {
     } else {
       urls.push(...constructURLs());
     }
+  }
+
+  if (noQueryEngines.length > 0) {
+    printWarning(
+      `Engines with no ${chalk.italic.bold("query")} or ${chalk.italic.bold(
+        "package"
+      )} options:`
+    );
+    printError(noQueryEngines.join(", "));
+    emptyLine();
   }
 
   return urls;
