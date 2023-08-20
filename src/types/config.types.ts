@@ -26,11 +26,16 @@ export interface BrowsersData {
 }
 
 // ENGINES
+interface Routes {
+  [route: string]: string;
+}
+
 export interface Engine extends WithAlias, WithDefault {
   name: string;
   url: string;
   query?: string;
   package?: string;
+  routes?: Routes;
   delimiter?: string;
 }
 

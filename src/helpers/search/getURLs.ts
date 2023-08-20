@@ -10,26 +10,30 @@ const urlArgs = args._.map((arg) =>
   typeof arg === "string" ? arg : `${arg}`
 ).filter((arg) => urlPattern.test(arg));
 const defaults = getDefaultsData();
-const endsWithSlash = /\/$/;
-const startsWithSlash = /^\//;
+const trailingSlash = /\/$/;
+const leadingSlash = /^\//;
 
 function removeLeadingSlash(str?: string): string {
   if (str == null) {
     return "";
   }
 
-  return startsWithSlash.test(str) ? str.substring(1) : str;
+  return leadingSlash.test(str) ? str.substring(1) : str;
+}
+
+/**
+ * Returns the provided engine's base URL
+ * with a trailing forward slash
+ */
+function getEngineBaseURL(engine: Engine): string {
+  return trailingSlash.test(engine.url) ? engine.url : `${engine.url}/`;
 }
 
 /**
  * Returns the provided engine's URL that can be used
  * to query it by adding the query string
  */
-function getEngineURL(engine: Engine): string {
-  const engineUrl: string = endsWithSlash.test(engine.url)
-    ? engine.url
-    : `${engine.url}/`;
-
+function getEngineQueryURL(engine: Engine): string {
   let engineQuery = "";
   if (args.package && engine.package != null) {
     engineQuery = removeLeadingSlash(engine.package);
@@ -37,7 +41,20 @@ function getEngineURL(engine: Engine): string {
     engineQuery = removeLeadingSlash(engine.query);
   }
 
-  return engineUrl + engineQuery;
+  return getEngineBaseURL(engine) + engineQuery;
+}
+
+function getEngineRoute(engine: Engine, route: string): string {
+  const found = Object.entries(engine.routes ?? {}).find(
+    ([key]) => key === route
+  );
+
+  if (found != null) {
+    const [, route] = found;
+    return getEngineBaseURL(engine) + route;
+  }
+
+  return getEngineBaseURL(engine) + route;
 }
 
 /**
@@ -48,30 +65,38 @@ function getEngineURL(engine: Engine): string {
  */
 function constructURLs(engineNameOrAlias?: string): string[] {
   const urls: string[] = [];
+  const [, engine] = getEngine(engineNameOrAlias ?? defaults.engine) ?? [];
 
-  function getFullUrl(url: string): string {
+  function getFullURL(url: string): string {
     const protocol = `http${args.http ? "" : "s"}://`;
     return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
   }
 
   function singleSearchQuery(): void {
-    const [, engine] = getEngine(engineNameOrAlias ?? defaults.engine) ?? [];
     if (engine == null) {
+      return;
+    }
+
+    if (args.route) {
+      args._.forEach((route) => {
+        const routeURL = getEngineRoute(engine, route.toString());
+        urls.push(getFullURL(routeURL));
+      });
       return;
     }
 
     if (args.split) {
       args._.forEach((value) => {
-        const engineQuery = getEngineURL(engine) + value;
-        urls.push(getFullUrl(engineQuery));
+        const engineQuery = getEngineQueryURL(engine) + value;
+        urls.push(getFullURL(engineQuery));
       });
       return;
     }
 
     const delimiter = engine.delimiter ?? defaults.delimiter;
     const searchQuery = args._.join(delimiter);
-    const engineQuery = getEngineURL(engine) + searchQuery;
-    urls.push(getFullUrl(engineQuery));
+    const engineQuery = getEngineQueryURL(engine) + searchQuery;
+    urls.push(getFullURL(engineQuery));
   }
 
   // search query
@@ -87,25 +112,25 @@ function constructURLs(engineNameOrAlias?: string): string[] {
     // full URLs based on the provided URL args
     else if (engineNameOrAlias == null) {
       urlArgs.forEach((website) => {
-        urls.push(getFullUrl(website));
+        urls.push(getFullURL(website));
       });
     }
     // search engine queries with URL args as part of the query string
     else {
       const [, engine] = getEngine(engineNameOrAlias) ?? [];
       if (engine != null) {
-        const engineQuery = getEngineURL(engine);
+        const engineQuery = getEngineQueryURL(engine);
         urlArgs.forEach((website) => {
-          urls.push(getFullUrl(engineQuery + website));
+          urls.push(getFullURL(engineQuery + website));
         });
       }
     }
   }
   // engine only
-  else if (engineNameOrAlias != null) {
+  else if (engineNameOrAlias != null && args.route == null) {
     const [, engine] = getEngine(engineNameOrAlias) ?? [];
     if (engine != null) {
-      urls.push(getFullUrl(engine.url));
+      urls.push(getFullURL(engine.url));
     }
   }
 

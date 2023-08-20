@@ -28,6 +28,11 @@ export default function getQueryArgs() {
       description: "Query packages / libraries (if applicable)",
       alias: alias.package,
     })
+    .option(Option.Route, {
+      type: "boolean",
+      description: "Access a specified route (if applicable)",
+      alias: alias.route,
+    })
     .option(Option.Incognito, {
       type: "boolean",
       description: "Use incognito / private tab",
