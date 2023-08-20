@@ -1,8 +1,9 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as path from "path";
+import { ConfigOption } from "../../command/options";
 
-export default function getConfigPath() {
+export default function getConfigPath(): string {
   const homedir = os.homedir();
   let directory: string | undefined;
   const { platform } = process;
@@ -28,4 +29,11 @@ export default function getConfigPath() {
   }
 
   return path.join(directory, "lexjs", "web");
+}
+
+export function getConfigFilePath(
+  configOption: ConfigOption.Browsers | ConfigOption.Engines
+): string {
+  const configPath = getConfigPath();
+  return path.join(configPath, `${configOption}.json`);
 }

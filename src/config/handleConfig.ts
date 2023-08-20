@@ -23,10 +23,10 @@ function createConfigDirectory(): Promise<boolean> {
 }
 
 function handleConfigFile<Data>(
-  option: ConfigOption.Browsers | ConfigOption.Engines,
+  configOption: ConfigOption.Browsers | ConfigOption.Engines,
   initialData: Data
 ): void {
-  const filePath = path.join(configPath, `${option}.json`);
+  const filePath = path.join(configPath, `${configOption}.json`);
   let fileExists = fs.existsSync(filePath);
 
   if (!fileExists) {
@@ -35,7 +35,7 @@ function handleConfigFile<Data>(
       fs.writeFileSync(filePath, JSON.stringify(initialData, null, space));
       fileExists = true;
     } catch (error) {
-      printError(`Failed to create ${option} config.`);
+      printError(`Failed to create ${configOption} config.`);
       emptyLine();
     }
   }
