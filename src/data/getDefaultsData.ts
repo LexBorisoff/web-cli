@@ -6,10 +6,12 @@ import {
   defaultDelimiter as delimiter,
 } from "../helpers/config";
 import { DefaultsData } from "../types/config.types";
-import { WithDefault } from "../types/utility.types";
+import { IsDefault } from "../types/utility.types";
 
-function getDefault<Data extends WithDefault>(data: Data) {
-  const withDefault = Object.entries(data).find(([, item]) => !!item.default);
+function getDefault<Data extends IsDefault>(data: Data) {
+  const withDefault = Object.entries(data).find(
+    ([, item]: [key: string, item: Data]) => !!item.isDefault
+  );
 
   if (withDefault != null) {
     const [itemName] = withDefault;

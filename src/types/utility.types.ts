@@ -6,8 +6,8 @@ export interface WithAlias {
   alias?: string | string[];
 }
 
-export interface WithDefault {
-  default?: boolean;
+export interface IsDefault {
+  isDefault?: boolean;
 }
 
 export type Severity = "neutral" | "info" | "success" | "warning" | "error";

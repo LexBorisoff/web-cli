@@ -1,4 +1,4 @@
-import { WithAlias, WithDefault } from "./utility.types";
+import { WithAlias, IsDefault } from "./utility.types";
 
 // DEFAULTS
 export interface DefaultsData {
@@ -9,7 +9,7 @@ export interface DefaultsData {
 }
 
 // BROWSERS
-export interface Profile extends WithAlias, WithDefault {
+export interface Profile extends WithAlias, IsDefault {
   directory: string; // --profile-directory="Folder Name"
 }
 
@@ -17,7 +17,7 @@ export interface ProfilesData {
   [profile: string]: Profile;
 }
 
-export interface Browser extends WithAlias, WithDefault {
+export interface Browser extends WithAlias, IsDefault {
   profiles?: ProfilesData;
 }
 
@@ -30,7 +30,7 @@ interface Routes {
   [route: string]: string;
 }
 
-export interface Engine extends WithAlias, WithDefault {
+export interface Engine extends WithAlias, IsDefault {
   name: string;
   url: string;
   query?: string;
