@@ -1,6 +1,6 @@
 {
   "name": "websearch-cli",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "CLI for making web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
