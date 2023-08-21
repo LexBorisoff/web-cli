@@ -20,27 +20,27 @@ Type a search query in your terminal using the `web` command followed by your ac
 $ web my search query from a terminal
 ```
 
-The above will perform a search query using the default browser of your OS and the default search engine - Google, which is hard-coded in the application. You can change these defaults, as well as add new browsers and engines in the application's config files (see [*Browsers Configuration*](#browsers-config) and [*Engines Configuration*](#engines-config) for details).
+The above will perform a search query *"my search query from a terminal"* using the default browser of your OS and the default search engine - Google, which is hard-coded in the application. You can change these defaults, as well as add new browsers and engines in the application's config files (see [*Browsers Configuration*](#browsers-config) and [*Engines Configuration*](#engines-config) for details).
 
 ## Query Options <a name="query-options"></a>
 
 You can use the following options to control how the search query is handled:
 
-| Option | Value Required | Description | Requires Config |
-|--|--|--|--|
-|[`open`](#option-open)|<div align="center">✔️</div>|*Browser to open*|<div align="center">❌</div>
-|[`profile`](#option-profile)|<div align="center">✔️</div>|*Browser profile to use*|<div align="center">*browsers*</div>
-|[`search`](#option-search)|<div align="center">✔️</div>|*Search the provided engine / website*|<div align="center">*engines*</div>
-|[`query`](#option-query)|<div align="center">❌</div>|*Query without visiting the provided URL(s)*|<div align="center">❌</div>
-|[`incognito`](#option-incognito)|<div align="center">❌</div>|*Use incognito / private mode*|<div align="center">❌</div>
-|[`route`](#option-route)|<div align="center">❌</div>|*Access a specified route*|<div align="center">*engines*</div>
-|[`package`](#option-package)|<div align="center">❌</div>|*Query packages / libraries*|<div align="center">*engines*</div>
-|[`http`](#option-http)|<div align="center">❌</div>|*Use the HTTP protocol*|<div align="center">❌</div>
-|[`split`](#option-split)|<div align="center">❌</div>|*Split each value into a separate search query*|<div align="center">❌</div>
+| Option | Alias | Description | Requires a Value | Requires Config |
+|--|--|--|--|--|
+|[`open`](#option-open)|<div align="center">`o`</div>|*Browser app to open*|<div align="center">✔️</div>|<div align="center">❌</div>|
+|[`profile`](#option-profile)|<div align="center">`p`</div>|*Browser profile to use*|<div align="center">✔️</div>|<div align="center">*browsers*</div>|
+|[`search`](#option-search)|<div align="center">`s`</div>|*Search the provided engine / website*|<div align="center">✔️</div>|<div align="center">*engines*</div>|
+|[`package`](#option-package)|<div align="center">`pkg` `library` `lib`</div>|*Access engine packages / libraries directly*|<div align="center">❌</div>|<div align="center">*engines*</div>|
+|[`route`](#option-route)|<div align="center">`r`</div>|*Access engine routes directly*|<div align="center">❌</div>|<div align="center">❌</div>|
+|[`private`](#option-private)|<div align="center">`incognito` `i`</div>|*Use private / incognito mode*|<div align="center">❌</div>|<div align="center">❌</div>|
+|[`query`](#option-query)|<div align="center">`q`</div>|*Query provided URLs as search values*|<div align="center">❌</div>|<div align="center">❌</div>|
+|[`http`](#option-http)||*Use the HTTP protocol*||<div align="center">❌</div>|<div align="center">❌</div>
+|[`split`](#option-split)||*Split each value into a separate search query*|<div align="center">❌</div>|<div align="center">❌</div>
 
 Options that do not require a value are called ***flags***.
 
-> ***Note:***
+> ***Note:***  
 > Some options only work when browsers or engines configuration is set up. Please refer to each option as well [*Browsers Configuration*](#browsers-config) and [*Engines Configuration*](#engines-config) for more information.
 
 ---
@@ -54,7 +54,7 @@ To use an option in a query, prefix it with `--`
 --profile
 --search
 --query
---incognito
+--private
 --route
 --package
 --http
@@ -78,7 +78,7 @@ Additionally, short aliases can be combined together with a single `-`, as long 
 -qi
 ```
 
-> ***Use Caution!***
+> ***Use Caution!***  
 > Since some options require a value, combining their short aliases can result in invalid queries. It is recommended to combine only the flag options.
 
 ### Options placement
