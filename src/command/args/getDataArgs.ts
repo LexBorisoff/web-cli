@@ -3,7 +3,7 @@ import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
-import orArray from "../../helpers/orArray";
+import { orArray } from "../../command/args/utils";
 
 const args = getQueryArgs();
 const browsersData = getBrowsersData();
@@ -13,13 +13,18 @@ interface Data<T> {
   [key: string]: T;
 }
 
-function getUniqueList(
-  optionArg: string | string[] | undefined,
-  customArgs: string[],
+/**
+ * Returns a unique list of non-nullable args
+ */
+function getUniqueList<Arg>(
+  optionArg: Arg | NonNullable<Arg>[] | undefined,
+  customArgs: Arg[],
   removeEmptyArg: boolean
-) {
+): NonNullable<Arg>[] {
   const list = combineArgLists(optionArg, customArgs);
-  const uniqueList = [...new Set(list)];
+  const uniqueList = [...new Set(list)].filter(
+    (arg): arg is NonNullable<Arg> => arg != null
+  );
   return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
 }
 
