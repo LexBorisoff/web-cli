@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import getDataArgs from "./getDataArgs";
 import getInvalidArgs from "./getInvalidArgs";
-import isEmptyArg from "./isEmptyArg";
+import { isEmptyArg } from "./utils";
 import { getDefaultsData, engineFlags, browserProfileFlags } from "../../data";
 import { getBrowserName } from "../../helpers/browser";
 import { severity } from "../../helpers/print";
