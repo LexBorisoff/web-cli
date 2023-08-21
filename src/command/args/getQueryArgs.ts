@@ -7,13 +7,13 @@ export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
     .option(Option.Open, {
       type: "string",
-      description: "Browser to open",
+      description: "Browser app to open",
       alias: alias.open,
       requireArg: true,
     })
     .option(Option.Profile, {
       type: "string",
-      description: "Browser profile to use (if applicable)",
+      description: "Browser profile to use",
       alias: alias.profile,
       requireArg: true,
     })
@@ -25,26 +25,26 @@ export default function getQueryArgs() {
     })
     .option(Option.Package, {
       type: "boolean",
-      description: "Query packages / libraries (if applicable)",
+      description: "Access packages / libraries instead of querying",
       alias: alias.package,
     })
     .option(Option.Route, {
       type: "boolean",
-      description: "Access a specified route (if applicable)",
+      description: "Access engine routes directly instead of querying",
       alias: alias.route,
     })
-    .option(Option.Incognito, {
+    .option(Option.Private, {
       type: "boolean",
-      description: "Use incognito / private mode",
-      alias: alias.incognito,
+      description: "Use private / incognito mode",
+      alias: alias.private,
     })
     .option(Option.Http, {
       type: "boolean",
-      description: `Use the HTTP protocol (not secure)`,
+      description: `Use the HTTP protocol`,
     })
     .option(Option.Query, {
       type: "boolean",
-      description: `Query without visiting the provided URL(s)`,
+      description: `Query provided URLs as search values`,
       alias: alias.query,
     })
     .option(Option.Split, {
