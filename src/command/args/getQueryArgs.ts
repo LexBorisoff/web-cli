@@ -33,10 +33,10 @@ export default function getQueryArgs() {
       description: "Access a specified route (if applicable)",
       alias: alias.route,
     })
-    .option(Option.Incognito, {
+    .option(Option.Private, {
       type: "boolean",
-      description: "Use incognito / private tab",
-      alias: alias.incognito,
+      description: "Use private / incognito mode",
+      alias: alias.private,
     })
     .option(Option.Http, {
       type: "boolean",

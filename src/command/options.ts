@@ -9,7 +9,7 @@ export enum Option {
   Search = "search",
   Package = "package",
   Route = "route",
-  Incognito = "incognito",
+  Private = "private",
   Http = "http",
   Query = "query",
   Split = "split",
@@ -21,7 +21,7 @@ export const alias: Alias<Option> = {
   search: ["s"],
   package: ["pkg", "library", "lib"],
   route: ["r"],
-  incognito: ["i", "private"],
+  private: ["i"],
   query: ["q"],
 };
 

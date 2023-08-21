@@ -5,7 +5,7 @@ import { getURLs } from "../helpers/search";
 import { print, severity, emptyLine } from "../helpers/print";
 import { capitalize } from "../helpers/transformText";
 
-const { incognito } = getQueryArgs();
+const { private: incognito } = getQueryArgs();
 const { info, success } = severity;
 
 export default function query(): void {
