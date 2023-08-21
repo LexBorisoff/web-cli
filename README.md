@@ -1,6 +1,6 @@
 <h1 align="center"> Web CLI</h1>
 
-Configurable CLI application for making web searches from a terminal. Allows to use different browsers, browser profiles, search engines and websites via the `web` command.
+Configurable CLI for making web searches from a terminal. Allows to use different browsers, browser profiles, search engines and websites via the `web` command.
 
 ## Installation <a name="installation"></a>
 
@@ -10,21 +10,21 @@ Install the package globally:
 $ npm i -g @lexjs/web
 ```
 
-After the successful installation, you will get access to the `web` command which is ready to use without any initial configuration.
+After installing, the `web` command becomes globally available and is ready to use without any initial configuration.
 
 ## Basic Usage <a name="usage"></a>
 
-Type a search query in your terminal using the `web` command followed by your actual query:
+Type a search query in your terminal using the `web` command:
 
 ```
 $ web my search query from a terminal
 ```
 
-The above will perform a search query *"my search query from a terminal"* using the default browser of your OS and the default search engine - Google, which is hard-coded in the application. You can change these defaults, as well as add new browsers and engines in the application's config files (see [*Browsers Configuration*](#browsers-config) and [*Engines Configuration*](#engines-config) for details).
+The above will perform a search query *"my search query from a terminal"* using the default browser of your OS and Google as the default search engine. You can change these defaults, as well as add new browsers and engines in the application's config files (see [*Browsers Configuration*](#browsers-config) and [*Engines Configuration*](#engines-config) for details).
 
 ## Query Options <a name="query-options"></a>
 
-You can use the following options to control how the search query is handled:
+You can use the following options to control how the search query is performed:
 
 | Option | Alias | Description | Requires a Value | Requires Config |
 |--|--|--|--|--|
@@ -35,7 +35,7 @@ You can use the following options to control how the search query is handled:
 |[`route`](#option-route)|<div align="center">`r`</div>|*Access engine routes directly*|<div align="center">❌</div>|<div align="center">❌</div>|
 |[`private`](#option-private)|<div align="center">`incognito` `i`</div>|*Use private / incognito mode*|<div align="center">❌</div>|<div align="center">❌</div>|
 |[`query`](#option-query)|<div align="center">`q`</div>|*Query provided URLs as search values*|<div align="center">❌</div>|<div align="center">❌</div>|
-|[`http`](#option-http)||*Use the HTTP protocol*||<div align="center">❌</div>|<div align="center">❌</div>
+|[`http`](#option-http)||*Use the HTTP protocol*|<div align="center">❌</div>|<div align="center">❌</div>
 |[`split`](#option-split)||*Split each value into a separate search query*|<div align="center">❌</div>|<div align="center">❌</div>
 
 Options that do not require a value are called ***flags***.
@@ -99,7 +99,7 @@ Search queries are constructed from values that do not belong to non-flag option
 
 > *Attempts to open the browser provided as the option's value.*
 
-✔️ Requires a value.
+✔️ Requires a value.  
 ❌ Does not require configuration files.
 
 To open a specific browser, use the option anywhere in the command followed by the browser name:
@@ -118,7 +118,7 @@ The above examples will attempt to open Firefox with the search query `my search
 
 > *Attempts to open the browser profile provided as the option's value.*
 
-✔️ Requires a value.
+✔️ Requires a value.  
 ✔️ Requires browsers configuration.
 
 ## Configuration <a name="configuration"></a>
