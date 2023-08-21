@@ -35,16 +35,16 @@ export default function getQueryArgs() {
     })
     .option(Option.Incognito, {
       type: "boolean",
-      description: "Use incognito / private tab",
+      description: "Use incognito / private mode",
       alias: alias.incognito,
     })
     .option(Option.Http, {
       type: "boolean",
-      description: `Use the "http" protocol (not secure)`,
+      description: `Use the HTTP protocol (not secure)`,
     })
     .option(Option.Query, {
       type: "boolean",
-      description: `Query only without visiting the provided URL(s)`,
+      description: `Query without visiting the provided URL(s)`,
       alias: alias.query,
     })
     .option(Option.Split, {
