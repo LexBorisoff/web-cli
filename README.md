@@ -35,7 +35,7 @@ You can use the following options to control how the search query is performed:
 |[`route`](#option-route)|<div align="center">`r`</div>|*Access engine routes directly*|<div align="center">❌</div>|<div align="center">❌</div>|
 |[`private`](#option-private)|<div align="center">`incognito` `i`</div>|*Use private / incognito mode*|<div align="center">❌</div>|<div align="center">❌</div>|
 |[`query`](#option-query)|<div align="center">`q`</div>|*Query provided URLs as search values*|<div align="center">❌</div>|<div align="center">❌</div>|
-|[`http`](#option-http)||*Use the HTTP protocol*|<div align="center">❌</div>|<div align="center">❌</div>
+|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|<div align="center">❌</div>|<div align="center">❌</div>
 |[`split`](#option-split)||*Split each value into a separate search query*|<div align="center">❌</div>|<div align="center">❌</div>
 
 Options that do not require a value are called ***flags***.

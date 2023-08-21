@@ -40,7 +40,7 @@ export default function getQueryArgs() {
     })
     .option(Option.Http, {
       type: "boolean",
-      description: `Use the HTTP protocol`,
+      description: `Use the HTTP (non-secure) protocol`,
     })
     .option(Option.Query, {
       type: "boolean",
