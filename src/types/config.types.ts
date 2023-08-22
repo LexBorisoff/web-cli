@@ -34,7 +34,6 @@ export interface Engine extends WithAlias, IsDefault {
   name: string;
   url: string;
   query?: string;
-  package?: string;
   routes?: Routes;
   delimiter?: string;
 }
