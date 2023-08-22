@@ -24,7 +24,7 @@ export default function getQueryArgs() {
       requireArg: true,
     })
     .option(Option.Route, {
-      type: "boolean",
+      type: "string",
       description: "Query engine routes",
       alias: alias.route,
     })
