@@ -23,14 +23,9 @@ export default function getQueryArgs() {
       alias: alias.search,
       requireArg: true,
     })
-    .option(Option.Package, {
-      type: "boolean",
-      description: "Access packages / libraries instead of querying",
-      alias: alias.package,
-    })
     .option(Option.Route, {
       type: "boolean",
-      description: "Access engine routes directly instead of querying",
+      description: "Query engine routes",
       alias: alias.route,
     })
     .option(Option.Private, {

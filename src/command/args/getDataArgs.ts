@@ -3,6 +3,7 @@ import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
+import { orArray } from "../../command/args/utils";
 
 const args = getQueryArgs();
 const browsersData = getBrowsersData();
@@ -12,13 +13,18 @@ interface Data<T> {
   [key: string]: T;
 }
 
-function getUniqueList(
-  optionArg: string | string[] | undefined,
-  customArgs: string[],
+/**
+ * Returns a unique list of non-nullable args
+ */
+function getUniqueList<Arg>(
+  optionArg: Arg | NonNullable<Arg>[] | undefined,
+  customArgs: Arg[],
   removeEmptyArg: boolean
-) {
+): NonNullable<Arg>[] {
   const list = combineArgLists(optionArg, customArgs);
-  const uniqueList = [...new Set(list)];
+  const uniqueList = [...new Set(list)].filter(
+    (arg): arg is NonNullable<Arg> => arg != null
+  );
   return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
 }
 
@@ -48,8 +54,7 @@ const getDataArgs = {
    * If true, removes the empty value from the list
    */
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
-    const { search } = args;
-    const optionArg = search as typeof search | string[];
+    const optionArg = orArray(args.search);
     const customArgs = getCustomArgs(enginesData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
@@ -60,8 +65,7 @@ const getDataArgs = {
    * If true, removes the empty value from the list
    */
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
-    const { open: browser } = args;
-    const optionArg = browser as typeof browser | string[];
+    const optionArg = orArray(args.open);
     const customArgs = getCustomArgs(browsersData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
@@ -79,8 +83,7 @@ const getDataArgs = {
     browserName?: string | null,
     removeEmptyArg = true
   ): string[] {
-    const { profile } = args;
-    const optionArg = profile as typeof profile | string[];
+    const optionArg = orArray(args.profile);
 
     if (browserName == null) {
       const list: string[] = [];

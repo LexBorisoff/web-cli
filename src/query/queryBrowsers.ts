@@ -1,6 +1,6 @@
 import open from "open";
 import openBrowser from "./openBrowser";
-import { withProfile } from "../command";
+import { withProfile } from "../command/with";
 import { getDataArgs } from "../command/args";
 import { getDefaultsData } from "../data";
 import { getBrowserName, getProfile } from "../helpers/browser";
