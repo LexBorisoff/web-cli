@@ -1,16 +1,22 @@
 import chalk from "chalk";
 import getDataArgs from "./getDataArgs";
 import getInvalidArgs from "./getInvalidArgs";
-import { isEmptyArg } from "./utils";
+import { orArray } from "./utils";
 import { getDefaultsData, engineFlags, browserProfileFlags } from "../../data";
 import { getBrowserName } from "../../helpers/browser";
 import { severity } from "../../helpers/print";
+import getQueryArgs from "./getQueryArgs";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();
+const args = getQueryArgs();
 const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
 const browserArgs = getDataArgs.browser(false);
+
+function isEmptyArg(args: string[]): boolean {
+  return args.length === 1 && args[0] === "";
+}
 
 /**
  * Returns an array of error messages for invalid args
@@ -39,6 +45,21 @@ export default function validateArgs(): string[] {
 
   if (invalidEngines.length > 0) {
     add(error(`Invalid search engines: ${warning(invalidEngines.join(" "))}`));
+  }
+
+  const route = orArray(args.route);
+  if (route != null) {
+    const emptyList = Array.isArray(route) && route.every((arg) => arg === "");
+    const emptyArg = !Array.isArray(route) && route === "";
+    if (emptyList || emptyArg) {
+      add(error(`${chalk.italic("--route")} option must have a value`));
+    }
+
+    if (engineArgs.length === 0) {
+      add(
+        error(`${chalk.italic("--route")} option must be used with an engine`)
+      );
+    }
   }
 
   /**
