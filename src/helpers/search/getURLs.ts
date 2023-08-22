@@ -213,11 +213,7 @@ export default function getURLs(): string[] {
   }
 
   if (noQueryEngines.length > 0) {
-    printWarning(
-      `Engines with no ${chalk.italic.bold("query")} or ${chalk.italic.bold(
-        "package"
-      )} options:`
-    );
+    printWarning(`Engines with no ${chalk.italic.bold("query")} options:`);
     printError(noQueryEngines.join(", "));
     emptyLine();
   }
