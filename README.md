@@ -73,7 +73,7 @@ To use an option in a query, prefix it by a double dash (`--`):
 $ web --example
 ```
 
-To use an option's short alias, prefix it by a single dash (`-`):
+To use an option's single-letter alias, prefix it by a single dash (`-`):
 
 ```
 $ web -a
@@ -81,7 +81,7 @@ $ web -a
 
 If a value follows an option and that option:
 
-- **_requires a value_**, then the value is "attached" to it:
+- **_requires a value_**, then the value is "assigned" to it:
 
 ```
 $ web --open chrome nodejs docs
@@ -89,13 +89,16 @@ $ web --open chrome nodejs docs
 
 > Here, "chrome" is the value of `open`, while "nodejs docs" are used to build a search query string.
 
-- **_is a flag_**, then the value becomes part of the search query string and nothing is attached to the flag itself:
+- **_is a flag_**, then the value becomes part of the search query string and nothing is assigned to the flag itself:
 
 ```
 $ web --private typescript docs
 ```
 
 > The value "typescript" is used for the search query string along with "docs".
+
+> **_Note:_**  
+> Technically, you _can_ assign values to flags. These values are `true` and `false` because, internally, flags are `boolean`s. Using a flag in the command automatically sets its value to `true`. Therefore, make sure to not accidentally place one of them after a flag option if you do not intend to set its value.
 
 &nbsp;
 **_Combining Short Aliases_**  
