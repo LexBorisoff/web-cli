@@ -181,7 +181,7 @@ To use a browser alias (long or short) as the option's value, you need to set up
 When you set up browsers and engines configurations, certain keys and values from these configs automatically become *flags*. You can use these custom flags instead of providing values to `open`, `profile`, and `search` options (*as long as they do not conflict with regular option and alias names [listed above](#query-options)*).
 
 For example, let's say we have the following ***browsers config***:
-```javascript
+```js
 {
     "chrome": {
         "alias": "c",
