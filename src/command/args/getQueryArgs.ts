@@ -7,44 +7,36 @@ export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
     .option(Option.Open, {
       type: "string",
-      description: "Browser app to open",
       alias: alias.open,
       requireArg: true,
     })
     .option(Option.Profile, {
       type: "string",
-      description: "Browser profile to use",
       alias: alias.profile,
       requireArg: true,
     })
-    .option(Option.Search, {
+    .option(Option.Query, {
       type: "string",
-      description: "Search the provided engine / website",
-      alias: alias.search,
+      alias: alias.query,
       requireArg: true,
     })
     .option(Option.Route, {
       type: "string",
-      description: "Query engine routes",
       alias: alias.route,
     })
     .option(Option.Private, {
       type: "boolean",
-      description: "Use private / incognito mode",
       alias: alias.private,
     })
-    .option(Option.Http, {
+    .option(Option.Join, {
       type: "boolean",
-      description: `Use the HTTP (non-secure) protocol`,
-    })
-    .option(Option.Query, {
-      type: "boolean",
-      description: `Query provided URLs as search values`,
-      alias: alias.query,
+      alias: alias.join,
     })
     .option(Option.Split, {
       type: "boolean",
-      description: `Split each value into a separate search query`,
+    })
+    .option(Option.Http, {
+      type: "boolean",
     })
     .help(false)
     .boolean(configFlags.filter((flag) => !options.includes(flag)))

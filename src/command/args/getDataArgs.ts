@@ -54,7 +54,7 @@ const getDataArgs = {
    * If true, removes the empty value from the list
    */
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
-    const optionArg = orArray(args.search);
+    const optionArg = orArray(args.query);
     const customArgs = getCustomArgs(enginesData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },

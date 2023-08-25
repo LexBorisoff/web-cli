@@ -36,7 +36,7 @@ export default function validateArgs(): string[] {
 
   /* VALIDATE ENGINE ARGS */
   if (isEmptyArg(engineArgs)) {
-    add(error(`${chalk.italic("--search")} option must have a value`));
+    add(error(`${chalk.italic("--query")} option must have a value`));
   }
 
   const invalidEngines = engineArgs.filter(

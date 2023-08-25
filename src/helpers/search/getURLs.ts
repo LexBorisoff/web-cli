@@ -38,7 +38,7 @@ function getEngineBaseURL(engine: Engine): string {
 
 /**
  * Returns the provided engine's URL that can be used
- * to query it by adding the query string
+ * to query it by adding the search values
  */
 function getEngineQueryURL(engine: Engine, searchQuery: string): string {
   const baseURL = getEngineBaseURL(engine);
@@ -163,8 +163,8 @@ function createURLs(engineNameOrAlias?: string): string[] {
   }
   // URL
   else if (withURL) {
-    // single search query with URL args as part of the query string
-    if (args.query) {
+    // single search query with URL args as part of the search query
+    if (args.join) {
       searchQuery();
     }
     // full URLs based on the provided URL args
@@ -173,7 +173,7 @@ function createURLs(engineNameOrAlias?: string): string[] {
         urls.push(getFullURL(website));
       });
     }
-    // search engine queries with URL args as part of the query string
+    // search engine queries with URL args as part of the search query
     else {
       const [, engine] = getEngine(engineNameOrAlias) ?? [];
       if (engine != null) {

@@ -8,7 +8,7 @@ import {
 import { DefaultsData } from "../types/config.types";
 import { IsDefault } from "../types/utility.types";
 
-function getDefault<Data extends IsDefault>(data: Data) {
+function getDefault<Data extends IsDefault>(data: Data): string | null {
   const withDefault = Object.entries(data).find(
     ([, item]: [key: string, item: Data]) => !!item.isDefault
   );

@@ -6,21 +6,22 @@ export const yargsOptions = ["_", "$0"];
 export enum Option {
   Open = "open",
   Profile = "profile",
-  Search = "search",
+  Query = "query",
   Route = "route",
   Private = "private",
-  Http = "http",
-  Query = "query",
+  Join = "join",
   Split = "split",
+  Http = "http",
 }
 
 export const alias: Alias<Option> = {
   open: ["o"],
   profile: ["p"],
-  search: ["s"],
+  query: ["q"],
   route: ["r"],
   private: ["i"],
-  query: ["q"],
+  join: ["j"],
+  split: ["s"],
 };
 
 /**
