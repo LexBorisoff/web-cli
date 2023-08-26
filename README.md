@@ -1,6 +1,6 @@
 <h1 align="center"> Web CLI</h1>
 
-Configurable CLI for making web searches from a terminal. Allows to use different browsers, browser profiles, search engines and websites via the `web` command.
+Web CLI is a configurable node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
 
 
 ## Installation <a name="installation"></a>
@@ -11,164 +11,190 @@ Install the package globally:
 $ npm i -g @lexjs/web-cli
 ```
 
-After installing, the `web` command becomes globally available and is ready to use without any initial configuration.
+After installing, the `web` command becomes globally available and is ready to use without any initial setup.
 
-## Table of Contents
+<details open>
+  <summary><strong>Table of Contents</strong></summary>
+
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
 	* [Options Usage](#query-options-usage)
-	* [Options Placement](#query-options-placement)
-	* [Options Details](#query-options-details)
-		* [open](#query-option-open)
-		* [profile](#query-option-profile)
-		* [search](#query-option-search)
-		* [route](#query-option-route)
-		* [private](#query-option-private)
-		* [query](#query-option-query)
-		* [http](#query-option-http)
-		* [split](#query-option-split)
+		* [Options and values](#options-and-values)
+		* [Combining Short Aliases](#combining-short-aliases)
+		* [Options Placement](#options-placement)
+	* [Value Options](#value-options)
+		* [browser](#option-browser)
+		* [profile](#option-profile)
+		* [engine](#option-engine)
+		* [route](#option-route)
+	* [Flag options](#flag-options)
+		* [incognito](#option-incognito)
+		* [query](#option-query)
+		* [split](#option-split)
+		* [http](#option-http)
 * [Configuration](#configuration)
 	* [Browsers Configuration](#browsers-configuration)
 	* [Engines Configuration](#engines-configuration)
+* [Parsing Values](#parsing-values)
 * [Custom Options](#custom-options)
+* [Other Options](#other-options)
 
-## Basic Usage <a name="usage"></a>
+</details>
 
-Type a search query in your terminal using the `web` command:
+## Basic Usage <a name="basic-usage"></a>
 
 ```
-$ web my search query from a terminal
+$ web this is an example web query
 ```
 
-The above will perform a search query *"my search query from a terminal"* using the default browser of your OS and Google as the default search engine. You can change these defaults, as well as add new browsers and engines in the application's configuration (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for details).
+The above example creates a web query using the provided **values** as a *search term* and opens it in a new browser tab. Since we are not supplying any [options](#query-options) to the command, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
+
+After installing the CLI, you get a set of initial search engines that you can use, with Google being the default. You can change these defaults, as well as add new browsers and engines, in the app's configuration (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration)).
 
 ## Query Options <a name="query-options"></a>
 
-You can use the following options to control how the search query is performed:
+Use the following options to control how the web query is performed:
 
-| Option | Alias | Description | Requires a Value | Requires Config |
-|--|--|--|--|--|
-|[`open`](#option-open)|<div align="center">`o`</div>|*Browser app to open*|<div align="center">✅</div>|<div align="center">❌</div>|
-|[`profile`](#option-profile)|<div align="center">`p`</div>|*Browser profile to use*|<div align="center">✅</div>|<div align="center">*browsers*</div>|
-|[`search`](#option-search)|<div align="center">`s`</div>|*Search the provided engine / website*|<div align="center">✅</div>|<div align="center">*engines*</div>|
-|[`route`](#option-route)|<div align="center">`r`</div>|*Query engine routes*|<div align="center">✅</div>|<div align="center">❌</div>|
-|[`private`](#option-private)|<div align="center">`i`</div>|*Use private / incognito mode*|<div align="center">❌</div>|<div align="center">❌</div>|
-|[`query`](#option-query)|<div align="center">`q`</div>|*Query provided URLs as search values*|<div align="center">❌</div>|<div align="center">❌</div>|
-|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|<div align="center">❌</div>|<div align="center">❌</div>
-|[`split`](#option-split)||*Split each value into a separate search query*|<div align="center">❌</div>|<div align="center">❌</div>
+| Option | Alias | Description |  Requires Value | Config Type |
+|-|:-:|-|:-:|:-:|
+|[`browser`](#option-browser)|`b`|*The browser app to open*|`yes ✅` |*browsers*|
+|[`profile`](#option-profile)|`p`|*The browser profile to use*|`yes ✅`|*browsers* ⚙️|
+|[`engine`](#option-engine)|`e`|*The search engine (or website) to query*|`yes ✅`|*engines*|
+|[`route`](#option-route)|`r`|*The engine's route to go to*|`yes ✅`|*engines*|
+|[`incognito`](#option-incognito)|`i`|*Open in incognito / private mode*|`no ❌`|-|
+|[`query`](#option-query)|`q`|*Query URL values as a search term*|`no ❌`|-|
+|[`split`](#option-split)|`s`|*Split all values into separate search queries*|`no ❌`|-|
+|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|`no ❌`|-|
 
-> ***Note:***  
-> Some options work only when the *browsers* or *engines* configuration is set up (e.g. `profile` and `search`), while others do not require it but their usage can be customized if such configuration is present (e.g. `open` and `route`). Please refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
+Options that do not require a value are called ***flags***. When using browsers and engines configurations, you also get access to ***custom flags*** based on the keys and aliases of *browsers*, *browser profiles*, and *engines* in those configs (see [*Custom Options*](#custom-options)).
 
-Options that do not require a value are called ***flags***. When using browsers and engines configurations, you also get access to ***custom flags*** based on the keys and aliases of browsers, browser profiles, and engines in those configs (see [*Custom Options*](#custom-options)).
-
+The ⚙️ symbol indicates a required config. Almost all options work without any configuration but some of them can be customized or enhanced if such config is set up. Please refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
 
 ---
 
 ### Options Usage <a name="query-options-usage"></a>
 
-***Basic Usage***  
-To use an option in a query, prefix it by a double dash (`--`):
+To use an option in a query, prefix it with a double dash (`--`):
 ```
 $ web --example
 ```
 
-To use an option's short (1-letter) alias, prefix it by a single dash (`-`):
+An option's short (1-letter) alias is prefixed by a single dash (`-`):
 ```
 $ web -a
 ```
 
+#### *Options and values* <a name="options-and-values"></a>
+
 If a value follows an option and that option:
 
-* ***requires a value***, then the value is "assigned" to it:
+* ***requires a value***, then the value is "assigned" to the option:
 
 ```
-$ web --open chrome nodejs docs
+$ web --browser chrome nodejs docs
 ```
 
-> Here, "chrome" is the value of `open`, while "nodejs docs" are used to build a search query string.
+> Here, "chrome" is the value of `browser`, while "nodejs docs" are used as a search term.
 
-* ***is a flag***, then the value becomes a part of the search query string and nothing is assigned to the flag itself:
+* ***is a flag***, then the value becomes part of the search term and nothing is assigned to the flag itself:
 
 ```
-$ web --private typescript docs
+$ web --incognito typescript docs
 ```
 
-> The value "typescript" is used for the search query string along with "docs".
+> The value "typescript", along with "docs", is used as a search term.
 
-> ***Note:***  
-> Technically, you *can* assign values to flags. These values are `true` and `false` because, internally, flags are `boolean`s. Using a flag in the command automatically sets its value to `true`. Therefore, make sure to not accidentally place one of them after a flag option if you do not intend to set its value.
+> ***Caveat***  
+> You can still assign a value `true` or `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed immediately after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* that could be part of the search term.
 
-<br />
 
-***Combining Short Aliases***  
-Short aliases can be combined together with a single `-`, as long as their combination is valid:
+#### *Combining Short Aliases* <a name="combining-short-aliases"></a>
+
+Short aliases can be combined together with a single `-` as long as their combination is valid:
 
 ```
 $ web -abc
 ```
 
-Combining short aliases effectively does the following:
+which effectively does the following:
 
 ```
 $ web -a -b -c
 ```
 
 > ***Use Caution!***  
-> Since some options require a value, combining their short aliases can result in invalid queries. It is recommended to combine only the flag options.
+> Since certain options require a value, combining their short aliases can result in invalid queries if such combinations are followed by values. It is recommended to combine only the flag options.
 
----
+#### *Options Placement* <a name="options-placement"></a>
 
-### Options Placement <a name="query-options-placement"></a>
-
-Options can be placed anywhere in the query:
+Options can be placed anywhere in the command:
 
 ```
-$ web --open firefox sample search --private query from --search duckduckgo a terminal
+$ web --browser firefox this is --incognito an example --engine duckduckgo web query
 ```
 
-> Normally, you would place your options where they visually make sense (such as the begging or the end of the command) or as you need them when you construct your query. This example is just for illustration.
+Using short aliases:
+
+```
+$ web -b firefox this is -i an example -e duckduckgo web query
+```
+
+> Normally, you would place your options where they visually make sense (such as the beginning or the end of the command) or as you need them when you construct your query.
 
 The above command will do the following:
 
 * construct a search query using
-  * values ***"sample search query from a terminal"***
-  * ***DuckDuckGo*** search engine (`--search duckduckgo`)
-* open the constructed query in a new ***Firefox*** tab (`--open firefox`)
-* in ***private mode*** (`--private`)
+  * values ***"this is an example web query"***
+  * ***DuckDuckGo*** search engine (`--engine duckduckgo`)
+* open the constructed query in a new ***Firefox*** tab (`--browser firefox`)
+* in ***incognito / private mode*** (`--incognito`)
 
-> This example assumes that Firefox is installed  on the machine and DuckDuckGo is added to the engines configuration.
 ---
 
-### Options Details <a name="query-options-details"></a>
+### Value Options <a name="value-options"></a>
 
-#### `--open`&nbsp;&nbsp;&nbsp;`-o` <a name="query-option-open"></a>
+#### `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is not required, but can be used.
 
-> **Description:** Opens the browser app that the option's value refers to, as long as the browser is installed.
+#### ***Description***
 
-To open a specific browser, use the option followed by the browser name:
+Indicates what browser app to open. The program will attempt to open a new tab in the browser that the option's value refers to. The requested browser app must be installed on the machine.
+
+#### ***Usage***
+
+To open your web query in a specific browser, use the option followed by the browser name:
 
 ```
-$ web --open firefox my search query from a terminal
+$ web --browser edge this is an example web query
 ```
 
-The above command will attempt to open Firefox with the search query `my search query from a terminal`.
+```
+$ web -b edge this is an example web query
+```
 
-***Configuration***
+The above command will attempt to open Microsoft Edge with a query for `this is an example web query`.
 
-To use a browser alias (long or short) as the option's value, you need to set up ***browsers*** configuration (see [Browsers Configuraion](#browsers-configuration))
+#### ***Configuration***
+
+To use a browser alias (long or short) as the option's value, set up [***Browsers*** configuration](#browsers-configuration)
 
 ---
 
-#### `--profile`&nbsp;&nbsp;&nbsp;`-p` <a name="query-option-profile"></a>
-
-> *Attempts to open the browser profile provided as the option's value.*
+#### `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
 
 ✅ Requires a value.  
 ✅ Requires browsers configuration.
+
+
+#### ***Description***
+
+Attempts to open the browser profile provided as the option's value.
+
+#### ***Usage***
+
+#### ***Configuration***
 
 ## Configuration <a name="configuration"></a>
 
@@ -183,34 +209,36 @@ When you set up browsers and engines configurations, certain keys and values fro
 For example, let's say we have the following ***browsers config***:
 ```js
 {
-    "chrome": {
-        "alias": "c",
-        "profiles:" {
-            "dev": {
-                "directory": "Profile 1",
-                "alias": ["d"]
-            },
-            "personal": {
-                "directory": "Profile 2",
-                "alias": ["p"]
-            }
-        }
+  "chrome": {
+    "alias": "c",
+    "profiles:" {
+      "dev": {
+				"directory": "Profile 1",
+				"alias": ["d"]
+			},
+			"personal": {
+				"directory": "Profile 2",
+				"alias": ["p"]
+				}
+			}
     },
-    "edge": {
-        "alias": "e",
-        "profiles:" {
-            "dev": {
-                "directory": "Profile 1",
-                "alias": ["d"]
-            },
-            "personal": {
-                "directory": "Profile 2",
-                "alias": ["p"]
-            }
-        }
-    },
-    "firefox": {
-        "alias": ["f", "ff", "fox"],
-    }
+	"edge": {
+		"alias": "e",
+		"profiles:" {
+			"dev": {
+				"directory": "Profile 1",
+				"alias": ["d"]
+			},
+			"personal": {
+				"directory": "Profile 2",
+				"alias": ["p"]
+			}
+		}
+	},
+	"firefox": {
+		"alias": ["f", "ff", "fox"],
+	}
 }
 ```
+
+## Parsing Values <a name="parsing-values"></a>
