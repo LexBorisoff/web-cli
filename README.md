@@ -18,7 +18,7 @@ After installing, the `web` command becomes globally available and is ready to u
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-	* [Options Usage](#query-options-usage)
+	* [Options Usage](#options-usage)
 		* [Options and values](#options-and-values)
 		* [Combining Short Aliases](#combining-short-aliases)
 		* [Options Placement](#options-placement)
@@ -47,7 +47,7 @@ After installing, the `web` command becomes globally available and is ready to u
 $ web this is an example web query
 ```
 
-The above example creates a web query using the provided **values** as a *search term* and opens it in a new browser tab. Since we are not supplying any [options](#query-options) to the command, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
+The above example creates a web query using the provided **values** as a *search term* and opens the query in a new browser tab. Since we are not supplying any [options](#query-options) to the command, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
 
 After installing the CLI, you get a set of initial search engines that you can use, with Google being the default. You can change these defaults, as well as add new browsers and engines, in the app's configuration (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration)).
 
@@ -55,16 +55,16 @@ After installing the CLI, you get a set of initial search engines that you can u
 
 Use the following options to control how the web query is performed:
 
-| Option | Alias | Description |  Requires Value | Config Type |
+| Option | Alias | Description |  Requires a Value | Config Type |
 |-|:-:|-|:-:|:-:|
-|[`browser`](#option-browser)|`b`|*The browser app to open*|`yes ✅` |*browsers*|
-|[`profile`](#option-profile)|`p`|*The browser profile to use*|`yes ✅`|*browsers* ⚙️|
-|[`engine`](#option-engine)|`e`|*The search engine (or website) to query*|`yes ✅`|*engines*|
-|[`route`](#option-route)|`r`|*The engine's route to go to*|`yes ✅`|*engines*|
-|[`incognito`](#option-incognito)|`i`|*Open in incognito / private mode*|`no ❌`|-|
-|[`query`](#option-query)|`q`|*Query URL values as a search term*|`no ❌`|-|
-|[`split`](#option-split)|`s`|*Split all values into separate search queries*|`no ❌`|-|
-|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|`no ❌`|-|
+|[`browser`](#option-browser)|`b`|*The browser app to open*|✅ yes |*browsers*|
+|[`profile`](#option-profile)|`p`|*The browser profile to use*|✅ yes|*browsers* ⚙️|
+|[`engine`](#option-engine)|`e`|*The search engine (or website) to query*|✅ yes|*engines*|
+|[`route`](#option-route)|`r`|*The engine's route to go to*|✅ yes|*engines*|
+|[`incognito`](#option-incognito)|`i`|*Open in incognito / private mode*|❌ no|-|
+|[`query`](#option-query)|`q`|*Query URL values as a search term*|❌ no|-|
+|[`split`](#option-split)|`s`|*Split all values into separate search queries*|❌ no|-|
+|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|❌ no|-|
 
 Options that do not require a value are called ***flags***. When using browsers and engines configurations, you also get access to ***custom flags*** based on the keys and aliases of *browsers*, *browser profiles*, and *engines* in those configs (see [*Custom Options*](#custom-options)).
 
@@ -72,7 +72,7 @@ The ⚙️ symbol indicates a required config. Almost all options work without a
 
 ---
 
-### Options Usage <a name="query-options-usage"></a>
+### Options Usage <a name="options-usage"></a>
 
 To use an option in a query, prefix it with a double dash (`--`):
 ```
@@ -153,7 +153,7 @@ The above command will do the following:
 
 ### Value Options <a name="value-options"></a>
 
-#### `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
+### `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is not required, but can be used.
@@ -180,9 +180,8 @@ The above command will attempt to open Microsoft Edge with a query for `this is 
 
 To use a browser alias (long or short) as the option's value, set up [***Browsers*** configuration](#browsers-configuration)
 
----
 
-#### `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
+### `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
 
 ✅ Requires a value.  
 ✅ Requires browsers configuration.
@@ -195,6 +194,24 @@ Attempts to open the browser profile provided as the option's value.
 #### ***Usage***
 
 #### ***Configuration***
+
+### `--engine`&nbsp;&nbsp;`-e` <a name="option-engine"></a>
+
+### `--route`&nbsp;&nbsp;`-r` <a name="option-route"></a>
+
+---
+
+### Flag Options <a name="flag-options"></a>
+
+### `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
+
+### `--query`&nbsp;&nbsp;`-q` <a name="option-query"></a>
+
+### `--split`&nbsp;&nbsp;`-s` <a name="option-split"></a>
+
+### `--http` <a name="option-http"></a>
+
+---
 
 ## Configuration <a name="configuration"></a>
 
