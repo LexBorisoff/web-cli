@@ -7,8 +7,12 @@ Web CLI is a configurable node.js application for making web searches from a ter
 
 Install the package globally:
 
-```
+```bash
 $ npm i -g @lexjs/web-cli
+```
+
+```bash
+npm i -g @lexjs/web-cli
 ```
 
 After installing, the `web` command becomes globally available and is ready to use without any initial setup.
@@ -43,8 +47,12 @@ After installing, the `web` command becomes globally available and is ready to u
 
 ## Basic Usage <a name="basic-usage"></a>
 
-```
+```sh
 $ web this is an example web query
+```
+
+```sh
+web this is an example web query
 ```
 
 The above example creates a web query using the provided **values** as a *search term* and opens the query in a new browser tab. Since we are not supplying any [options](#query-options) to the command, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
