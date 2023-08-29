@@ -1,4 +1,4 @@
-<h1 align="center" style="color:green;"> Web CLI</h1>
+<h1 align="center"> Web CLI</h1>
 
 Web CLI is a configurable node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
 
