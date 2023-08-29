@@ -15,11 +15,9 @@ $ npm i -g @lexjs/web-cli
 npm i -g @lexjs/web-cli
 ```
 
-<pre>
-	<code style="color:red;">
-		npm i -g @lexjs/web-cli
-	</code>
-</pre>
+<pre><code>
+npm i -g @lexjs/web-cli
+</code></pre>
 
 After installing, the `web` command becomes globally available and is ready to use without any initial setup.
 
