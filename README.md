@@ -15,23 +15,23 @@ After installing, the `web` command is ready to use without any initial setup.
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-	* [Options Usage](#options-usage)
-		* [Options and values](#options-and-values)
-		* [Combining Short Aliases](#combining-short-aliases)
-		* [Options Placement](#options-placement)
-	* [Value Options](#value-options)
-		* [browser](#option-browser)
-		* [profile](#option-profile)
-		* [engine](#option-engine)
-		* [route](#option-route)
-	* [Flag options](#flag-options)
-		* [incognito](#option-incognito)
-		* [query](#option-query)
-		* [split](#option-split)
-		* [http](#option-http)
+  * [Options Usage](#options-usage)
+    * [Options and values](#options-and-values)
+    * [Combining Short Aliases](#combining-short-aliases)
+    * [Options Placement](#options-placement)
+  * [Value Options](#value-options)
+    * [browser](#option-browser)
+    * [profile](#option-profile)
+    * [engine](#option-engine)
+    * [route](#option-route)
+  * [Flag options](#flag-options)
+    * [incognito](#option-incognito)
+    * [query](#option-query)
+    * [split](#option-split)
+    * [http](#option-http)
 * [Configuration](#configuration)
-	* [Browsers Configuration](#browsers-configuration)
-	* [Engines Configuration](#engines-configuration)
+  * [Browsers Configuration](#browsers-configuration)
+  * [Engines Configuration](#engines-configuration)
 * [Parsing Values](#parsing-values)
 * [Custom Options](#custom-options)
 * [Other Options](#other-options)
@@ -147,13 +147,9 @@ Indicates what browser app to open. The program will attempt to open a new tab i
 
 To open your web query in a specific browser, use the option followed by the browser name:
 
-```
-$ web --browser edge this is an example web query
-```
+<pre><code><strong>web</strong> <em>--browser</em> edge this is an example web query</code></pre>
 
-```
-$ web -b edge this is an example web query
-```
+<pre><code><strong>web</strong> <em>-b</em> edge this is an example web query</code></pre>
 
 The above command will attempt to open Microsoft Edge with a query for `this is an example web query`.
 
@@ -211,31 +207,31 @@ For example, let's say we have the following ***browsers config***:
     "alias": "c",
     "profiles:" {
       "dev": {
-				"directory": "Profile 1",
-				"alias": ["d"]
-			},
-			"personal": {
-				"directory": "Profile 2",
-				"alias": ["p"]
-				}
-			}
-    },
-	"edge": {
-		"alias": "e",
-		"profiles:" {
-			"dev": {
-				"directory": "Profile 1",
-				"alias": ["d"]
-			},
-			"personal": {
-				"directory": "Profile 2",
-				"alias": ["p"]
-			}
-		}
-	},
-	"firefox": {
-		"alias": ["f", "ff", "fox"],
-	}
+        "directory": "Profile 1",
+        "alias": ["d"]
+      },
+      "personal": {
+        "directory": "Profile 2",
+        "alias": ["p"]
+      }
+    }
+  },
+  "edge": {
+    "alias": "e",
+    "profiles:" {
+      "dev": {
+        "directory": "Profile 1",
+        "alias": ["d"]
+      },
+      "personal": {
+        "directory": "Profile 2",
+        "alias": ["p"]
+      }
+    }
+  },
+  "firefox": {
+    "alias": ["f", "ff", "fox"],
+  }
 }
 ```
 
