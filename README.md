@@ -102,8 +102,8 @@ When using a ***flag option***, the subsequent value becomes part of the search 
 
 > The value "nodejs", along with "docs", is used as a search term.
 
-> ***Caveat***  
-> You can still assign a value `true` or `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* from the search term.
+> ***Caveat!***  
+> You can still assign values `true` and `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* from the search term.
 
 
 #### *Combining Short Aliases* <a name="combining-short-aliases"></a>
