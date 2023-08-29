@@ -1,10 +1,21 @@
 <style>
-.custom-highlight {
-    background-color: #FFFFCC;
-    border: 1px solid #999999;
-    padding: 10px;
-    /* other styles */
+.green {
+    color: green;
+    font-weight:700;
+    font-size: 30px;
 }
+</style>
+
+<div class="green">
+    Markdown css styles
+</div>
+
+<style>
+	.custom-highlight {
+		background-color: #FFFFCC;
+		border: 1px solid #999999;
+		padding: 10px;
+	}
 </style>
 
 <h1 align="center"> Web CLI</h1>
