@@ -104,6 +104,8 @@ If a value follows an option and that option:
 $ web --browser chrome nodejs docs
 ```
 
+<pre><code><strong>web</strong> <em>--browser</em> chrome nodejs docs</code></pre>
+
 > Here, "chrome" is the value of `browser`, while "nodejs docs" are used as a search term.
 
 * ***is a flag***, then the value becomes part of the search term and nothing is assigned to the flag itself:
