@@ -1,23 +1,14 @@
 <h1 align="center"> Web CLI</h1>
 
-Web CLI is a configurable node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
-
+Web CLI is a configurable Node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
 
 ## Installation <a name="installation"></a>
 
 Install the package globally:
 
-```bash
-$ npm i -g @lexjs/web-cli
-```
+<pre><code><strong>npm</strong> i <em>-g</em> @lexjs/web-cli</code></pre>
 
-```bash
-npm i -g @lexjs/web-cli
-```
-
-<pre><code><strong>npm</strong> i <em style="color:red;">-g</em> @lexjs/web-cli</code></pre>
-
-After installing, the `web` command becomes globally available and is ready to use without any initial setup.
+After installing, the `web` command is ready to use without any initial setup.
 
 <details open>
   <summary><strong>Table of Contents</strong></summary>
@@ -49,13 +40,7 @@ After installing, the `web` command becomes globally available and is ready to u
 
 ## Basic Usage <a name="basic-usage"></a>
 
-```sh
-$ web this is an example web query
-```
-
-```sh
-web this is an example web query
-```
+<pre><code><strong>web</strong> this is an example web query</code></pre>
 
 The above example creates a web query using the provided **values** as a *search term* and opens the query in a new browser tab. Since we are not supplying any [options](#query-options) to the command, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
 
@@ -85,14 +70,12 @@ The ⚙️ symbol indicates a required config. Almost all options work without a
 ### Options Usage <a name="options-usage"></a>
 
 To use an option in a query, prefix it with a double dash (`--`):
-```
-$ web --example
-```
+
+<pre><code><strong>web</strong> <em>--example</em></code></pre>
 
 An option's short (1-letter) alias is prefixed by a single dash (`-`):
-```
-$ web -a
-```
+
+<pre><code><strong>web</strong> <em>-a</em></code></pre>
 
 #### *Options and values* <a name="options-and-values"></a>
 
@@ -100,56 +83,42 @@ If a value follows an option and that option:
 
 * ***requires a value***, then the value is "assigned" to the option:
 
-```
-$ web --browser chrome nodejs docs
-```
-
 <pre><code><strong>web</strong> <em>--browser</em> chrome nodejs docs</code></pre>
 
 > Here, "chrome" is the value of `browser`, while "nodejs docs" are used as a search term.
 
 * ***is a flag***, then the value becomes part of the search term and nothing is assigned to the flag itself:
 
-```
-$ web --incognito typescript docs
-```
+<pre><code><strong>web</strong> <em>--incognito</em> typescript docs</code></pre>
 
 > The value "typescript", along with "docs", is used as a search term.
 
 > ***Caveat***  
-> You can still assign a value `true` or `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed immediately after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* that could be part of the search term.
+> You can still assign a value `true` or `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* from the search term.
 
 
 #### *Combining Short Aliases* <a name="combining-short-aliases"></a>
 
 Short aliases can be combined together with a single `-` as long as their combination is valid:
 
-```
-$ web -abc
-```
+<pre><code><strong>web</strong> <em>-abc</em></code></pre>
 
-which effectively does the following:
+It effectively does the following:
 
-```
-$ web -a -b -c
-```
+<pre><code><strong>web</strong> <em>-a</em> <em>-b</em> <em>-c</em></code></pre>
 
 > ***Use Caution!***  
-> Since certain options require a value, combining their short aliases can result in invalid queries if such combinations are followed by values. It is recommended to combine only the flag options.
+> Since certain options require a value, combining those options' short aliases can result in invalid queries if such combinations are followed by a value. It is recommended to combine only the flag options.
 
 #### *Options Placement* <a name="options-placement"></a>
 
 Options can be placed anywhere in the command:
 
-```
-$ web --browser firefox this is --incognito an example --engine duckduckgo web query
-```
+<pre><code><strong>web</strong> <em>--browser</em> firefox this is <em>--incognito</em> an example <em>--engine</em> duckduckgo web query</code></pre>
 
 Using short aliases:
 
-```
-$ web -b firefox this is -i an example -e duckduckgo web query
-```
+<pre><code><strong>web</strong> <em>-b</em> firefox this is <em>-i</em> an example <em>-e</em> duckduckgo web query</code></pre>
 
 > Normally, you would place your options where they visually make sense (such as the beginning or the end of the command) or as you need them when you construct your query.
 
@@ -157,9 +126,9 @@ The above command will do the following:
 
 * construct a search query using
   * values ***"this is an example web query"***
-  * ***DuckDuckGo*** search engine (`--engine duckduckgo`)
-* open the constructed query in a new ***Firefox*** tab (`--browser firefox`)
-* in ***incognito / private mode*** (`--incognito`)
+  * ***DuckDuckGo*** search engine (<code>*--engine* duckduckgo</code>)
+* open the constructed query in a new ***Firefox*** tab (<code>*--browser* firefox</code>)
+* in ***incognito / private mode*** (<code>*--incognito*</code>)
 
 ---
 
