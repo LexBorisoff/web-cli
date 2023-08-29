@@ -26,7 +26,7 @@ After installing, the `web` command is ready to use without any initial setup.
     * [route](#option-route)
   * [Flag options](#flag-options)
     * [incognito](#option-incognito)
-    * [query](#option-query)
+    * [keyword](#option-keyword)
     * [split](#option-split)
     * [http](#option-http)
 * [Configuration](#configuration)
@@ -50,20 +50,31 @@ After installing the CLI, you get a set of initial search engines that you can u
 
 Use the following options to control how the web query is performed:
 
-| Option | Alias | Description |  Requires a Value | Config Type |
-|-|:-:|-|:-:|:-:|
-|[`browser`](#option-browser)|`b`|*The browser app to open*|✅ yes |*browsers*|
-|[`profile`](#option-profile)|`p`|*The browser profile to use*|✅ yes|*browsers* ⚙️|
-|[`engine`](#option-engine)|`e`|*The search engine (or website) to query*|✅ yes|*engines*|
-|[`route`](#option-route)|`r`|*The engine's route to go to*|✅ yes|*engines*|
-|[`incognito`](#option-incognito)|`i`|*Open in incognito / private mode*|❌ no|-|
-|[`query`](#option-query)|`q`|*Query URL values as a search term*|❌ no|-|
-|[`split`](#option-split)|`s`|*Split all values into separate search queries*|❌ no|-|
-|[`http`](#option-http)||*Use the HTTP (non-secure) protocol*|❌ no|-|
+#### *Value Options*
 
-Options that do not require a value are called ***flags***. When using browsers and engines configurations, you also get access to ***custom flags*** based on the keys and aliases of *browsers*, *browser profiles*, and *engines* in those configs (see [*Custom Options*](#custom-options)).
+The following options require a value when they are used:
 
-The ⚙️ symbol indicates a required config. Almost all options work without any configuration but some of them can be customized or enhanced if such config is set up. Please refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
+| Option | Alias | Description | Config Type |
+|-|:-:|-|:-:|
+|[`browser`](#option-browser)|`b`|*The browser app to open*|*browsers*|
+|[`profile`](#option-profile)|`p`|*The browser profile to use*|*browsers* ⚙️|
+|[`engine`](#option-engine)|`e`|*The search engine (or website) to query*|*engines*|
+|[`route`](#option-route)|`r`|*The engine's route to open or query*|*engines*|
+
+The ⚙️ symbol indicates a required config. All of these options, except `profile`, work without any configuration but can be customized or enhanced when such config is set up. Please refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
+
+#### *Flag Options*
+
+Options that do not require a value are called ***flags***. The following are built-in flag options:
+
+| Option | Alias | Description |
+|-|:-:|-|
+|[`incognito`](#option-incognito)|`i`|*Open in incognito / private mode*|
+|[`keyword`](#option-keyword)|`k`|*Treat URL values as search term keywords*|
+|[`split`](#option-split)|`s`|*Split all values into separate search queries*|
+|[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
+
+When using browsers and engines configurations, you also get access to ***custom flags*** based on the keys and aliases of *browsers*, *browser profiles*, and *engines* in those configs (see [*Custom Options*](#custom-options)).
 
 ---
 
@@ -79,19 +90,17 @@ An option's short (1-letter) alias is prefixed by a single dash (`-`):
 
 #### *Options and values* <a name="options-and-values"></a>
 
-If a value follows an option and that option:
-
-* ***requires a value***, then the value is "assigned" to the option:
+When using a ***value option***, the immediately subsequent value is "assigned" to it:
 
 <pre><code><strong>web</strong> <em>--browser</em> chrome nodejs docs</code></pre>
 
-> Here, "chrome" is the value of `browser`, while "nodejs docs" are used as a search term.
+> Here, "chrome" is the value of `browser` and "nodejs docs" are used as a search term.
 
-* ***is a flag***, then the value becomes part of the search term and nothing is assigned to the flag itself:
+When using a ***flag option***, the subsequent value becomes part of the search term and nothing is assigned to the flag itself:
 
-<pre><code><strong>web</strong> <em>--incognito</em> typescript docs</code></pre>
+<pre><code><strong>web</strong> <em>--incognito</em> nodejs docs</code></pre>
 
-> The value "typescript", along with "docs", is used as a search term.
+> The value "nodejs", along with "docs", is used as a search term.
 
 > ***Caveat***  
 > You can still assign a value `true` or `false` to a flag - this is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to `true` but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign *"true"* or *"false"* to a flag if you do not intend it. Doing so will result in your web query missing the word *"true"* or *"false"* from the search term.
