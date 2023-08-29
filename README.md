@@ -1,9 +1,11 @@
+<style>
 .custom-highlight {
     background-color: #FFFFCC;
     border: 1px solid #999999;
     padding: 10px;
     /* other styles */
 }
+</style>
 
 <h1 align="center"> Web CLI</h1>
 
