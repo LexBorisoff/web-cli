@@ -40,7 +40,7 @@ After installing, the `web` command is ready to use without any initial setup.
 
 ## Basic Usage <a name="basic-usage"></a>
 
-<pre><code>web this is an example web query</code></pre>
+<pre><code>web this is an example search query</code></pre>
 
 The above creates a web query using the provided ***values*** as a *search term* and opens the query in a new browser tab. Since we are not supplying any [options](#query-options) to the command in this example, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
 
@@ -117,18 +117,18 @@ See [*Custom Flags*](#custom-flags) for more details about them.
 
 Options can be placed anywhere in the command:
 
-<pre><code>web <em>--browser=firefox</em> this is <em>--incognito</em> an example <em>--engine=duckduckgo</em> web query</code></pre>
+<pre><code>web <em>--browser=firefox</em> this is <em>--incognito</em> an example <em>--engine=duckduckgo</em> search query</code></pre>
 
 Using short aliases:
 
-<pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> web query</code></pre>
+<pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> search query</code></pre>
 
 > Normally, you would place your options where they visually make sense (such as the beginning or the end of the command) or as you need them when you construct your query.
 
 The above command will do the following:
 
 * construct a search query using
-  * values ***"this is an example web query"***
+  * values ***"this is an example search query"***
   * ***DuckDuckGo*** search engine (`--engine=duckduckgo`)
 * open the constructed query in a new ***Firefox*** tab (`--browser=firefox`)
 * in ***incognito / private mode*** (`--incognito`)
@@ -146,9 +146,9 @@ The program will attempt to open a new tab in the browser that the option's valu
 
 #### ***Usage***
 
-<pre><code>web <em>--browser=edge</em> this is an example web query</code></pre>
+<pre><code>web <em>--browser=edge</em> this is an example search query</code></pre>
 
-<pre><code>web <em>-b=edge</em> this is an example web query</code></pre>
+<pre><code>web <em>-b=edge</em> this is an example search query</code></pre>
 
 The above command will attempt to open the query in a new Microsoft Edge tab.
 
