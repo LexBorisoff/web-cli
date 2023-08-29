@@ -1,3 +1,10 @@
+.custom-highlight {
+    background-color: #FFFFCC;
+    border: 1px solid #999999;
+    padding: 10px;
+    /* other styles */
+}
+
 <h1 align="center"> Web CLI</h1>
 
 Web CLI is a configurable node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
@@ -15,7 +22,7 @@ $ npm i -g @lexjs/web-cli
 npm i -g @lexjs/web-cli
 ```
 
-<pre><code>npm i -g @lexjs/web-cli</code></pre>
+<pre><code class="custom-highlight">npm i -g @lexjs/web-cli</code></pre>
 
 After installing, the `web` command becomes globally available and is ready to use without any initial setup.
 
