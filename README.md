@@ -6,7 +6,7 @@ Web CLI is a configurable Node.js application for making web searches from a ter
 
 Install the package globally:
 
-<pre><code><strong>npm</strong> i <em>-g</em> @lexjs/web-cli</code></pre>
+<pre><code>npm i <em>-g</em> @lexjs/web-cli</code></pre>
 
 After installing, the `web` command is ready to use without any initial setup.
 
@@ -40,7 +40,7 @@ After installing, the `web` command is ready to use without any initial setup.
 
 ## Basic Usage <a name="basic-usage"></a>
 
-<pre><code><strong>web</strong> this is an example web query</code></pre>
+<pre><code>web this is an example web query</code></pre>
 
 The above creates a web query using the provided ***values*** as a *search term* and opens the query in a new browser tab. Since we are not supplying any [options](#query-options) to the command in this example, it uses the **default search engine** to construct the query and opens your operating system's **default browser**.
 
@@ -52,26 +52,26 @@ Query options give you control over the web queries by overriding the app's defa
 
 To use an option in the command, prefix it with a double dash `--`:
 
-<pre><code><strong>web</strong> <em>--option</em></code></pre>
+<pre><code>web <em>--option</em></code></pre>
 
 An option's short (1-letter) alias is prefixed by a single dash `-`:
 
-<pre><code><strong>web</strong> <em>-x</em></code></pre>
+<pre><code>web <em>-x</em></code></pre>
 
 If an option [requires a value](#value-options), provide it in one of the following ways *(short aliases can also be used)*:
 
-<pre><code><strong>web</strong> <em>--option=value</em></code></pre>
-<pre><code><strong>web</strong> <em>--option value</em></code></pre>
+<pre><code>web <em>--option=value</em></code></pre>
+<pre><code>web <em>--option value</em></code></pre>
 
 > The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
 
 Short aliases can be combined together with a single `-` as long as their combination is valid:
 
-<pre><code><strong>web</strong> <em>-xyz</em></code></pre>
+<pre><code>web <em>-xyz</em></code></pre>
 
 Which is effectively:
 
-<pre><code><strong>web</strong> <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
+<pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
 > ***Use Caution!***  
 > Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it won't get assigned the value).
@@ -117,11 +117,11 @@ See [*Custom Flags*](#custom-flags) for more details about them.
 
 Options can be placed anywhere in the command:
 
-<pre><code><strong>web</strong> <em>--browser=firefox</em> this is <em>--incognito</em> an example <em>--engine=duckduckgo</em> web query</code></pre>
+<pre><code>web <em>--browser=firefox</em> this is <em>--incognito</em> an example <em>--engine=duckduckgo</em> web query</code></pre>
 
 Using short aliases:
 
-<pre><code><strong>web</strong> <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> web query</code></pre>
+<pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> web query</code></pre>
 
 > Normally, you would place your options where they visually make sense (such as the beginning or the end of the command) or as you need them when you construct your query.
 
@@ -146,9 +146,9 @@ The program will attempt to open a new tab in the browser that the option's valu
 
 #### ***Usage***
 
-<pre><code><strong>web</strong> <em>--browser=edge</em> this is an example web query</code></pre>
+<pre><code>web <em>--browser=edge</em> this is an example web query</code></pre>
 
-<pre><code><strong>web</strong> <em>-b=edge</em> this is an example web query</code></pre>
+<pre><code>web <em>-b=edge</em> this is an example web query</code></pre>
 
 The above command will attempt to open the query in a new Microsoft Edge tab.
 
@@ -211,11 +211,11 @@ When you set up browsers and engines config files, certain keys and values autom
 
 For example, the following command with value options
 
-<pre><code><strong>web</strong> <em>--browser=chrome --profile=dev --engine=mdn</em></code></pre>
+<pre><code>web <em>--browser=chrome --profile=dev --engine=mdn</em></code></pre>
 
 can be re-written by using custom flags:
 
-<pre><code><strong>web</strong> <em>--chrome --dev --mdn</em></code></pre>
+<pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
 assuming the Chrome profile "***dev***" and the engine "***mdn***" are set up.
 
