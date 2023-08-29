@@ -50,26 +50,26 @@ After installing the CLI, you get a set of initial search engines that you can u
 
 Query options give you control over the web queries by overriding the app's defaults.
 
-To use an option in the command, prefix it with a double dash `--`:
+To use an option in the command, prefix it with a double dash `--`
 
 <pre><code>web <em>--option</em></code></pre>
 
-An option's short (1-letter) alias is prefixed by a single dash `-`:
+An option's short (1-letter) alias is prefixed by a single dash `-`
 
 <pre><code>web <em>-x</em></code></pre>
 
-If an option [requires a value](#value-options), provide it in one of the following ways *(short aliases can also be used)*:
+If an option [requires a value](#value-options), provide it in one of the following ways *(short aliases can also be used)*
 
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
 
 > The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
 
-Short aliases can be combined together with a single `-` as long as their combination is valid:
+Short aliases can be combined together with a single `-` as long as their combination is valid
 
 <pre><code>web <em>-xyz</em></code></pre>
 
-Which is effectively:
+Which is effectively
 
 <pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
@@ -100,7 +100,7 @@ Options that do not require a value are called ***flags***. The following are bu
 |-|:-:|-|
 |[`incognito`](#option-incognito)|[`i`](#option-incognito)|*Open in incognito / private mode*|
 |[`keyword`](#option-keyword)|[`k`](#option-keyword)|*Treat all values as keywords for the web query*|
-|[`split`](#option-split)|[`s`](#option-split)|*Split values into separate search queries*|
+|[`split`](#option-split)|[`s`](#option-split)|*Split values into separate web queries*|
 |[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
@@ -115,11 +115,10 @@ See [*Custom Flags*](#custom-flags) for more details about them.
 
 #### *Options Placement* <a name="options-placement"></a>
 
-Options can be placed anywhere in the command:
+Options can be placed anywhere in the command
 
 <pre><code>web <em>--browser=firefox</em> this is <em>--incognito</em> an example <em>--engine=duckduckgo</em> search query</code></pre>
 
-Using short aliases:
 
 <pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> search query</code></pre>
 
@@ -135,7 +134,7 @@ The above command will do the following:
 
 ---
 
-### `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
+### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="option-browser"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is not required but can be used.
@@ -159,7 +158,7 @@ To use a browser alias (long or short) as the option's value, set up [***Browser
 
 ---
 
-### `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
+### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="option-profile"></a>
 
 ✅ Requires a value.  
 ✅ Requires configuration.
@@ -175,27 +174,27 @@ Attempts to open the browser profile provided as the option's value.
 
 ---
 
-### `--engine`&nbsp;&nbsp;`-e` <a name="option-engine"></a>
+### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="option-engine"></a>
 
 ---
 
-### `--route`&nbsp;&nbsp;`-r` <a name="option-route"></a>
+### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="option-route"></a>
 
 ---
 
-### `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
+### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="option-incognito"></a>
 
 ---
 
-### `--keyword`&nbsp;&nbsp;`-k` <a name="option-keyword"></a>
+### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="option-keyword"></a>
 
 ---
 
-### `--split`&nbsp;&nbsp;`-s` <a name="option-split"></a>
+### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="option-split"></a>
 
 ---
 
-### `--http` <a name="option-http"></a>
+### `--http` Use the HTTP (non-secure) protocol <a name="option-http"></a>
 
 ---
 
