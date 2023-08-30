@@ -63,11 +63,11 @@ If an option [requires a value](#value-options), provide it in one of the follow
 
 > The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
 
-Short aliases can be combined together with a single `-` as long as their combination is valid
+Short aliases can be combined together with a single `-` as long as their combination is valid:
 
 <pre><code>web <em>-xyz</em></code></pre>
 
-Which is effectively
+Which is effectively:
 
 <pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
@@ -82,11 +82,11 @@ The following are built-in value options:
 | Option | Alias | Description | Config Type |
 |-|:-:|-|:-:|
 |[`browser`](#option-browser)|[`b`](#option-browser)|*The browser app to open*|*browsers*|
-|[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|*browsers* ⚙️|
+|[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|*browsers*&nbsp;⚙️|
 |[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|*engines*|
 |[`route`](#option-route)|[`r`](#option-route)|*The engine's route to open or query*|*engines*|
 
-> The ⚙️ symbol indicates that setting up configuration is required.
+> The ⚙️ symbol indicates that setting up config is required.
 
 All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
 
