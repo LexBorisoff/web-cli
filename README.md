@@ -14,8 +14,7 @@ To check the installed version, use the `--version` (`-v`) option:
 
 <pre><code>web <em>--version</em></code></pre>
 
-<details open>
-  <summary><strong>Table of Contents</strong></summary>
+## Table of Contents <a name="installation"></a>
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
@@ -34,8 +33,6 @@ To check the installed version, use the `--version` (`-v`) option:
   * [Browsers Configuration](#browsers-configuration)
   * [Engines Configuration](#engines-configuration)
 * [Custom Flags](#custom-flags)
-
-</details>
 
 ## Basic Usage <a name="basic-usage"></a>
 
