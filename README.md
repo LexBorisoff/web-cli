@@ -107,7 +107,7 @@ Options that do not require a value are called ***flags***. The following are bu
 |[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
-> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to "***true***" but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign "***true***" or "***false***" to a flag if you do not intend it. Doing so will result in your web query missing the keyword "***true***" or "***false***" from the search term.
+> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
 
 With browsers and engines configuration set up, you can also use ***custom flags*** which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* in the config files. Custom flags simplify your web queries by being a convenient substitute for value options (see [*Custom Flags*](#custom-flags) for more details).
 
