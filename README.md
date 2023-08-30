@@ -40,11 +40,14 @@ To check the installed version, use the `--version` (`-v`) option:
 web <values>
 ```
 
-The above creates a web query using space-separated ***values*** as a *search term* and opens the query in a new browser tab.
+The above creates a web query using the provided space-separated ***values*** as a search term and opens the query in a new browser tab.
 
-When no supplying any [options](#query-options) to the command, the app uses the **default search engine** to construct the query and the **default browser** to open the query in. If the browsers config is not setup, the app uses the operating system's default browser.
+When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in.
 
-After installing the CLI, you get a set of initial search engines that you can use, with Google being the default. You can change these defaults, as well as add new browsers and engines in the app's configuration (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration)).
+* After installation, you get a set of initial search engines that you can use, with Google being the default.
+* If browsers configuration is not set up, the operating system's default browser is used.
+
+You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration)).
 
 ## Query Options <a name="query-options"></a>
 
