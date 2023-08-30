@@ -115,7 +115,7 @@ Options can be placed anywhere in the command
 
 <pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> search query</code></pre>
 
-> Normally, you would place your options where they visually make sense (such as the beginning or the end of the command) or as you need them when you construct your query.
+> Normally, you would place your options where they make sense visually (such as the beginning or the end of the command) or as you need them when you construct your query.
 
 The above command will do the following:
 
