@@ -10,6 +10,10 @@ Install the package globally:
 
 After installing, the `web` command is ready to use without any initial setup.
 
+To check the installed version, use the `--version` (`-v`) option:
+
+<pre><code>web <em>--version</em></code></pre>
+
 <details open>
   <summary><strong>Table of Contents</strong></summary>
 
@@ -30,7 +34,6 @@ After installing, the `web` command is ready to use without any initial setup.
   * [Browsers Configuration](#browsers-configuration)
   * [Engines Configuration](#engines-configuration)
 * [Custom Flags](#custom-flags)
-* [Other Options](#other-options)
 
 </details>
 
@@ -235,7 +238,7 @@ can be re-written by using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-assuming the Chrome profile "***dev***" and the engine "***mdn***" are set up.
+... assuming the Chrome profile "***dev***" and the engine "***mdn***" are set up.
 
 > If a custom flag conflicts with a query option or alias [listed above](#query-options), the query option takes precedence and you must use the value option in that case.
 
