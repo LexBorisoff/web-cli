@@ -88,7 +88,7 @@ The following are built-in value options:
 
 > The ⚙️ symbol indicates that setting up configuration is required.
 
-All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more customized or enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
+All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
 
 #### *Flag Options* <a name="flag-options"></a>
 
