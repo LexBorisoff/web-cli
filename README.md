@@ -29,7 +29,6 @@ After installing, the `web` command is ready to use without any initial setup.
 * [Configuration](#configuration-setup)
   * [Browsers Configuration](#browsers-configuration)
   * [Engines Configuration](#engines-configuration)
-* [Parsing Values](#parsing-values)
 * [Custom Flags](#custom-flags)
 * [Other Options](#other-options)
 
