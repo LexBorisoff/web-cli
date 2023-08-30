@@ -86,7 +86,7 @@ The following are built-in value options:
 |[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|*engines*|
 |[`route`](#option-route)|[`r`](#option-route)|*The engine's route to open or query*|*engines*|
 
-> The ⚙️ symbol indicates that setting up config values is required.
+> The ⚙️ symbol indicates that setting up configuration is required.
 
 All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more customized or enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
 
