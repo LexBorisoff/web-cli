@@ -26,7 +26,7 @@ After installing, the `web` command is ready to use without any initial setup.
     * [split](#option-split)
     * [http](#option-http)
   * [Options Placement](#options-placement)
-* [Configuration](#configuration)
+* [Configuration](#configuration-setup)
   * [Browsers Configuration](#browsers-configuration)
   * [Engines Configuration](#engines-configuration)
 * [Parsing Values](#parsing-values)
@@ -218,7 +218,7 @@ Specifies what search engine or website to query.
 
 ---
 
-## Configuration <a name="configuration"></a>
+## Configuration <a name="configuration-setup"></a>
 
 ### Browsers Configuration <a name="browsers-configuration"></a>
 
