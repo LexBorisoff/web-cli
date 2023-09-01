@@ -14,24 +14,29 @@ To check the installed version, use the `--version` (`-v`) option:
 
 <pre><code>web <em>--version</em></code></pre>
 
-## Table of Contents <a name="installation"></a>
+## Table of Contents <a name="table-of-contents"></a>
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-  * [Value Options](#value-options)
+  * [Options Overview](#options-overview)
+    * [Usage](#options-usage)
+    * [Value Options](#value-options)
+    * [Flag options](#flag-options)
+    * [Options Placement](#options-placement)
+  * [Options Details](#options-details)
     * [browser](#option-browser)
     * [profile](#option-profile)
     * [engine](#option-engine)
     * [route](#option-route)
-  * [Flag options](#flag-options)
     * [incognito](#option-incognito)
     * [keyword](#option-keyword)
     * [split](#option-split)
     * [http](#option-http)
-  * [Options Placement](#options-placement)
 * [Configuration](#configuration-setup)
-  * [Browsers Configuration](#browsers-configuration)
-  * [Engines Configuration](#engines-configuration)
+  * [the `--config` option](#config-option)
+  * [Setting Up Configuration](#setting-up-configuration)
+    * [Browsers](#browsers-configuration)
+    * [Engines](#engines-configuration)
 * [Custom Flags](#custom-flags)
 
 ## Basic Usage <a name="basic-usage"></a>
@@ -40,18 +45,23 @@ To check the installed version, use the `--version` (`-v`) option:
 web <values>
 ```
 
-The above creates a web query using the provided space-separated ***values*** as a search term and opens the query in a new browser tab.
+The above creates a web query using the provided *space-separated* ***values*** as a search term and opens the query in a new browser tab.
 
 When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in.
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * If browsers configuration is not set up, the operating system's default browser is used.
 
-You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration)).
+You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Setting Up Configuration*](#setting-up-configuration)).
 
 ## Query Options <a name="query-options"></a>
 
+### Options Overview <a name="options-overview"></a>
+
 Query options give you control over the web queries by overriding the app's defaults.
+
+#### *Usage* <a name="options-usage"></a>
+
 
 To use an option in the command, prefix it with a double dash `--`
 
@@ -61,37 +71,36 @@ An option's short (1-letter) alias is prefixed by a single dash `-`
 
 <pre><code>web <em>-x</em></code></pre>
 
-If an option [requires a value](#value-options), provide it in one of the following ways *(short aliases can also be used)*
+If an option requires a value ([value options](#value-options)), provide it in one of the following ways *(short aliases can also be used)*
 
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
 
-> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
+> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what's an actual keyword.
 
-Short aliases can be combined together with a single `-` as long as their combination is valid:
+Short aliases can be combined together with a single dash `-` as long as their combination is valid:
 
 <pre><code>web <em>-xyz</em></code></pre>
 
-Which is effectively:
+Which is effectively this:
 
 <pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
 > ***Use Caution!***  
-> Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it won't get assigned the value).
-
+> Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
 
 #### *Value Options* <a name="value-options"></a>
 
-The following are built-in value options:
+The following are built-in options that require a value when supplying them to the command:
 
 | Option | Alias | Description | Config Type |
 |-|:-:|-|:-:|
-|[`browser`](#option-browser)|[`b`](#option-browser)|*The browser app to open*|*browsers*|
-|[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|*browsers*&nbsp;⚙️|
-|[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|*engines*|
-|[`route`](#option-route)|[`r`](#option-route)|*The engine's route to open or query*|*engines*|
+|[`browser`](#option-browser)|[`b`](#option-browser)|*The browser app to open*|[*browsers*](#browsers-configuration)|
+|[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
+|[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|[*engines*](#engines-configuration)|
+|[`route`](#option-route)|[`r`](#option-route)|*The engine's route to open or query*|[*engines*](#engines-configuration)|
 
-> The ⚙️ symbol indicates that setting up config is required.
+> ⚙️ indicates that configuration is required.
 
 All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
 
@@ -107,9 +116,9 @@ Options that do not require a value are called ***flags***. The following are bu
 |[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
-> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it. Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
+> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=`). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
 
-With browsers and engines configuration set up, you can also use ***custom flags*** which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* in the config files. Custom flags simplify your web queries by being a convenient substitute for value options (see [*Custom Flags*](#custom-flags) for more details).
+With browsers and engines configuration set up, you can also use ***custom flags*** which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options (see [*Custom Flags*](#custom-flags) for more details).
 
 #### *Options Placement* <a name="options-placement"></a>
 
@@ -124,22 +133,24 @@ Options can be placed anywhere in the command
 
 The above command will do the following:
 
-* construct a search query using
-  * values ***"this is an example search query"***
-  * ***DuckDuckGo*** search engine (`--engine=duckduckgo`)
+* construct a web query using
+  * the values ***"this is an example search query"***
+  * the ***DuckDuckGo*** search engine (`--engine=duckduckgo`)
 * open the constructed query in a new ***Firefox*** tab (`--browser=firefox`)
 * in ***incognito / private mode*** (`--incognito`)
 
 ---
 
+### Options Details
+
 ### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="option-browser"></a>
 
 ✅ Requires a value.  
-❌ Configuration is not required but can be used.
+❌ Configuration is optional.
 
 #### ***Description***
 
-Specifies in which browser app the new tab should be opened.
+Specifies in which browser app to open the new tab.
 
 #### ***Usage***
 
@@ -149,10 +160,11 @@ Specifies in which browser app the new tab should be opened.
 
 #### ***Requirements***
 * The requested browser must be installed on the machine.
+* The provided value must be a valid browser key or alias in the browsers config or refer to a valid browser app.
 
 #### ***Configuration***
 
-To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration)
+To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration).
 
 
 ---
@@ -164,7 +176,7 @@ To use browser aliases as the option's value, set up [browsers configuration](#b
 
 #### ***Description***
 
-Specifies what browser profile should be used when opening a new browser tab.
+Specifies what browser profile to use when opening a new tab.
 
 #### ***Usage***
 
@@ -172,23 +184,24 @@ Specifies what browser profile should be used when opening a new browser tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> If the `profile` option is supplied to the command without the `browser` option, the program will search the provided profile value (key or alias) in the config's ***default browser***.
+> If the `browser` option is NOT supplied along with the `profile` to the command , the program will search the provided profile value (key or alias) in the config's ***default browser***.
 
 #### ***Requirements***
 
 * The browser app must support profiles.
 * The profile must be set up in the config file.
+* The provided value must refer to a valid profile key or alias in the browsers config.
 
 #### ***Configuration***
 
-To use the option, set up profiles in [browsers configuration](#browsers-configuration)
+To use the option, set up profiles in [browsers configuration](#browsers-configuration).
 
 ---
 
 ### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="option-engine"></a>
 
 ✅ Requires a value.  
-❌ Does not require ***initial*** configuration.
+❌ No ***initial*** configuration is required.
 
 #### ***Description***
 
@@ -199,6 +212,10 @@ Specifies what search engine or website to query.
 <pre><code>web <em>--engine=value</em></code></pre>
 
 `value` refers to the engine's key or alias in the ***engines*** config.
+
+#### ***Configuration***
+
+To use more engines and websites, add them to [engines configuration](#engines-configuration).
 
 ---
 
