@@ -156,11 +156,17 @@ Specifies in which browser app to open the new tab.
 
 <pre><code>web <em>--browser=value</em></code></pre>
 
-`value` refers to the browser name, or the browser's key or alias in the ***browsers*** config.
+`value` refers to the browser app name, or the browser's key or alias in the ***browsers*** config.
+
+> ***Note!***  
+> The program will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. If the value refers to an app that's installed, the program will attempt to open it as it does not differentiate between which apps are browsers and which ones are not.
+
+You can specify multiple browsers:
+
+<pre><code>web <em>--browser=value</em> <em>--browser=value</em> ...</code></pre>
 
 #### ***Requirements***
 * The requested browser must be installed on the machine.
-* The provided value must be a valid browser key or alias in the browsers config or refer to a valid browser app.
 
 #### ***Configuration***
 
@@ -184,13 +190,30 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> If the `browser` option is NOT supplied along with the `profile` to the command , the program will search the provided profile value (key or alias) in the config's ***default browser***.
+> The option should be used together with the `browser` option. If the browser option is NOT supplied, the program will search the provided profile value (key or alias) in the config's ***default browser***.
+
+> If the profile value is not matched in the provided browser's config, the program will not open the query.
+
+You can specify multiple profiles:
+
+<pre><code>web <em>--profile=value</em> <em>--profile=value</em> ...</code></pre>
+
+If multiple ***browser*** options are supplied, the program will match the profile values to the browsers that include them in the config. So it is safe to provide multiple profiles and multiple browsers even if ***all profiles do not belong to each individual browser*** but as long as ***each individual profile can be matched with some or all of the provided browsers***.
+
+For example:
+
+<pre><code>web <em>--browser=b1</em> <em>--browser=b2</em> <em>--profile=p1</em> <em>--profile=p2</em></code></pre>
+
+Profile `p1` might belong to browser `b1` but not to browser `b2` as long as the second provided profile `p2` belongs to either `b1` or `b2` (or even both). This is just 1 example - there could be many different scenarios like this.
+
+Remember, if no browser option is supplied, all profile values must belong to the default config browser (see how the default values are determined in [Setting Up Configuration](#setting-up-configuration)).
+
+Different browsers can have the same profile keys and aliases in the config.
 
 #### ***Requirements***
 
 * The browser app must support profiles.
 * The profile must be set up in the config file.
-* The provided value must refer to a valid profile key or alias in the browsers config.
 
 #### ***Configuration***
 
