@@ -18,12 +18,12 @@ To check the installed version, use the `--version` (`-v`) option:
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-  * [Options Overview](#options-overview)
-    * [Usage](#options-usage)
+  * [Usage](#options-usage)
+  * [Types](#option-types)
     * [Value Options](#value-options)
-    * [Flag options](#flag-options)
-    * [Options Placement](#options-placement)
-  * [Options Details](#options-details)
+    * [Flag Options](#flag-options)
+  * [Placement](#options-placement)
+  * [Details](#options-details)
     * [browser](#option-browser)
     * [profile](#option-profile)
     * [engine](#option-engine)
@@ -33,8 +33,8 @@ To check the installed version, use the `--version` (`-v`) option:
     * [split](#option-split)
     * [http](#option-http)
 * [Configuration](#configuration-setup)
-  * [the `--config` option](#config-option)
-  * [Setting Up Configuration](#setting-up-configuration)
+  * [Config Options](#config-options)
+  * [Setting Up](#setting-up-configuration)
     * [Browsers](#browsers-configuration)
     * [Engines](#engines-configuration)
 * [Custom Flags](#custom-flags)
@@ -52,15 +52,16 @@ When not supplying any [options](#query-options) to the command, the app uses th
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * If browsers configuration is not set up, the operating system's default browser is used.
 
-You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Setting Up Configuration*](#setting-up-configuration)).
+You can change these defaults, as well as add new browsers and engines in the app's config files (see [*setting up configuration*](#setting-up-configuration)).
+
+---
 
 ## Query Options <a name="query-options"></a>
 
-### Options Overview <a name="options-overview"></a>
 
 Query options give you control over the web queries by overriding the app's defaults.
 
-#### *Usage* <a name="options-usage"></a>
+### Usage <a name="options-usage"></a>
 
 
 To use an option in the command, prefix it with a double dash `--`
@@ -76,7 +77,7 @@ If an option requires a value ([value options](#value-options)), provide it in o
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
 
-> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what's an actual keyword.
+> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
 
 Short aliases can be combined together with a single dash `-` as long as their combination is valid:
 
@@ -89,9 +90,13 @@ Which is effectively this:
 > ***Use Caution!***  
 > Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
 
+---
+
+### Option Types <a name="option-types"></a>
+
 #### *Value Options* <a name="value-options"></a>
 
-The following are built-in options that require a value when supplying them to the command:
+The following are built-in options that require a value:
 
 | Option | Alias | Description | Config Type |
 |-|:-:|-|:-:|
@@ -102,7 +107,7 @@ The following are built-in options that require a value when supplying them to t
 
 > ⚙️ indicates that configuration is required.
 
-All value options, except `profile`, work without any initial configuration but, when such config is set up, the options' usage becomes more enhanced. Refer to each option as well as [*Browsers Configuration*](#browsers-configuration) and [*Engines Configuration*](#engines-configuration) for more details.
+All value options, except `profile`, work without any initial configuration but the options' usage becomes more enhanced when such config is set up. Refer to each option as well as [*browsers configuration*](#browsers-configuration) and [*engines configuration*](#engines-configuration) for more details.
 
 #### *Flag Options* <a name="flag-options"></a>
 
@@ -116,11 +121,12 @@ Options that do not require a value are called ***flags***. The following are bu
 |[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
-> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=`). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
+> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
 
-With browsers and engines configuration set up, you can also use ***custom flags*** which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options (see [*Custom Flags*](#custom-flags) for more details).
+With browsers and engines configuration set up, you can also use [***custom flags***](#custom-flags) which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options.
 
-#### *Options Placement* <a name="options-placement"></a>
+---
+### Options Placement <a name="options-placement"></a>
 
 Options can be placed anywhere in the command
 
@@ -141,7 +147,7 @@ The above command will do the following:
 
 ---
 
-### Options Details
+<a name="options-details"></a>
 
 ### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="option-browser"></a>
 
@@ -159,7 +165,7 @@ Specifies in which browser app to open the new tab.
 `value` refers to the browser app name, or the browser's key or alias in the ***browsers*** config.
 
 > ***Note!***  
-> The program will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. If the value refers to an app that's installed, the program will attempt to open it as it does not differentiate between which apps are browsers and which ones are not.
+> The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
 
 You can specify multiple browsers:
 
@@ -190,25 +196,26 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. If the browser option is NOT supplied, the program will search the provided profile value (key or alias) in the config's ***default browser***.
-
-> If the profile value is not matched in the provided browser's config, the program will not open the query.
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [setting up configuration](#setting-up-configuration)).
+>
+> ***Important!***  
+> If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
 
 You can specify multiple profiles:
 
 <pre><code>web <em>--profile=value</em> <em>--profile=value</em> ...</code></pre>
 
-If multiple ***browser*** options are supplied, the program will match the profile values to the browsers that include them in the config. So it is safe to provide multiple profiles and multiple browsers even if ***all profiles do not belong to each individual browser*** but as long as ***each individual profile can be matched with some or all of the provided browsers***.
+If multiple ***browser*** options are supplied, the program will attach each profile to one or more browsers that include that profile in their configs. So it is safe to supply multiple browsers and multiple profiles even if ***all profiles do not belong to each browser*** but as long as ***each profile can be matched with one or more browsers***.
 
 For example:
 
 <pre><code>web <em>--browser=b1</em> <em>--browser=b2</em> <em>--profile=p1</em> <em>--profile=p2</em></code></pre>
 
-Profile `p1` might belong to browser `b1` but not to browser `b2` as long as the second provided profile `p2` belongs to either `b1` or `b2` (or even both). This is just 1 example - there could be many different scenarios like this.
+Profile `p1` might belong to browser `b1` but not to browser `b2` as long as the second profile `p2` belongs to either `b1` or `b2` or both. This is just 1 example - there could be many different scenarios like this.
 
-Remember, if no browser option is supplied, all profile values must belong to the default config browser (see how the default values are determined in [Setting Up Configuration](#setting-up-configuration)).
+> Remember, if no browser option is supplied, all profile values must belong to the default ***config*** browser (not to the operating system's default browser).
 
-Different browsers can have the same profile keys and aliases in the config.
+Different browsers can have the same profile keys and aliases in their configs.
 
 #### ***Requirements***
 
