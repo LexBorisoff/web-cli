@@ -33,7 +33,7 @@ To check the installed version, use the `--version` (`-v`) option:
     * [`split`](#option-split)
     * [`http`](#option-http)
 * [Configuration](#configuration-setup)
-  * [`config` option](#config-options)
+  * [`config`](#option-config)
   * [Setting Up](#setting-up-configuration)
     * [Browsers](#browsers-configuration)
     * [Engines](#engines-configuration)
