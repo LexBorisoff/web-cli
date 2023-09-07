@@ -18,20 +18,20 @@ To check the installed version, use the `--version` (`-v`) option:
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-  * [Using Options](#using-options)
-  * [Option Types](#option-types)
+  * [Usage](#option-using)
+  * [Types](#option-types)
     * [Value Options](#value-options)
     * [Flag Options](#flag-options)
-  * [Options Placement](#options-placement)
-  * [Options Details](#options-details)
-    * [`browser`](#option-browser)
-    * [`profile`](#option-profile)
-    * [`engine`](#option-engine)
-    * [`route`](#option-route)
-    * [`incognito`](#option-incognito)
-    * [`keyword`](#option-keyword)
-    * [`split`](#option-split)
-    * [`http`](#option-http)
+  * [Placement](#option-placement)
+  * [Details](#option-details)
+    * [`browser`](#browser-option-details)
+    * [`profile`](#profile-option-details)
+    * [`engine`](#engine-option-details)
+    * [`route`](#route-option-details)
+    * [`incognito`](#incognito-option-details)
+    * [`keyword`](#keyword-option-details)
+    * [`split`](#split-option-details)
+    * [`http`](#http-option-details)
 * [Configuration](#configuration-setup)
   * [`config`](#option-config)
   * [Setting Up](#setting-up-configuration)
@@ -61,7 +61,7 @@ You can change these defaults, as well as add new browsers and engines in the ap
 
 Query options give you control over the web queries by overriding the app's defaults.
 
-### Using Options <a name="options-usage"></a>
+### Usage <a name="option-usage"></a>
 
 
 To use an option in the command, prefix it with a double dash `--`
@@ -92,7 +92,7 @@ Which is effectively this:
 
 ---
 
-### Option Types <a name="option-types"></a>
+### Types <a name="option-types"></a>
 
 #### *Value Options* <a name="value-options"></a>
 
@@ -126,7 +126,7 @@ Options that do not require a value are called ***flags***. The following are bu
 With browsers and engines configuration set up, you can also use [***custom flags***](#custom-flags) which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options.
 
 ---
-### Options Placement <a name="options-placement"></a>
+### Placement <a name="option-placement"></a>
 
 Options can be placed anywhere in the command
 
@@ -147,9 +147,9 @@ The above command will do the following:
 
 ---
 
-### Options Details <a name="options-details"></a>
+### Details <a name="option-details"></a>
 
-### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="option-browser"></a>
+### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option-details"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is optional.
@@ -181,7 +181,7 @@ To use browser aliases as the option's value, set up [browsers configuration](#b
 
 ---
 
-### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="option-profile"></a>
+### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option-details"></a>
 
 ✅ Requires a value.  
 ✅ Requires configuration.
@@ -228,7 +228,7 @@ To use the option, set up profiles in [browsers configuration](#browsers-configu
 
 ---
 
-### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="option-engine"></a>
+### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option-details"></a>
 
 ✅ Requires a value.  
 ❌ No ***initial*** configuration is required.
@@ -249,23 +249,23 @@ To use more engines and websites, add them to [engines configuration](#engines-c
 
 ---
 
-### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="option-route"></a>
+### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option-details"></a>
 
 ---
 
-### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="option-incognito"></a>
+### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option-details"></a>
 
 ---
 
-### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="option-keyword"></a>
+### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="keyword-option-details"></a>
 
 ---
 
-### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="option-split"></a>
+### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option-details"></a>
 
 ---
 
-### `--http` Use the HTTP (non-secure) protocol <a name="option-http"></a>
+### `--http` Use the HTTP (non-secure) protocol <a name="http-option-details"></a>
 
 ---
 
