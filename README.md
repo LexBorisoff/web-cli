@@ -18,12 +18,12 @@ To check the installed version, use the `--version` (`-v`) option:
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
-  * [Usage](#options-usage)
+  * [Using Options](#using-options)
   * [Option Types](#option-types)
     * [Value Options](#value-options)
     * [Flag Options](#flag-options)
-  * [Placement](#options-placement)
-  * [Details](#options-details)
+  * [Options Placement](#options-placement)
+  * [Options Details](#options-details)
     * [`browser`](#option-browser)
     * [`profile`](#option-profile)
     * [`engine`](#option-engine)
@@ -61,7 +61,7 @@ You can change these defaults, as well as add new browsers and engines in the ap
 
 Query options give you control over the web queries by overriding the app's defaults.
 
-### Usage <a name="options-usage"></a>
+### Using Options <a name="options-usage"></a>
 
 
 To use an option in the command, prefix it with a double dash `--`
@@ -147,7 +147,7 @@ The above command will do the following:
 
 ---
 
-<a name="options-details"></a>
+### Options Details <a name="options-details"></a>
 
 ### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="option-browser"></a>
 
