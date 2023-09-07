@@ -45,7 +45,7 @@ To check the installed version, use the `--version` (`-v`) option:
 web <values>
 ```
 
-The above creates a web query using the provided *space-separated* ***values*** as a search term and opens the query in a new browser tab.
+Replace `<values>` with space-separated search term keywords to create a web query and open it  in a new browser tab. 
 
 When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in.
 
