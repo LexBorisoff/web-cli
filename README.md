@@ -87,7 +87,7 @@ web github.com npmjs.com developer.mozilla.org
 &gt; `https://npmjs.com`  
 &gt; `https://developer.mozilla.org`
 
-### *Keywords & URLs together*
+### *Keywords and URLs together*
 
 If both keywords and URLs are provided, then all values are treated as search term keywords:
 
