@@ -100,7 +100,7 @@ web most starred repos on github.com
 # Query Options <a name="query-options"></a>
 
 
-Query options give you control over the web queries by overriding program defaults.
+Query options give you control over the web queries by overriding app defaults.
 
 ## Usage <a name="option-usage"></a>
 
@@ -171,7 +171,7 @@ Options can be placed anywhere in the command
 
 <pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> search query</code></pre>
 
-> Normally, you would place your options where they make sense visually (such as the beginning or the end of the command) or as you need them when you construct your query.
+> Normally, you would place the options where they make sense visually (such as the beginning or the end of the command) or as you need them when you construct a query.
 
 The above command will do the following:
 
