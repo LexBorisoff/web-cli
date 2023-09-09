@@ -25,7 +25,7 @@ To check the installed version, use the `--version` (`-v`) option:
 * [Configuration](#configuration-setup)
   * [Browsers](#browsers-configuration)
   * [Engines](#engines-configuration)
-* [Built-in Options](#option-placement)
+* [Built-in Options](#built-in-options)
     * [`config`](#option-config)
     * [`browser`](#browser-option)
     * [`profile`](#profile-option)
@@ -142,7 +142,7 @@ The above command will do the following:
 
 ## Engines Configuration <a name="engines-configuration"></a>
 
-# Built-in Options
+# Built-in Options <a name="built-in-options"></a>
 
 * [`config`](#config-option)
 * [`browser`](#browser-option)
@@ -161,7 +161,7 @@ The above command will do the following:
 
 ### ***Description***
 
-Specifies in which browser app to open the new tab.
+Specifies the browser app in which to open the new tab.
 
 ### ***Usage***
 
