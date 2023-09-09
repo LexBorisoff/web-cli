@@ -60,7 +60,7 @@ web hello world in javascript
 
 &gt; `https://google.com/search?q=hello world in javascript`
 
-In absence of [query options](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
+In the absence of [query options](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * The operating system's default browser is used unless the browsers configuration is set up.
