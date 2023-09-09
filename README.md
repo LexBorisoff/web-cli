@@ -95,7 +95,7 @@ The following are built-in options that require a value:
 |[`browser`](#option-browser)|[`b`](#option-browser)|*The browser app to open*|[*browsers*](#browsers-configuration)|
 |[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
 |[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|[*engines*](#engines-configuration)|
-|[`route`](#option-route)|[`r`](#option-route)|*The engine's route to open or query*|[*engines*](#engines-configuration)|
+|[`route`](#option-route)|[`r`](#option-route)|*The engine's route to access*|[*engines*](#engines-configuration)|
 
 > ⚙️ indicates that configuration is required.
 
@@ -157,7 +157,7 @@ The above command will do the following:
 ## `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option"></a>
 
 ✅ Requires a value.  
-❌ Configuration is optional.
+⭕ Configuration is optional.
 
 ### ***Description***
 
@@ -172,7 +172,7 @@ Specifies in which browser app to open the new tab.
 > ***Note!***  
 > The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
 
-You can specify multiple browsers:
+You can specify multiple browsers to open:
 
 <pre><code>web <em>--browser=value</em> <em>--browser=value</em> ...</code></pre>
 
@@ -187,7 +187,7 @@ To use browser aliases as the option's value, set up [browsers configuration](#b
 ## `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option"></a>
 
 ✅ Requires a value.  
-✅ Requires configuration.
+✅ Requires ***browsers*** configuration.
 
 ### ***Description***
 
@@ -199,7 +199,7 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [setting up configuration](#setting-up-configuration)).
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [setting up configuration](#configuration-setup)).
 >
 > ***Important!***  
 > If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
@@ -233,7 +233,7 @@ To use the option, set up profiles in [browsers configuration](#browsers-configu
 ## `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option"></a>
 
 ✅ Requires a value.  
-❌ No ***initial*** configuration is required.
+⭕ No ***initial*** configuration is required.
 
 ### ***Description***
 
@@ -247,9 +247,51 @@ Specifies what search engine or website to query.
 
 ### ***Configuration***
 
-To use more engines and websites, add them to [engines configuration](#engines-configuration).
+To use more engines and websites than the app defaults provide, add them to [engines configuration](#engines-configuration).
 
-## `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option"></a>
+## `--route`&nbsp;&nbsp;`-r` The engine's route to access <a name="route-option"></a>
+
+✅ Requires a value.  
+⭕ Configuration is optional.
+
+### ***Description***
+
+Overrides the default behavior of *querying* a search engine by specifying the engine's route to access directly.
+
+
+### ***Usage***
+
+#### 1. Without command values
+
+<pre><code>web <em>--route=value</em></code></pre>
+
+`value` refers to the engine's route to access.
+
+> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [setting up configuration](#configuration-setup)).
+
+For example, the following command adds "teapot" to the engine's URL to access the route directly instead of searching it as a keyword.
+
+<pre><code>web <em>--engine=google</em> <em>--route=teapot</em></code></pre>
+
+&gt; `https://google.com/teapot`
+
+#### 2. With command values
+
+When supplying values to the command, each value is used in a separate web query as a URL path segment after the provided route.
+
+For example, the following creates 3 distinct web queries:
+
+<pre><code>web <em>--engine=npm</em> <em>--route=package</em> lodash axios express</code></pre>
+
+&gt; `https://npmjs.com/package/lodash`  
+&gt; `https://npmjs.com/package/axios`  
+&gt; `https://npmjs.com/package/express`  
+
+### ***Configuration***
+
+The option's value can be a key from an engine's `routes` property in [engines configuration](#engines-configuration). If this config property is set up, the program will search it first to find the provided value among the property's keys. If it cannot be found, then the supplied value itself is used to build the query.
+
+Setting the `routes` property can be useful when frequently accessing an engine's route that can be long to type in the command or hard to remember the full path of.
 
 ## `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option"></a>
 
