@@ -156,12 +156,10 @@ The above command will do the following:
 
 ## `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option"></a>
 
+Specifies the browser app in which to open the new tab.
+
 ✅ Requires a value.  
 ⭕ Configuration is optional.
-
-### ***Description***
-
-Specifies the browser app in which to open the new tab.
 
 ### ***Usage***
 
@@ -186,12 +184,10 @@ To use browser aliases as the option's value, set up [browsers configuration](#b
 
 ## `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option"></a>
 
+Specifies what browser profile to use when opening a new tab.
+
 ✅ Requires a value.  
 ✅ Requires ***browsers*** configuration.
-
-### ***Description***
-
-Specifies what browser profile to use when opening a new tab.
 
 ### ***Usage***
 
@@ -232,12 +228,10 @@ To use the option, set up profiles in [browsers configuration](#browsers-configu
 
 ## `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option"></a>
 
+Specifies what search engine or website to query.
+
 ✅ Requires a value.  
 ⭕ No ***initial*** configuration is required.
-
-### ***Description***
-
-Specifies what search engine or website to query.
 
 ### ***Usage***
 
@@ -251,13 +245,10 @@ To use more engines and websites than the app defaults provide, add them to [eng
 
 ## `--route`&nbsp;&nbsp;`-r` The engine's route to access <a name="route-option"></a>
 
-✅ Requires a value.  
-⭕ Configuration is optional.
-
-### ***Description***
-
 Overrides the default behavior of *querying* a search engine by specifying the engine's route to access directly.
 
+✅ Requires a value.  
+⭕ Configuration is optional.
 
 ### ***Usage***
 
