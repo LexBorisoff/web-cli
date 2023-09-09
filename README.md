@@ -2,7 +2,7 @@
 
 Web CLI is a configurable Node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
 
-## Installation <a name="installation"></a>
+# Installation <a name="installation"></a>
 
 Install the package globally:
 
@@ -14,54 +14,49 @@ To check the installed version, use the `--version` (`-v`) option:
 
 <pre><code>web <em>--version</em></code></pre>
 
-## Table of Contents <a name="table-of-contents"></a>
+# Table of Contents <a name="table-of-contents"></a>
 
 * [Basic Usage](#basic-usage)
 * [Query Options](#query-options)
   * [Usage](#option-using)
-  * [Types](#option-types)
-    * [Value Options](#value-options)
-    * [Flag Options](#flag-options)
+  * [Value options](#value-options)
+  * [Flag options](#flag-options)
   * [Placement](#option-placement)
-  * [Details](#option-details)
-    * [`browser`](#browser-option-details)
-    * [`profile`](#profile-option-details)
-    * [`engine`](#engine-option-details)
-    * [`route`](#route-option-details)
-    * [`incognito`](#incognito-option-details)
-    * [`keyword`](#keyword-option-details)
-    * [`split`](#split-option-details)
-    * [`http`](#http-option-details)
 * [Configuration](#configuration-setup)
-  * [`config`](#option-config)
-  * [Setting Up](#setting-up-configuration)
-    * [Browsers](#browsers-configuration)
-    * [Engines](#engines-configuration)
-* [Custom Flags](#custom-flags)
+  * [Browsers](#browsers-configuration)
+  * [Engines](#engines-configuration)
+* [Built-in Options](#option-placement)
+    * [`config`](#option-config)
+    * [`browser`](#browser-option)
+    * [`profile`](#profile-option)
+    * [`engine`](#engine-option)
+    * [`route`](#route-option)
+    * [`incognito`](#incognito-option)
+    * [`keyword`](#keyword-option)
+    * [`split`](#split-option)
+    * [`http`](#http-option)
+* [Custom Options](#custom-options)
 
-## Basic Usage <a name="basic-usage"></a>
+# Basic Usage <a name="basic-usage"></a>
 
-```
-web <values>
-```
+<pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-Replace `<values>` with space-separated search term keywords to create a web query and open it  in a new browser tab. 
+Replace *&lt;values&gt;* with space-separated search term keywords to create a web query and open it  in a new browser tab.
 
-When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in.
+When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in:
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
-* If browsers configuration is not set up, the operating system's default browser is used.
+* The operating system's default browser is used until the browsers configuration is set up.
 
 You can change these defaults, as well as add new browsers and engines in the app's config files (see [*setting up configuration*](#setting-up-configuration)).
 
----
 
-## Query Options <a name="query-options"></a>
+# Query Options <a name="query-options"></a>
 
 
 Query options give you control over the web queries by overriding the app's defaults.
 
-### Usage <a name="option-usage"></a>
+## Usage <a name="option-usage"></a>
 
 
 To use an option in the command, prefix it with a double dash `--`
@@ -90,11 +85,8 @@ Which is effectively this:
 > ***Use Caution!***  
 > Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
 
----
 
-### Types <a name="option-types"></a>
-
-#### *Value Options* <a name="value-options"></a>
+## Value Options <a name="value-options"></a>
 
 The following are built-in options that require a value:
 
@@ -109,7 +101,7 @@ The following are built-in options that require a value:
 
 All value options, except `profile`, work without any initial configuration but the options' usage becomes more enhanced when such config is set up. Refer to each option as well as [*browsers configuration*](#browsers-configuration) and [*engines configuration*](#engines-configuration) for more details.
 
-#### *Flag Options* <a name="flag-options"></a>
+## Flag Options <a name="flag-options"></a>
 
 Options that do not require a value are called ***flags***. The following are built-in flag options:
 
@@ -125,8 +117,7 @@ Options that do not require a value are called ***flags***. The following are bu
 
 With browsers and engines configuration set up, you can also use [***custom flags***](#custom-flags) which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options.
 
----
-### Placement <a name="option-placement"></a>
+## Placement <a name="option-placement"></a>
 
 Options can be placed anywhere in the command
 
@@ -145,11 +136,26 @@ The above command will do the following:
 * open the constructed query in a new ***Firefox*** tab (`--browser=firefox`)
 * in ***incognito / private mode*** (`--incognito`)
 
+# Configuration <a name="configuration-setup"></a>
+
+## Browsers Configuration <a name="browsers-configuration"></a>
+
+## Engines Configuration <a name="engines-configuration"></a>
+
+# Built-in Options
+
+* [`browser`](#browser-option)
+* [`profile`](#profile-option)
+* [`engine`](#engine-option)
+* [`route`](#route-option)
+* [`incognito`](#incognito-option)
+* [`keyword`](#keyword-option)
+* [`split`](#split-option)
+* [`http`](#http-option)
+
 ---
 
-### Details <a name="option-details"></a>
-
-### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option-details"></a>
+### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is optional.
@@ -181,7 +187,7 @@ To use browser aliases as the option's value, set up [browsers configuration](#b
 
 ---
 
-### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option-details"></a>
+### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option"></a>
 
 ✅ Requires a value.  
 ✅ Requires configuration.
@@ -228,7 +234,7 @@ To use the option, set up profiles in [browsers configuration](#browsers-configu
 
 ---
 
-### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option-details"></a>
+### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option"></a>
 
 ✅ Requires a value.  
 ❌ No ***initial*** configuration is required.
@@ -249,33 +255,27 @@ To use more engines and websites, add them to [engines configuration](#engines-c
 
 ---
 
-### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option-details"></a>
+### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option"></a>
 
 ---
 
-### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option-details"></a>
+### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option"></a>
 
 ---
 
-### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="keyword-option-details"></a>
+### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="keyword-option"></a>
 
 ---
 
-### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option-details"></a>
+### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option"></a>
 
 ---
 
-### `--http` Use the HTTP (non-secure) protocol <a name="http-option-details"></a>
+### `--http` Use the HTTP (non-secure) protocol <a name="http-option"></a>
 
 ---
 
-## Configuration <a name="configuration-setup"></a>
-
-### Browsers Configuration <a name="browsers-configuration"></a>
-
-### Engines Configuration <a name="engines-configuration"></a>
-
-## Custom Flags <a name="custom-flags"></a>
+# Custom Flags <a name="custom-flags"></a>
 
 When you set up browsers and engines config files, certain keys and values automatically become *flags*. You can use these custom flags as a substitute for `browser`, `profile`, and `engine` options.
 
