@@ -43,7 +43,7 @@ To perform basic web queries from the terminal, provide ***space-separated value
 
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-The app will then construct 1 or more queries based on the type of values and open them in the new browser tab(s).
+The app will then construct 1 or more queries based on the type of values and open the them in the new browser tab(s).
 
 There are 2 types of values:
 
@@ -52,7 +52,7 @@ There are 2 types of values:
 
 ## Keywords <a name="basic-usage-keywords"></a>
 
-When providing keywords to the command, only 1 web query will be created using the values as a search term. For example:
+When providing keywords to the command, only 1 web query is created using the values as a search term. For example:
 
 ```
 web hello world in javascript
@@ -218,7 +218,6 @@ You can specify multiple browsers to open:
 
 To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration).
 
-
 ## `--profile`&nbsp;&nbsp;`-p` <a name="profile-option"></a>
 
 Specifies what browser profile to use when opening a new tab.
@@ -276,9 +275,15 @@ Specifies what search engine or website to query.
 
 `value` refers to the engine's key or alias in the ***engines*** config.
 
+When supplying URLs to the command, this option overrides the default behavior of accessing the URLs directly. Instead, they are treated as search term keywords for the provided engine. For example:
+
+<pre><code>web github.com <em>--engine=google</em></code></pre>
+
+&gt; `https://google.com/search?q=github.com`
+
 ### ***Configuration***
 
-To use more engines and websites than the app defaults provide, add them to [engines configuration](#engines-configuration).
+To use more engines and websites than the app defaults, add them to [engines configuration](#engines-configuration).
 
 ## `--route`&nbsp;&nbsp;`-r` <a name="route-option"></a>
 
