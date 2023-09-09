@@ -17,12 +17,13 @@ To check the installed version, use the `--version` (`-v`) option:
 # Table of Contents <a name="table-of-contents"></a>
 
 * [Basic Usage](#basic-usage)
+  * [Keywords](#basic-usage-keywords)
+  * [URLs](#basic-usage-urls)
 * [Query Options](#query-options)
   * [Usage](#option-using)
   * [Value options](#value-options)
   * [Flag options](#flag-options)
   * [Placement](#option-placement)
-* [Parsing Values](#parsing-values)
 * [Built-in Options](#built-in-options)
     * [`browser`](#browser-option)
     * [`profile`](#profile-option)
@@ -38,16 +39,63 @@ To check the installed version, use the `--version` (`-v`) option:
 
 # Basic Usage <a name="basic-usage"></a>
 
+To perform basic web queries from the terminal, provide ***space-separated values*** to the `web` command:
+
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-Replace *&lt;values&gt;* with space-separated search term keywords to create a web query. The app will then open the query in a new browser tab.
+The app will then construct 1 or more queries based on the type of values and open them in the new browser tab(s).
 
-When not supplying any [query options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
+There are 2 types of values:
+
+1. Keywords
+2. URLs
+
+## Keywords <a name="basic-usage-keywords"></a>
+
+When providing keywords to the command, only 1 web query will be created using the values as a search term. For example:
+
+```
+web hello world in javascript
+```
+
+&gt; `https://google.com/search?q=hello world in javascript`
+
+In absence of [query options](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
-* The operating system's default browser is used until the browsers configuration is set up.
+* The operating system's default browser is used unless the browsers configuration is set up.
 
-You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Configuration*](#configuration-setup)).
+You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration-setup).
+
+## URLs <a name="basic-usage-urls"></a>
+
+When providing a URL as a value, the default behavior is to access that URL directly:
+
+```
+web github.com
+```
+
+&gt; `https://github.com`
+
+If multiple URLs are supplied, each URL is accessed via a separate web query:
+
+```
+web github.com npmjs.com developer.mozilla.org
+```
+
+&gt; `https://github.com`  
+&gt; `https://npmjs.com`  
+&gt; `https://developer.mozilla.org`
+
+### *Keywords & URLs together*
+
+If both keywords and URLs are provided, then all values are treated as search term keywords:
+
+```
+web most starred repos on github.com
+```
+
+&gt; `https://google.com/search?q=most starred repos on github.com`
 
 # Query Options <a name="query-options"></a>
 
@@ -128,39 +176,18 @@ Options can be placed anywhere in the command
 The above command will do the following:
 
 * construct a web query using
-  * the values ***"this is an example search query"***
+  * the keywords ***"this is an example search query"***
   * the ***DuckDuckGo*** search engine (`--engine=duckduckgo`)
 * open the constructed query in a new ***Firefox*** tab (`--browser=firefox`)
 * in ***incognito / private mode*** (`--incognito`)
 
-
-# Parsing Values <a name="parsing-values"></a>
-
-how the values are parsed
-
-* simple values
-* URLs
-* URLs and values
-
-When providing a URL as a value, the default behavior is to access that URL:
-
-<pre><code>web github.com</code></pre>
-
-&gt; `https://github.com`
-
-<pre><code>web <em>--engine=google</em> github.com</code></pre>
-
-&gt; `https://google.com/search?q=github.com`
-
 # Built-in Options <a name="built-in-options"></a>
 
-* [`config`](#config-option)
 * [`browser`](#browser-option)
 * [`profile`](#profile-option)
 * [`engine`](#engine-option)
 * [`route`](#route-option)
 * [`incognito`](#incognito-option)
-* [`keyword`](#keyword-option)
 * [`split`](#split-option)
 * [`http`](#http-option)
 
