@@ -41,20 +41,20 @@ To check the installed version, use the `--version` (`-v`) option:
 
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-Replace *&lt;values&gt;* with space-separated search term keywords to create a web query and open it  in a new browser tab.
+Replace *&lt;values&gt;* with space-separated search term keywords to create a web query. The app will then open the query in a new browser tab.
 
-When not supplying any [options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open the query in:
+When not supplying any [query options](#query-options) to the command, the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * The operating system's default browser is used until the browsers configuration is set up.
 
-You can change these defaults, as well as add new browsers and engines in the app's config files (see [*setting up configuration*](#setting-up-configuration)).
+You can change these defaults, as well as add new browsers and engines in the app's config files (see [*Configuration*](#configuration-setup)).
 
 
 # Query Options <a name="query-options"></a>
 
 
-Query options give you control over the web queries by overriding the app's defaults.
+Query options give you control over the web queries by overriding program defaults.
 
 ## Usage <a name="option-usage"></a>
 
@@ -72,7 +72,7 @@ If an option requires a value ([value options](#value-options)), provide it in o
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
 
-> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This will help avoid any confusion between what is an option's value and what is an actual keyword.
+> The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This helps avoid any confusion between what is an option's value and what is an actual keyword.
 
 Short aliases can be combined together with a single dash `-` as long as their combination is valid:
 
@@ -144,6 +144,7 @@ The above command will do the following:
 
 # Built-in Options
 
+* [`config`](#config-option)
 * [`browser`](#browser-option)
 * [`profile`](#profile-option)
 * [`engine`](#engine-option)
@@ -153,18 +154,16 @@ The above command will do the following:
 * [`split`](#split-option)
 * [`http`](#http-option)
 
----
-
-### `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option"></a>
+## `--browser`&nbsp;&nbsp;`-b` The browser app to open <a name="browser-option"></a>
 
 ✅ Requires a value.  
 ❌ Configuration is optional.
 
-#### ***Description***
+### ***Description***
 
 Specifies in which browser app to open the new tab.
 
-#### ***Usage***
+### ***Usage***
 
 <pre><code>web <em>--browser=value</em></code></pre>
 
@@ -177,26 +176,24 @@ You can specify multiple browsers:
 
 <pre><code>web <em>--browser=value</em> <em>--browser=value</em> ...</code></pre>
 
-#### ***Requirements***
+### ***Requirements***
 * The requested browser must be installed on the machine.
 
-#### ***Configuration***
+### ***Configuration***
 
 To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration).
 
 
----
-
-### `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option"></a>
+## `--profile`&nbsp;&nbsp;`-p` The browser profile to use <a name="profile-option"></a>
 
 ✅ Requires a value.  
 ✅ Requires configuration.
 
-#### ***Description***
+### ***Description***
 
 Specifies what browser profile to use when opening a new tab.
 
-#### ***Usage***
+### ***Usage***
 
 <pre><code>web <em>--profile=value</em></code></pre>
 
@@ -223,59 +220,46 @@ Profile `p1` might belong to browser `b1` but not to browser `b2` as long as the
 
 Different browsers can have the same profile keys and aliases in their configs.
 
-#### ***Requirements***
+### ***Requirements***
 
 * The browser app must support profiles.
 * The profile must be set up in the config file.
 
-#### ***Configuration***
+### ***Configuration***
 
 To use the option, set up profiles in [browsers configuration](#browsers-configuration).
 
----
 
-### `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option"></a>
+## `--engine`&nbsp;&nbsp;`-e` The search engine (or website) to query <a name="engine-option"></a>
 
 ✅ Requires a value.  
 ❌ No ***initial*** configuration is required.
 
-#### ***Description***
+### ***Description***
 
 Specifies what search engine or website to query.
 
-#### ***Usage***
+### ***Usage***
 
 <pre><code>web <em>--engine=value</em></code></pre>
 
 `value` refers to the engine's key or alias in the ***engines*** config.
 
-#### ***Configuration***
+### ***Configuration***
 
 To use more engines and websites, add them to [engines configuration](#engines-configuration).
 
----
+## `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option"></a>
 
-### `--route`&nbsp;&nbsp;`-r` The engine's route to open or query <a name="route-option"></a>
+## `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option"></a>
 
----
+## `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="keyword-option"></a>
 
-### `--incognito`&nbsp;&nbsp;`-i` Open in incognito / private mode <a name="incognito-option"></a>
+## `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option"></a>
 
----
+## `--http` Use the HTTP (non-secure) protocol <a name="http-option"></a>
 
-### `--keyword`&nbsp;&nbsp;`-k` Treat all values as keywords for the web query <a name="keyword-option"></a>
-
----
-
-### `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option"></a>
-
----
-
-### `--http` Use the HTTP (non-secure) protocol <a name="http-option"></a>
-
----
-
-# Custom Flags <a name="custom-flags"></a>
+# Custom Options <a name="custom-options"></a>
 
 When you set up browsers and engines config files, certain keys and values automatically become *flags*. You can use these custom flags as a substitute for `browser`, `profile`, and `engine` options.
 
@@ -291,7 +275,7 @@ can be re-written by using custom flags:
 
 > If a custom flag conflicts with a query option or alias [listed above](#query-options), the query option takes precedence and you must use the value option in that case.
 
-#### *How Custom Flags Are Created*
+### *How Custom Flags Are Created*
 
 Let's say we have the following ***browsers config***:
 ```js
