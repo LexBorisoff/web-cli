@@ -423,6 +423,43 @@ JSON structure:
 
 ## Engines <a name="engines-configuration"></a>
 
+TypeScript interface:
+
+```typescript
+interface Engines {
+  [engineKey: string]: {
+    name: string;
+    url: string;
+    query?: string;
+    delimiter?: string;
+    isDefault?: boolean;
+    alias?: string | string[];
+    routes?: Routes;
+  }
+}
+
+interface Routes {
+  [routeKey: string]: string;
+}
+```
+
+JSON structure:
+
+```json
+{
+  "<engine_key>": {
+    "name": "string",
+    "url": "string",
+    "query": "string",
+    "delimiter": "string",
+    "isDefault": "boolean",
+    "alias": "string_or_array_of_strings",
+    "routes": {
+      "<route_key>": "string"
+    }
+  }
+}
+```
 
 # Custom Flags <a name="custom-flags"></a>
 
