@@ -427,7 +427,7 @@ Here's an example of a browsers config file:
 {
   "chrome": {
     "alias": ["c"],
-    "profiles:" {
+    "profiles": {
       "dev": {
         "directory": "Profile 1",
         "alias": ["d"]
@@ -440,7 +440,7 @@ Here's an example of a browsers config file:
   },
   "edge": {
     "alias": ["e"],
-    "profiles:" {
+    "profiles": {
       "dev": {
         "directory": "Profile 1",
         "alias": ["d"]
