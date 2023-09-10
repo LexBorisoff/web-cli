@@ -183,14 +183,6 @@ The above command will do the following:
 
 # Built-in Options <a name="built-in-options"></a>
 
-* [`browser`](#option-browser)
-* [`profile`](#option-profile)
-* [`engine`](#option-engine)
-* [`route`](#option-route)
-* [`incognito`](#option-incognito)
-* [`split`](#option-split)
-* [`http`](#option-http)
-
 ## `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
 
 Specifies the browser app in which to open the new tab.
