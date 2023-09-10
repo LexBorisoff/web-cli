@@ -20,10 +20,10 @@ To check the installed version, use the `--version` (`-v`) option:
   * [Keywords](#basic-usage-keywords)
   * [URLs](#basic-usage-urls)
 * [Query Options](#query-options)
-  * [Usage](#option-using)
+  * [Usage](#options-usage)
   * [Value options](#value-options)
   * [Flag options](#flag-options)
-  * [Placement](#option-placement)
+  * [Placement](#options-placement)
 * [Built-in Options](#built-in-options)
     * [`browser`](#option-browser)
     * [`profile`](#option-profile)
@@ -102,7 +102,7 @@ web most starred repos on github.com
 
 Query options give you control over the web queries by overriding app defaults.
 
-## Usage <a name="option-usage"></a>
+## Usage <a name="options-usage"></a>
 
 
 To use an option in the command, prefix it with a double dash `--`
@@ -162,7 +162,7 @@ Options that do not require a value are called ***flags***. The following are bu
 
 With browsers and engines configuration set up, you can also use [***custom flags***](#custom-flags) which are created from the keys and aliases of *browsers*, *browser profiles*, and *engines* from the config files. Custom flags simplify your web queries by being a convenient substitute for value options.
 
-## Placement <a name="option-placement"></a>
+## Placement <a name="options-placement"></a>
 
 Options can be placed anywhere in the command
 
@@ -183,15 +183,15 @@ The above command will do the following:
 
 # Built-in Options <a name="built-in-options"></a>
 
-* [`browser`](#browser-option)
-* [`profile`](#profile-option)
-* [`engine`](#engine-option)
-* [`route`](#route-option)
-* [`incognito`](#incognito-option)
-* [`split`](#split-option)
-* [`http`](#http-option)
+* [`browser`](#option-browser)
+* [`profile`](#option-profile)
+* [`engine`](#option-engine)
+* [`route`](#option-route)
+* [`incognito`](#option-incognito)
+* [`split`](#option-split)
+* [`http`](#option-http)
 
-## `--browser`&nbsp;&nbsp;`-b` <a name="browser-option"></a>
+## `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
 
 Specifies the browser app in which to open the new tab.
 
@@ -218,7 +218,7 @@ You can specify multiple browsers to open:
 
 To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration).
 
-## `--profile`&nbsp;&nbsp;`-p` <a name="profile-option"></a>
+## `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
 
 Specifies what browser profile to use when opening a new tab.
 
@@ -262,7 +262,7 @@ Different browsers can have the same profile keys and aliases in their configs.
 To use the option, set up profiles in [browsers configuration](#browsers-configuration).
 
 
-## `--engine`&nbsp;&nbsp;`-e` <a name="engine-option"></a>
+## `--engine`&nbsp;&nbsp;`-e` <a name="option-engine"></a>
 
 Specifies what search engine or website to query.
 
@@ -285,7 +285,7 @@ When supplying URLs to the command, this option overrides the default behavior o
 
 To use more engines and websites than the app defaults, add them to [engines configuration](#engines-configuration).
 
-## `--route`&nbsp;&nbsp;`-r` <a name="route-option"></a>
+## `--route`&nbsp;&nbsp;`-r` <a name="option-route"></a>
 
 Overrides the default behavior of *querying* a search engine by specifying the engine's route to access directly.
 
@@ -346,7 +346,7 @@ we can use `repos` and `stars` as a value of the `route` option:
 
 &gt; `https://github.com/username?tab=repositories`
 
-## `--incognito`&nbsp;&nbsp;`-i` <a name="incognito-option"></a>
+## `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
 
 Opens web queries in a private / incognito mode.
 
@@ -357,7 +357,7 @@ Opens web queries in a private / incognito mode.
 
 <pre><code>web <em>--incognito</em></code></pre>
 
-## `--split`&nbsp;&nbsp;`-s` <a name="split-option"></a>
+## `--split`&nbsp;&nbsp;`-s` <a name="option-split"></a>
 
 Splits provided values into separate web queries.
 
@@ -372,7 +372,7 @@ Splits provided values into separate web queries.
 &gt; `https://developer.mozilla.org/search?q=Symbol`  
 &gt; `https://developer.mozilla.org/search?q=class`
 
-## `--http` <a name="http-option"></a>
+## `--http` <a name="option-http"></a>
 
 Uses the HTTP (non-secure) protocol when constructing the web queries.
 
