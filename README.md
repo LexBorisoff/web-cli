@@ -414,6 +414,22 @@ interface BrowsersData {
   }
 }
 ```
+
+```typescript
+{
+  [key: string]: {
+    isDefault?: boolean;
+    alias?: string | string[];
+    profiles?: {
+      [key: string]: {
+        directory: string;
+        isDefault?: boolean;
+        alias?: string | string[];
+      }
+    }
+  }
+}
+```
 ## Engines <a name="engines-configuration"></a>
 
 
