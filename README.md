@@ -447,7 +447,7 @@ Let's say we have the following browsers config:
   }
 }
 ```
-These values from the above config can be used as custom flags:
+These items from the above config can be used as custom flags:
 
 ||keys|alias values
 |-|:-:|:-:|
@@ -497,7 +497,7 @@ Here's an example of an engines config:
 }
 ```
 
-The following values from the above config can be used as custom flags:
+The following items from the above config can be used as custom flags:
 
 |keys|alias values
 |:-:|:-:|
