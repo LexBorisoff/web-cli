@@ -507,8 +507,8 @@ Here's an example of an engines config:
 
 The following values from the above config can be used as custom flags:
 
-||keys|alias values
-|-|:-:|:-:|
-|engine|`google` `duckduckgo` `youtube` `mdn`|`g` `duck` `ddg` `y` `yt` `m`|
+|keys|alias values
+|:-:|:-:|
+|`google` `duckduckgo` `youtube` `mdn`|`g` `duck` `ddg` `y` `yt` `m`|
 
 💡 Notice that the engine alias `r` cannot be used as a custom flag because it conflicts with the alias of the `route` option.
