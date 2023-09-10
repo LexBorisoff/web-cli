@@ -32,7 +32,7 @@ To check the installed version, use the `--version` (`-v`) option:
     * [`incognito`](#option-incognito)
     * [`split`](#option-split)
     * [`http`](#option-http)
-* [Configuration](#configuration)
+* [Configuration](#configuration-setup)
   * [Browsers](#browsers-configuration)
   * [Engines](#engines-configuration)
 * [Custom Flags](#custom-flags)
@@ -65,7 +65,7 @@ In the absence of [*query options*](#query-options), the app uses the ***default
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * The operating system's default browser is used unless the browsers configuration is set up.
 
-You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration).
+You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration-setup).
 
 ## URLs <a name="basic-usage-urls"></a>
 
@@ -223,7 +223,7 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration)).
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration-setup)).
 >
 > ***Important!***  
 > If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
@@ -292,7 +292,7 @@ Overrides the default behavior of *querying* a search engine by specifying the e
 
 `value` refers to the engine's route to access.
 
-> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration)).
+> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration-setup)).
 
 For example, the following command adds "teapot" to the engine's URL to access the route directly instead of searching it as a keyword.
 
@@ -379,15 +379,21 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 
 &gt; `http://example.com`
 
-# Configuration <a name="configuration"></a>
+# Configuration <a name="configuration-setup"></a>
 
 Setting up configuration allows to enhance some of the [built-in options](#built-in-options) as well as to use [custom flags](#custom-flags).
 
-Both browsers and engines configurations are in the JSON format. To open a corresponding config file, use the `config` option which accepts one of the values: `browsers` and `engines`:
+Both browsers and engines configurations are in the JSON format. To open a corresponding config file, use the `config` option which accepts one of the values: `browsers` or `engines`:
 
 <pre><code>web <em>--config=browsers</em></code></pre>
 
 <pre><code>web <em>--config=engines</em></code></pre>
+
+The files will open in the OS default application for editing JSON. Optionally, you can supply 1 or more space-separated apps to open the config files in:
+
+<pre><code>web <em>--config=browsers</em> code</code></pre>
+
+<pre><code>web <em>--config=engines</em> notepad++</code></pre>
 
 Modifying each config requires you to follow their accepted data structures explained below.
 
@@ -412,6 +418,9 @@ Browsers configuration is a JSON file containing an object with browsers data. T
 ```
 
 > You can add as many browser objects to the config file as you have browsers on your machine. Each browser object is separated by a comma, and trailing commas are not allowed in a JSON file.
+>
+> ***Note!***  
+> Setting up browsers configuration does not limit you to using only the browsers in the config. You can still supply other browser values to the `browser` option, but using custom flags is only available after setting up the config.
 
 * `<browser_key>`: a string representing the browser app that is supplied to the `browser` option.
 * `isDefault`: *optional* - accepts a boolean value indicating if the browser should be used as default. ***If not present, then the first browser object in the config file is used as default***. If multiple browser objects have this property, then the first one with it will be used as default.
