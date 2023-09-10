@@ -25,13 +25,13 @@ To check the installed version, use the `--version` (`-v`) option:
   * [Flag options](#flag-options)
   * [Placement](#option-placement)
 * [Built-in Options](#built-in-options)
-    * [`browser`](#browser-option)
-    * [`profile`](#profile-option)
-    * [`engine`](#engine-option)
-    * [`route`](#route-option)
-    * [`incognito`](#incognito-option)
-    * [`split`](#split-option)
-    * [`http`](#http-option)
+    * [`browser`](#option-browser)
+    * [`profile`](#option-profile)
+    * [`engine`](#option-engine)
+    * [`route`](#option-route)
+    * [`incognito`](#option-incognito)
+    * [`split`](#option-split)
+    * [`http`](#option-http)
 * [Configuration](#configuration-setup)
   * [Browsers](#browsers-configuration)
   * [Engines](#engines-configuration)
@@ -357,10 +357,35 @@ Opens web queries in a private / incognito mode.
 
 <pre><code>web <em>--incognito</em></code></pre>
 
-## `--split`&nbsp;&nbsp;`-s` Split values into separate web queries <a name="split-option"></a>
+## `--split`&nbsp;&nbsp;`-s` <a name="split-option"></a>
 
-## `--http` Use the HTTP (non-secure) protocol <a name="http-option"></a>
+Splits provided values into separate web queries.
 
+🚩 Flag option - no value is required.  
+❌ No configuration.
+
+### ***Usage***
+
+<pre><code>web <em>--engine=mdn</em> Object Symbol class <em>--split</em></code></pre>
+
+&gt; `https://developer.mozilla.org/search?q=Object`  
+&gt; `https://developer.mozilla.org/search?q=Symbol`  
+&gt; `https://developer.mozilla.org/search?q=class`
+
+## `--http` <a name="http-option"></a>
+
+Uses the HTTP (non-secure) protocol when constructing the web queries.
+
+🚩 Flag option - no value is required.  
+❌ No configuration.
+
+### ***Usage***
+
+The default behavior is to always use the HTTPS (secure) protocol when building web queries. But sometimes this might not be convenient, especially when trying to access a URL, such as your project website, that does not have a secure certificate. In such cases, using the option overrides this default.
+
+<pre><code>web example.com <em>--http</em></code></pre>
+
+&gt; `http://example.com`
 
 # Configuration <a name="configuration-setup"></a>
 
@@ -371,27 +396,37 @@ Opens web queries in a private / incognito mode.
 
 # Custom Flags <a name="custom-flags"></a>
 
-When you set up browsers and engines config files, certain keys and values automatically become *flags*. You can use these custom flags as a substitute for `browser`, `profile`, and `engine` options.
+When the browsers and engines config files are set up, certain keys and values automatically become *flags*. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
 
 For example, the following command with value options
 
 <pre><code>web <em>--browser=chrome --profile=dev --engine=mdn</em></code></pre>
 
-can be re-written by using custom flags:
+can be re-written using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-... assuming the Chrome profile "***dev***" and the engine "***mdn***" are set up.
-
 > If a custom flag conflicts with a query option or alias [listed above](#query-options), the query option takes precedence and you must use the value option in that case.
 
-### *How Custom Flags Are Created*
+## How Custom Flags Are Created
 
-Let's say we have the following ***browsers config***:
-```js
+
+The following config items are used to create custom flags:
+
+||keys|alias values
+|-|:-:|:-:|
+|browser|✅|✅|
+|profile|✅|✅|
+|engine|✅|✅|
+
+### *Browsers config*
+
+Here's an example of a browsers config file:
+
+```json
 {
   "chrome": {
-    "alias": "c",
+    "alias": ["c"],
     "profiles:" {
       "dev": {
         "directory": "Profile 1",
@@ -404,15 +439,15 @@ Let's say we have the following ***browsers config***:
     }
   },
   "edge": {
-    "alias": "e",
+    "alias": ["e"],
     "profiles:" {
       "dev": {
         "directory": "Profile 1",
         "alias": ["d"]
       },
-      "personal": {
+      "business": {
         "directory": "Profile 2",
-        "alias": ["p"]
+        "alias": ["b"]
       }
     }
   },
@@ -421,3 +456,11 @@ Let's say we have the following ***browsers config***:
   }
 }
 ```
+The following values from the above config can be used as custom flags:
+
+* browser keys: `chrome`, `edge`, `firefox`
+* browser alias values: `c`, `f`, `ff`, `fox`
+* profile keys: `dev`, `personal`, `business`
+* profile alias values: `d`
+
+💡 Notice that the browser alias `e`, as well as profile aliases `p` and `b` cannot be used as custom flags because they conflict with aliases of `engine`, `profile` and `browser` options.
