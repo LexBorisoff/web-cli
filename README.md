@@ -408,18 +408,17 @@ JSON structure:
 ```json
 {
   "<browser_key>": {
-    "isDefault": "boolean", // optional
-    "alias": "string_or_array_of_strings", // optional
-    "profiles": { // optional
+    "isDefault": "boolean",
+    "alias": "string_or_array_of_strings",
+    "profiles": {
       "<profile_key>": {
-        "directory": "string", // required
-        "isDefault": "boolean", // optional
-        "alias": "string_or_array_of_strings" // optional
-      },
-      // other profiles
-    }
-  },
-  // other browsers
+        "directory": "string",
+        "isDefault": "boolean",
+        "alias": "string_or_array_of_strings"
+      }
+    },
+    ...
+  }
 }
 ```
 
