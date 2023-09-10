@@ -32,7 +32,7 @@ To check the installed version, use the `--version` (`-v`) option:
     * [`incognito`](#option-incognito)
     * [`split`](#option-split)
     * [`http`](#option-http)
-* [Configuration](#configuration-setup)
+* [Configuration](#configuration)
   * [Browsers](#browsers-configuration)
   * [Engines](#engines-configuration)
 * [Custom Flags](#custom-flags)
@@ -65,7 +65,7 @@ In the absence of [*query options*](#query-options), the app uses the ***default
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * The operating system's default browser is used unless the browsers configuration is set up.
 
-You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration-setup).
+You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration).
 
 ## URLs <a name="basic-usage-urls"></a>
 
@@ -223,7 +223,7 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration-setup)).
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration)).
 >
 > ***Important!***  
 > If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
@@ -292,7 +292,7 @@ Overrides the default behavior of *querying* a search engine by specifying the e
 
 `value` refers to the engine's route to access.
 
-> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration-setup)).
+> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration)).
 
 For example, the following command adds "teapot" to the engine's URL to access the route directly instead of searching it as a keyword.
 
@@ -379,11 +379,49 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 
 &gt; `http://example.com`
 
-# Configuration <a name="configuration-setup"></a>
+# Configuration <a name="configuration"></a>
+
+Setting up configuration allows to enhance some of the [built-in options](#built-in-options) as well as to use [custom flags](#custom-flags).
+
+Both browsers and engines configurations are in the JSON format. To open a corresponding config file, use the `config` option which accepts one of the values: `browsers` and `engines`:
+
+<pre><code>web <em>--config=browsers</em></code></pre>
+
+<pre><code>web <em>--config=engines</em></code></pre>
+
+Modifying each config requires you to follow their accepted data structures explained below.
 
 ## Browsers <a name="browsers-configuration"></a>
 
-TypeScript interface:
+Browsers configuration is a JSON file containing an object with browsers data. The following describes a browser object inside the JSON config file.
+
+```json
+{
+  "<browser_key>": {
+    "isDefault": "boolean",
+    "alias": "string_or_array_of_strings",
+    "profiles": {
+      "<profile_key>": {
+        "directory": "string",
+        "isDefault": "boolean",
+        "alias": "string_or_array_of_strings"
+      }
+    }
+  }
+}
+```
+
+> You can add as many browser objects to the config file as you have browsers on your machine. Each browser object is separated by a comma, and trailing commas are not allowed in a JSON file.
+
+* `<browser_key>`: a string representing the browser app that is supplied to the `browser` option.
+* `isDefault`: *optional* - accepts a boolean value indicating if the browser should be used as default. ***If not present, then the first browser object in the config file is used as default***. If multiple browser objects have this property, then the first one with it will be used as default.
+* `alias`: *optional* - accepts a string or array of strings that can be used instead of `<browser_key>`.
+* `profiles`: *optional* - accepts an object that represents browser profiles:
+  * `<profile_key>`: a string representing the browser profile that is supplied to the `profile` option.
+  * `directory`: *required* - accepts a string representing the profile's exact directory name (NOT the full path, just the folder name). Different operating systems have different ways of storing user's browser profile data - please search how to find such folder on your OS, if you are not sure.
+  * `alias`: *optional* - accepts a string or array of strings that can be used instead of `<profile_key>`.
+
+### *TypeScript reference representing the above JSON data*
 
 ```typescript
 interface Browsers {
@@ -403,27 +441,75 @@ interface Profiles {
 }
 ```
 
-JSON structure:
+### *Example browsers config*
 
 ```json
 {
-  "<browser_key>": {
-    "isDefault": "boolean",
-    "alias": "string_or_array_of_strings",
+  "chrome": {
+    "alias": "c",
     "profiles": {
-      "<profile_key>": {
-        "directory": "string",
-        "isDefault": "boolean",
-        "alias": "string_or_array_of_strings"
+      "dev": {
+        "directory": "Profile 1",
+        "alias": "d"
+      },
+      "personal": {
+        "directory": "Profile 2",
+        "alias": "p"
       }
     }
+  },
+  "edge": {
+    "alias": "e",
+    "profiles": {
+      "dev": {
+        "directory": "Profile 1",
+        "alias": "d"
+      },
+      "school": {
+        "directory": "Profile 2",
+        "alias": ["s", "study"]
+      }
+    }
+  },
+  "firefox": {
+    "alias": ["f", "ff", "fox"],
   }
 }
 ```
 
 ## Engines <a name="engines-configuration"></a>
 
-TypeScript interface:
+Engines configuration is a JSON file containing an object with engines data. The following describes an engine object inside the JSON config file.
+
+```json
+{
+  "<engine_key>": {
+    "name": "string",
+    "url": "string",
+    "query": "string",
+    "delimiter": "string",
+    "isDefault": "boolean",
+    "alias": "string_or_array_of_strings",
+    "routes": {
+      "<route_key>": "string"
+    }
+  }
+}
+```
+
+> You can add as many engine objects to the config file as you'd like to use. Each engine object is separated by a comma, and trailing commas are not allowed in a JSON file.
+
+* `<engine_key>`: a string representing the search engine or website that is supplied to the `engine` option.
+* `name`: *required* - accepts a string representing the name of the search engine / website.
+* `url`: *required* - accepts a string of the engine's base URL ***without the protocol*** and ***without the query string***. For example, in a URL like this: `https://google.com/search?q=whatever` - supply only `google.com`.
+* `query`: *optional* - accepts a string representing the search engine's query string. Following the example above: `https://google.com/search?q=whatever` - the query string is `search?q=` which sits between the engine's base url and the search keywords. To find an engine's query string, go to its URL then type anything in its search box and hit enter. You will find that most websites and search engines have their own query string that you can grab. If not, then that engine cannot be used for searching with the query string.
+* `delimiter`: *optional* - accepts a string (normally a single character) representing the delimiter between search term keywords. Sometimes you will find that search engines modify the search query URL by replacing the space with another character, such as a `+` sign. If you find that the engine has a different delimiter, then provide it here. ***The default delimiter is the space character***.
+* `isDefault`: *optional* - accepts a boolean value indicating if the engine should be used as default. ***If not present, then the first engine object in the config file is used as default***. If multiple engine objects have this property, then the first one with it will be used as default.
+* `alias`: *optional* - accepts a string or array of strings that can be used instead of `<engine_key>`.
+* `routes`: *optional* - accepts an object that represents engine routes:
+  * `<route_key>`: a string representing the route that is supplied to the `route` option. It accepts a string value of the route's actual segment of the URL. Think of the `<route_key>` as an alias for the route. For example, in a routes key-value pair like this: `"repos": "username?tab=repositories"` - the `repos` is what's provided to the `route` option, while the `username?tab=repositories` is what's actually used to build the web query URL.
+
+### *TypeScript reference representing the above JSON data*
 
 ```typescript
 interface Engines {
@@ -443,21 +529,45 @@ interface Routes {
 }
 ```
 
-JSON structure:
+### *Example engines config*
 
 ```json
 {
-  "<engine_key>": {
-    "name": "string",
-    "url": "string",
-    "query": "string",
-    "delimiter": "string",
-    "isDefault": "boolean",
-    "alias": "string_or_array_of_strings",
+  "google": {
+    "name": "Google",
+    "url": "google.com",
+    "query": "search?q="
+  },
+  "duckduckgo": {
+    "name": "DuckDuckGo",
+    "url": "duckduckgo.com",
+    "query": "?q=",
+    "delimiter": "+",
+    "alias": ["duck", "ddg"]
+  },
+  "youtube": {
+    "name": "YouTube",
+    "url": "youtube.com",
+    "query": "results?search_query=",
+    "delimiter": "+",
+    "alias": ["y", "yt"]
+  },
+  "mdn": {
+    "name": "MDN",
+    "url": "developer.mozilla.org",
+    "query": "search?q=",
+    "alias": "m"
+  },
+  "github": {
+    "name": "Github",
+    "url": "github.com",
+    "query": "search?q=",
+    "alias": ["git", "gh"],
     "routes": {
-      "<route_key>": "string"
+      "repos": "username?tab=repositories",
+      "stars": "username?tab=stars"
     }
-  }
+  },
 }
 ```
 
@@ -511,9 +621,9 @@ Let's say we have the following browsers config:
         "directory": "Profile 1",
         "alias": "d"
       },
-      "business": {
+      "school": {
         "directory": "Profile 2",
-        "alias": ["b", "biz"]
+        "alias": ["s", "study"]
       }
     }
   },
@@ -527,9 +637,9 @@ These items from the above config can be used as custom flags:
 ||keys|alias values
 |-|:-:|:-:|
 |browser|`chrome` `edge` `firefox`|`c` `f` `ff` `fox`|
-|profile|`dev` `personal` `business`|`d` `biz`|
+|profile|`dev` `personal` `school`|`d`, `study`|
 
-💡 Notice that the browser alias `e`, as well as profile aliases `p` and `b` cannot be used as custom flags because they conflict with aliases of `engine`, `profile` and `browser` options.
+💡 Notice that the browser alias `e`, as well as profile aliases `p` and `s` cannot be used as custom flags because they conflict with aliases of `engine`, `profile` and `split` options.
 
 ### *Engines config*
 
