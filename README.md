@@ -416,8 +416,7 @@ JSON structure:
         "isDefault": "boolean",
         "alias": "string_or_array_of_strings"
       }
-    },
-    ...
+    }
   }
 }
 ```
