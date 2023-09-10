@@ -54,7 +54,7 @@ There are 2 types of values:
 
 When providing keywords to the command, only 1 web query is created using the values as a search term. For example:
 
-```
+```shell
 web hello world in javascript
 ```
 
@@ -71,7 +71,7 @@ You can change these defaults, as well as add new browsers and engines in the ap
 
 When providing a URL as a value, the default behavior is to access that URL directly:
 
-```
+```shell
 web github.com
 ```
 
@@ -79,7 +79,7 @@ web github.com
 
 If multiple URLs are supplied, each URL is accessed via a separate web query:
 
-```
+```shell
 web github.com npmjs.com developer.mozilla.org
 ```
 
@@ -91,7 +91,7 @@ web github.com npmjs.com developer.mozilla.org
 
 If both keywords and URLs are provided, then all values are treated as search term keywords:
 
-```
+```shell
 web most starred repos on github.com
 ```
 
@@ -318,13 +318,33 @@ For example, the following creates 3 distinct web queries:
 
 &gt; `https://npmjs.com/package/lodash`  
 &gt; `https://npmjs.com/package/axios`  
-&gt; `https://npmjs.com/package/express`  
+&gt; `https://npmjs.com/package/express`
 
 ### ***Configuration***
 
-The option's value can be a key from an engine's `routes` property in [engines configuration](#engines-configuration). If this config property is set up, the program will search it first to find the provided value among the property's keys. If it cannot be found, then the supplied value itself is used to build the query.
+The option's value can be a key from an engine's `routes` property in [engines configuration](#engines-configuration). When this config property is set up, the program will search it first to find the provided value among the property's keys. If it is not there, then the supplied value itself is used to build the web query.
 
-Setting up the `routes` property can be useful when frequently accessing an engine's route that can be long to type in the command or hard to remember the full path of.
+Setting up the `routes` property can be useful when frequently accessing an engine's route that can be long to type or hard to remember the full path of.
+
+For example, with the following GitHub engine config
+
+```json
+"github": {
+  "name": "GitHub",
+  "url": "github.com",
+  "query": "search?q=",
+  "routes": {
+    "repos": "username?tab=repositories",
+    "stars": "username?tab=stars"
+  }
+}
+```
+
+we can use `repos` and `stars` as a value of the `route` option:
+
+<pre><code>web <em>--engine=github</em> <em>--route=repos</em></code></pre>
+
+&gt; `https://github.com/username?tab=repositories`
 
 ## `--incognito`&nbsp;&nbsp;`-i` <a name="incognito-option"></a>
 
