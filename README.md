@@ -60,7 +60,7 @@ web hello world in javascript
 
 &gt; `https://google.com/search?q=hello world in javascript`
 
-In the absence of [query options](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
+In the absence of [*query options*](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
 
 * After installation, you get a set of initial search engines that you can use, with Google being the default.
 * The operating system's default browser is used unless the browsers configuration is set up.
@@ -113,7 +113,7 @@ An option's short (1-letter) alias is prefixed by a single dash `-`
 
 <pre><code>web <em>-x</em></code></pre>
 
-If an option requires a value ([value options](#value-options)), provide it in one of the following ways *(short aliases can also be used)*
+If an option requires a value ([*value options*](#value-options)), provide it in one of the following ways *(short aliases can also be used)*
 
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
@@ -129,7 +129,7 @@ Which is effectively this:
 <pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
 > ***Use Caution!***  
-> Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
+> Combining short aliases of multiple [*value options*](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [*flag options*](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
 
 
 ## Value options <a name="value-options"></a>
@@ -208,7 +208,7 @@ You can specify multiple browsers to open:
 
 ### ***Configuration***
 
-To use browser aliases as the option's value, set up [browsers configuration](#browsers-configuration).
+To use browser aliases as the option's value, set up [*browsers configuration*](#browsers-configuration).
 
 ## `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
 
@@ -223,7 +223,7 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [setting up configuration](#configuration-setup)).
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration-setup)).
 >
 > ***Important!***  
 > If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
@@ -251,7 +251,7 @@ Different browsers can have the same profile keys and aliases in their configs.
 
 ### ***Configuration***
 
-To use the option, set up profiles in [browsers configuration](#browsers-configuration).
+To use the option, set up profiles in [*browsers configuration*](#browsers-configuration).
 
 
 ## `--engine`&nbsp;&nbsp;`-e` <a name="option-engine"></a>
@@ -275,7 +275,7 @@ When supplying URLs to the command, this option overrides the default behavior o
 
 ### ***Configuration***
 
-To use more engines and websites than the app defaults, add them to [engines configuration](#engines-configuration).
+To use more engines and websites than the app defaults, add them to [*engines configuration*](#engines-configuration).
 
 ## `--route`&nbsp;&nbsp;`-r` <a name="option-route"></a>
 
@@ -292,7 +292,7 @@ Overrides the default behavior of *querying* a search engine by specifying the e
 
 `value` refers to the engine's route to access.
 
-> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [setting up configuration](#configuration-setup)).
+> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration-setup)).
 
 For example, the following command adds "teapot" to the engine's URL to access the route directly instead of searching it as a keyword.
 
@@ -314,7 +314,7 @@ For example, the following creates 3 distinct web queries:
 
 ### ***Configuration***
 
-The option's value can be a key from an engine's `routes` property in [engines configuration](#engines-configuration). When this config property is set up, the program will search it first to find the provided value among the property's keys. If it is not there, then the supplied value itself is used to build the web query.
+The option's value can be a key from an engine's `routes` property in [*engines configuration*](#engines-configuration). When this config property is set up, the program will search it first to find the provided value among the property's keys. If it is not there, then the supplied value itself is used to build the web query.
 
 Setting up the `routes` property can be useful when frequently accessing an engine's route that can be long to type or hard to remember the full path of.
 
@@ -398,7 +398,7 @@ can be re-written using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-> If a custom flag conflicts with a [query option](#query-options) or its alias, the query option takes precedence and you must use the value option in that case.
+> If a custom flag conflicts with a [*query option*](#query-options) or its alias, the query option takes precedence and you must use the value option in that case.
 
 ## How custom flags are created
 
