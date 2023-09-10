@@ -382,54 +382,47 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 # Configuration <a name="configuration-setup"></a>
 
 ## Browsers <a name="browsers-configuration"></a>
-```ts
+
+TypeScript interface:
+
+```typescript
+interface Browsers {
+  [browserKey: string]: {
+    isDefault?: boolean;
+    alias?: string | string[];
+    profiles?: Profiles
+  }
+}
+
+interface Profiles {
+  [profileKey: string]: {
+    directory: string;
+    isDefault?: boolean;
+    alias?: string | string[];
+  }
+}
+```
+
+JSON structure:
+
+```json
 {
   "<browser_key>": {
-    "isDefault": boolean, // optional
-    "alias": string | string[], // optional
+    "isDefault": "boolean", // optional
+    "alias": "string_or_array_of_strings", // optional
     "profiles": { // optional
       "<profile_key>": {
-        "directory": string,
-        "alias": string | string[] // optional
+        "directory": "string", // required
+        "isDefault": "boolean", // optional
+        "alias": "string_or_array_of_strings" // optional
       },
-      ...
+      // other profiles
     }
   },
-  ...
+  // other browsers
 }
 ```
 
-```typescript
-interface BrowsersData {
-  [key: string]: {
-    isDefault?: boolean;
-    alias?: string | string[];
-    profiles?: {
-      [key: string]: {
-        directory: string;
-        isDefault?: boolean;
-        alias?: string | string[];
-      }
-    }
-  }
-}
-```
-
-```typescript
-{
-  [key: string]: {
-    isDefault?: boolean;
-    alias?: string | string[];
-    profiles?: {
-      [key: string]: {
-        directory: string;
-        isDefault?: boolean;
-        alias?: string | string[];
-      }
-    }
-  }
-}
-```
 ## Engines <a name="engines-configuration"></a>
 
 
