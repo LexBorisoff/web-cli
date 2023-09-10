@@ -132,7 +132,7 @@ Which is effectively this:
 > Combining short aliases of multiple [value options](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [flag options](#flag-options) with no more than 1 value option placed at the very end of the combination (if the value option is placed in the middle, it will not get assigned the value).
 
 
-## Value Options <a name="value-options"></a>
+## Value options <a name="value-options"></a>
 
 The following are built-in options that require a value:
 
@@ -147,7 +147,7 @@ The following are built-in options that require a value:
 
 All value options, except `profile`, work without any initial configuration but the options' usage becomes more enhanced when such config is set up. Refer to each option as well as [*browsers configuration*](#browsers-configuration) and [*engines configuration*](#engines-configuration) for more details.
 
-## Flag Options <a name="flag-options"></a>
+## Flag options <a name="flag-options"></a>
 
 Options that do not require a value are called ***flags***. The following are built-in flag options:
 
@@ -389,14 +389,14 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 
 # Configuration <a name="configuration-setup"></a>
 
-## Browsers Configuration <a name="browsers-configuration"></a>
+## Browsers <a name="browsers-configuration"></a>
 
-## Engines Configuration <a name="engines-configuration"></a>
+## Engines <a name="engines-configuration"></a>
 
 
 # Custom Flags <a name="custom-flags"></a>
 
-When the browsers and engines config files are set up, certain keys and values automatically become *flags*. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
+When browsers and engines config files are set up, certain keys and values automatically become *flags*. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
 
 For example, the following command with value options
 
@@ -406,14 +406,13 @@ can be re-written using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-> If a custom flag conflicts with a query option or alias [listed above](#query-options), the query option takes precedence and you must use the value option in that case.
+> If a custom flag conflicts with a [query option](#query-options) or its alias, the query option takes precedence and you must use the value option in that case.
 
-## How Custom Flags Are Created
-
+## How custom flags are created
 
 The following config items are used to create custom flags:
 
-||keys|alias values
+||keys|alias values|
 |-|:-:|:-:|
 |browser|✅|✅|
 |profile|✅|✅|
@@ -421,33 +420,33 @@ The following config items are used to create custom flags:
 
 ### *Browsers config*
 
-Here's an example of a browsers config file:
+Let's say we have the following browsers config:
 
 ```json
 {
   "chrome": {
-    "alias": ["c"],
+    "alias": "c",
     "profiles": {
       "dev": {
         "directory": "Profile 1",
-        "alias": ["d"]
+        "alias": "d"
       },
       "personal": {
         "directory": "Profile 2",
-        "alias": ["p"]
+        "alias": "p"
       }
     }
   },
   "edge": {
-    "alias": ["e"],
+    "alias": "e",
     "profiles": {
       "dev": {
         "directory": "Profile 1",
-        "alias": ["d"]
+        "alias": "d"
       },
       "business": {
         "directory": "Profile 2",
-        "alias": ["b"]
+        "alias": ["b", "biz"]
       }
     }
   },
@@ -456,11 +455,60 @@ Here's an example of a browsers config file:
   }
 }
 ```
-The following values from the above config can be used as custom flags:
+These values from the above config can be used as custom flags:
 
-* browser keys: `chrome`, `edge`, `firefox`
-* browser alias values: `c`, `f`, `ff`, `fox`
-* profile keys: `dev`, `personal`, `business`
-* profile alias values: `d`
+||keys|alias values
+|-|:-:|:-:|
+|browser|`chrome` `edge` `firefox`|`c` `f` `ff` `fox`|
+|profile|`dev` `personal` `business`|`d` `biz`|
 
 💡 Notice that the browser alias `e`, as well as profile aliases `p` and `b` cannot be used as custom flags because they conflict with aliases of `engine`, `profile` and `browser` options.
+
+### *Engines config*
+
+Here's an example of an engines config:
+
+```json
+{
+  "google": {
+    "name": "Google",
+    "url": "google.com",
+    "query": "search?q=",
+    "alias": "g"
+  },
+  "duckduckgo": {
+    "name": "DuckDuckGo",
+    "url": "duckduckgo.com",
+    "query": "?q=",
+    "delimiter": "+",
+    "alias": ["duck", "ddg"]
+  },
+  "youtube": {
+    "name": "YouTube",
+    "url": "youtube.com",
+    "query": "results?search_query=",
+    "delimiter": "+",
+    "alias": ["y", "yt"]
+  },
+  "mdn": {
+    "name": "MDN",
+    "url": "developer.mozilla.org",
+    "query": "search?q=",
+    "alias": "m"
+  },
+  "reddit": {
+    "name": "Reddit",
+    "url": "reddit.com",
+    "query": "search?q=",
+    "alias": "r"
+  }
+}
+```
+
+The following values from the above config can be used as custom flags:
+
+||keys|alias values
+|-|:-:|:-:|
+|engine|`google` `duckduckgo` `youtube` `mdn`|`g` `duck` `ddg` `y` `yt` `m`|
+
+💡 Notice that the engine alias `r` cannot be used as a custom flag because it conflicts with the alias of the `route` option.
