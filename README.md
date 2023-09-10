@@ -54,7 +54,7 @@ There are 2 types of values:
 
 When providing keywords to the command, only 1 web query is created using the values as a search term. For example:
 
-```shell
+```
 web hello world in javascript
 ```
 
@@ -71,7 +71,7 @@ You can change these defaults, as well as add new browsers and engines in the ap
 
 When providing a URL as a value, the default behavior is to access that URL directly:
 
-```shell
+```
 web github.com
 ```
 
@@ -79,7 +79,7 @@ web github.com
 
 If multiple URLs are supplied, each URL is accessed via a separate web query:
 
-```shell
+```
 web github.com npmjs.com developer.mozilla.org
 ```
 
@@ -91,7 +91,7 @@ web github.com npmjs.com developer.mozilla.org
 
 If both keywords and URLs are provided, then all values are treated as search term keywords:
 
-```shell
+```
 web most starred repos on github.com
 ```
 
