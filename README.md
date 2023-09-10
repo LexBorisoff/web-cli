@@ -382,7 +382,38 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 # Configuration <a name="configuration-setup"></a>
 
 ## Browsers <a name="browsers-configuration"></a>
+```ts
+{
+  "<browser_key>": {
+    "isDefault": boolean, // optional
+    "alias": string | string[], // optional
+    "profiles": { // optional
+      "<profile_key>": {
+        "directory": string,
+        "alias": string | string[] // optional
+      },
+      ...
+    }
+  },
+  ...
+}
+```
 
+```typescript
+interface BrowsersData {
+  [key: string]: {
+    isDefault?: boolean;
+    alias?: string | string[];
+    profiles?: {
+      [key: string]: {
+        directory: string;
+        isDefault?: boolean;
+        alias?: string | string[];
+      }
+    }
+  }
+}
+```
 ## Engines <a name="engines-configuration"></a>
 
 
