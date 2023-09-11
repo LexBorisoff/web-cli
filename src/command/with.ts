@@ -16,9 +16,9 @@ function withProfile(browserName: string): boolean {
 
 const withRoute = route != null;
 
-const withURL =
+const withURLsOnly =
   args.length > 0 && args.every((arg) => urlPattern.test(`${arg}`));
 
-const withValues = args.some((arg) => !urlPattern.test(`${arg}`));
+const withKeywords = args.some((arg) => !urlPattern.test(`${arg}`));
 
-export { withEngine, withProfile, withRoute, withURL, withValues };
+export { withEngine, withProfile, withRoute, withURLsOnly, withKeywords };

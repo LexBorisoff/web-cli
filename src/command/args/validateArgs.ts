@@ -36,7 +36,7 @@ export default function validateArgs(): string[] {
 
   /* VALIDATE ENGINE ARGS */
   if (isEmptyArg(engineArgs)) {
-    add(error(`${chalk.italic("--query")} option must have a value`));
+    add(error(`${chalk.italic("--engine")} option must have a value`));
   }
 
   const invalidEngines = engineArgs.filter(
@@ -71,7 +71,7 @@ export default function validateArgs(): string[] {
    */
   const emptyBrowserArg = isEmptyArg(browserArgs);
   if (emptyBrowserArg) {
-    add(error(`${chalk.italic("--open")} option must have a value`));
+    add(error(`${chalk.italic("--browser")} option must have a value`));
   }
 
   /**

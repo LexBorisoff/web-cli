@@ -2,7 +2,12 @@ import chalk from "chalk";
 import getEngine from "./getEngine";
 import { urlPattern } from "../patterns";
 import { emptyLine, printWarning, printError } from "../print";
-import { withEngine, withRoute, withValues, withURL } from "../../command/with";
+import {
+  withEngine,
+  withRoute,
+  withKeywords,
+  withURLsOnly,
+} from "../../command/with";
 import { getQueryArgs, getDataArgs } from "../../command/args";
 import { orArray } from "../../command/args/utils";
 import { getDefaultsData } from "../../data";
@@ -158,17 +163,13 @@ function createURLs(engineNameOrAlias?: string): string[] {
     }
   }
   // search query
-  else if (withValues) {
+  else if (withKeywords) {
     searchQuery();
   }
   // URL
-  else if (withURL) {
-    // single search query with URL args as part of the search query
-    if (args.join) {
-      searchQuery();
-    }
+  else if (withURLsOnly) {
     // full URLs based on the provided URL args
-    else if (engineNameOrAlias == null) {
+    if (engineNameOrAlias == null) {
       urlArgs.forEach((website) => {
         urls.push(getFullURL(website));
       });
@@ -202,7 +203,7 @@ export default function getURLs(): string[] {
   const urls: string[] = [];
   const engineArgs = getDataArgs.engine();
 
-  if (withEngine || withValues || withURL) {
+  if (withEngine || withKeywords || withURLsOnly) {
     if (engineArgs.length > 0) {
       engineArgs.forEach((engineNameOrAlias) => {
         urls.push(...createURLs(engineNameOrAlias));

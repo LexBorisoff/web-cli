@@ -5,9 +5,9 @@ import { configFlags } from "../../data";
 
 export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
-    .option(Option.Open, {
+    .option(Option.Browser, {
       type: "string",
-      alias: alias.open,
+      alias: alias.browser,
       requireArg: true,
     })
     .option(Option.Profile, {
@@ -15,22 +15,18 @@ export default function getQueryArgs() {
       alias: alias.profile,
       requireArg: true,
     })
-    .option(Option.Query, {
+    .option(Option.Engine, {
       type: "string",
-      alias: alias.query,
+      alias: alias.engine,
       requireArg: true,
     })
     .option(Option.Route, {
       type: "string",
       alias: alias.route,
     })
-    .option(Option.Private, {
+    .option(Option.Incognito, {
       type: "boolean",
-      alias: alias.private,
-    })
-    .option(Option.Join, {
-      type: "boolean",
-      alias: alias.join,
+      alias: alias.incognito,
     })
     .option(Option.Split, {
       type: "boolean",

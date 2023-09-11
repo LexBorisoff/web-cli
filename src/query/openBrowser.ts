@@ -6,7 +6,7 @@ import {
   getProfile,
 } from "../helpers/browser";
 
-const { private: incognito } = getQueryArgs();
+const { incognito } = getQueryArgs();
 
 export default function openBrowser(
   browserName: string,

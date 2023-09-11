@@ -48,24 +48,13 @@ function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
 
 const getDataArgs = {
   /**
-   * Returns a unique list of engine args provided to the CLI
-   *
-   * @param removeEmptyArg
-   * If true, removes the empty value from the list
-   */
-  engine: function getEngineArgs(removeEmptyArg = true): string[] {
-    const optionArg = orArray(args.query);
-    const customArgs = getCustomArgs(enginesData);
-    return getUniqueList(optionArg, customArgs, removeEmptyArg);
-  },
-  /**
    * Returns a unique list of browser args provided to the CLI
    *
    * @param removeEmptyArg
    * If true, removes the empty value from the list
    */
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
-    const optionArg = orArray(args.open);
+    const optionArg = orArray(args.browser);
     const customArgs = getCustomArgs(browsersData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
@@ -107,6 +96,17 @@ const getDataArgs = {
 
     const profilesData = getProfilesData(browserName);
     const customArgs = getCustomArgs(profilesData);
+    return getUniqueList(optionArg, customArgs, removeEmptyArg);
+  },
+  /**
+   * Returns a unique list of engine args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  engine: function getEngineArgs(removeEmptyArg = true): string[] {
+    const optionArg = orArray(args.engine);
+    const customArgs = getCustomArgs(enginesData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
 };
