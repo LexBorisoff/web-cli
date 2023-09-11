@@ -47,6 +47,7 @@ export default function validateArgs(): string[] {
     add(error(`Invalid search engines: ${warning(invalidEngines.join(" "))}`));
   }
 
+  /* VALIDATE ROUTE ARGS */
   const route = orArray(args.route);
   if (route != null) {
     const emptyList = Array.isArray(route) && route.every((arg) => arg === "");
@@ -118,7 +119,6 @@ export default function validateArgs(): string[] {
     }
   }
 
-  /* VALIDATE PROFILE ARGS */
   if (!emptyBrowserArg) {
     validateProfileArgs(
       browserArgs.length > 0 ? browserArgs : defaults.browser

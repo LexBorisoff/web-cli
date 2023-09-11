@@ -14,7 +14,7 @@ To check the installed version, use the `--version` (`-v`) option:
 
 <pre><code>web <em>--version</em></code></pre>
 
-# Table of Contents <a name="table-of-contents"></a>
+# Table of Contents
 
 * [Basic Usage](#basic-usage)
   * [Keywords](#basic-usage-keywords)
@@ -286,13 +286,13 @@ Overrides the default behavior of *querying* a search engine by specifying the e
 
 ### ***Usage***
 
+The option must be used together with the `engine` option. If the engine is NOT supplied, the validation will fail and the web query will not be performed.
+
 #### 1. Without command values
 
 <pre><code>web <em>--route=value</em></code></pre>
 
 `value` refers to the engine's route to access.
-
-> The option should be used together with the `engine` option. However, if the engine option is NOT supplied, the program will use the config's ***default engine*** to build the query (see how default values are determined in [*setting up configuration*](#configuration-setup)).
 
 For example, the following command adds "teapot" to the engine's URL to access the route directly instead of searching it as a keyword.
 
