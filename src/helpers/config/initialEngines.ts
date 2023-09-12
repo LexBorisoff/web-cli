@@ -18,11 +18,6 @@ const initialEngines: EnginesData = {
     url: "developer.mozilla.org",
     query: "search?q=",
   },
-  stackoverflow: {
-    name: "Stack Overflow",
-    url: "stackoverflow.com",
-    query: "search?q=",
-  },
   youtube: {
     name: "YouTube",
     url: "youtube.com",
