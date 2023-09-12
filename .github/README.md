@@ -383,17 +383,31 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 
 Setting up configuration allows to enhance some of the [built-in options](#built-in-options) as well as to use [custom flags](#custom-flags).
 
-Both browsers and engines configurations are in the JSON format. To open a corresponding config file, use the `config` option which accepts one of the values: `browsers` or `engines`:
+To see where the config files are stored on your machine, use the `config` option without a value.
+
+<pre><code>web <em>--config</em></code></pre>
+
+&gt; `path/to/config/files`
+
+To open a desired config file, use the `config` option with the `browsers` or `engines` value:
 
 <pre><code>web <em>--config=browsers</em></code></pre>
 
 <pre><code>web <em>--config=engines</em></code></pre>
 
-The files will open in the OS default application for editing JSON. Optionally, you can supply 1 or more space-separated apps to open the config files in:
+Both browsers and engines configurations are in the JSON format, so the files will open in the OS default application for editing JSON.
+
+The option can be used more than once (to open both files at the same time, for example):
+
+<pre><code>web <em>--config=browsers</em> <em>--config=engines</em></code></pre>
+
+Optionally, you can supply 1 or more space-separated apps that should open the config files:
 
 <pre><code>web <em>--config=browsers</em> code</code></pre>
 
 <pre><code>web <em>--config=engines</em> notepad++</code></pre>
+
+> The apps should be installed on your machine.
 
 Modifying each config requires you to follow their accepted data structures explained below.
 
