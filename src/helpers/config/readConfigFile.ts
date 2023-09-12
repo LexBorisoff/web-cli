@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import { getConfigFilePath } from "./getConfigPath";
-import { ConfigOption } from "../../command/options";
+import { ConfigValue } from "../../command/options";
 
 export default function readConfigFile(
-  configOption: ConfigOption.Browsers | ConfigOption.Engines
+  configType: ConfigValue.Browsers | ConfigValue.Engines
 ): string | null {
-  const filePath = getConfigFilePath(configOption);
+  const filePath = getConfigFilePath(configType);
   if (!fs.existsSync(filePath)) {
     return null;
   }

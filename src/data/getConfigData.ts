@@ -1,18 +1,16 @@
-import { ConfigOption } from "../command/options";
+import { ConfigValue } from "../command/options";
 import { readConfigFile } from "../helpers/config";
 import { BrowsersData, EnginesData } from "../types/config.types";
 
 interface Data {
-  [ConfigOption.Browsers]: BrowsersData;
-  [ConfigOption.Engines]: EnginesData;
+  [ConfigValue.Browsers]: BrowsersData;
+  [ConfigValue.Engines]: EnginesData;
 }
 
-type ValidOption = ConfigOption.Browsers | ConfigOption.Engines;
-
-export default function getConfigData<Option extends ValidOption>(
-  configOption: Option
-): Data[Option] {
-  const config = readConfigFile(configOption);
+export default function getConfigData<ConfigType extends keyof Data>(
+  configType: ConfigType
+): Data[ConfigType] {
+  const config = readConfigFile(configType);
   if (config == null || config === "") {
     return {};
   }

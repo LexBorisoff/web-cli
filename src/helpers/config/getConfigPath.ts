@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as path from "path";
-import { ConfigOption } from "../../command/options";
+import { ConfigValue } from "../../command/options";
 
 export default function getConfigPath(): string {
   const homedir = os.homedir();
@@ -32,8 +32,8 @@ export default function getConfigPath(): string {
 }
 
 export function getConfigFilePath(
-  configOption: ConfigOption.Browsers | ConfigOption.Engines
+  configType: ConfigValue.Browsers | ConfigValue.Engines
 ): string {
   const configPath = getConfigPath();
-  return path.join(configPath, `${configOption}.json`);
+  return path.join(configPath, `${configType}.json`);
 }

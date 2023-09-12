@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { getConfigArgs } from "../command/args";
 import { orArray } from "../command/args/utils";
-import { ConfigOption } from "../command/options";
+import { ConfigValue, configValues } from "../command/options";
 import { defaultEngineConfig, getConfigPath } from "../helpers/config";
 import {
   print,
@@ -30,10 +30,10 @@ function createConfigDirectory(): Promise<boolean> {
 }
 
 function handleConfigFile<Data>(
-  configOption: ConfigOption.Browsers | ConfigOption.Engines,
+  configType: ConfigValue.Browsers | ConfigValue.Engines,
   initialData: Data
 ): boolean {
-  const filePath = path.join(configPath, `${configOption}.json`);
+  const filePath = path.join(configPath, `${configType}.json`);
   let fileExists = fs.existsSync(filePath);
 
   if (!fileExists) {
@@ -42,7 +42,7 @@ function handleConfigFile<Data>(
       fs.writeFileSync(filePath, JSON.stringify(initialData, null, space));
       fileExists = true;
     } catch (error) {
-      printError(`Failed to create ${configOption} config.`);
+      printError(`Failed to create ${configType} config.`);
       emptyLine();
       return false;
     }
@@ -58,44 +58,30 @@ function handleConfigFile<Data>(
 
 function validateConfigArgs() {
   const invalidValues: string[] = [];
+  const configValue = orArray(config);
 
-  function add(option: string) {
-    invalidValues.push(option);
-  }
+  if (configValue != null) {
+    const values = Array.isArray(configValue) ? configValue : [configValue];
 
-  function validate(arg: string) {
-    if (
-      arg !== ConfigOption.Browsers &&
-      arg !== ConfigOption.Engines &&
-      arg !== ""
-    ) {
-      add(arg);
-    }
-  }
-
-  const configArg = orArray(config);
-
-  if (configArg != null) {
-    const configArgs = Array.isArray(configArg) ? configArg : [configArg];
-    configArgs.forEach((arg) => {
-      validate(arg);
+    values.forEach((value) => {
+      if (!configValues.includes(value) && value !== "") {
+        invalidValues.push(value);
+      }
     });
   }
 
   return invalidValues;
 }
 
-function isConfigOption(configOption: string): boolean {
+function isConfigOption(configType: string): boolean {
   const configArg = orArray(config);
-  if (configArg != null) {
-    if (Array.isArray(configArg)) {
-      return configArg.includes(configOption);
-    }
-
-    return configArg === configOption;
+  if (configArg == null) {
+    return false;
   }
 
-  return false;
+  return Array.isArray(configArg)
+    ? configArg.includes(configType)
+    : configArg === configType;
 }
 
 export default async function handleConfig(): Promise<void> {
@@ -122,22 +108,22 @@ export default async function handleConfig(): Promise<void> {
   }
 
   if (configExists) {
-    const openingConfigs: ConfigOption[] = [];
+    const openingConfigs: ConfigValue[] = [];
 
-    if (isConfigOption(ConfigOption.Browsers)) {
-      const success = handleConfigFile<BrowsersData>(ConfigOption.Browsers, {});
+    if (isConfigOption(ConfigValue.Browsers)) {
+      const success = handleConfigFile<BrowsersData>(ConfigValue.Browsers, {});
       if (success) {
-        openingConfigs.push(ConfigOption.Browsers);
+        openingConfigs.push(ConfigValue.Browsers);
       }
     }
 
-    if (isConfigOption(ConfigOption.Engines)) {
+    if (isConfigOption(ConfigValue.Engines)) {
       const success = handleConfigFile(
-        ConfigOption.Engines,
+        ConfigValue.Engines,
         defaultEngineConfig
       );
       if (success) {
-        openingConfigs.push(ConfigOption.Engines);
+        openingConfigs.push(ConfigValue.Engines);
       }
     }
 
