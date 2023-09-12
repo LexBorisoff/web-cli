@@ -2,6 +2,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { Option, alias, options } from "../options";
 import { configFlags } from "../../data";
+import getVersion from "../../helpers/getVersion";
 
 export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
@@ -35,6 +36,8 @@ export default function getQueryArgs() {
       type: "boolean",
     })
     .help(false)
+    .version(getVersion())
+    .alias("v", "version")
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
     .parseSync();
 }
