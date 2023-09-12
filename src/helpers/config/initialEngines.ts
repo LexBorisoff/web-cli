@@ -11,6 +11,7 @@ const initialEngines: EnginesData = {
     url: "duckduckgo.com",
     query: "?q=",
     delimiter: "+",
+    alias: ["duck"],
   },
   mdn: {
     name: "MDN",
