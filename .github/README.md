@@ -10,7 +10,7 @@ Install the package globally:
 
 After installing, the `web` command is ready to use without any initial setup.
 
-To check the installed version, use the `--version` (`-v`) option:
+To check the installed version, use the `--version` option:
 
 <pre><code>web <em>--version</em></code></pre>
 

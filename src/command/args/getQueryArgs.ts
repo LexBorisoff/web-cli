@@ -37,7 +37,6 @@ export default function getQueryArgs() {
     })
     .help(false)
     .version(getVersion())
-    .alias("v", "version")
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
     .parseSync();
 }
