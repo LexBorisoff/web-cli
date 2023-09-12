@@ -19,14 +19,14 @@ function isEmptyArg(args: string[]): boolean {
 }
 
 /**
- * Returns an array of error messages for invalid args
+ * Returns an array of error messages with invalid args
  * (empty array if all args are valid)
  */
 export default function validateArgs(): string[] {
-  const errors: string[] = [];
+  const errorMessages: string[] = [];
 
   function add(message: string) {
-    errors.push(message);
+    errorMessages.push(message);
   }
 
   /* VALIDATE CLI ARGS */
@@ -125,5 +125,5 @@ export default function validateArgs(): string[] {
     );
   }
 
-  return errors.sort((a, b) => a.localeCompare(b));
+  return errorMessages.sort((a, b) => a.localeCompare(b));
 }

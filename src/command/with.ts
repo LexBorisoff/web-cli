@@ -1,8 +1,9 @@
-import { getDataArgs, getQueryArgs } from "./args";
+import { getDataArgs, getQueryArgs, getConfigArgs } from "./args";
 import { getDefaultsData } from "../data";
 import { urlPattern } from "../helpers/patterns";
 
 const { _: args, route } = getQueryArgs();
+const { config } = getConfigArgs();
 const defaults = getDefaultsData();
 
 const withEngine = getDataArgs.engine().length > 0;
@@ -21,4 +22,13 @@ const withURLsOnly =
 
 const withKeywords = args.some((arg) => !urlPattern.test(`${arg}`));
 
-export { withEngine, withProfile, withRoute, withURLsOnly, withKeywords };
+const withConfig = config != null;
+
+export {
+  withEngine,
+  withProfile,
+  withRoute,
+  withURLsOnly,
+  withKeywords,
+  withConfig,
+};
