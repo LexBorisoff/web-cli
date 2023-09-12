@@ -66,7 +66,6 @@ export default function queryBrowsers(urls: string[]): BrowserQuery[] {
   }
   // no browser but has urls
   else if (urls.length > 0) {
-    browserQueries.push({ browser: "system browser", profiles: [] });
     urls.forEach((url) => {
       open(url);
     });
