@@ -67,6 +67,18 @@ In the absence of [*query options*](#query-options), the app uses the ***default
 
 You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration-setup).
 
+### *Initial search engines*
+
+|Search Engine|CLI Value|
+|-|:-:|
+|Google|`google`|
+|DuckDuckGo|`duckduckgo` `duck`|
+|MDN|`mdn`|
+|YouTube|`youtube`|
+|NPM|`npm`|
+
+The CLI value can be either supplied to the [`engine`](#option-engine) option or used as a [*custom flag*](#custom-flags).
+
 ## URLs <a name="basic-usage-urls"></a>
 
 When providing a URL as a value, the default behavior is to access that URL directly:
@@ -223,8 +235,9 @@ Specifies what browser profile to use when opening a new tab.
 
 `value` refers to the profile's key or alias in the ***browsers*** config.
 
-> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default values are determined in [*setting up configuration*](#configuration-setup)).
->
+> The option should be used together with the `browser` option. However, if the browser option is NOT supplied, the program will use the config's ***default browser*** to find the provided profile value (see how default browser is determined in [*browsers configuration*](#browsers-configuration)).
+
+
 > ***Important!***  
 > If the profile value is not found in the provided (or default) browser's config, the program will not open the query.
 
@@ -381,8 +394,6 @@ The default behavior is to always use the HTTPS (secure) protocol when building 
 
 # Configuration <a name="configuration-setup"></a>
 
-Setting up configuration allows to enhance some of the [built-in options](#built-in-options) as well as to use [custom flags](#custom-flags).
-
 To see where the config files are stored on your machine, use the `config` option without a value.
 
 <pre><code>web <em>--config</em></code></pre>
@@ -396,6 +407,9 @@ To open a desired config file, use the `config` option with the `browsers` or `e
 <pre><code>web <em>--config=engines</em></code></pre>
 
 Both browsers and engines configurations are in the JSON format, so the files will open in the OS default application for editing JSON.
+
+> ***Note!***  
+> When using this option with a value **AND** the corresponding config file does not exist, the program will create it. In the case of engines config, the newly created file will be populated with initial search engines (see [Basic Usage - Keywords](#basic-usage-keywords)). You have the option to change these initial engines (e.g. adding aliases or deleting an engine entirely from the config file).
 
 The option can be used more than once (to open both files at the same time, for example):
 
@@ -437,11 +451,12 @@ Browsers configuration is a JSON file containing an object with browsers data. T
 > Setting up browsers configuration does not limit you to using only the browsers in the config. You can still supply other browser values to the `browser` option, but using custom flags is only available after setting up the config.
 
 * `<browser_key>`: a string representing the browser app that is supplied to the `browser` option.
-* `isDefault`: *optional* - accepts a boolean value indicating if the browser should be used as default. ***If not present, then the first browser object in the config file is used as default***. If multiple browser objects have this property, then the first one with it will be used as default.
+* `isDefault`: *optional* - accepts a boolean value indicating if the browser should be used as default. ***If not present, then the first browser object in the config file is used as default***. If multiple browser objects have this property (which should be avoided), then the first one with it will be used as default.
 * `alias`: *optional* - accepts a string or array of strings that can be used instead of `<browser_key>`.
 * `profiles`: *optional* - accepts an object that represents browser profiles:
   * `<profile_key>`: a string representing the browser profile that is supplied to the `profile` option.
   * `directory`: *required* - accepts a string representing the profile's exact directory name (NOT the full path, just the folder name). Different operating systems have different ways of storing user's browser profile data - please search how to find such folder on your OS, if you are not sure.
+  * `isDefault`: *optional* - accepts a boolean value indicating if the browser's profile should be used as default. ***If not present, then the first profile object within the browser is used as default***. If multiple profile objects inside the browser have this property (which should be avoided), then the first one with it will be used as default.
   * `alias`: *optional* - accepts a string or array of strings that can be used instead of `<profile_key>`.
 
 ### *TypeScript reference of the above JSON data*
@@ -527,7 +542,7 @@ Engines configuration is a JSON file containing an object with engines data. The
 * `url`: *required* - accepts a string of the engine's base URL ***without the protocol*** and ***without the query string***. For example, in a URL like this: `https://google.com/search?q=whatever` - supply only `google.com`.
 * `query`: *optional* - accepts a string representing the search engine's query string. Following the example above: `https://google.com/search?q=whatever` - the query string is `search?q=` which sits between the engine's base url and the search keywords. To find an engine's query string, go to its URL then type anything in its search box and hit enter. You will find that most websites and search engines have their own query string that you can grab. If not, then that engine cannot be used for searching with the query string.
 * `delimiter`: *optional* - accepts a string (normally a single character) representing the delimiter between search term keywords. Sometimes you will find that search engines modify the search query URL by replacing the space with another character, such as a `+` sign. If you find that the engine has a different delimiter, then provide it here. ***The default delimiter is the space character***.
-* `isDefault`: *optional* - accepts a boolean value indicating if the engine should be used as default. ***If not present, then the first engine object in the config file is used as default***. If multiple engine objects have this property, then the first one with it will be used as default.
+* `isDefault`: *optional* - accepts a boolean value indicating if the engine should be used as default. ***If not present, then the first engine object in the config file is used as default***. If multiple engine objects have this property (which should be avoided), then the first one with it will be used as default.
 * `alias`: *optional* - accepts a string or array of strings that can be used instead of `<engine_key>`.
 * `routes`: *optional* - accepts an object that represents engine routes:
   * `<route_key>`: a string representing the route that is supplied to the `route` option. It accepts a string value of the route's actual segment of the URL. Think of the `<route_key>` as an alias for the route. For example, in a routes key-value pair like this: `"repos": "username?tab=repositories"` - the `repos` is what's provided to the `route` option, while the `username?tab=repositories` is what's actually used to build the web query URL.
