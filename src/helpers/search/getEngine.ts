@@ -1,4 +1,4 @@
-import { getConfigItem, defaultEngineConfig } from "../config";
+import { getConfigItem, initialEngines } from "../config";
 import { getEnginesData } from "../../data";
 import { Engine } from "../../types/config.types";
 
@@ -19,6 +19,6 @@ export default function getEngine(
 
   return getConfigItem(
     engineNameOrAlias,
-    hasEnginesData ? enginesData : defaultEngineConfig
+    hasEnginesData ? enginesData : initialEngines
   );
 }

@@ -3,7 +3,11 @@ import * as path from "path";
 import { getConfigArgs } from "../command/args";
 import { orArray } from "../command/args/utils";
 import { ConfigValue, configValues } from "../command/options";
-import { defaultEngineConfig, getConfigPath } from "../helpers/config";
+import {
+  initialEngines,
+  getConfigPath,
+  readConfigFile,
+} from "../helpers/config";
 import {
   print,
   printError,
@@ -34,13 +38,14 @@ function handleConfigFile<Data>(
   initialData: Data
 ): boolean {
   const filePath = path.join(configPath, `${configType}.json`);
-  let fileExists = fs.existsSync(filePath);
+  const fileData = readConfigFile(configType);
+  let proceed = fileData != null && fileData !== "";
 
-  if (!fileExists) {
+  if (!proceed) {
     try {
       const space = 2;
       fs.writeFileSync(filePath, JSON.stringify(initialData, null, space));
-      fileExists = true;
+      proceed = true;
     } catch (error) {
       printError(`Failed to create ${configType} config.`);
       emptyLine();
@@ -48,7 +53,7 @@ function handleConfigFile<Data>(
     }
   }
 
-  if (fileExists) {
+  if (proceed) {
     openConfig(filePath);
     return true;
   }
@@ -118,10 +123,7 @@ export default async function handleConfig(): Promise<void> {
     }
 
     if (isConfigOption(ConfigValue.Engines)) {
-      const success = handleConfigFile(
-        ConfigValue.Engines,
-        defaultEngineConfig
-      );
+      const success = handleConfigFile(ConfigValue.Engines, initialEngines);
       if (success) {
         openingConfigs.push(ConfigValue.Engines);
       }
