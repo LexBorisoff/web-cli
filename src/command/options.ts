@@ -19,7 +19,6 @@ export const alias: Alias<Option> = {
   engine: ["e"],
   route: ["r"],
   incognito: ["i"],
-  split: ["s"],
 };
 
 /**

@@ -28,7 +28,6 @@ export default function getQueryArgs() {
     })
     .option(Option.Split, {
       type: "boolean",
-      alias: alias.split,
     })
     .option(Option.Http, {
       type: "boolean",

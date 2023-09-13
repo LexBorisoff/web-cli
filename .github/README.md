@@ -166,8 +166,8 @@ Options that do not require a value are called ***flags***. The following are bu
 | Option | Alias | Description |
 |-|:-:|-|
 |[`incognito`](#option-incognito)|[`i`](#option-incognito)|*Open in incognito / private mode*|
-|[`split`](#option-split)|[`s`](#option-split)|*Split values into separate web queries*|
-|[`http`](#option-http)|-|*Use the HTTP (non-secure) protocol*|
+|[`split`](#option-split)| - |*Split values into separate web queries*|
+|[`http`](#option-http)| - |*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
 > Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
@@ -362,7 +362,7 @@ Opens web queries in a private / incognito mode.
 
 <pre><code>web <em>--incognito</em></code></pre>
 
-## `--split`&nbsp;&nbsp;`-s` <a name="option-split"></a>
+## `--split` <a name="option-split"></a>
 
 Splits provided values into separate web queries.
 
