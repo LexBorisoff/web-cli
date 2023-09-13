@@ -1,6 +1,6 @@
 {
-  "name": "websearch-cli",
-  "version": "0.0.12",
+  "name": "@lexjs/web-cli",
+  "version": "1.0.0",
   "description": "CLI for making web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
@@ -14,11 +14,11 @@
     "search-engine",
     "cli"
   ],
-  "author": "Lex Borisoff <hello@LexBorisoff.com>",
+  "author": "Lex Borisoff <hello@lexjs.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LexBorisoff/websearch-cli.git"
+    "url": "https://github.com/LexBorisoff/web-cli.git"
   },
   "bin": {
     "web": "lib/main.js"
