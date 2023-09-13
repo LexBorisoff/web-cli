@@ -9,17 +9,14 @@ export default function getQueryArgs() {
     .option(Option.Browser, {
       type: "string",
       alias: alias.browser,
-      requireArg: true,
     })
     .option(Option.Profile, {
       type: "string",
       alias: alias.profile,
-      requireArg: true,
     })
     .option(Option.Engine, {
       type: "string",
       alias: alias.engine,
-      requireArg: true,
     })
     .option(Option.Route, {
       type: "string",
@@ -31,6 +28,7 @@ export default function getQueryArgs() {
     })
     .option(Option.Split, {
       type: "boolean",
+      alias: alias.split,
     })
     .option(Option.Http, {
       type: "boolean",

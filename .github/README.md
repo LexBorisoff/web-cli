@@ -43,7 +43,7 @@ To perform basic web queries from the terminal, provide ***space-separated value
 
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-The app will then construct 1 or more queries based on the type of values and open the them in the new browser tab(s).
+The app will then construct 1 or more queries based on the type of values and open them in the new browser tab(s).
 
 There are 2 types of values:
 
