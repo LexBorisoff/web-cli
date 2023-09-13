@@ -2,8 +2,7 @@ import chalk from "chalk";
 import queryBrowsers from "./queryBrowsers";
 import { getQueryArgs, validateArgs } from "../command/args";
 import { getURLs } from "../helpers/search";
-import { print, severity, emptyLine } from "../helpers/print";
-import { capitalize } from "../helpers/transformText";
+import { print, severity, emptyLine, capitalize } from "../helpers/print";
 
 const { incognito } = getQueryArgs();
 const { info, success } = severity;
