@@ -1,5 +1,5 @@
 import getQueryArgs from "./getQueryArgs";
-import { combineArgLists } from "./utils";
+import combineArgLists from "./combineArgLists";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
