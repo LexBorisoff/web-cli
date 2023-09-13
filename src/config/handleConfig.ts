@@ -7,13 +7,7 @@ import {
   getConfigPath,
   readConfigFile,
 } from "../helpers/config";
-import {
-  print,
-  printError,
-  emptyLine,
-  severity,
-  printSuccess,
-} from "../helpers/print";
+import { print, printError, emptyLine, severity } from "../helpers/print";
 import { orArray } from "../utilities";
 import { BrowsersData } from "../types/config.types";
 import openConfig from "./openConfig";
@@ -33,6 +27,9 @@ function createConfigDirectory(): Promise<boolean> {
   });
 }
 
+/**
+ * Returns true if config was opened, false otherwise
+ */
 function handleConfigFile<Data>(
   configType: ConfigValue.Browsers | ConfigValue.Engines,
   initialData: Data
@@ -48,17 +45,15 @@ function handleConfigFile<Data>(
       proceed = true;
     } catch (error) {
       printError(`Failed to create ${configType} config.`);
-      emptyLine();
-      return false;
     }
   }
 
-  if (proceed) {
-    openConfig(filePath);
-    return true;
+  if (!proceed) {
+    return false;
   }
 
-  return false;
+  openConfig(filePath);
+  return true;
 }
 
 function validateConfigArgs() {
@@ -91,12 +86,12 @@ function isConfigOption(configType: string): boolean {
 
 export default async function handleConfig(): Promise<void> {
   const invalidValues = validateConfigArgs();
-  const { info, error, warning } = severity;
-  let isEmptyLine = false;
+  const { info, success, warning, error } = severity;
 
   if (invalidValues.length > 0) {
     print(error(`Invalid values: ${warning(invalidValues.join(", "))}`));
-    isEmptyLine = true;
+    emptyLine();
+    return;
   }
 
   let configExists = fs.existsSync(configPath);
@@ -104,42 +99,46 @@ export default async function handleConfig(): Promise<void> {
   if (!configExists) {
     try {
       configExists = await createConfigDirectory();
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(severity.error(error.message));
-        isEmptyLine = true;
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(error(e.message));
+        return;
       }
     }
   }
 
   if (configExists) {
+    const messages: string[] = [];
     const openingConfigs: ConfigValue[] = [];
 
     if (isConfigOption(ConfigValue.Browsers)) {
-      const success = handleConfigFile<BrowsersData>(ConfigValue.Browsers, {});
-      if (success) {
+      const isOpened = handleConfigFile<BrowsersData>(ConfigValue.Browsers, {});
+      if (isOpened) {
         openingConfigs.push(ConfigValue.Browsers);
       }
     }
 
     if (isConfigOption(ConfigValue.Engines)) {
-      const success = handleConfigFile(ConfigValue.Engines, initialEngines);
-      if (success) {
+      const isOpened = handleConfigFile(ConfigValue.Engines, initialEngines);
+      if (isOpened) {
         openingConfigs.push(ConfigValue.Engines);
       }
     }
 
     if (isConfigOption("")) {
-      print(`${info("Config directory")}: ${configPath}`);
-      isEmptyLine = true;
+      messages.push(`${info("Config directory")}: ${configPath}`);
     }
 
     if (openingConfigs.length > 0) {
-      printSuccess(`Opening config: ${info(openingConfigs.join(", "))}`);
-      isEmptyLine = true;
+      messages.push(
+        success(`Opening config: ${info(openingConfigs.join(", "))}`)
+      );
     }
 
-    if (isEmptyLine) {
+    if (messages.length > 0) {
+      messages.forEach((message) => {
+        print(message);
+      });
       emptyLine();
     }
   }
