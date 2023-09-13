@@ -7,6 +7,7 @@ import {
 } from "../helpers/config";
 import { DefaultsData } from "../types/config.types";
 import { IsDefault } from "../types/utility.types";
+import { at } from "../utilities";
 
 function getDefault<Data extends IsDefault>(data: Data): string | null {
   const withDefault = Object.entries(data).find(
@@ -18,7 +19,7 @@ function getDefault<Data extends IsDefault>(data: Data): string | null {
     return itemName;
   }
 
-  const first = Object.keys(data).at(0);
+  const first = at(Object.keys(data), 0);
   if (first != null) {
     return first;
   }
