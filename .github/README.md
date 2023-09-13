@@ -67,7 +67,7 @@ In the absence of [*query options*](#query-options), the app uses the ***default
 
 You can change these defaults, as well as add new browsers and engines in the app's [*configuration*](#configuration-setup).
 
-### *Initial search engines*
+### *Initial search engines* <a name="initial-search-engines"></a>
 
 |Search Engine|CLI Value|
 |-|:-:|
@@ -409,7 +409,7 @@ To open a desired config file, use the `config` option with the `browsers` or `e
 Both browsers and engines configurations are in the JSON format, so the files will open in the OS default application for editing JSON.
 
 > ***Note!***  
-> When using this option with a value **AND** the corresponding config file does not exist, the program will create it. In the case of engines config, the newly created file will be populated with initial search engines (see [Basic Usage - Keywords](#basic-usage-keywords)). You have the option to change these initial engines (e.g. adding aliases or deleting an engine entirely from the config file).
+> When using this option with a value **AND** the corresponding config file does not exist, the program will create it. In the case of engines config, the newly created file will be populated with [initial search engines](#initial-search-engines). You have the option to change these initial engines (e.g. adding aliases or deleting an engine entirely from the config file).
 
 The option can be used more than once (to open both files at the same time, for example):
 
