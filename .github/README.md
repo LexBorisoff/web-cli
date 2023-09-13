@@ -611,7 +611,7 @@ interface Routes {
 
 # Custom Flags <a name="custom-flags"></a>
 
-When browsers and engines config files are set up, certain keys and values automatically become *flags*. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
+When browsers and engines config files are set up, certain keys and alias values automatically become *flags*. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
 
 For example, the following command with value options
 
@@ -621,17 +621,17 @@ can be re-written using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-> If a custom flag conflicts with a [*query option*](#query-options) or its alias, the query option takes precedence and you must use the value option in that case.
+> If a custom flag conflicts with a [*query option*](#query-options) or its alias, the query option takes precedence.
 
 ## How custom flags are created
 
 The following config items are used to create custom flags:
 
-||keys|alias values|
-|-|:-:|:-:|
-|browser|✅|✅|
-|profile|✅|✅|
-|engine|✅|✅|
+||keys|alias values|1-letter alias values|
+|-|:-:|:-:|:-:|
+|browser|✅|✅|✅|
+|profile|✅|✅|❌|
+|engine|✅|✅|✅|
 
 ### *Browsers config*
 
@@ -675,9 +675,9 @@ These items from the above config can be used as custom flags:
 ||keys|alias values
 |-|:-:|:-:|
 |browser|`chrome` `edge` `firefox`|`c` `f` `ff` `fox`|
-|profile|`dev` `personal` `school`|`d`, `study`|
+|profile|`dev` `personal` `school`|`study`|
 
-💡 Notice that the browser alias `e`, as well as profile aliases `p` and `s` cannot be used as custom flags because they conflict with aliases of `engine`, `profile` and `split` options.
+💡 Notice that the browser alias `e` cannot be used as a custom flag because it conflicts with the alias of the `engine` option.
 
 ### *Engines config*
 
