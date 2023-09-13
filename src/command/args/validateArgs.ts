@@ -1,10 +1,10 @@
 import chalk from "chalk";
 import getDataArgs from "./getDataArgs";
 import getInvalidArgs from "./getInvalidArgs";
-import { orArray } from "./utils";
 import { getDefaultsData, engineFlags, browserProfileFlags } from "../../data";
 import { getBrowserName } from "../../helpers/browser";
 import { severity } from "../../helpers/print";
+import { orArray } from "../../utilities";
 import getQueryArgs from "./getQueryArgs";
 
 const { warning, error } = severity;

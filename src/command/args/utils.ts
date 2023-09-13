@@ -13,10 +13,3 @@ export function combineArgLists<Arg>(
 
   return argList;
 }
-
-/**
- * Returns the same argument as its type or type array
- */
-export function orArray<Arg>(arg: Arg): Arg | NonNullable<Arg>[] {
-  return arg;
-}

@@ -9,8 +9,8 @@ import {
   withURLsOnly,
 } from "../../command/with";
 import { getQueryArgs, getDataArgs } from "../../command/args";
-import { orArray } from "../../command/args/utils";
 import { getDefaultsData } from "../../data";
+import { orArray } from "../../utilities";
 import { Engine } from "../../types/config.types";
 import { Arg } from "../../types/utility.types";
 

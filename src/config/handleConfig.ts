@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import { getConfigArgs } from "../command/args";
-import { orArray } from "../command/args/utils";
 import { ConfigValue, configValues } from "../command/options";
 import {
   initialEngines,
@@ -15,6 +14,7 @@ import {
   severity,
   printSuccess,
 } from "../helpers/print";
+import { orArray } from "../utilities";
 import { BrowsersData } from "../types/config.types";
 import openConfig from "./openConfig";
 

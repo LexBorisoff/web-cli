@@ -3,7 +3,7 @@ import { combineArgLists } from "./utils";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
 import { WithAlias } from "../../types/utility.types";
-import { orArray } from "../../command/args/utils";
+import { orArray } from "../../utilities";
 
 const args = getQueryArgs();
 const browsersData = getBrowsersData();
