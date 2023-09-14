@@ -1,6 +1,6 @@
 {
   "name": "@lexjs/web-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI for making web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
