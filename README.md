@@ -16,4 +16,4 @@ To check the installed version, use the `--version` option:
 
 # Documentation
 
-See https://github.com/LexBorisoff/web-cli
+Visit https://github.com/LexBorisoff/web-cli to view the full documentation.
