@@ -1,6 +1,6 @@
 import { getDataArgs, getQueryArgs, getConfigArgs } from "./args";
 import { getDefaultsData } from "../data";
-import { urlPattern } from "../helpers/patterns";
+import { urlPattern } from "../utilities";
 
 const { _: args, route } = getQueryArgs();
 const { config } = getConfigArgs();

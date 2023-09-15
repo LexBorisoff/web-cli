@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import getEngine from "./getEngine";
-import { urlPattern } from "../patterns";
 import { emptyLine, printWarning, printError } from "../print";
 import {
   withEngine,
@@ -10,7 +9,7 @@ import {
 } from "../../command/with";
 import { getQueryArgs, getDataArgs } from "../../command/args";
 import { getDefaultsData } from "../../data";
-import { orArray } from "../../utilities";
+import { urlPattern, orArray } from "../../utilities";
 import type { Engine } from "../../types/config";
 import type { Arg } from "../../types/utility";
 
