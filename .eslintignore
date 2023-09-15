@@ -3,3 +3,4 @@ dist
 bin
 lib
 node_modules
+webpack.config.js
