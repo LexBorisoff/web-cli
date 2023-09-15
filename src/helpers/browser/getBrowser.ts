@@ -1,6 +1,6 @@
 import { getConfigItem } from "../config";
 import { getBrowsersData } from "../../data";
-import { Browser } from "../../types/config.types";
+import type { Browser } from "../../types/config";
 
 const browsersData = getBrowsersData();
 

@@ -1,6 +1,6 @@
 import emptyLine from "./emptyLine";
 import printTitle from "./printTitle";
-import { Severity, BannerType } from "../../types/utility.types";
+import type { Severity, BannerType } from "../../types/utility";
 
 export default function printBanner(
   message: string,

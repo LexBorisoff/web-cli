@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { Severity, BannerType } from "../../types/utility.types";
+import type { Severity, BannerType } from "../../types/utility";
 
 const print = console.log;
 

@@ -5,7 +5,7 @@ import { getDataArgs } from "../command/args";
 import { getDefaultsData } from "../data";
 import { getBrowserName, getProfile } from "../helpers/browser";
 import { printError } from "../helpers/print";
-import { BrowserQuery } from "../types/query.types";
+import type { BrowserQuery } from "../types/query";
 
 const defaults = getDefaultsData();
 const browserArgs = getDataArgs.browser();

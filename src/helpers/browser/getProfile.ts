@@ -1,6 +1,6 @@
 import { getConfigItem } from "../config";
 import { getProfilesData } from "../../data";
-import { Profile } from "../../types/config.types";
+import type { Profile } from "../../types/config";
 
 /**
  * Returns a tuple with the profile's config key and the Profile object

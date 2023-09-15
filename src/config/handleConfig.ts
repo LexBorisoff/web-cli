@@ -9,7 +9,7 @@ import {
 } from "../helpers/config";
 import { print, printError, emptyLine, severity } from "../helpers/print";
 import { orArray } from "../utilities";
-import { BrowsersData } from "../types/config.types";
+import type { BrowsersData } from "../types/config";
 import openConfig from "./openConfig";
 
 const configPath = getConfigPath();

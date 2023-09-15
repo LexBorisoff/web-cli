@@ -2,7 +2,7 @@ import getQueryArgs from "./getQueryArgs";
 import combineArgLists from "./combineArgLists";
 import { options } from "../options";
 import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
-import { WithAlias } from "../../types/utility.types";
+import type { WithAlias } from "../../types/utility";
 import { orArray } from "../../utilities";
 
 const args = getQueryArgs();

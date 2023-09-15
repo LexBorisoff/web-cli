@@ -1,6 +1,6 @@
 import getConfigData from "./getConfigData";
 import { ConfigValue } from "../command/options";
-import { EnginesData } from "../types/config.types";
+import type { EnginesData } from "../types/config";
 import { initialEngines } from "../helpers/config";
 
 export default function getEnginesData(): EnginesData {

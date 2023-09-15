@@ -1,6 +1,6 @@
 import { ConfigValue } from "../command/options";
 import { readConfigFile } from "../helpers/config";
-import { BrowsersData, EnginesData } from "../types/config.types";
+import type { BrowsersData, EnginesData } from "../types/config";
 
 interface Data {
   [ConfigValue.Browsers]: BrowsersData;

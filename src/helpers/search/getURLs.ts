@@ -11,8 +11,8 @@ import {
 import { getQueryArgs, getDataArgs } from "../../command/args";
 import { getDefaultsData } from "../../data";
 import { orArray } from "../../utilities";
-import { Engine } from "../../types/config.types";
-import { Arg } from "../../types/utility.types";
+import type { Engine } from "../../types/config";
+import type { Arg } from "../../types/utility";
 
 const args = getQueryArgs();
 const urlArgs = args._.map((arg) =>

@@ -1,4 +1,4 @@
-import { WithAlias, IsDefault } from "./utility.types";
+import type { WithAlias, IsDefault } from "./utility";
 
 // DEFAULTS
 export interface DefaultsData {

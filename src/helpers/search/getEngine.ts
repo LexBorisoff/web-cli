@@ -1,6 +1,6 @@
 import { getConfigItem, initialEngines } from "../config";
 import { getEnginesData } from "../../data";
-import { Engine } from "../../types/config.types";
+import type { Engine } from "../../types/config";
 
 /**
  * Returns a tuple with the engine's config key and the Engine object

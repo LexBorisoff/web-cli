@@ -5,8 +5,8 @@ import {
   defaultEngine,
   defaultDelimiter as delimiter,
 } from "../helpers/config";
-import { DefaultsData } from "../types/config.types";
-import { IsDefault } from "../types/utility.types";
+import type { DefaultsData } from "../types/config";
+import type { IsDefault } from "../types/utility";
 import { at } from "../utilities";
 
 function getDefault<Data extends IsDefault>(data: Data): string | null {
