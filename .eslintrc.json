@@ -27,6 +27,8 @@
     "consistent-return": "error",
     "eqeqeq": ["error", "smart"],
     "no-unused-vars": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
     "@typescript-eslint/no-unused-vars": "warn"
   }
 }

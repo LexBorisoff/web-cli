@@ -44,12 +44,12 @@ function getEngineBaseURL(engine: Engine): string {
  * Returns the provided engine's URL that can be used
  * to query it by adding the search values
  */
-function getEngineQueryURL(engine: Engine, searchQuery: string): string {
+function getEngineQueryURL(engine: Engine, queryValues: string): string {
   const baseURL = getEngineBaseURL(engine);
 
   if (engine.query != null) {
-    const engineQuery = removeLeadingSlash(engine.query);
-    return baseURL + engineQuery + searchQuery;
+    const queryString = removeLeadingSlash(engine.query);
+    return baseURL + queryString + queryValues;
   }
 
   noQueryEngines.push(engine.name);
@@ -95,23 +95,22 @@ function createURLs(engineNameOrAlias?: string): string[] {
   /**
    * Constructs simple search query URLs
    */
-  function searchQuery(): void {
+  function searchQuery(values = args._.map((arg) => arg.toString())): void {
     if (engine == null) {
       return;
     }
 
     if (args.split) {
-      args._.forEach((value) => {
-        const engineQuery = getEngineQueryURL(engine, value.toString());
-        urls.push(getFullURL(engineQuery));
+      values.forEach((value) => {
+        const queryURL = getEngineQueryURL(engine, value.toString());
+        urls.push(getFullURL(queryURL));
       });
       return;
     }
 
     const delimiter = engine.delimiter ?? defaults.delimiter;
-    const searchQuery = args._.join(delimiter);
-    const engineQuery = getEngineQueryURL(engine, searchQuery);
-    urls.push(getFullURL(engineQuery));
+    const queryURL = getEngineQueryURL(engine, values.join(delimiter));
+    urls.push(getFullURL(queryURL));
   }
 
   /**
@@ -167,29 +166,20 @@ function createURLs(engineNameOrAlias?: string): string[] {
   }
   // URL
   else if (withURLsOnly) {
+    // search engine query with URLs as part of the search query
+    if (engineNameOrAlias != null) {
+      searchQuery(urlArgs);
+    }
     // full URLs based on the provided URL args
-    if (engineNameOrAlias == null) {
+    else {
       urlArgs.forEach((website) => {
         urls.push(getFullURL(website));
       });
     }
-    // search engine queries with URL args as part of the search query
-    else {
-      const [, engine] = getEngine(engineNameOrAlias) ?? [];
-      if (engine != null) {
-        urlArgs.forEach((website) => {
-          const engineQuery = getEngineQueryURL(engine, website);
-          urls.push(getFullURL(engineQuery));
-        });
-      }
-    }
   }
   // engine only
-  else if (engineNameOrAlias != null) {
-    const [, engine] = getEngine(engineNameOrAlias) ?? [];
-    if (engine != null) {
-      urls.push(getFullURL(engine.url));
-    }
+  else if (engineNameOrAlias != null && engine != null) {
+    urls.push(getFullURL(engine.url));
   }
 
   return urls;
