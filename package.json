@@ -1,25 +1,31 @@
 {
   "name": "@lexjs/web-cli",
   "version": "1.0.3",
-  "description": "CLI for making web searches from a terminal",
+  "description": "CLI for making browser web searches from a terminal",
   "main": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "cli",
     "websearch",
     "web-search",
     "search",
     "search-engine",
-    "cli"
+    "browser-query",
+    "web-query"
   ],
   "author": "Lex Borisoff <hello@lexjs.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LexBorisoff/web-cli.git"
+    "url": "git+https://github.com/LexBorisoff/web-cli.git"
   },
+  "bugs": {
+    "url": "https://github.com/LexBorisoff/web-cli/issues"
+  },
+  "homepage": "https://github.com/LexBorisoff/web-cli#readme",
   "bin": {
     "web": "lib/main.js"
   },
@@ -34,14 +40,14 @@
   "devDependencies": {
     "@types/node": "^18.17.6",
     "@types/open": "^6.2.1",
-    "@types/yargs": "^17.0.13",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
-    "eslint": "^8.47.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-import-resolver-typescript": "^3.5.4",
-    "eslint-plugin-import": "^2.27.5",
+    "@types/yargs": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-prettier": "^3.4.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   }
 }
