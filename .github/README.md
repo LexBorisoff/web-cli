@@ -459,7 +459,7 @@ Browsers configuration is a JSON file containing an object with browsers data. T
   * `isDefault`: *optional* - accepts a boolean value indicating if the browser's profile should be used as default. ***If not present, then the first profile object within the browser is used as default***. If multiple profile objects inside the browser have this property (which should be avoided), then the first one with it will be used as default.
   * `alias`: *optional* - accepts a string or array of strings that can be used instead of `<profile_key>`.
 
-### *TypeScript reference of the above JSON data*
+### *TypeScript representation of the above JSON data*
 
 ```typescript
 interface Browsers {
@@ -547,7 +547,7 @@ Engines configuration is a JSON file containing an object with engines data. The
 * `routes`: *optional* - accepts an object that represents engine routes:
   * `<route_key>`: a string representing the route that is supplied to the `route` option. It accepts a string value of the route's actual segment of the URL. Think of the `<route_key>` as an alias for the route. For example, in a routes key-value pair like this: `"repos": "username?tab=repositories"` - the `repos` is what's provided to the `route` option, while the `username?tab=repositories` is what's actually used to build the web query URL.
 
-### *TypeScript reference of the above JSON data*
+### *TypeScript representation of the above JSON data*
 
 ```typescript
 interface Engines {
