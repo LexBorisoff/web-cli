@@ -4,7 +4,7 @@ import { getConfigArgs } from "../command/args";
 
 const { _: apps } = getConfigArgs();
 
-function openConfig(filePath: string): void {
+export default function openConfigFile(filePath: string): void {
   if (!fs.existsSync(filePath)) {
     return;
   }
@@ -19,5 +19,3 @@ function openConfig(filePath: string): void {
     open(filePath);
   }
 }
-
-export default openConfig;

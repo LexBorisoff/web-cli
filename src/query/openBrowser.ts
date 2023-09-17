@@ -15,7 +15,7 @@ export default function openBrowser(
 ): void {
   const browserAppName = getBrowserAppName(browserName);
 
-  function handleOpen(openCallback: (browserArguments: string[]) => void) {
+  function handleOpen(callback: (browserArguments: string[]) => void) {
     if (profiles.length > 0) {
       profiles.forEach((profileNameOrAlias) => {
         const [, profile] = getProfile(browserName, profileNameOrAlias) ?? [];
@@ -25,7 +25,7 @@ export default function openBrowser(
           incognito
         );
 
-        openCallback(browserArguments);
+        callback(browserArguments);
       });
     } else {
       const browserArguments = getBrowserArguments(
@@ -33,7 +33,7 @@ export default function openBrowser(
         null,
         incognito
       );
-      openCallback(browserArguments);
+      callback(browserArguments);
     }
   }
 

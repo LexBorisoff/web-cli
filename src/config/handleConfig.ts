@@ -10,7 +10,7 @@ import {
 import { print, printError, emptyLine, severity } from "../helpers/print";
 import { orArray } from "../utilities";
 import type { BrowsersData } from "../types/config";
-import openConfig from "./openConfig";
+import openConfigFile from "./openConfigFile";
 
 const configPath = getConfigPath();
 const { config } = getConfigArgs();
@@ -28,12 +28,13 @@ function createConfigDirectory(): Promise<boolean> {
 }
 
 /**
- * Returns true if config was opened, false otherwise
+ * Returns config's file path if it has data or was successfully
+ * written initial data. Otherwise returns null.
  */
 function handleConfigFile<Data>(
   configType: ConfigValue.Browsers | ConfigValue.Engines,
   initialData: Data
-): boolean {
+) {
   const filePath = path.join(configPath, `${configType}.json`);
   const fileData = readConfigFile(configType);
   let proceed = fileData != null && fileData !== "";
@@ -48,12 +49,7 @@ function handleConfigFile<Data>(
     }
   }
 
-  if (!proceed) {
-    return false;
-  }
-
-  openConfig(filePath);
-  return true;
+  return proceed ? filePath : null;
 }
 
 function validateConfigArgs() {
@@ -101,7 +97,7 @@ export default async function handleConfig(): Promise<void> {
       configExists = await createConfigDirectory();
     } catch (e) {
       if (e instanceof Error) {
-        console.error(error(e.message));
+        console.error(e.message);
         return;
       }
     }
@@ -109,32 +105,45 @@ export default async function handleConfig(): Promise<void> {
 
   if (configExists) {
     const messages: string[] = [];
-    const openingConfigs: ConfigValue[] = [];
+    const configFiles: Array<{
+      value: ConfigValue;
+      filePath: string;
+    }> = [];
 
-    if (isConfigOption(ConfigValue.Browsers)) {
-      const isOpened = handleConfigFile<BrowsersData>(ConfigValue.Browsers, {});
-      if (isOpened) {
-        openingConfigs.push(ConfigValue.Browsers);
-      }
-    }
-
-    if (isConfigOption(ConfigValue.Engines)) {
-      const isOpened = handleConfigFile(ConfigValue.Engines, initialEngines);
-      if (isOpened) {
-        openingConfigs.push(ConfigValue.Engines);
-      }
-    }
-
+    // config directory
     if (isConfigOption("")) {
       messages.push(`${info("Config directory")}: ${configPath}`);
     }
 
-    if (openingConfigs.length > 0) {
-      messages.push(
-        success(`Opening config: ${info(openingConfigs.join(", "))}`)
-      );
+    // config files
+    [
+      {
+        value: ConfigValue.Browsers,
+        data: {} as BrowsersData,
+      },
+      {
+        value: ConfigValue.Engines,
+        data: initialEngines,
+      },
+    ].forEach(({ value, data }) => {
+      if (isConfigOption(value)) {
+        const filePath = handleConfigFile(value, data);
+        if (filePath != null) {
+          configFiles.push({ value, filePath });
+        }
+      }
+    });
+
+    if (configFiles.length > 0) {
+      const values = configFiles.map(({ value }) => value);
+      messages.push(success(`Opening config: ${info(values.join(", "))}`));
+
+      configFiles.forEach(({ filePath }) => {
+        openConfigFile(filePath);
+      });
     }
 
+    // display messages
     if (messages.length > 0) {
       messages.forEach((message) => {
         print(message);
