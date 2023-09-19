@@ -14,8 +14,8 @@ const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
 const browserArgs = getDataArgs.browser(false);
 
-function isEmptyArg(args: string[]): boolean {
-  return args.length === 1 && args[0] === "";
+function isEmptyArg(list: string[]): boolean {
+  return list.length === 1 && list[0] === "";
 }
 
 /**
