@@ -16,13 +16,13 @@ export default function getBrowserArguments(
   }
 
   if (incognito) {
-    let incognito = "incognito";
+    let incognitoValue = "incognito";
     if (browserName === "edge") {
-      incognito = "inprivate";
+      incognitoValue = "inprivate";
     } else if (browserName === "firefox" || browserName === "opera") {
-      incognito = "private";
+      incognitoValue = "private";
     }
-    browserArguments.push(`--${incognito}`);
+    browserArguments.push(`--${incognitoValue}`);
     removeEmpty();
   }
 
