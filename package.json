@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "CLI for making browser web searches from a terminal",
   "main": "./lib/main.js",
+  "exports": "./lib/main.js",
   "scripts": {
     "build": "rm -rf ./lib && tsc",
     "prepublishOnly": "npm run build"
