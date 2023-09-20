@@ -4,6 +4,7 @@ import { emptyLine, printWarning, printError } from "../print";
 import {
   withEngine,
   withRoute,
+  withAddress,
   withKeywords,
   withURLsOnly,
 } from "../../command/with";
@@ -147,6 +148,20 @@ function createURLs(engineNameOrAlias?: string): string[] {
     }
   }
 
+  if (withAddress) {
+    const address = orArray(args.address);
+
+    if (Array.isArray(address)) {
+      address
+        .filter((a) => a !== "")
+        .forEach((a) => {
+          urls.push(getFullURL(a));
+        });
+    } else if (address != null && address !== "") {
+      urls.push(getFullURL(address));
+    }
+  }
+
   // routes
   if (withRoute) {
     // query engine routes
@@ -192,7 +207,7 @@ export default function getURLs(): string[] {
   const urls: string[] = [];
   const engineArgs = getDataArgs.engine();
 
-  if (withEngine || withKeywords || withURLsOnly) {
+  if (withEngine || withKeywords || withURLsOnly || withAddress) {
     if (engineArgs.length > 0) {
       engineArgs.forEach((engineNameOrAlias) => {
         urls.push(...createURLs(engineNameOrAlias));
