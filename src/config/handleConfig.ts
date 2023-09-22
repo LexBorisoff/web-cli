@@ -7,7 +7,7 @@ import {
   getConfigPath,
   readConfigFile,
 } from "../helpers/config";
-import { print, printError, emptyLine, severity } from "../helpers/print";
+import { print, printError, severity } from "../helpers/print";
 import { orArray } from "../utilities";
 import type { BrowsersData } from "../types/config";
 import openConfigFile from "./openConfigFile";
@@ -86,7 +86,6 @@ export default async function handleConfig(): Promise<void> {
 
   if (invalidValues.length > 0) {
     print(error(`Invalid values: ${warning(invalidValues.join(", "))}`));
-    emptyLine();
     return;
   }
 
@@ -148,7 +147,6 @@ export default async function handleConfig(): Promise<void> {
       messages.forEach((message) => {
         print(message);
       });
-      emptyLine();
     }
   }
 }
