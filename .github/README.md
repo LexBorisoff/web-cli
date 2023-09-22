@@ -29,6 +29,7 @@ To check the installed version, use the `--version` option:
     * [`profile`](#option-profile)
     * [`engine`](#option-engine)
     * [`route`](#option-route)
+    * [`address`](#option-address)
     * [`incognito`](#option-incognito)
     * [`split`](#option-split)
     * [`http`](#option-http)
@@ -150,10 +151,11 @@ The following are built-in options that require a value:
 
 | Option | Alias | Description | Config Type |
 |-|:-:|-|:-:|
-|[`browser`](#option-browser)|[`b`](#option-browser)|*The browser app to open*|[*browsers*](#browsers-configuration)|
-|[`profile`](#option-profile)|[`p`](#option-profile)|*The browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
-|[`engine`](#option-engine)|[`e`](#option-engine)|*The search engine (or website) to query*|[*engines*](#engines-configuration)|
-|[`route`](#option-route)|[`r`](#option-route)|*The engine's route to access*|[*engines*](#engines-configuration)|
+|[`browser`](#option-browser)|[`b`](#option-browser)|*A browser app to open*|[*browsers*](#browsers-configuration)|
+|[`profile`](#option-profile)|[`p`](#option-profile)|*A browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
+|[`engine`](#option-engine)|[`e`](#option-engine)|*A search engine (or website) to query*|[*engines*](#engines-configuration)|
+|[`route`](#option-route)|[`r`](#option-route)|*An engine's route to access*|[*engines*](#engines-configuration)|
+|[`address`](#option-address)| ❌ |*A custom address to access*|❌|
 
 > ⚙️ indicates that configuration is required.
 
@@ -166,8 +168,8 @@ Options that do not require a value are called ***flags***. The following are bu
 | Option | Alias | Description |
 |-|:-:|-|
 |[`incognito`](#option-incognito)|[`i`](#option-incognito)|*Open in incognito / private mode*|
-|[`split`](#option-split)| - |*Split values into separate web queries*|
-|[`http`](#option-http)| - |*Use the HTTP (non-secure) protocol*|
+|[`split`](#option-split)| ❌ |*Split values into separate web queries*|
+|[`http`](#option-http)| ❌ |*Use the HTTP (non-secure) protocol*|
 
 > ***Caveat!***  
 > Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
@@ -350,6 +352,31 @@ we can use `repos` and `stars` as a value of the `route` option:
 <pre><code>web <em>--engine=github</em> <em>--route=repos</em></code></pre>
 
 &gt; `https://github.com/username?tab=repositories`
+
+## `--address` <a name="option-address"></a>
+
+Explicitly specifies the address to access such as a URL, IP, localhost.
+
+✅ Requires a value.  
+❌ No configuration is required.
+
+### ***Usage***
+
+<pre><code>web <em>--address=value</em></code></pre>
+
+`value` refers to the address that you want to open in a new browser tab.
+
+When the program receives command values, it differentiates between search keywords and URLs. If the values supplied are just URLs, then the app opens them directly ([unless a valid engine option is provided](#option-engine). However, sometimes we want to open a custom address that does not fall under the URL pattern. For example:
+
+<pre><code>web <em>--address=localhost:3000</em></code></pre>
+
+&gt; `https://locahost:3000`
+
+<pre><code>web <em>--address=127.0.0.1</em></code></pre>
+
+&gt; `https://127.0.0.1`
+
+The program's default behavior is to use the secure HTTPS protocol when opening web queries. To open an address with HTTP, provide the [`--http`](#option-http) option.
 
 ## `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
 

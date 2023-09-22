@@ -2,7 +2,7 @@ import { getDataArgs, getQueryArgs, getConfigArgs } from "./args";
 import { getDefaultsData } from "../data";
 import { urlPattern } from "../utilities";
 
-const { _: args, route } = getQueryArgs();
+const { _: args, route, address } = getQueryArgs();
 const { config } = getConfigArgs();
 const defaults = getDefaultsData();
 
@@ -17,6 +17,8 @@ function withProfile(browserName: string): boolean {
 
 const withRoute = route != null;
 
+const withAddress = address != null;
+
 const withURLsOnly =
   args.length > 0 && args.every((arg) => urlPattern.test(`${arg}`));
 
@@ -28,6 +30,7 @@ export {
   withEngine,
   withProfile,
   withRoute,
+  withAddress,
   withURLsOnly,
   withKeywords,
   withConfig,

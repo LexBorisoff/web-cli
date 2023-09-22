@@ -22,6 +22,9 @@ export default function getQueryArgs() {
       type: "string",
       alias: alias.route,
     })
+    .option(Option.Address, {
+      type: "string",
+    })
     .option(Option.Incognito, {
       type: "boolean",
       alias: alias.incognito,

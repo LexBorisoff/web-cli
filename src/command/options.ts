@@ -8,6 +8,7 @@ export enum Option {
   Profile = "profile",
   Engine = "engine",
   Route = "route",
+  Address = "address",
   Incognito = "incognito",
   Split = "split",
   Http = "http",
