@@ -35,6 +35,4 @@ export default function query(): void {
   urls.forEach((url) => {
     print(`> ${success(url)}`);
   });
-
-  emptyLine();
 }
