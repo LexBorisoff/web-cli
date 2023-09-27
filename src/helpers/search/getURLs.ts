@@ -96,16 +96,25 @@ function createURLs(engineNameOrAlias?: string): string[] {
   /**
    * Constructs simple search query URLs
    */
-  function searchQuery(values = args._.map((arg) => arg.toString())): void {
+  function searchQuery(values: string[]): void {
     if (engine == null) {
       return;
     }
 
     if (args.split) {
-      values.forEach((value) => {
-        const queryURL = getEngineQueryURL(engine, value.toString());
+      if (engine.query == null) {
+        const queryURL = getEngineBaseURL(engine);
         urls.push(getFullURL(queryURL));
-      });
+
+        if (values.length > 0) {
+          noQueryEngines.push(engine.name);
+        }
+      } else {
+        values.forEach((value) => {
+          const queryURL = getEngineQueryURL(engine, value.toString());
+          urls.push(getFullURL(queryURL));
+        });
+      }
       return;
     }
 
@@ -177,7 +186,7 @@ function createURLs(engineNameOrAlias?: string): string[] {
   }
   // search query
   else if (withKeywords) {
-    searchQuery();
+    searchQuery(args._.map((arg) => arg.toString()));
   }
   // URL
   else if (withURLsOnly) {
