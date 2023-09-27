@@ -79,6 +79,14 @@ function getEngineRouteURL(engine: Engine, routeArg: string): string {
 }
 
 /**
+ * Returns the full URL including the protocol
+ */
+function getFullURL(url: string): string {
+  const protocol = `http${args.http ? "" : "s"}://`;
+  return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
+}
+
+/**
  * Returns a list of constructed URLs based on the engine
  *
  * @param engineNameOrAlias
@@ -87,11 +95,6 @@ function getEngineRouteURL(engine: Engine, routeArg: string): string {
 function createURLs(engineNameOrAlias?: string): string[] {
   const urls: string[] = [];
   const [, engine] = getEngine(engineNameOrAlias ?? defaults.engine) ?? [];
-
-  function getFullURL(url: string): string {
-    const protocol = `http${args.http ? "" : "s"}://`;
-    return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
-  }
 
   /**
    * Constructs simple search query URLs
@@ -157,20 +160,6 @@ function createURLs(engineNameOrAlias?: string): string[] {
     }
   }
 
-  if (withAddress) {
-    const address = orArray(args.address);
-
-    if (Array.isArray(address)) {
-      address
-        .filter((a) => a !== "")
-        .forEach((a) => {
-          urls.push(getFullURL(a));
-        });
-    } else if (address != null && address !== "") {
-      urls.push(getFullURL(address));
-    }
-  }
-
   // routes
   if (withRoute) {
     // query engine routes
@@ -216,7 +205,21 @@ export default function getURLs(): string[] {
   const urls: string[] = [];
   const engineArgs = getDataArgs.engine();
 
-  if (withEngine || withKeywords || withURLsOnly || withAddress) {
+  if (withAddress) {
+    const address = orArray(args.address);
+
+    if (Array.isArray(address)) {
+      address
+        .filter((a) => a !== "")
+        .forEach((a) => {
+          urls.push(getFullURL(a));
+        });
+    } else if (address != null && address !== "") {
+      urls.push(getFullURL(address));
+    }
+  }
+
+  if (withEngine || withKeywords || withURLsOnly) {
     if (engineArgs.length > 0) {
       engineArgs.forEach((engineNameOrAlias) => {
         urls.push(...createURLs(engineNameOrAlias));
