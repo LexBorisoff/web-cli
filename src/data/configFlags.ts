@@ -1,7 +1,7 @@
-import getBrowsersData from "./getBrowsersData";
-import getProfilesData from "./getProfilesData";
-import getEnginesData from "./getEnginesData";
-import type { WithAlias } from "../types/utility";
+import getBrowsersData from "./getBrowsersData.js";
+import getProfilesData from "./getProfilesData.js";
+import getEnginesData from "./getEnginesData.js";
+import type { WithAlias } from "../types/utility.d.ts";
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();

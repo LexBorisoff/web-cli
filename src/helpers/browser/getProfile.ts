@@ -1,6 +1,6 @@
-import { getConfigItem } from "../config";
-import { getProfilesData } from "../../data";
-import type { Profile } from "../../types/config";
+import { getConfigItem } from "../config/index.js";
+import { getProfilesData } from "../../data/index.js";
+import type { Profile } from "../../types/config.d.ts";
 
 /**
  * Returns a tuple with the profile's config key and the Profile object

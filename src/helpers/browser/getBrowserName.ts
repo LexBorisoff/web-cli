@@ -1,4 +1,4 @@
-import getBrowser from "./getBrowser";
+import getBrowser from "./getBrowser.js";
 
 /**
  * Returns a browser key from the config if it is found

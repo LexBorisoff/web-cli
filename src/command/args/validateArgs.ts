@@ -1,11 +1,15 @@
 import chalk from "chalk";
-import getDataArgs from "./getDataArgs";
-import getInvalidArgs from "./getInvalidArgs";
-import { getDefaultsData, engineFlags, browserProfileFlags } from "../../data";
-import { getBrowserName } from "../../helpers/browser";
-import { severity } from "../../helpers/print";
-import { orArray } from "../../utilities";
-import getQueryArgs from "./getQueryArgs";
+import getDataArgs from "./getDataArgs.js";
+import getInvalidArgs from "./getInvalidArgs.js";
+import {
+  getDefaultsData,
+  engineFlags,
+  browserProfileFlags,
+} from "../../data/index.js";
+import { getBrowserName } from "../../helpers/browser/index.js";
+import { severity } from "../../helpers/print/index.js";
+import { orArray } from "../../utilities/index.js";
+import getQueryArgs from "./getQueryArgs.js";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();

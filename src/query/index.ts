@@ -1,8 +1,8 @@
 import chalk from "chalk";
-import queryBrowsers from "./queryBrowsers";
-import { getQueryArgs, validateArgs } from "../command/args";
-import { getURLs } from "../helpers/search";
-import { print, severity, capitalize } from "../helpers/print";
+import queryBrowsers from "./queryBrowsers.js";
+import { getQueryArgs, validateArgs } from "../command/args/index.js";
+import { getURLs } from "../helpers/search/index.js";
+import { print, severity, capitalize } from "../helpers/print/index.js";
 
 const { incognito } = getQueryArgs();
 const { info, success } = severity;

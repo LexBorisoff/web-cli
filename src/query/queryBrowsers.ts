@@ -1,11 +1,11 @@
 import open from "open";
-import openBrowser from "./openBrowser";
-import { withProfile } from "../command/with";
-import { getDataArgs } from "../command/args";
-import { getDefaultsData } from "../data";
-import { getBrowserName, getProfile } from "../helpers/browser";
-import { printError } from "../helpers/print";
-import type { BrowserQuery } from "../types/query";
+import openBrowser from "./openBrowser.js";
+import { withProfile } from "../command/with.js";
+import { getDataArgs } from "../command/args/index.js";
+import { getDefaultsData } from "../data/index.js";
+import { getBrowserName, getProfile } from "../helpers/browser/index.js";
+import { printError } from "../helpers/print/index.js";
+import type { BrowserQuery } from "../types/query.d.ts";
 
 const defaults = getDefaultsData();
 const browserArgs = getDataArgs.browser();

@@ -1,3 +1,3 @@
-export { default as emptyLine } from "./emptyLine";
-export * from "./printSeverity";
-export * from "./transformText";
+export { default as emptyLine } from "./emptyLine.js";
+export * from "./printSeverity.js";
+export * from "./transformText.js";

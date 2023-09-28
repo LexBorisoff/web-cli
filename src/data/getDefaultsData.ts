@@ -1,13 +1,13 @@
-import getBrowsersData from "./getBrowsersData";
-import getProfilesData from "./getProfilesData";
-import getEnginesData from "./getEnginesData";
+import getBrowsersData from "./getBrowsersData.js";
+import getProfilesData from "./getProfilesData.js";
+import getEnginesData from "./getEnginesData.js";
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
-} from "../helpers/config";
-import type { DefaultsData } from "../types/config";
-import type { IsDefault } from "../types/utility";
-import { at } from "../utilities";
+} from "../helpers/config/index.js";
+import type { DefaultsData } from "../types/config.d.ts";
+import type { IsDefault } from "../types/utility.d.ts";
+import { at } from "../utilities/index.js";
 
 function getDefault<Data extends IsDefault>(data: Data): string | null {
   const withDefault = Object.entries(data).find(

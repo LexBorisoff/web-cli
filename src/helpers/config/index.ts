@@ -1,5 +1,8 @@
-export * from "./defaults";
-export { default as getConfigItem } from "./getConfigItem";
-export { default as getConfigPath, getConfigFilePath } from "./getConfigPath";
-export { default as initialEngines } from "./initialEngines";
-export { default as readConfigFile } from "./readConfigFile";
+export * from "./defaults.js";
+export { default as getConfigItem } from "./getConfigItem.js";
+export {
+  default as getConfigPath,
+  getConfigFilePath,
+} from "./getConfigPath.js";
+export { default as initialEngines } from "./initialEngines.js";
+export { default as readConfigFile } from "./readConfigFile.js";

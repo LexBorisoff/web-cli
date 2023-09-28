@@ -1,8 +1,8 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { Option, alias, options } from "../options";
-import { configFlags } from "../../data";
-import getVersion from "../../helpers/getVersion";
+import { Option, alias, options } from "../options.js";
+import { configFlags } from "../../data/index.js";
+import getVersion from "../../helpers/getVersion.js";
 
 export default function getQueryArgs() {
   return yargs(hideBin(process.argv))

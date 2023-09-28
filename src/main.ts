@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import query from "./query";
-import { withConfig } from "./command/with";
-import handleConfig from "./config/handleConfig";
+import query from "./query/index.js";
+import { withConfig } from "./command/with.js";
+import handleConfig from "./config/handleConfig.js";
 
 withConfig ? handleConfig() : query();

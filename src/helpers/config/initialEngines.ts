@@ -1,4 +1,4 @@
-import type { EnginesData } from "../../types/config";
+import type { EnginesData } from "../../types/config.d.ts";
 
 const initialEngines: EnginesData = {
   google: {

@@ -1,6 +1,6 @@
-import { getConfigItem, initialEngines } from "../config";
-import { getEnginesData } from "../../data";
-import type { Engine } from "../../types/config";
+import { getConfigItem, initialEngines } from "../config/index.js";
+import { getEnginesData } from "../../data/index.js";
+import type { Engine } from "../../types/config.d.ts";
 
 /**
  * Returns a tuple with the engine's config key and the Engine object

@@ -1,4 +1,4 @@
-import type { WithAlias } from "../../types/utility";
+import type { WithAlias } from "../../types/utility.d.ts";
 
 interface List<Item> {
   [key: string]: Item;

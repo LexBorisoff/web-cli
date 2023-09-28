@@ -1,18 +1,18 @@
 import chalk from "chalk";
-import getEngine from "./getEngine";
-import { emptyLine, printWarning, printError } from "../print";
+import getEngine from "./getEngine.js";
+import { emptyLine, printWarning, printError } from "../print/index.js";
 import {
   withEngine,
   withRoute,
   withAddress,
   withKeywords,
   withURLsOnly,
-} from "../../command/with";
-import { getQueryArgs, getDataArgs } from "../../command/args";
-import { getDefaultsData } from "../../data";
-import { urlPattern, orArray } from "../../utilities";
-import type { Engine } from "../../types/config";
-import type { Arg } from "../../types/utility";
+} from "../../command/with.js";
+import { getQueryArgs, getDataArgs } from "../../command/args/index.js";
+import { getDefaultsData } from "../../data/index.js";
+import { urlPattern, orArray } from "../../utilities/index.js";
+import type { Engine } from "../../types/config.d.ts";
+import type { Arg } from "../../types/utility.d.ts";
 
 const args = getQueryArgs();
 const urlArgs = args._.map((arg) =>

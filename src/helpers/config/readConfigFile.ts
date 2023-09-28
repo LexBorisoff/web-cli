@@ -1,6 +1,6 @@
 import * as fs from "fs";
-import { getConfigFilePath } from "./getConfigPath";
-import { ConfigValue } from "../../command/options";
+import { getConfigFilePath } from "./getConfigPath.js";
+import { ConfigValue } from "../../command/options.js";
 
 export default function readConfigFile(
   configType: ConfigValue.Browsers | ConfigValue.Engines

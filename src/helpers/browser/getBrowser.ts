@@ -1,6 +1,6 @@
-import { getConfigItem } from "../config";
-import { getBrowsersData } from "../../data";
-import type { Browser } from "../../types/config";
+import { getConfigItem } from "../config/index.js";
+import { getBrowsersData } from "../../data/index.js";
+import type { Browser } from "../../types/config.d.ts";
 
 const browsersData = getBrowsersData();
 

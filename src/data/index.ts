@@ -1,7 +1,7 @@
-export * from "./configFlags";
-export { default as configFlags } from "./configFlags";
-export { default as getConfigData } from "./getConfigData";
-export { default as getDefaultsData } from "./getDefaultsData";
-export { default as getBrowsersData } from "./getBrowsersData";
-export { default as getProfilesData } from "./getProfilesData";
-export { default as getEnginesData } from "./getEnginesData";
+export * from "./configFlags.js";
+export { default as configFlags } from "./configFlags.js";
+export { default as getConfigData } from "./getConfigData.js";
+export { default as getDefaultsData } from "./getDefaultsData.js";
+export { default as getBrowsersData } from "./getBrowsersData.js";
+export { default as getProfilesData } from "./getProfilesData.js";
+export { default as getEnginesData } from "./getEnginesData.js";

@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import * as path from "path";
-import { getConfigArgs } from "../command/args";
-import { ConfigValue, configValues } from "../command/options";
+import { getConfigArgs } from "../command/args/index.js";
+import { ConfigValue, configValues } from "../command/options.js";
 import {
   initialEngines,
   getConfigPath,
   readConfigFile,
-} from "../helpers/config";
-import { print, printError, severity } from "../helpers/print";
-import { orArray } from "../utilities";
-import type { BrowsersData } from "../types/config";
-import openConfigFile from "./openConfigFile";
+} from "../helpers/config/index.js";
+import { print, printError, severity } from "../helpers/print/index.js";
+import { orArray } from "../utilities/index.js";
+import type { BrowsersData } from "../types/config.d.ts";
+import openConfigFile from "./openConfigFile.js";
 
 const configPath = getConfigPath();
 const { config } = getConfigArgs();

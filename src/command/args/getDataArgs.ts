@@ -1,9 +1,13 @@
-import getQueryArgs from "./getQueryArgs";
-import combineArgLists from "./combineArgLists";
-import { options } from "../options";
-import { getBrowsersData, getEnginesData, getProfilesData } from "../../data";
-import type { WithAlias } from "../../types/utility";
-import { orArray } from "../../utilities";
+import getQueryArgs from "./getQueryArgs.js";
+import combineArgLists from "./combineArgLists.js";
+import { options } from "../options.js";
+import {
+  getBrowsersData,
+  getEnginesData,
+  getProfilesData,
+} from "../../data/index.js";
+import type { WithAlias } from "../../types/utility.d.ts";
+import { orArray } from "../../utilities/index.js";
 
 const args = getQueryArgs();
 const browsersData = getBrowsersData();

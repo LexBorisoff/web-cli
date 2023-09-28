@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as fs from "fs";
 import * as path from "path";
-import { ConfigValue } from "../../command/options";
+import { ConfigValue } from "../../command/options.js";
 
 export default function getConfigPath(): string {
   const homedir = os.homedir();

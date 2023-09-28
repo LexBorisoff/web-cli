@@ -1,6 +1,6 @@
-import { getDataArgs, getQueryArgs, getConfigArgs } from "./args";
-import { getDefaultsData } from "../data";
-import { urlPattern } from "../utilities";
+import { getDataArgs, getQueryArgs, getConfigArgs } from "./args/index.js";
+import { getDefaultsData } from "../data/index.js";
+import { urlPattern } from "../utilities/index.js";
 
 const { _: args, route, address } = getQueryArgs();
 const { config } = getConfigArgs();

@@ -1,10 +1,10 @@
 import open, { openApp } from "open";
-import { getQueryArgs } from "../command/args";
+import { getQueryArgs } from "../command/args/index.js";
 import {
   getBrowserArguments,
   getBrowserAppName,
   getProfile,
-} from "../helpers/browser";
+} from "../helpers/browser/index.js";
 
 const { incognito } = getQueryArgs();
 

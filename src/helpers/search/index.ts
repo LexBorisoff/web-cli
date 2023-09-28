@@ -1,2 +1,2 @@
-export { default as getEngine } from "./getEngine";
-export { default as getURLs } from "./getURLs";
+export { default as getEngine } from "./getEngine.js";
+export { default as getURLs } from "./getURLs.js";

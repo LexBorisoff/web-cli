@@ -1,4 +1,4 @@
-import type { WithAlias, IsDefault } from "./utility";
+import type { WithAlias, IsDefault } from "./utility.d.ts";
 
 // DEFAULTS
 export interface DefaultsData {

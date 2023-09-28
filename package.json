@@ -2,6 +2,7 @@
   "name": "@lexjs/web-cli",
   "version": "1.0.4",
   "description": "CLI for making browser web searches from a terminal",
+  "type": "module",
   "main": "./lib/main.js",
   "exports": "./lib/main.js",
   "scripts": {
@@ -35,7 +36,7 @@
   ],
   "dependencies": {
     "chalk": "^4.1.2",
-    "open": "^8.4.2",
+    "open": "^9.1.0",
     "yargs": "^17.6.2"
   },
   "devDependencies": {

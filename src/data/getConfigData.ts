@@ -1,6 +1,6 @@
-import { ConfigValue } from "../command/options";
-import { readConfigFile } from "../helpers/config";
-import type { BrowsersData, EnginesData } from "../types/config";
+import { ConfigValue } from "../command/options.js";
+import { readConfigFile } from "../helpers/config/index.js";
+import type { BrowsersData, EnginesData } from "../types/config.d.ts";
 
 interface Data {
   [ConfigValue.Browsers]: BrowsersData;
