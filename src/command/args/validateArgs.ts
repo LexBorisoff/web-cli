@@ -123,7 +123,9 @@ export default function validateArgs(): string[] {
     }
   }
 
-  validateProfileArgs(browserArgs.length > 0 ? browserArgs : defaults.browser);
+  validateProfileArgs(
+    browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
+  );
 
   return errorMessages.sort((a, b) => a.localeCompare(b));
 }

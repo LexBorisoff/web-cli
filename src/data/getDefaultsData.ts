@@ -4,22 +4,24 @@ import getEnginesData from "./getEnginesData.js";
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
+  initialEngines,
 } from "../helpers/config/index.js";
-import type { DefaultsData } from "../types/config.d.ts";
+import type { DefaultsData, Engine } from "../types/config.d.ts";
 import type { IsDefault } from "../types/utility.d.ts";
 import { at } from "../utilities/index.js";
 
-function getDefault<Data extends IsDefault>(data: Data): string | null {
+function getDefault<Data extends IsDefault>(
+  data: Data
+): [string, Data[keyof Data]] | null {
   const withDefault = Object.entries(data).find(
     ([, item]: [key: string, item: Data]) => !!item.isDefault
   );
 
   if (withDefault != null) {
-    const [itemName] = withDefault;
-    return itemName;
+    return withDefault;
   }
 
-  const first = at(Object.keys(data), 0);
+  const first = at(Object.entries(data), 0);
   if (first != null) {
     return first;
   }
@@ -29,7 +31,11 @@ function getDefault<Data extends IsDefault>(data: Data): string | null {
 
 function getDefaultEngine(): DefaultsData["engine"] {
   const engines = getEnginesData();
-  return getDefault(engines) ?? defaultEngine;
+  const fallback: [string, Engine] = [
+    defaultEngine,
+    initialEngines[defaultEngine],
+  ];
+  return getDefault(engines) ?? fallback;
 }
 
 function getDefaultBrowser(): DefaultsData["browser"] {

@@ -1,13 +1,5 @@
 import type { WithAlias, IsDefault } from "./utility.d.ts";
 
-// DEFAULTS
-export interface DefaultsData {
-  delimiter: string;
-  engine: string;
-  browser: string | null;
-  profile: (browserName: string) => string | null;
-}
-
 // BROWSERS
 export interface Profile extends WithAlias, IsDefault {
   directory: string; // --profile-directory="Folder Name"
@@ -40,4 +32,12 @@ export interface Engine extends WithAlias, IsDefault {
 
 export interface EnginesData {
   [engine: string]: Engine;
+}
+
+// DEFAULTS
+export interface DefaultsData {
+  delimiter: string;
+  engine: [string, Engine];
+  browser: [string, Browser] | null;
+  profile: (browserName: string) => [string, Profile] | null;
 }
