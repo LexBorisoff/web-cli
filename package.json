@@ -1,41 +1,47 @@
 {
-  "name": "@lexjs/web-cli",
-  "version": "1.1.0",
-  "description": "CLI for making browser web searches from a terminal",
+  "name": "@lexjs/web-search",
+  "version": "0.0.15",
+  "description": "ESM library and Node CLI for making browser web queries",
   "type": "module",
-  "main": "./lib/main.js",
-  "exports": "./lib/main.js",
+  "main": "./dist/main.js",
+  "exports": {
+    "default": "./dist/main.js",
+    "types": "./dist/types/main.d.ts"
+  },
   "scripts": {
-    "build": "rm -rf ./lib && tsc",
+    "prebuild": "rm -fr ./dist",
+    "build": "tsc --declaration",
+    "postbuild": "rm -fr ./dist/types/bin",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
     "cli",
+    "search",
     "websearch",
     "web-search",
-    "search",
     "search-engine",
     "browser-query",
-    "web-query"
+    "web-query",
+    "browser",
+    "google"
   ],
   "author": "Lex Borisoff <hello@lexjs.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LexBorisoff/web-cli.git"
+    "url": "git+https://github.com/LexBorisoff/web-search.git"
   },
+  "homepage": "https://github.com/LexBorisoff/web-search#readme",
   "bugs": {
-    "url": "https://github.com/LexBorisoff/web-cli/issues"
+    "url": "https://github.com/LexBorisoff/web-search/issues"
   },
-  "homepage": "https://github.com/LexBorisoff/web-cli#readme",
   "bin": {
-    "www": "lib/cli/main.js"
+    "web": "dist/bin/main.js"
   },
   "files": [
-    "/lib"
+    "dist"
   ],
   "dependencies": {
-    "@lexjs/web-search": "^0.0.12",
     "chalk": "^4.1.2",
     "open": "^9.1.0",
     "yargs": "^17.6.2"
