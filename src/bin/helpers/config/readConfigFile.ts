@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { getConfigFilePath } from "./getConfigPath.js";
 import { ConfigValue } from "../../command/options.js";
 
