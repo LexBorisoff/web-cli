@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import WebSearch, { type Browser, type Engine } from "@lexjs/web-search";
+import WebSearch, { type Browser, type Engine } from "../main.js";
 import {
   getDataArgs,
   getQueryArgs,

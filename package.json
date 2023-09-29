@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/LexBorisoff/web-cli#readme",
   "bin": {
-    "web": "lib/main.js"
+    "www": "lib/cli/main.js"
   },
   "files": [
     "/lib"
