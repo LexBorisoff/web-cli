@@ -1,7 +1,6 @@
 # Build
 _build
 build
-bin
 lib
 
 # Config files
