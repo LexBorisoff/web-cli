@@ -1,4 +1,4 @@
-import { findConfigItem } from "../config/index.js";
+import findConfigItem from "./findConfigItem.js";
 import { getProfilesData } from "../../data/index.js";
 import type { Profile } from "../../types/config.js";
 

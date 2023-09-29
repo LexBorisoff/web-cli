@@ -1,4 +1,4 @@
-import { findConfigItem } from "../config/index.js";
+import findConfigItem from "./findConfigItem.js";
 import { getBrowsersData } from "../../data/index.js";
 import type { Browser } from "../../types/config.js";
 
