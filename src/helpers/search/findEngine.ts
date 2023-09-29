@@ -1,13 +1,13 @@
 import { getConfigItem, initialEngines } from "../config/index.js";
 import { getEnginesData } from "../../data/index.js";
-import type { Engine } from "../../types/config.d.ts";
+import type { Engine } from "../../types/config.js";
 
 /**
  * Returns a tuple with the engine's config key and the Engine object
  * if it can be found in the config by the provided name or alias.
  * Otherwise returns undefined
  */
-export default function getEngine(
+export default function findEngine(
   engineNameOrAlias?: string
 ): [string, Engine] | undefined {
   if (engineNameOrAlias == null) {
