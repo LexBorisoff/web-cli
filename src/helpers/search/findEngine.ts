@@ -1,4 +1,4 @@
-import { getConfigItem, initialEngines } from "../config/index.js";
+import { findConfigItem, initialEngines } from "../config/index.js";
 import { getEnginesData } from "../../data/index.js";
 import type { Engine } from "../../types/config.js";
 
@@ -17,7 +17,7 @@ export default function findEngine(
   const enginesData = getEnginesData();
   const hasEnginesData = Object.keys(enginesData).length > 0;
 
-  return getConfigItem(
+  return findConfigItem(
     engineNameOrAlias,
     hasEnginesData ? enginesData : initialEngines
   );

@@ -1,5 +1,5 @@
 export * from "./defaults.js";
-export { default as getConfigItem } from "./getConfigItem.js";
+export { default as findConfigItem } from "./findConfigItem.js";
 export {
   default as getConfigPath,
   getConfigFilePath,

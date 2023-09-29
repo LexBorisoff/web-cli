@@ -1,4 +1,4 @@
-import { getConfigItem } from "../config/index.js";
+import { findConfigItem } from "../config/index.js";
 import { getBrowsersData } from "../../data/index.js";
 import type { Browser } from "../../types/config.js";
 
@@ -11,5 +11,5 @@ const browsersData = getBrowsersData();
 export default function findBrowser(
   browserNameOrAlias: string
 ): [string, Browser] | undefined {
-  return getConfigItem(browserNameOrAlias, browsersData);
+  return findConfigItem(browserNameOrAlias, browsersData);
 }
