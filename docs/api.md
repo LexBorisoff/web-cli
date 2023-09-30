@@ -1,4 +1,4 @@
-<h1 align="center">Web Search Module</h1>
+<h1 align="center">Web Search API</h1>
 
 # Usage <a name="usage"></a>
 
