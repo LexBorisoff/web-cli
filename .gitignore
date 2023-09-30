@@ -1,13 +1,12 @@
 # Build
 _build
 build
-bin
 lib
 
 # Config files
-.config
 config.json
-engines.json
+settings.json
+websearch.json
 
 # Logs
 logs
