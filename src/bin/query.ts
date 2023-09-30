@@ -13,15 +13,14 @@ import {
   capitalize,
   emptyLine,
 } from "./helpers/print/index.js";
-import { findEngine, findProfile } from "./helpers/find/index.js";
+import { findEngine } from "./helpers/find/index.js";
+import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
 import { BrowserQuery } from "./types/query.js";
-import { withProfile } from "./command/with.js";
-import getBrowserName from "./helpers/browser/getBrowserName.js";
-import { Profile } from "./types/config.js";
 
 const { _: keywords, address, route, incognito, split, http } = getQueryArgs();
 
 const defaults = getDefaultsData();
+const [, defaultEngine] = defaults.engine;
 const browserArgs = getDataArgs.browser();
 const engineArgs = getDataArgs.engine();
 const { info, success, error, warning } = severity;
@@ -35,67 +34,7 @@ export default function query(): void {
     return;
   }
 
-  const browserQueries: BrowserQuery[] = [];
-  const browsers: Browser[] = [];
-  const engines: Engine[] = [];
-
-  /**
-   * Returns a list of profile keys from the config
-   * for a provided browser name
-   */
-  function getProfiles(browserName: string): [string, Profile][] {
-    const profiles: [string, Profile][] = [];
-
-    function handleProfile(profileNameOrAlias: string) {
-      const found = findProfile(browserName, profileNameOrAlias);
-      if (found != null) {
-        profiles.push(found);
-      }
-    }
-
-    if (withProfile(browserName)) {
-      const profileArgs = getDataArgs.profile(browserName);
-      const defaultProfile = defaults.profile(browserName);
-
-      if (profileArgs.length > 0) {
-        profileArgs.forEach((profileNameOrAlias) => {
-          handleProfile(profileNameOrAlias);
-        });
-      } else if (defaultProfile != null) {
-        const [profileName] = defaultProfile;
-        handleProfile(profileName);
-      }
-    }
-
-    return profiles;
-  }
-
-  function addBrowser(browserNameOrAlias: string) {
-    const browserName = getBrowserName(browserNameOrAlias);
-    const profiles = getProfiles(browserName);
-
-    browserQueries.push({
-      browser: browserName,
-      profiles: profiles.map(([profileName]) => profileName),
-    });
-
-    browsers.push({
-      name: browserName,
-      profileDirectory: profiles.map(([, profile]) => profile.directory),
-    });
-  }
-
-  if (browserArgs.length > 0) {
-    browserArgs.forEach((nameOrAlias) => {
-      addBrowser(nameOrAlias);
-    });
-  }
-  // default browser exists in config
-  else if (defaults.browser != null) {
-    const [browserName] = defaults.browser;
-    addBrowser(browserName);
-  }
-
+  const wsEngines: Engine[] = [];
   if (engineArgs.length > 0) {
     engineArgs.forEach((engineNameOrAlias) => {
       const found = findEngine(engineNameOrAlias);
@@ -103,19 +42,45 @@ export default function query(): void {
         const [, engine] = found;
         delete engine.alias;
         delete engine.isDefault;
-        engines.push(engine);
+        wsEngines.push(engine);
       }
     });
   }
 
-  const defaultEngine = defaults.engine[1];
-  delete defaultEngine.alias;
-  delete defaultEngine.isDefault;
+  const wsBrowsers: Browser[] = [];
+  const browserQueries: BrowserQuery[] = [];
+
+  /**
+   * Constructs web search browsers and browser queries
+   */
+  function handleBrowser(browserNameOrAlias: string) {
+    const browserName = getBrowserName(browserNameOrAlias);
+    const profiles = getProfiles(browserName);
+
+    wsBrowsers.push({
+      name: browserName,
+      profileDirectory: profiles.map(([, profile]) => profile.directory),
+    });
+
+    browserQueries.push({
+      browser: browserName,
+      profiles: profiles.map(([profileName]) => profileName),
+    });
+  }
+
+  if (browserArgs.length > 0) {
+    browserArgs.forEach((nameOrAlias) => {
+      handleBrowser(nameOrAlias);
+    });
+  } else if (defaults.browser != null) {
+    const [browserName] = defaults.browser;
+    handleBrowser(browserName);
+  }
 
   const webSearch = new WebSearch({
     keywords,
-    browser: browsers.length > 0 ? browsers : null,
-    engine: engines.length > 0 ? engines : null,
+    browser: wsBrowsers.length > 0 ? wsBrowsers : null,
+    engine: wsEngines.length > 0 ? wsEngines : null,
     defaultEngine,
     address,
     route,
@@ -126,11 +91,13 @@ export default function query(): void {
 
   webSearch.open();
 
+  // log bare engines
   if (webSearch.bareEngines.length > 0) {
     print(warning(`Engines with no ${chalk.italic.bold("query")} options:`));
     print(error(webSearch.bareEngines.join(", ")));
   }
 
+  // log browser queries
   browserQueries.forEach((browserQuery) => {
     if (webSearch.bareEngines.length > 0) {
       emptyLine();
@@ -147,6 +114,7 @@ export default function query(): void {
     print(browserInfo);
   });
 
+  // log urls
   webSearch.urls.forEach((url) => {
     print(`> ${success(url)}`);
   });
