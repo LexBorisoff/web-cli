@@ -1,6 +1,6 @@
 {
   "name": "@lexjs/web-search",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "ESM library and Node CLI for making browser web queries",
   "type": "module",
   "main": "./dist/main.js",
