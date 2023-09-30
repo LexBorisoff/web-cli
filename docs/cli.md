@@ -1,22 +1,7 @@
-<h1 align="center"> Web CLI</h1>
+<h1 align="center">Web Search CLI</h1>
 
-Web CLI is a configurable Node.js application for making web searches from a terminal. It allows using different browsers, browser profiles, search engines and websites via the `web` command.
-
-# Installation <a name="installation"></a>
-
-Install the package globally:
-
-<pre><code>npm i <em>-g</em> @lexjs/web-cli</code></pre>
-
-After installing, the `web` command is ready to use without any initial setup.
-
-To check the installed version, use the `--version` option:
-
-<pre><code>web <em>--version</em></code></pre>
-
-# Table of Contents
-
-* [Basic Usage](#basic-usage)
+* [Installation](#installation)
+* [Usage](#basic-usage)
   * [Keywords](#basic-usage-keywords)
   * [URLs](#basic-usage-urls)
 * [Query Options](#query-options)
@@ -38,7 +23,21 @@ To check the installed version, use the `--version` option:
   * [Engines](#engines-configuration)
 * [Custom Flags](#custom-flags)
 
-# Basic Usage <a name="basic-usage"></a>
+# Installation <a name="installation"></a>
+
+Install the package globally:
+
+<pre><code>npm i <em>-g</em> @lexjs/web-search</code></pre>
+
+After installing, the `web` command is ready to use without any initial setup.
+
+<pre><code>web <em>--browser=chrome</em> difference between array.splice and array.slice</code></pre>
+
+To check the installed version, use the `--version` option:
+
+<pre><code>web <em>--version</em></code></pre>
+
+# Usage <a name="basic-usage"></a>
 
 To perform basic web queries from the terminal, provide ***space-separated values*** to the `web` command:
 
@@ -155,7 +154,7 @@ The following are built-in options that require a value:
 |[`profile`](#option-profile)|[`p`](#option-profile)|*A browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
 |[`engine`](#option-engine)|[`e`](#option-engine)|*A search engine (or website) to query*|[*engines*](#engines-configuration)|
 |[`route`](#option-route)|[`r`](#option-route)|*An engine's route to access*|[*engines*](#engines-configuration)|
-|[`address`](#option-address)| ❌ |*A custom address to access*|❌|
+|[`address`](#option-address)|[`a`](#option-address)|*A custom address to access*|❌|
 
 > ⚙️ indicates that configuration is required.
 
