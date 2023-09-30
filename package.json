@@ -21,23 +21,23 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types/WebSearch.d.ts",
-      "default": "./dist/WebSearch.js"
+      "types": "./dist/types/api/WebSearch.d.ts",
+      "default": "./dist/api/WebSearch.js"
     },
     "./URLs": {
-      "types": "./dist/types/URLs.d.ts",
-      "default": "./dist/URLs.js"
+      "types": "./dist/types/api/URLs.d.ts",
+      "default": "./dist/api/URLs.js"
     },
     "./Options": {
-      "types": "./dist/types/Options.d.ts",
-      "default": "./dist/Options.js"
+      "types": "./dist/types/api/Options.d.ts",
+      "default": "./dist/api/Options.js"
     }
   },
   "bin": {
     "web": "dist/bin/web-cli.js"
   },
-  "main": "./dist/WebSearch.js",
-  "types": "./dist/types/WebSearch.d.ts",
+  "types": "./dist/types/api/WebSearch.d.ts",
+  "main": "./dist/api/WebSearch.js",
   "keywords": [
     "cli",
     "search",
