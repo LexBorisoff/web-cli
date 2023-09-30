@@ -1,38 +1,35 @@
 <h1 align="center"> Web Search</h1>
 
-ESM library and a Node.js CLI application (`web`) for making browser web queries. Allows using different browsers, browser profiles, search engines and websites.
+Web Search is a Node.js library and a CLI application (`web`) for making browser web queries. It allows using different browsers, browser profiles, search engines and websites.
 
-# Module
+# Installation
+
+To use the package as a library, install it locally in your project:
+
+<pre><code>npm i @lexjs/web-search</code></pre>
+
+# Usage
 
 ```javascript
 import WebSearch from "@lexjs/web-search";
 
 // create a WebSearch instance
-const ws = new WebSearch({
-  keywords: ["array.slice", "array.splice"],
-  engine: {
-    name: "MDN",
-    url: "developer.mozilla.org",
-    query: "search?q="
-  },
-  browser: "chrome",
-});
+const ws = new WebSearch({ ...options });
 
-// perform web queries
+// open web queries
 ws.open();
 
-// log opened URLs
+// log created URLs
 ws.urls.forEach((url) => {
   console.log(url);
 });
 ```
 
-### [Module documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/module.md)
-
+### [Documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/module.md)
 
 # CLI
 
-Install the package globally:
+To use the CLI, install the package globally:
 
 <pre><code>npm i <em>-g</em> @lexjs/web-search</code></pre>
 
