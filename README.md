@@ -1,14 +1,32 @@
 <h1 align="center"> Web Search</h1>
 
-Web Search is a Node.js library and a CLI application (`web`) for making browser web queries. It allows using different browsers, browser profiles, search engines and websites.
+Web Search is a Node.js package for making browser web queries. It allows using different browsers, browser profiles, search engines and websites through a configurable [CLI application](#cli-usage) or as a [JavaScript API](#api-usage).
 
-# Installation
+# CLI <a name="cli-usage"></a>
 
-To use the package as a library, install it locally in your project:
+To use the CLI, install the package globally:
+
+<pre><code>npm i <em>-g</em> @lexjs/web-search</code></pre>
+
+After installing, the `web` command is ready to use without any initial setup.
+
+<pre><code>web hello world</code></pre>
+
+&gt; `https://google.com/search?q=hello world`
+
+To check the installed version, use the `--version` option:
+
+<pre><code>web <em>--version</em></code></pre>
+
+Visit [CLI documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md) for more details.
+
+# API <a name="api-usage"></a>
+
+To use the library programmatically, install it locally in your project:
 
 <pre><code>npm i @lexjs/web-search</code></pre>
 
-# Usage
+Web Search is pure ESM and does not provide CommonJS exports.
 
 ```javascript
 import WebSearch from "@lexjs/web-search";
@@ -25,20 +43,4 @@ ws.urls.forEach((url) => {
 });
 ```
 
-### [Documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/module.md)
-
-# CLI
-
-To use the CLI, install the package globally:
-
-<pre><code>npm i <em>-g</em> @lexjs/web-search</code></pre>
-
-After installing, the `web` command is ready to use without any initial setup.
-
-<pre><code>web <em>--browser=chrome</em> difference between array.splice and array.slice</code></pre>
-
-To check the installed version, use the `--version` option:
-
-<pre><code>web <em>--version</em></code></pre>
-
-### [CLI documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md)
+Visit [API Documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/api.md) for more details.
