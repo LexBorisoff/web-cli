@@ -1,5 +1,5 @@
 import Options from "./Options.js";
-import type { Engine, Keyword, QueryOptions } from "./main.js";
+import type { Engine, QueryOptions } from "./main.js";
 
 const trailingSlash = /\/$/;
 const leadingSlash = /^\//;
@@ -81,15 +81,13 @@ export default class URLs extends Options {
   }
 
   private get withKeywords(): boolean {
-    return this.keywords.some(
-      (keyword) => !urlPattern.test(keyword.toString())
-    );
+    return this.keywords.some((keyword) => !urlPattern.test(keyword));
   }
 
   private get withURLsOnly(): boolean {
     return (
       this.keywords.length > 0 &&
-      this.keywords.every((keyword) => urlPattern.test(keyword.toString()))
+      this.keywords.every((keyword) => urlPattern.test(keyword))
     );
   }
 
@@ -139,11 +137,9 @@ export default class URLs extends Options {
   private create(engineOption?: Engine | null): string[] {
     // URL
     if (this.withURLsOnly) {
-      const urlArgs = this.keywords
-        .map((keyword) =>
-          typeof keyword === "string" ? keyword : keyword.toString()
-        )
-        .filter((keyword) => urlPattern.test(keyword));
+      const urlArgs = this.keywords.filter((keyword) =>
+        urlPattern.test(keyword)
+      );
 
       // search engine query with URLs as part of the search query
       if (engineOption != null) {
@@ -248,7 +244,7 @@ export default class URLs extends Options {
    * @param value
    * if provided, it is added to the URL after a forward-slash
    */
-  private engineRouteQuery(engine: Engine, value?: Keyword): string[] {
+  private engineRouteQuery(engine: Engine, value?: string): string[] {
     const createRoute = (route: string): string => {
       const engineRoute = getEngineRouteURL(engine, route);
       const routeURL =

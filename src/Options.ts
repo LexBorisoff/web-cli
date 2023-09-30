@@ -1,4 +1,4 @@
-import type { QueryOptions, Browser, Engine, Keyword } from "./main.js";
+import type { QueryOptions, Browser, Engine } from "./main.js";
 
 export default class Options {
   protected options: QueryOptions;
@@ -7,8 +7,21 @@ export default class Options {
     this.options = options;
   }
 
-  protected get keywords(): Keyword[] {
-    return this.options.keywords ?? [];
+  protected get keywords(): string[] {
+    const { keywords } = this.options;
+    if (keywords == null) {
+      return [];
+    }
+
+    if (typeof keywords === "string") {
+      return keywords.split(" ");
+    }
+
+    if (typeof keywords === "number") {
+      return [keywords.toString()];
+    }
+
+    return keywords.map((keyword) => keyword.toString());
   }
 
   protected get browser(): Browser | Browser[] | null | undefined {

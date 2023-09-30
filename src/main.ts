@@ -16,10 +16,8 @@ export interface Browser {
   profileDirectory?: string | string[];
 }
 
-export type Keyword = string | number;
-
 export interface QueryOptions {
-  keywords?: Keyword[];
+  keywords?: string | number | (string | number)[];
   browser?: Browser | Browser[] | null;
   engine?: Engine | Engine[] | null;
   defaultEngine?: Engine | null;
