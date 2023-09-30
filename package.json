@@ -1,12 +1,22 @@
 {
   "name": "@lexjs/web-search",
-  "version": "0.0.15",
+  "version": "0.0.21",
   "description": "ESM library and Node CLI for making browser web queries",
   "type": "module",
   "main": "./dist/main.js",
   "exports": {
-    "default": "./dist/main.js",
-    "types": "./dist/types/main.d.ts"
+    ".": {
+      "types": "./dist/types/WebSearch.d.ts",
+      "default": "./dist/WebSearch.js"
+    },
+    "./URLs": {
+      "types": "./dist/types/URLs.d.ts",
+      "default": "./dist/URLs.js"
+    },
+    "./Options": {
+      "types": "./dist/types/Options.d.ts",
+      "default": "./dist/Options.js"
+    }
   },
   "scripts": {
     "prebuild": "rm -fr ./dist",

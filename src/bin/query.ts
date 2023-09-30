@@ -1,5 +1,6 @@
 import chalk from "chalk";
-import WebSearch, { type Browser, type Engine } from "../main.js";
+import WebSearch from "../WebSearch.js";
+import type { Browser, Engine } from "../Options.js";
 import {
   getDataArgs,
   getQueryArgs,

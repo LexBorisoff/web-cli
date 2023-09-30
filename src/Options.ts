@@ -1,4 +1,29 @@
-import type { QueryOptions, Browser, Engine } from "./main.js";
+export interface Engine {
+  name: string;
+  url: string;
+  query?: string;
+  routes?: {
+    [route: string]: string;
+  };
+  delimiter?: string;
+}
+
+export interface Browser {
+  name: string;
+  profileDirectory?: string | string[];
+}
+
+export interface QueryOptions {
+  keywords?: string | number | (string | number)[];
+  browser?: Browser | Browser[] | null;
+  engine?: Engine | Engine[] | null;
+  defaultEngine?: Engine | null;
+  route?: string | string[];
+  address?: string | string[];
+  incognito?: boolean;
+  split?: boolean;
+  http?: boolean;
+}
 
 export default class Options {
   protected options: QueryOptions;

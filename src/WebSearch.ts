@@ -1,32 +1,6 @@
 import open, { openApp, apps } from "open";
 import URLs from "./URLs.js";
-
-export interface Engine {
-  name: string;
-  url: string;
-  query?: string;
-  routes?: {
-    [route: string]: string;
-  };
-  delimiter?: string;
-}
-
-export interface Browser {
-  name: string;
-  profileDirectory?: string | string[];
-}
-
-export interface QueryOptions {
-  keywords?: string | number | (string | number)[];
-  browser?: Browser | Browser[] | null;
-  engine?: Engine | Engine[] | null;
-  defaultEngine?: Engine | null;
-  route?: string | string[];
-  address?: string | string[];
-  incognito?: boolean;
-  split?: boolean;
-  http?: boolean;
-}
+import type { Browser } from "./Options.js";
 
 export default class WebSearch extends URLs {
   public open(): void {

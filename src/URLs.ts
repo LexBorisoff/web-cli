@@ -1,5 +1,4 @@
-import Options from "./Options.js";
-import type { Engine, QueryOptions } from "./main.js";
+import Options, { type Engine, type QueryOptions } from "./Options.js";
 
 const trailingSlash = /\/$/;
 const leadingSlash = /^\//;
