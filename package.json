@@ -36,7 +36,7 @@
     "url": "https://github.com/LexBorisoff/web-search/issues"
   },
   "bin": {
-    "web": "dist/bin/main.js"
+    "web": "dist/bin/web-cli.js"
   },
   "files": [
     "dist"
