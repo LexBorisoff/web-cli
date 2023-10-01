@@ -73,7 +73,7 @@ export default class Options {
   protected get port(): number | number[] | undefined {
     const { port: portOption } = this.options;
     const list = Array.isArray(portOption) ? portOption : [portOption];
-    console.log(portOption);
+
     const ports = list.filter(
       (port): port is number =>
         port != null && typeof port === "number" && !Number.isNaN(port)
