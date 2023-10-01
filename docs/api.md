@@ -12,7 +12,21 @@ Install the library locally in your project:
 
 <pre><code>npm i @lexjs/web-search</code></pre>
 
+This API works behind the CLI application. Please get familiar with CLI documentation first as it explains every API option in detail.
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Options](#options)
+
+# Installation <a name="installation"></a>
+
+Install the library locally in your project:
+
+<pre><code>npm i @lexjs/web-search</code></pre>
+
 # Usage <a name="usage"></a>
+
+Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c.js) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
 
 Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c.js) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
 
@@ -32,12 +46,21 @@ ws.urls.forEach((url) => {
 ```
 
 # Options <a name="options"></a>
+# Options <a name="options"></a>
 
+The `WebSearch` constructor must be supplied an "options" object of the `QueryOptions` type:
 The `WebSearch` constructor must be supplied an "options" object of the `QueryOptions` type:
 
 ```typescript
 interface QueryOptions {
   keywords?: string | number | (string | number)[];
+  browser?:
+    | string
+    | string[]
+    | Browser
+    | Browser[]
+    | (string | Browser)[]
+    | null;
   browser?:
     | string
     | string[]
