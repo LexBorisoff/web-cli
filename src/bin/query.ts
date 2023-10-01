@@ -96,10 +96,13 @@ export default function query(): void {
 
     const { browser, profiles } = browserQuery;
     let browserInfo = info(capitalize(browser));
+
     if (profiles.length > 0) {
-      browserInfo += ` (${chalk.gray(profiles.join(", "))})${
-        options.incognito ? chalk.gray(" [private tab]") : ""
-      }`;
+      browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
+    }
+
+    if (options.incognito) {
+      browserInfo += chalk.gray(" [private tab]");
     }
 
     print(browserInfo);
