@@ -12,21 +12,7 @@ Install the library locally in your project:
 
 <pre><code>npm i @lexjs/web-search</code></pre>
 
-This API works behind the CLI application. Please get familiar with CLI documentation first as it explains every API option in detail.
-
-* [Installation](#installation)
-* [Usage](#usage)
-* [Options](#options)
-
-# Installation <a name="installation"></a>
-
-Install the library locally in your project:
-
-<pre><code>npm i @lexjs/web-search</code></pre>
-
 # Usage <a name="usage"></a>
-
-Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c.js) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
 
 Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c.js) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
 
@@ -46,9 +32,7 @@ ws.urls.forEach((url) => {
 ```
 
 # Options <a name="options"></a>
-# Options <a name="options"></a>
 
-The `WebSearch` constructor must be supplied an "options" object of the `QueryOptions` type:
 The `WebSearch` constructor must be supplied an "options" object of the `QueryOptions` type:
 
 ```typescript
@@ -177,3 +161,18 @@ Refer to [split option](https://github.com/LexBorisoff/web-search/blob/master/do
 ## `http`
 
 Refer to [http option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-http) in CLI docs.
+
+# URLs
+
+In its implementation, the `WebSearch` class extends a class called`URLs` which is exported from `@lexjs/web-search/URLs` and can also be used on its own but without the ability to open browser queries. The `URLs` provides the following instance properties that can be accessed on a `WebSearch` object due to inheritance:
+
+* `urls` - a list of created URLs based on the provided options.
+* `bareEngines` - a list of provided engines that do not have a `query` property. This list only gets populated when the `keywords` property was provided meaning that an engine could not be queried properly ***and*** the `route` option was not supplied (in which case a URL would be built using the `route` value instead of `query`).
+
+```typescript
+const ws = new WebSearch({ ...options });
+
+const { urls, bareEngines } = ws;
+
+// ... log urls and bareEngines ...
+```
