@@ -1,29 +1,43 @@
 {
   "name": "@lexjs/web-search",
-  "version": "0.0.21",
-  "description": "ESM library and Node CLI for making browser web queries",
+  "version": "0.0.22",
+  "description": "Node.js library and CLI for making browser web queries",
   "type": "module",
-  "main": "./dist/main.js",
-  "exports": {
-    ".": {
-      "types": "./dist/types/WebSearch.d.ts",
-      "default": "./dist/WebSearch.js"
-    },
-    "./URLs": {
-      "types": "./dist/types/URLs.d.ts",
-      "default": "./dist/URLs.js"
-    },
-    "./Options": {
-      "types": "./dist/types/Options.d.ts",
-      "default": "./dist/Options.js"
-    }
-  },
   "scripts": {
     "prebuild": "rm -fr ./dist",
-    "build": "tsc --declaration",
+    "build": "tsc",
     "postbuild": "rm -fr ./dist/types/bin",
     "prepublishOnly": "npm run build"
   },
+  "author": "Lex Borisoff <hello@lexjs.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LexBorisoff/web-search.git"
+  },
+  "homepage": "https://github.com/LexBorisoff/web-search#readme",
+  "bugs": {
+    "url": "https://github.com/LexBorisoff/web-search/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/api/WebSearch.d.ts",
+      "default": "./dist/api/WebSearch.js"
+    },
+    "./URLs": {
+      "types": "./dist/types/api/URLs.d.ts",
+      "default": "./dist/api/URLs.js"
+    },
+    "./Options": {
+      "types": "./dist/types/api/Options.d.ts",
+      "default": "./dist/api/Options.js"
+    }
+  },
+  "bin": {
+    "web": "dist/bin/web-cli.js"
+  },
+  "types": "./dist/types/api/WebSearch.d.ts",
+  "main": "./dist/api/WebSearch.js",
   "keywords": [
     "cli",
     "search",
@@ -35,30 +49,16 @@
     "browser",
     "google"
   ],
-  "author": "Lex Borisoff <hello@lexjs.com>",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LexBorisoff/web-search.git"
-  },
-  "homepage": "https://github.com/LexBorisoff/web-search#readme",
-  "bugs": {
-    "url": "https://github.com/LexBorisoff/web-search/issues"
-  },
-  "bin": {
-    "web": "dist/bin/web-cli.js"
-  },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "open": "^9.1.0",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
     "@types/node": "^18.17.6",
-    "@types/open": "^6.2.1",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
@@ -68,5 +68,8 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-prettier": "^3.4.1",
     "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }

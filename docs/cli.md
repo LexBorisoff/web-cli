@@ -31,7 +31,11 @@ Install the package globally:
 
 After installing, the `web` command is ready to use without any initial setup.
 
-<pre><code>web <em>--browser=chrome</em> difference between array.splice and array.slice</code></pre>
+```
+web hello world
+```
+
+&gt; `https://google.com/search?q=hello world`
 
 To check the installed version, use the `--version` option:
 
@@ -52,13 +56,13 @@ There are 2 types of values:
 
 ## Keywords <a name="basic-usage-keywords"></a>
 
-When providing keywords to the command, only 1 web query is created using the values as a search term. For example:
+When providing keywords to the command, only 1 web query is created using the values as a search term:
 
 ```
-web hello world in javascript
+web hello world
 ```
 
-&gt; `https://google.com/search?q=hello world in javascript`
+&gt; `https://google.com/search?q=hello world`
 
 In the absence of [*query options*](#query-options), the app uses the ***default search engine*** to construct the query and the ***default browser*** to open it in:
 
