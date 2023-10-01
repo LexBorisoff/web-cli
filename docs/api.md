@@ -5,6 +5,7 @@ This API works behind the CLI application. Please get familiar with CLI document
 * [Installation](#installation)
 * [Usage](#usage)
 * [Options](#options)
+* [URLs](#urls)
 
 # Installation <a name="installation"></a>
 
@@ -38,13 +39,6 @@ The `WebSearch` constructor must be supplied an "options" object of the `QueryOp
 ```typescript
 interface QueryOptions {
   keywords?: string | number | (string | number)[];
-  browser?:
-    | string
-    | string[]
-    | Browser
-    | Browser[]
-    | (string | Browser)[]
-    | null;
   browser?:
     | string
     | string[]

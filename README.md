@@ -1,8 +1,8 @@
-<h1 align="center"> Web Search</h1>
+<h1 align="center">Web Search</h1>
 
 Web Search is a Node.js package for making browser web queries. It allows using different browsers, browser profiles, search engines and websites through a configurable [CLI application](#cli) or as a [JavaScript API](#api).
 
-# CLI
+## CLI
 
 To use the CLI, install the package globally:
 
@@ -20,7 +20,7 @@ To check the installed version, use the `--version` option:
 
 Visit [CLI documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md) for more details.
 
-# API
+## API
 
 To use the library programmatically, install it locally in your project:
 
