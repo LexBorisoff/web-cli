@@ -5,6 +5,7 @@ import {
   getBrowsersData,
   getEnginesData,
   getProfilesData,
+  profileFlags,
 } from "../../data/index.js";
 import type { WithAlias } from "../../types/utility.d.ts";
 import { orArray } from "../../utilities/index.js";
@@ -90,7 +91,13 @@ const getDataArgs = {
       Object.keys(browsersData).forEach((arg) => {
         const profilesData = getProfilesData(arg);
         const customArgs = getCustomArgs(profilesData);
-        list.push(...customArgs);
+
+        // filter out short aliases
+        const profileArgs = customArgs.filter((profileArg) =>
+          profileFlags.includes(profileArg)
+        );
+
+        list.push(...profileArgs);
       });
 
       return [
@@ -100,7 +107,13 @@ const getDataArgs = {
 
     const profilesData = getProfilesData(browserName);
     const customArgs = getCustomArgs(profilesData);
-    return getUniqueList(optionArg, customArgs, removeEmptyArg);
+
+    // filter out short aliases
+    const profileArgs = customArgs.filter((profileArg) =>
+      profileFlags.includes(profileArg)
+    );
+
+    return getUniqueList(optionArg, profileArgs, removeEmptyArg);
   },
   /**
    * Returns a unique list of engine args provided to the CLI
