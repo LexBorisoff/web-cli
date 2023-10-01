@@ -20,6 +20,7 @@ export interface QueryOptions {
   defaultEngine?: Engine | null;
   route?: string | string[];
   address?: string | string[];
+  port?: number | number[];
   incognito?: boolean;
   split?: boolean;
   http?: boolean;
@@ -67,6 +68,26 @@ export default class Options {
 
   protected get address(): string | string[] | undefined {
     return this.options.address;
+  }
+
+  protected get port(): number | number[] | undefined {
+    const { port: portOption } = this.options;
+    const list = Array.isArray(portOption) ? portOption : [portOption];
+    console.log(portOption);
+    const ports = list.filter(
+      (port): port is number =>
+        port != null && typeof port === "number" && !Number.isNaN(port)
+    );
+
+    if (ports.length === 0) {
+      return undefined;
+    }
+
+    if (ports.length === 1) {
+      return ports[0];
+    }
+
+    return ports;
   }
 
   protected get incognito(): boolean {

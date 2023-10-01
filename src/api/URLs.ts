@@ -107,10 +107,12 @@ export default class URLs extends Options {
         address
           .filter((a) => a !== "")
           .forEach((a) => {
-            urls.push(this.getFullURL(a));
+            const fullURL = this.getFullURL(a);
+            urls.push(...this.getURLsWithPorts(fullURL));
           });
       } else if (address != null && address !== "") {
-        urls.push(this.getFullURL(address));
+        const fullURL = this.getFullURL(address);
+        urls.push(...this.getURLsWithPorts(fullURL));
       }
     }
 
@@ -147,7 +149,8 @@ export default class URLs extends Options {
 
       // full URLs based on the provided URL args
       return urlArgs.reduce<string[]>((list, website) => {
-        list.push(this.getFullURL(website));
+        const fullURL = this.getFullURL(website);
+        list.push(...this.getURLsWithPorts(fullURL));
         return list;
       }, []);
     }
@@ -174,7 +177,8 @@ export default class URLs extends Options {
     }
 
     // engine only
-    return [this.getFullURL(engine.url)];
+    const fullURL = this.getFullURL(engine.url);
+    return this.getURLsWithPorts(fullURL);
   }
 
   private addBareEngine(bareEngine: string) {
@@ -189,6 +193,17 @@ export default class URLs extends Options {
   private getFullURL(url: string): string {
     const protocol = `http${this.http === true ? "" : "s"}://`;
     return /^https?:\/\//is.test(url) ? url : `${protocol}${url}`;
+  }
+
+  private getURLsWithPorts(url: string): string[] {
+    if (this.port != null) {
+      if (Array.isArray(this.port)) {
+        return this.port.map((port) => `${url}:${port}`);
+      }
+      return [`${url}:${this.port}`];
+    }
+
+    return [url];
   }
 
   /**
@@ -207,7 +222,8 @@ export default class URLs extends Options {
 
       if (engine.query == null) {
         const queryURL = getEngineBaseURL(engine);
-        urls.push(this.getFullURL(queryURL));
+        const fullURL = this.getFullURL(queryURL);
+        urls.push(...this.getURLsWithPorts(fullURL));
 
         if (values.length > 0) {
           this.addBareEngine(engine.name);
@@ -219,7 +235,8 @@ export default class URLs extends Options {
             value.toString(),
             (bareEngine) => this.addBareEngine(bareEngine)
           );
-          urls.push(this.getFullURL(queryURL));
+          const fullURL = this.getFullURL(queryURL);
+          urls.push(...this.getURLsWithPorts(fullURL));
         });
       }
 
@@ -234,7 +251,8 @@ export default class URLs extends Options {
         this.addBareEngine(bareEngine);
       }
     );
-    return [this.getFullURL(queryURL)];
+    const fullURL = this.getFullURL(queryURL);
+    return this.getURLsWithPorts(fullURL);
   }
 
   /**
@@ -244,27 +262,28 @@ export default class URLs extends Options {
    * if provided, it is added to the URL after a forward-slash
    */
   private engineRouteQuery(engine: Engine, value?: string): string[] {
-    const createRoute = (route: string): string => {
+    const createRoute = (route: string): string[] => {
       const engineRoute = getEngineRouteURL(engine, route);
       const routeURL =
         value != null
           ? addTrailingSlash(engineRoute) + value.toString()
           : engineRoute;
 
-      return this.getFullURL(routeURL);
+      const fullURL = this.getFullURL(routeURL);
+      return this.getURLsWithPorts(fullURL);
     };
 
     if (Array.isArray(this.route)) {
       return this.route
         .filter((route) => route !== "")
         .reduce<string[]>((list, route) => {
-          list.push(createRoute(route));
+          list.push(...createRoute(route));
           return list;
         }, []);
     }
 
     if (this.route != null) {
-      return [createRoute(this.route)];
+      return createRoute(this.route);
     }
 
     return [];

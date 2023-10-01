@@ -24,6 +24,11 @@ export default function getQueryArgs() {
     })
     .option(Option.Address, {
       type: "string",
+      alias: alias.address,
+    })
+    .option(Option.Port, {
+      type: "number",
+      alias: alias.port,
     })
     .option(Option.Incognito, {
       type: "boolean",

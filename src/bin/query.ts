@@ -17,7 +17,7 @@ import { findEngine } from "./helpers/find/index.js";
 import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
 import { BrowserQuery } from "./types/query.js";
 
-const { _: keywords, address, route, incognito, split, http } = getQueryArgs();
+const { _: keywords, ...options } = getQueryArgs();
 
 const defaults = getDefaultsData();
 const [, defaultEngine] = defaults.engine;
@@ -78,15 +78,11 @@ export default function query(): void {
   }
 
   const webSearch = new WebSearch({
+    ...options,
     keywords,
     browser: wsBrowsers.length > 0 ? wsBrowsers : null,
     engine: wsEngines.length > 0 ? wsEngines : null,
     defaultEngine,
-    address,
-    route,
-    incognito,
-    split,
-    http,
   });
 
   webSearch.open();
@@ -107,7 +103,7 @@ export default function query(): void {
     let browserInfo = info(capitalize(browser));
     if (profiles.length > 0) {
       browserInfo += ` (${chalk.gray(profiles.join(", "))})${
-        incognito ? chalk.gray(" [private tab]") : ""
+        options.incognito ? chalk.gray(" [private tab]") : ""
       }`;
     }
 
