@@ -59,7 +59,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.17.6",
-    "@types/open": "^6.2.1",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
