@@ -7,12 +7,7 @@ import {
   validateArgs,
 } from "./command/args/index.js";
 import getDefaultsData from "./data/getDefaultsData.js";
-import {
-  print,
-  severity,
-  capitalize,
-  emptyLine,
-} from "./helpers/print/index.js";
+import { print, severity, capitalize } from "./helpers/print/index.js";
 import { findEngine } from "./helpers/find/index.js";
 import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
 import { BrowserQuery } from "./types/query.js";
@@ -96,7 +91,7 @@ export default function query(): void {
   // log browser queries
   browserQueries.forEach((browserQuery) => {
     if (webSearch.bareEngines.length > 0) {
-      emptyLine();
+      print();
     }
 
     const { browser, profiles } = browserQuery;
