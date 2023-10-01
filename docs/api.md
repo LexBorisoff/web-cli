@@ -14,7 +14,7 @@ Install the library locally in your project:
 
 # Usage <a name="usage"></a>
 
-Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c.js) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
+Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c#pure-esm-package) and does not provide CommonJS exports, which means it cannot be `require`'d. Your project must be ESM or get converted to ESM if it currently uses CommonJS.
 
 ```javascript
 import WebSearch from "@lexjs/web-search";
