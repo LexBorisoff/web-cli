@@ -80,7 +80,9 @@ export default function query(): void {
     defaultEngine,
   });
 
-  webSearch.open();
+  if (!options.links) {
+    webSearch.open();
+  }
 
   // log bare engines
   if (webSearch.bareEngines.length > 0) {

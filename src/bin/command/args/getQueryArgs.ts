@@ -9,32 +9,37 @@ export default function getQueryArgs() {
     .option(Option.Browser, {
       type: "string",
       alias: alias.browser,
-      description: "A browser app to open",
+      description: "The browser app to open",
     })
     .option(Option.Profile, {
       type: "string",
       alias: alias.profile,
-      description: "A browser profile to use",
+      description: "The user profile to open",
     })
     .option(Option.Engine, {
       type: "string",
       alias: alias.engine,
-      description: "A search engine (or website) to query",
+      description: "The search engine (or website) to query",
     })
     .option(Option.Route, {
       type: "string",
       alias: alias.route,
-      description: "An engine's route to access",
+      description: "The engine's route to access",
     })
     .option(Option.Address, {
       type: "string",
       alias: alias.address,
-      description: "A custom address to access",
+      description: "The custom address to access",
     })
     .option(Option.Port, {
       type: "number",
       alias: alias.port,
-      description: "An explicit port number to add to the URL",
+      description: "The port number to add to the URL",
+    })
+    .option(Option.Links, {
+      type: "boolean",
+      alias: alias.links,
+      description: "Display links only without opening",
     })
     .option(Option.Incognito, {
       type: "boolean",
