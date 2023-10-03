@@ -61,9 +61,13 @@ export default function validateArgs(): string[] {
       add(error(`${chalk.italic("--route")} option must have a value`));
     }
 
-    if (engineArgs.length === 0) {
+    if (engineArgs.length === 0 && args.address == null) {
       add(
-        error(`${chalk.italic("--route")} option must be used with an engine`)
+        error(
+          `${chalk.italic(
+            "--route"
+          )} option must be used with an engine or --address`
+        )
       );
     }
   }
@@ -129,12 +133,19 @@ export default function validateArgs(): string[] {
   );
 
   // VALIDATE PORT ARG
-  if (args.port != null && args.address == null && !withURLsOnly) {
-    add(
-      error(
-        `${chalk.italic("--port")} option must be used with a URL or --address`
-      )
-    );
+  if ("port" in args) {
+    if (args.port == null) {
+      add(error(`${chalk.italic("--port")} option must have a value`));
+    }
+
+    if (args.address == null && !withURLsOnly)
+      add(
+        error(
+          `${chalk.italic(
+            "--port"
+          )} option must be used with a URL or --address`
+        )
+      );
   }
 
   return errorMessages.sort((a, b) => a.localeCompare(b));

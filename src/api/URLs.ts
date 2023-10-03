@@ -56,28 +56,76 @@ export default class URLs extends Options {
   private _bareEngines: string[] = [];
 
   private setURLs(): void {
-    const { engine, address } = this.options;
     const urls: string[] = [];
 
     let engineList: Engine[] = [];
-    if (engine != null) {
-      engineList = Array.isArray(engine) ? engine : [engine];
+    if (this.engine != null) {
+      engineList = Array.isArray(this.engine) ? this.engine : [this.engine];
     }
 
     // address
-    if (address != null) {
-      if (Array.isArray(address)) {
-        address
-          .filter((a) => a !== "")
-          .forEach((a) => {
-            urls.push(...this.handlePort(a));
+    if (this.address != null) {
+      const addressURLs: string[] = [];
+
+      const handleAddress = (address: string): void => {
+        // routes
+        if (this.route != null) {
+          const handleKeywords = (addressWithRoute: string): string[] => {
+            if (this.keywords.length > 0) {
+              return this.keywords.map(
+                (keyword) => addTrailingSlash(addressWithRoute) + keyword
+              );
+            }
+
+            return [addressWithRoute];
+          };
+
+          // multiple routes
+          if (Array.isArray(this.route)) {
+            console.log(addressURLs);
+            addressURLs.push(
+              ...this.route.reduce<string[]>((list, route) => {
+                list.push(...handleKeywords(addTrailingSlash(address) + route));
+                return list;
+              }, [])
+            );
+          }
+          // single route
+          else {
+            addressURLs.push(
+              ...handleKeywords(addTrailingSlash(address) + this.route)
+            );
+          }
+        }
+        // no routes
+        else {
+          addressURLs.push(...this.handlePort(address));
+        }
+      };
+
+      // multiple addresses
+      if (Array.isArray(this.address)) {
+        this.address
+          .filter((address) => address !== "")
+          .forEach((address) => {
+            handleAddress(address);
           });
-      } else if (address != null && address !== "") {
-        urls.push(...this.handlePort(address));
       }
+      // single address
+      else if (this.address != null && this.address !== "") {
+        handleAddress(this.address);
+      }
+
+      // handle ports for each address URL
+      urls.push(
+        ...addressURLs.reduce<string[]>((list, addressURL) => {
+          list.push(...this.handlePort(addressURL));
+          return list;
+        }, [])
+      );
     }
 
-    if (engine != null || this.withKeywords || this.withURLsOnly) {
+    if (this.engine != null || this.withKeywords || this.withURLsOnly) {
       if (engineList.length > 0) {
         engineList.forEach((currentEngine) => {
           urls.push(...this.create(currentEngine));
