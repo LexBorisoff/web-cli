@@ -1,6 +1,8 @@
 import chalk from "chalk";
+import getQueryArgs from "./getQueryArgs.js";
 import getDataArgs from "./getDataArgs.js";
 import getInvalidArgs from "./getInvalidArgs.js";
+import { withURLsOnly } from "../with.js";
 import {
   getDefaultsData,
   engineFlags,
@@ -9,7 +11,6 @@ import {
 import { getBrowserName } from "../../helpers/browser/index.js";
 import { severity } from "../../helpers/print/index.js";
 import { orArray } from "../../utilities/index.js";
-import getQueryArgs from "./getQueryArgs.js";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();
@@ -126,6 +127,15 @@ export default function validateArgs(): string[] {
   validateProfileArgs(
     browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
   );
+
+  // VALIDATE PORT ARG
+  if (args.port != null && args.address == null && !withURLsOnly) {
+    add(
+      error(
+        `${chalk.italic("--port")} option must be used with a URL or --address`
+      )
+    );
+  }
 
   return errorMessages.sort((a, b) => a.localeCompare(b));
 }
