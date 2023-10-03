@@ -179,7 +179,13 @@ export default class URLs extends Options {
       }
 
       // provided URL does not include a port
-      return `${noProtocolURL}:${port}`;
+      const slashIndex = noProtocolURL.indexOf("/");
+      const hostName =
+        slashIndex > 0 ? noProtocolURL.substring(0, slashIndex) : noProtocolURL;
+      const pathName =
+        slashIndex > 0 ? noProtocolURL.substring(slashIndex) : "";
+
+      return `${hostName}:${port}${pathName}`;
     }
 
     if (this.port != null) {
