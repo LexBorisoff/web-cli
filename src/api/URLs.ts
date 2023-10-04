@@ -39,14 +39,22 @@ export default class URLs extends Options {
 
   constructor(options: QueryOptions) {
     super(options);
-    this.setURLs();
+    this.setUrls();
+  }
+
+  private get urlKeywords(): string[] {
+    return this.keywords.filter((keyword) => urlPattern.test(keyword));
+  }
+
+  private get nonUrlKeywords(): string[] {
+    return this.keywords.filter((keyword) => !urlPattern.test(keyword));
   }
 
   private get withKeywords(): boolean {
     return this.keywords.some((keyword) => !urlPattern.test(keyword));
   }
 
-  private get withURLsOnly(): boolean {
+  private get withUrlsOnly(): boolean {
     return (
       this.keywords.length > 0 &&
       this.keywords.every((keyword) => urlPattern.test(keyword))
@@ -55,7 +63,7 @@ export default class URLs extends Options {
 
   private _bareEngines: string[] = [];
 
-  private setURLs(): void {
+  private setUrls(): void {
     const urls: string[] = [];
 
     let engineList: Engine[] = [];
@@ -65,73 +73,47 @@ export default class URLs extends Options {
 
     // address
     if (this.address != null) {
-      const addressURLs: string[] = [];
-
-      const handleAddress = (address: string): void => {
-        // routes
-        if (this.route != null) {
-          const handleKeywords = (addressWithRoute: string): string[] => {
-            if (this.keywords.length > 0) {
-              return this.keywords.map(
-                (keyword) => addTrailingSlash(addressWithRoute) + keyword
-              );
-            }
-
-            return [addressWithRoute];
-          };
-
-          // multiple routes
-          if (Array.isArray(this.route)) {
-            console.log(addressURLs);
-            addressURLs.push(
-              ...this.route.reduce<string[]>((list, route) => {
-                list.push(...handleKeywords(addTrailingSlash(address) + route));
-                return list;
-              }, [])
-            );
-          }
-          // single route
-          else {
-            addressURLs.push(
-              ...handleKeywords(addTrailingSlash(address) + this.route)
-            );
-          }
-        }
-        // no routes
-        else {
-          addressURLs.push(...this.handlePort(address));
-        }
-      };
+      const addressUrls: string[] = [];
 
       // multiple addresses
       if (Array.isArray(this.address)) {
         this.address
           .filter((address) => address !== "")
           .forEach((address) => {
-            handleAddress(address);
+            addressUrls.push(...this.urlRouteQuery(address));
           });
       }
       // single address
       else if (this.address != null && this.address !== "") {
-        handleAddress(this.address);
+        addressUrls.push(...this.urlRouteQuery(this.address));
       }
 
       // handle ports for each address URL
       urls.push(
-        ...addressURLs.reduce<string[]>((list, addressURL) => {
-          list.push(...this.handlePort(addressURL));
+        ...addressUrls.reduce<string[]>((list, addressUrl) => {
+          list.push(...this.handlePort(addressUrl));
           return list;
         }, [])
       );
     }
 
-    if (this.engine != null || this.withKeywords || this.withURLsOnly) {
+    const condition = {
+      // no address OR address without routes
+      address: this.address == null || this.route == null,
+      // keywords or URLs
+      keywordsOrUrls: this.withKeywords || this.withUrlsOnly,
+    };
+
+    if (
+      this.engine != null ||
+      (condition.address && condition.keywordsOrUrls)
+    ) {
       if (engineList.length > 0) {
         engineList.forEach((currentEngine) => {
-          urls.push(...this.create(currentEngine));
+          urls.push(...this.createUrls(currentEngine));
         });
       } else {
-        urls.push(...this.create());
+        urls.push(...this.createUrls());
       }
     }
 
@@ -140,33 +122,29 @@ export default class URLs extends Options {
 
   /**
    * Returns a list of constructed URLs based on the engine
+   * or the URL argument(s)
    *
    * @param engine
    * if not provided, the default engine is used
    */
-  private create(engineOption?: Engine | null): string[] {
-    // URL
-    if (this.withURLsOnly) {
-      const urlArgs = this.keywords.filter((keyword) =>
-        urlPattern.test(keyword)
-      );
-
-      // search engine query with URLs as part of the search query
-      if (engineOption != null) {
-        return this.searchQuery(engineOption, urlArgs);
-      }
-
-      // full URLs based on the provided URL args
-      return urlArgs.reduce<string[]>((list, website) => {
-        list.push(...this.handlePort(website));
-        return list;
-      }, []);
-    }
-
+  private createUrls(engineOption?: Engine | null): string[] {
     const engine = engineOption ?? this.defaultEngine ?? defaultEngine;
 
     // route
     if (this.route != null) {
+      // query routes of the provided URLs
+      if (this.withUrlsOnly) {
+        const urls = this.urlKeywords.reduce<string[]>((list, url) => {
+          list.push(...this.urlRouteQuery(url, true));
+          return list;
+        }, []);
+
+        return urls.reduce<string[]>((list, url) => {
+          list.push(...this.handlePort(url));
+          return list;
+        }, []);
+      }
+
       // query engine routes
       if (this.keywords.length > 0) {
         return this.keywords.reduce<string[]>((list, keyword) => {
@@ -177,6 +155,20 @@ export default class URLs extends Options {
 
       // access engine routes
       return this.engineRouteQuery(engine);
+    }
+
+    // URL
+    if (this.withUrlsOnly) {
+      // search engine query with URLs as part of the search query
+      if (engineOption != null) {
+        return this.searchQuery(engineOption, this.urlKeywords);
+      }
+
+      // full URLs based on the provided URL args
+      return this.urlKeywords.reduce<string[]>((list, website) => {
+        list.push(...this.handlePort(website));
+        return list;
+      }, []);
     }
 
     // search query
@@ -198,40 +190,40 @@ export default class URLs extends Options {
    * Returns a list of base URLs with port numbers
    * (if --port option was provided), and without the protocol
    */
-  private handlePort(baseURL: string): string[] {
+  private handlePort(baseUrl: string): string[] {
     const pattern = /:(\d{1,5})/;
-    const noSlashURL = removeTrailingSlash(baseURL);
-    const noProtocolURL = removeProtocol(noSlashURL);
+    const noSlashUrl = removeTrailingSlash(baseUrl);
+    const noProtocolUrl = removeProtocol(noSlashUrl);
 
     function hasPort(): boolean {
-      return pattern.test(baseURL);
+      return pattern.test(baseUrl);
     }
 
     function addPort(port: number): string {
       // provided URL includes a port
-      const matches = noProtocolURL.match(pattern);
+      const matches = noProtocolUrl.match(pattern);
       if (matches != null) {
         const [, urlPort] = matches;
 
         // remove the port from the string if it does not match
-        const index = noProtocolURL.indexOf(":");
+        const index = noProtocolUrl.indexOf(":");
         if (urlPort !== port.toString() && index >= 0) {
-          const noPortURL = noProtocolURL.substring(0, index);
+          const noPortUrl = noProtocolUrl.substring(0, index);
           // 1 is to account for the length of ":"
-          const afterPort = noProtocolURL.substring(index + 1 + urlPort.length);
-          return `${noPortURL}:${port}${afterPort}`;
+          const afterPort = noProtocolUrl.substring(index + 1 + urlPort.length);
+          return `${noPortUrl}:${port}${afterPort}`;
         }
 
         // return the provided URL if port matches what's in the string
-        return noProtocolURL;
+        return noProtocolUrl;
       }
 
       // provided URL does not include a port
-      const slashIndex = noProtocolURL.indexOf("/");
+      const slashIndex = noProtocolUrl.indexOf("/");
       const hostName =
-        slashIndex > 0 ? noProtocolURL.substring(0, slashIndex) : noProtocolURL;
+        slashIndex > 0 ? noProtocolUrl.substring(0, slashIndex) : noProtocolUrl;
       const pathName =
-        slashIndex > 0 ? noProtocolURL.substring(slashIndex) : "";
+        slashIndex > 0 ? noProtocolUrl.substring(slashIndex) : "";
 
       return `${hostName}:${port}${pathName}`;
     }
@@ -239,16 +231,16 @@ export default class URLs extends Options {
     if (this.port != null) {
       if (Array.isArray(this.port)) {
         const list = this.port.map((port) => addPort(port));
-        return hasPort() && !list.includes(noProtocolURL)
-          ? [noProtocolURL, ...list]
+        return hasPort() && !list.includes(noProtocolUrl)
+          ? [noProtocolUrl, ...list]
           : list;
       }
 
       const url = addPort(this.port);
-      return hasPort() && noProtocolURL !== url ? [noProtocolURL, url] : [url];
+      return hasPort() && noProtocolUrl !== url ? [noProtocolUrl, url] : [url];
     }
 
-    return [noProtocolURL];
+    return [noProtocolUrl];
   }
 
   /**
@@ -256,8 +248,8 @@ export default class URLs extends Options {
    */
   private handleProtocol(urls: string[]): string[] {
     const protocol = `http${this.http === true ? "" : "s"}://`;
-    function href(fullURL: string): string {
-      return new URL(fullURL).href;
+    function href(fullUrl: string): string {
+      return new URL(fullUrl).href;
     }
 
     return urls.map((url) =>
@@ -280,19 +272,19 @@ export default class URLs extends Options {
       const urls: string[] = [];
 
       if (engine.query == null) {
-        const engineBaseURLs = this.getEngineBaseURLs(engine);
-        urls.push(...engineBaseURLs);
+        const engineBaseUrls = this.getEngineBaseUrls(engine);
+        urls.push(...engineBaseUrls);
 
         if (values.length > 0) {
           this.addBareEngine(engine.name);
         }
       } else {
         values.forEach((value) => {
-          const engineQueryURLs = this.getEngineQueryURLs(
+          const engineQueryUrls = this.getEngineQueryUrls(
             engine,
             value.toString()
           );
-          urls.push(...engineQueryURLs);
+          urls.push(...engineQueryUrls);
         });
       }
 
@@ -300,18 +292,49 @@ export default class URLs extends Options {
     }
 
     const delimiter = engine.delimiter ?? " ";
-    return this.getEngineQueryURLs(engine, values.join(delimiter));
+    return this.getEngineQueryUrls(engine, values.join(delimiter));
   }
 
   /**
-   * Returns engine route URLs
+   * Returns a list of URLs with routes for the provided URL
+   */
+  private urlRouteQuery = (url: string, usePureKeywords = false): string[] => {
+    const handleKeywords = (addressWithRoute: string): string[] => {
+      const keywords = usePureKeywords ? this.nonUrlKeywords : this.keywords;
+      if (keywords.length > 0) {
+        return keywords.map(
+          (keyword) => addTrailingSlash(addressWithRoute) + keyword
+        );
+      }
+      return [addressWithRoute];
+    };
+
+    // multiple routes
+    if (Array.isArray(this.route)) {
+      return this.route.reduce<string[]>((list, route) => {
+        list.push(...handleKeywords(addTrailingSlash(url) + route));
+        return list;
+      }, []);
+    }
+
+    // single route
+    if (this.route != null) {
+      return handleKeywords(addTrailingSlash(url) + this.route);
+    }
+
+    // no routes
+    return [url];
+  };
+
+  /**
+   * Returns a list of URLs with routes for the provided engine
    *
    * @param value
    * if provided, it is added to the URL after a forward-slash
    */
   private engineRouteQuery(engine: Engine, value?: string): string[] {
     const createRoute = (route: string): string[] => {
-      const engineRoutes = this.getEngineRouteURLs(engine, route);
+      const engineRoutes = this.getEngineRouteUrls(engine, route);
       return engineRoutes.map((engineRoute) =>
         value != null
           ? addTrailingSlash(engineRoute) + value.toString()
@@ -339,7 +362,7 @@ export default class URLs extends Options {
    * Returns a list of base URLs with a trailing forward slash
    * and ports, if the --port option was provided
    */
-  private getEngineBaseURLs(engine: Engine): string[] {
+  private getEngineBaseUrls(engine: Engine): string[] {
     return this.handlePort(engine.url).map((url) => addTrailingSlash(url));
   }
 
@@ -347,16 +370,16 @@ export default class URLs extends Options {
    * Returns a list of URLs that can be used to query
    * the provided engine by adding the search values
    */
-  private getEngineQueryURLs(engine: Engine, queryValues: string): string[] {
-    const baseURLs = this.getEngineBaseURLs(engine);
+  private getEngineQueryUrls(engine: Engine, queryValues: string): string[] {
+    const baseUrls = this.getEngineBaseUrls(engine);
 
     if (engine.query != null) {
       const queryString = removeLeadingSlash(engine.query);
-      return baseURLs.map((url) => url + queryString + queryValues);
+      return baseUrls.map((url) => url + queryString + queryValues);
     }
 
     this.addBareEngine(engine.name);
-    return baseURLs;
+    return baseUrls;
   }
 
   /**
@@ -367,18 +390,18 @@ export default class URLs extends Options {
    * using the object's route value, otherwise the argument itself is used
    * to create the URL
    */
-  private getEngineRouteURLs(engine: Engine, route: string): string[] {
+  private getEngineRouteUrls(engine: Engine, route: string): string[] {
     const found = Object.entries(engine.routes ?? {}).find(
       ([key]) => key === route
     );
 
     if (found != null) {
       const [, routePath] = found;
-      const baseURLs = this.getEngineBaseURLs(engine);
-      return baseURLs.map((baseURL) => baseURL + routePath);
+      const baseUrls = this.getEngineBaseUrls(engine);
+      return baseUrls.map((baseUrl) => baseUrl + routePath);
     }
 
-    const baseURLs = this.getEngineBaseURLs(engine);
-    return baseURLs.map((baseURL) => baseURL + route);
+    const baseUrls = this.getEngineBaseUrls(engine);
+    return baseUrls.map((baseUrl) => baseUrl + route);
   }
 }

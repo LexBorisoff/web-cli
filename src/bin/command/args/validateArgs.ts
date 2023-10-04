@@ -61,12 +61,12 @@ export default function validateArgs(): string[] {
       add(error(`${chalk.italic("--route")} option must have a value`));
     }
 
-    if (engineArgs.length === 0 && args.address == null) {
+    if (engineArgs.length === 0 && args.address == null && !withURLsOnly) {
       add(
         error(
           `${chalk.italic(
             "--route"
-          )} option must be used with an engine or --address`
+          )} option must be used with an --engine, --address, or a URL`
         )
       );
     }
@@ -132,18 +132,18 @@ export default function validateArgs(): string[] {
     browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
   );
 
-  // VALIDATE PORT ARG
+  /* VALIDATE PORT ARG */
   if ("port" in args) {
     if (args.port == null) {
       add(error(`${chalk.italic("--port")} option must have a value`));
     }
 
-    if (args.address == null && !withURLsOnly)
+    if (engineArgs.length === 0 && args.address == null && !withURLsOnly)
       add(
         error(
           `${chalk.italic(
             "--port"
-          )} option must be used with a URL or --address`
+          )} option must be used with --engine, --address, or a URL`
         )
       );
   }
