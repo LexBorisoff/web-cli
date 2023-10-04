@@ -82,33 +82,33 @@ export default function query(): void {
 
   if (!options.links) {
     webSearch.open();
-  }
 
-  // log bare engines
-  if (webSearch.bareEngines.length > 0) {
-    print(warning(`Engines with no ${chalk.italic.bold("query")} options:`));
-    print(error(webSearch.bareEngines.join(", ")));
-  }
-
-  // log browser queries
-  browserQueries.forEach((browserQuery) => {
+    // log bare engines
     if (webSearch.bareEngines.length > 0) {
-      print();
+      print(warning(`Engines with no ${chalk.italic.bold("query")} options:`));
+      print(error(webSearch.bareEngines.join(", ")));
     }
 
-    const { browser, profiles } = browserQuery;
-    let browserInfo = info(capitalize(browser));
+    // log browser queries
+    browserQueries.forEach((browserQuery) => {
+      if (webSearch.bareEngines.length > 0) {
+        print();
+      }
 
-    if (profiles.length > 0) {
-      browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
-    }
+      const { browser, profiles } = browserQuery;
+      let browserInfo = info(capitalize(browser));
 
-    if (options.incognito) {
-      browserInfo += chalk.gray(" [private tab]");
-    }
+      if (profiles.length > 0) {
+        browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
+      }
 
-    print(browserInfo);
-  });
+      if (options.incognito) {
+        browserInfo += chalk.gray(" [private tab]");
+      }
+
+      print(browserInfo);
+    });
+  }
 
   // log urls
   webSearch.urls.forEach((url) => {
