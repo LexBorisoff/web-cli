@@ -257,12 +257,12 @@ export default class URLs extends Options {
 
     if (this.split) {
       const urls: string[] = [];
-      if (typeof engine === "string" || engine.query == null) {
+      if (typeof engine !== "string" && engine.query == null) {
         const engineBaseUrls = this.getEngineBaseUrls(engine);
         urls.push(...engineBaseUrls);
 
         if (values.length > 0) {
-          this.addBareEngine(typeof engine === "string" ? engine : engine.name);
+          this.addBareEngine(engine.name);
         }
       } else {
         values.forEach((value) => {
@@ -361,12 +361,14 @@ export default class URLs extends Options {
    * the provided engine by adding the search values
    */
   private getEngineQueryUrls(engine: Engine, queryValues: string): string[] {
-    const baseUrls = this.getEngineBaseUrls(engine);
-
     if (typeof engine === "string") {
-      return baseUrls.map((url) => url + queryValues);
+      const engineUrls = this.handlePort(engine);
+      return engineUrls.map(
+        (url) => (url.endsWith("=") ? url : addTrailingSlash(url)) + queryValues
+      );
     }
 
+    const baseUrls = this.getEngineBaseUrls(engine);
     if (engine.query != null) {
       const queryString = removeLeadingSlash(engine.query);
       return baseUrls.map((url) => url + queryString + queryValues);
