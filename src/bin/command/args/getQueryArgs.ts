@@ -26,11 +26,6 @@ export default function getQueryArgs() {
       alias: alias.route,
       description: "The engine's route to access",
     })
-    .option(Option.Address, {
-      type: "string",
-      alias: alias.address,
-      description: "The custom address to access",
-    })
     .option(Option.Port, {
       type: "number",
       alias: alias.port,
