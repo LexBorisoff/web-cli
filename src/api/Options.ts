@@ -8,12 +8,13 @@ export interface IEngine {
   delimiter?: string;
 }
 
-export type Engine = IEngine | string;
-
-export interface Browser {
+export interface IBrowser {
   name: string;
   profileDirectory?: string | string[];
 }
+
+export type Engine = IEngine | string;
+export type Browser = IBrowser | string;
 
 export interface QueryOptions {
   keywords?: string | number | (string | number)[];
