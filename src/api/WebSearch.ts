@@ -25,9 +25,14 @@ export default class WebSearch extends URLs {
     }
   }
 
-  private openBrowser({ name: browserName, profileDirectory }: Browser) {
+  private openBrowser(browser: Browser) {
+    const browserName = typeof browser === "string" ? browser : browser.name;
     const browserAppName = this.getBrowserAppName(browserName);
     let profiles: string[] = [];
+
+    const profileDirectory =
+      typeof browser === "string" ? null : browser.profileDirectory;
+
     if (profileDirectory != null) {
       profiles = Array.isArray(profileDirectory)
         ? profileDirectory

@@ -1,4 +1,4 @@
-export interface Engine {
+export interface IEngine {
   name: string;
   url: string;
   query?: string;
@@ -8,18 +8,20 @@ export interface Engine {
   delimiter?: string;
 }
 
-export interface Browser {
+export interface IBrowser {
   name: string;
   profileDirectory?: string | string[];
 }
+
+export type Engine = IEngine | string;
+export type Browser = IBrowser | string;
 
 export interface QueryOptions {
   keywords?: string | number | (string | number)[];
   browser?: Browser | Browser[] | null;
   engine?: Engine | Engine[] | null;
-  defaultEngine?: Engine | null;
+  defaultEngine?: IEngine | null;
   route?: string | string[];
-  address?: string | string[];
   port?: number | number[];
   incognito?: boolean;
   split?: boolean;
@@ -54,7 +56,13 @@ export default class Options {
     return this.options.browser;
   }
 
-  protected get engine(): Engine | Engine[] | null | undefined {
+  protected get engine():
+    | Engine
+    | Engine[]
+    | string
+    | string[]
+    | null
+    | undefined {
     return this.options.engine;
   }
 
@@ -64,10 +72,6 @@ export default class Options {
 
   protected get route(): string | string[] | undefined {
     return this.options.route;
-  }
-
-  protected get address(): string | string[] | undefined {
-    return this.options.address;
   }
 
   protected get port(): number | number[] | undefined {
@@ -98,7 +102,7 @@ export default class Options {
     return this.options.split ?? false;
   }
 
-  protected get http(): boolean {
-    return this.options.http ?? false;
+  protected get http(): boolean | undefined {
+    return this.options.http;
   }
 }
