@@ -5,7 +5,7 @@ import {
   getBrowsersData,
   getEnginesData,
   getProfilesData,
-  profileFlags,
+  configProfileFlags,
 } from "../../data/index.js";
 import type { WithAlias } from "../../types/utility.d.ts";
 import { orArray } from "../../utilities/index.js";
@@ -38,8 +38,7 @@ function getUniqueList<Arg>(
  * specific to config data and do not match standard args
  */
 function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
-  const customArgs = Object.keys(args).filter((key) => !options.includes(key));
-
+  const customFlags = Object.keys(args).filter((key) => !options.includes(key));
   return Object.entries(data)
     .map(([key, { alias }]) => {
       if (alias != null) {
@@ -48,7 +47,7 @@ function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
       return key;
     })
     .flat()
-    .filter((nameOrAlias) => customArgs.includes(nameOrAlias));
+    .filter((nameOrAlias) => customFlags.includes(nameOrAlias));
 }
 
 const getDataArgs = {
@@ -94,7 +93,7 @@ const getDataArgs = {
 
         // filter out short aliases
         const profileArgs = customArgs.filter((profileArg) =>
-          profileFlags.includes(profileArg)
+          configProfileFlags.includes(profileArg)
         );
 
         list.push(...profileArgs);
@@ -110,7 +109,7 @@ const getDataArgs = {
 
     // filter out short aliases
     const profileArgs = customArgs.filter((profileArg) =>
-      profileFlags.includes(profileArg)
+      configProfileFlags.includes(profileArg)
     );
 
     return getUniqueList(optionArg, profileArgs, removeEmptyArg);

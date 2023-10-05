@@ -5,12 +5,12 @@ import getInvalidArgs from "./getInvalidArgs.js";
 import { withURLsOnly } from "../with.js";
 import {
   getDefaultsData,
-  engineFlags,
+  configEngineFlags,
   browserProfileFlags,
 } from "../../data/index.js";
 import { getBrowserName } from "../../helpers/browser/index.js";
 import { severity } from "../../helpers/print/index.js";
-import { orArray } from "../../utilities/index.js";
+import { orArray, urlPattern } from "../../utilities/index.js";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();
@@ -45,7 +45,8 @@ export default function validateArgs(): string[] {
   }
 
   const invalidEngines = engineArgs.filter(
-    (arg) => arg !== "" && !engineFlags.includes(arg)
+    (arg) =>
+      arg !== "" && !configEngineFlags.includes(arg) && !urlPattern.test(arg)
   );
 
   if (invalidEngines.length > 0) {
@@ -61,12 +62,10 @@ export default function validateArgs(): string[] {
       add(error(`${chalk.italic("--route")} option must have a value`));
     }
 
-    if (engineArgs.length === 0 && args.address == null && !withURLsOnly) {
+    if (engineArgs.length === 0 && !withURLsOnly) {
       add(
         error(
-          `${chalk.italic(
-            "--route"
-          )} option must be used with an --engine, --address, or a URL`
+          `${chalk.italic("--route")} option must be used with --engine or URL`
         )
       );
     }
@@ -138,12 +137,10 @@ export default function validateArgs(): string[] {
       add(error(`${chalk.italic("--port")} option must have a value`));
     }
 
-    if (engineArgs.length === 0 && args.address == null && !withURLsOnly)
+    if (engineArgs.length === 0 && !withURLsOnly)
       add(
         error(
-          `${chalk.italic(
-            "--port"
-          )} option must be used with --engine, --address, or a URL`
+          `${chalk.italic("--port")} option must be used with --engine or URL`
         )
       );
   }

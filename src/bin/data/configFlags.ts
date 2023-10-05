@@ -29,14 +29,14 @@ function getFlags<T extends WithAlias>(
 }
 
 /** a list of all browser keys and aliases in the config */
-export const browserFlags = getFlags(browsersData);
+export const configBrowserFlags = getFlags(browsersData);
 
 type BrowserProfileFlags = Partial<Record<string, string[]>>;
 /** profile keys and aliases per each browser */
 export const browserProfileFlags: BrowserProfileFlags = {};
 
 /** a list of all profile keys WITHOUT aliases in the config */
-export const profileFlags = Object.keys(browsersData)
+export const configProfileFlags = Object.keys(browsersData)
   .map((browserName) => {
     const profilesData = getProfilesData(browserName);
     browserProfileFlags[browserName] = getFlags(profilesData);
@@ -45,7 +45,7 @@ export const profileFlags = Object.keys(browsersData)
   .flat();
 
 /** a list of all engine keys and aliases in the config */
-export const engineFlags = getFlags(enginesData);
+export const configEngineFlags = getFlags(enginesData);
 
 /**
  * A list of identifiers (keys and aliases) from config data:
@@ -53,5 +53,9 @@ export const engineFlags = getFlags(enginesData);
  * - profiles (no aliases)
  * - engines
  */
-const configFlags = [...browserFlags, ...profileFlags, ...engineFlags];
+const configFlags = [
+  ...configBrowserFlags,
+  ...configProfileFlags,
+  ...configEngineFlags,
+];
 export default configFlags;

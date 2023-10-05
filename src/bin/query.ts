@@ -11,6 +11,7 @@ import { print, severity, capitalize } from "./helpers/print/index.js";
 import { findEngine } from "./helpers/find/index.js";
 import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
 import { BrowserQuery } from "./types/query.js";
+import { urlPattern } from "./utilities/index.js";
 
 const { _: keywords, ...options } = getQueryArgs();
 
@@ -38,6 +39,8 @@ export default function query(): void {
         delete engine.alias;
         delete engine.isDefault;
         wsEngines.push(engine);
+      } else if (urlPattern.test(engineNameOrAlias)) {
+        wsEngines.push(engineNameOrAlias);
       }
     });
   }
@@ -85,16 +88,18 @@ export default function query(): void {
 
     // log bare engines
     if (webSearch.bareEngines.length > 0) {
-      print(warning(`Engines with no ${chalk.italic.bold("query")} options:`));
-      print(error(webSearch.bareEngines.join(", ")));
+      print(
+        warning(`Engines with no ${chalk.italic(`"query"`)} property:`),
+        error(webSearch.bareEngines.join(", "))
+      );
+
+      if (browserQueries.length > 0) {
+        print();
+      }
     }
 
     // log browser queries
     browserQueries.forEach((browserQuery) => {
-      if (webSearch.bareEngines.length > 0) {
-        print();
-      }
-
       const { browser, profiles } = browserQuery;
       let browserInfo = info(capitalize(browser));
 
