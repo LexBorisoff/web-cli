@@ -39,15 +39,9 @@ The `WebSearch` constructor must be supplied an "options" object of the `QueryOp
 ```typescript
 interface QueryOptions {
   keywords?: string | number | (string | number)[];
-  browser?:
-    | string
-    | string[]
-    | Browser
-    | Browser[]
-    | (string | Browser)[]
-    | null;
+  browser?: Browser | Browser[] | null;
   engine?: Engine | Engine[] | null;
-  defaultEngine?: Engine | null;
+  defaultEngine?: IEngine | null;
   route?: string | string[];
   address?: string | string[];
   incognito?: boolean;
@@ -55,7 +49,15 @@ interface QueryOptions {
   http?: boolean;
 }
 
-interface Engine {
+type Browser = IBrowser | string;
+type Engine = IEngine | string;
+
+interface IBrowser {
+  name: string;
+  profileDirectory?: string | string[];
+}
+
+interface IEngine {
   name: string;
   url: string;
   query?: string;
@@ -63,11 +65,6 @@ interface Engine {
     [route: string]: string;
   };
   delimiter?: string;
-}
-
-interface Browser {
-  name: string;
-  profileDirectory?: string | string[];
 }
 ```
 
@@ -106,7 +103,7 @@ Refer to [browser option](https://github.com/LexBorisoff/web-search/blob/master/
 Supplying a `Browser` object instead of a string is useful when a certain browser profile needs to be opened.
 
 ```typescript
-interface Browser {
+interface IBrowser {
   name: string;
   profileDirectory?: string | string[];
 }
@@ -119,7 +116,7 @@ interface Browser {
 Refer to [engine option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-engine) and [engines configuration](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#engines-configuration) in CLI docs.
 
 ```typescript
-interface Engine {
+interface IEngine {
   name: string;
   url: string;
   query?: string;
@@ -138,11 +135,9 @@ Specifies the default engine to be used for querying. This property is handy whe
 
 Refer to [route option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-route) and [engines configuration](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#engines-configuration) in CLI docs.
 
-> ⚠️ This option must be supplied with the engine option.
+> ⚠️ This option must be supplied with the engine option or a URL.
 
-## `address`
-
-Refer to [address option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-address) in CLI docs.
+## `port`
 
 ## `incognito`
 
