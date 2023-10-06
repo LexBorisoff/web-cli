@@ -21,13 +21,13 @@ Web Search is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f9
 import WebSearch from "@lexjs/web-search";
 
 // create a webSearch instance
-const ws = new WebSearch({ ...options });
+const webSearch = new WebSearch({ ...options });
 
 // perform web queries
-ws.open();
+webSearch.open();
 
 // log opened URLs
-ws.urls.forEach((url) => {
+webSearch.urls.forEach((url) => {
   console.log(url);
 });
 ```
@@ -43,7 +43,6 @@ interface QueryOptions {
   engine?: Engine | Engine[] | null;
   defaultEngine?: IEngine | null;
   route?: string | string[];
-  address?: string | string[];
   incognito?: boolean;
   split?: boolean;
   http?: boolean;
@@ -135,9 +134,11 @@ Specifies the default engine to be used for querying. This property is handy whe
 
 Refer to [route option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-route) and [engines configuration](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#engines-configuration) in CLI docs.
 
-> ⚠️ This option must be supplied with the engine option or a URL.
+> ⚠️ This option must be supplied with the engine option or a URL keyword.
 
 ## `port`
+
+Refer to [port option](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md#option-port) in CLI docs.
 
 ## `incognito`
 
