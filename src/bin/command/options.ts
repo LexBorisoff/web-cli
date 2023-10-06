@@ -13,6 +13,7 @@ export enum Option {
   Split = "split",
   Http = "http",
   Peek = "peek",
+  Update = "update",
 }
 
 export const alias: Alias<Option> = {

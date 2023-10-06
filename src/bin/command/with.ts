@@ -2,7 +2,7 @@ import { getDataArgs, getQueryArgs, getConfigArgs } from "./args/index.js";
 import { getDefaultsData } from "../data/index.js";
 import { urlPattern } from "../utilities/index.js";
 
-const { _: args } = getQueryArgs();
+const { _: args, update } = getQueryArgs();
 const { config } = getConfigArgs();
 const defaults = getDefaultsData();
 
@@ -18,4 +18,4 @@ const withURLsOnly =
 
 const withConfig = config != null;
 
-export { withProfile, withURLsOnly, withConfig };
+export { withProfile, withURLsOnly, withConfig, update as withUpdate };

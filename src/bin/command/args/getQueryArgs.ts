@@ -48,6 +48,10 @@ export default function getQueryArgs() {
       type: "boolean",
       description: "Display the output without opening browser tabs",
     })
+    .option(Option.Update, {
+      type: "boolean",
+      description: "Update package to the most current version",
+    })
     .help()
     .version(getVersion())
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
