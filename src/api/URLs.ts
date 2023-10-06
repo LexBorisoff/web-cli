@@ -181,14 +181,16 @@ export default class URLs extends Options {
   private handlePort(baseUrl: string): string[] {
     const portPattern = /:(\d{1,5})/;
     const protocol = extractProtocol(baseUrl);
-    const noSlashUrl = removeTrailingSlash(baseUrl);
-    const noProtocolUrl = removeProtocol(noSlashUrl);
+    const noProtocolUrl = removeProtocol(baseUrl);
 
     function hasPort(): boolean {
       return portPattern.test(baseUrl);
     }
 
-    function addPort(port: number): string {
+    /**
+     * Returns a URL with protocol and port
+     */
+    function getFullUrl(port: number): string {
       // provided URL includes a port
       const matches = noProtocolUrl.match(portPattern);
       if (matches != null) {
@@ -204,7 +206,7 @@ export default class URLs extends Options {
         }
 
         // provided URL if port matches what's in the string
-        return noSlashUrl;
+        return baseUrl;
       }
 
       // provided URL does not include a port
@@ -219,17 +221,15 @@ export default class URLs extends Options {
 
     if (this.port != null) {
       if (Array.isArray(this.port)) {
-        const list = this.port.map((port) => addPort(port));
-        return hasPort() && !list.includes(noProtocolUrl)
-          ? [noSlashUrl, ...list]
-          : list;
+        const list = this.port.map((port) => getFullUrl(port));
+        return hasPort() && !list.includes(baseUrl) ? [baseUrl, ...list] : list;
       }
 
-      const url = `${protocol}${addPort(this.port)}`;
-      return hasPort() && noSlashUrl !== url ? [noSlashUrl, url] : [url];
+      const url = getFullUrl(this.port);
+      return hasPort() && baseUrl !== url ? [baseUrl, url] : [url];
     }
 
-    return [noSlashUrl];
+    return [baseUrl];
   }
 
   /**
