@@ -78,10 +78,15 @@ export default class Options {
     const { port: portOption } = this.options;
     const list = Array.isArray(portOption) ? portOption : [portOption];
 
-    const ports = list.filter(
-      (port): port is number =>
-        port != null && typeof port === "number" && !Number.isNaN(port)
-    );
+    // unique list of ports
+    const ports = [
+      ...new Set(
+        list.filter(
+          (port): port is number =>
+            port != null && typeof port === "number" && !Number.isNaN(port)
+        )
+      ),
+    ];
 
     if (ports.length === 0) {
       return undefined;

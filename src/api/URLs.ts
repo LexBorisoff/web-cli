@@ -18,12 +18,6 @@ function removeLeadingSlash(value: string): string {
   return leadingSlash.test(value) ? value.substring(1) : value;
 }
 
-function removeTrailingSlash(value: string): string {
-  return trailingSlash.test(value)
-    ? value.substring(0, value.length - 1)
-    : value;
-}
-
 /**
  * Return a string without https:// or http://
  */
