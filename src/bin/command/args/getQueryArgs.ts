@@ -31,11 +31,6 @@ export default function getQueryArgs() {
       alias: alias.port,
       description: "The port number to add to the URL",
     })
-    .option(Option.Links, {
-      type: "boolean",
-      alias: alias.links,
-      description: "Display links only without opening",
-    })
     .option(Option.Incognito, {
       type: "boolean",
       alias: alias.incognito,
@@ -48,6 +43,10 @@ export default function getQueryArgs() {
     .option(Option.Http, {
       type: "boolean",
       description: "Use the HTTP (non-secure) protocol",
+    })
+    .option(Option.Peek, {
+      type: "boolean",
+      description: "Display the output without opening browser tabs",
     })
     .help()
     .version(getVersion())

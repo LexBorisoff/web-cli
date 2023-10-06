@@ -42,6 +42,10 @@ To check the installed version, use the `--version` option:
 
 <pre><code>web <em>--version</em></code></pre>
 
+To get help with command options, use the `--help` option:
+
+<pre><code>web <em>--help</em></code></pre>
+
 # Usage <a name="basic-usage"></a>
 
 To perform basic web queries from the terminal, provide ***space-separated values*** to the `web` command:

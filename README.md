@@ -18,6 +18,10 @@ To check the installed version, use the `--version` option:
 
 <pre><code>web <em>--version</em></code></pre>
 
+To get help with command options, use the `--help` option:
+
+<pre><code>web <em>--help</em></code></pre>
+
 Visit [CLI documentation](https://github.com/LexBorisoff/web-search/blob/master/docs/cli.md) for more details.
 
 # API <a name="api-usage"></a>
@@ -32,13 +36,13 @@ Web Search is pure ESM and does not provide CommonJS exports.
 import WebSearch from "@lexjs/web-search";
 
 // create a WebSearch instance
-const ws = new WebSearch({ ...options });
+const webSearch = new WebSearch({ ...options });
 
 // open web queries
-ws.open();
+webSearch.open();
 
 // log created URLs
-ws.urls.forEach((url) => {
+webSearch.urls.forEach((url) => {
   console.log(url);
 });
 ```

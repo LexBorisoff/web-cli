@@ -83,37 +83,37 @@ export default function query(): void {
     defaultEngine,
   });
 
-  if (!options.links) {
+  if (!options.peek) {
     webSearch.open();
+  }
 
-    // log bare engines
-    if (webSearch.bareEngines.length > 0) {
-      print(
-        warning(`Engines with no ${chalk.italic(`"query"`)} property:`),
-        error(webSearch.bareEngines.join(", "))
-      );
+  // log bare engines
+  if (webSearch.bareEngines.length > 0) {
+    print(
+      warning(`Engines with no ${chalk.italic(`"query"`)} property:`),
+      error(webSearch.bareEngines.join(", "))
+    );
 
-      if (browserQueries.length > 0) {
-        print();
-      }
+    if (browserQueries.length > 0) {
+      print();
+    }
+  }
+
+  // log browser queries
+  browserQueries.forEach((browserQuery) => {
+    const { browser, profiles } = browserQuery;
+    let browserInfo = info(capitalize(browser));
+
+    if (profiles.length > 0) {
+      browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
     }
 
-    // log browser queries
-    browserQueries.forEach((browserQuery) => {
-      const { browser, profiles } = browserQuery;
-      let browserInfo = info(capitalize(browser));
+    if (options.incognito) {
+      browserInfo += chalk.gray(" [private tab]");
+    }
 
-      if (profiles.length > 0) {
-        browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
-      }
-
-      if (options.incognito) {
-        browserInfo += chalk.gray(" [private tab]");
-      }
-
-      print(browserInfo);
-    });
-  }
+    print(browserInfo);
+  });
 
   // log urls
   webSearch.urls.forEach((url) => {

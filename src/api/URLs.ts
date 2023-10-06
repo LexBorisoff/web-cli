@@ -282,14 +282,14 @@ export default class URLs extends Options {
     url: string,
     usePureKeywords = false
   ): string[] => {
-    const handleKeywords = (addressWithRoute: string): string[] => {
+    const handleKeywords = (urlWithRoute: string): string[] => {
       const keywords = usePureKeywords ? this.nonUrlKeywords : this.keywords;
       if (keywords.length > 0) {
         return keywords.map(
-          (keyword) => addTrailingSlash(addressWithRoute) + keyword
+          (keyword) => addTrailingSlash(urlWithRoute) + keyword
         );
       }
-      return [addressWithRoute];
+      return [urlWithRoute];
     };
 
     // multiple routes

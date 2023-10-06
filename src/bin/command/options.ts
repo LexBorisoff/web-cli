@@ -9,10 +9,10 @@ export enum Option {
   Engine = "engine",
   Route = "route",
   Port = "port",
-  Links = "links",
   Incognito = "incognito",
   Split = "split",
   Http = "http",
+  Peek = "peek",
 }
 
 export const alias: Alias<Option> = {
@@ -22,7 +22,6 @@ export const alias: Alias<Option> = {
   route: ["r"],
   port: [":"],
   incognito: ["i"],
-  links: ["link", "l"],
 };
 
 /**
