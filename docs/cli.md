@@ -14,10 +14,11 @@
     * [`profile`](#option-profile)
     * [`engine`](#option-engine)
     * [`route`](#option-route)
-    * [`address`](#option-address)
+    * [`port`](#option-port)
     * [`incognito`](#option-incognito)
     * [`split`](#option-split)
     * [`http`](#option-http)
+    * [`peek`](#option-peek)
 * [Configuration](#configuration-setup)
   * [Browsers](#browsers-configuration)
   * [Engines](#engines-configuration)
@@ -158,7 +159,7 @@ The following are built-in options that require a value:
 |[`profile`](#option-profile)|[`p`](#option-profile)|*A browser profile to use*|[*browsers*](#browsers-configuration)&nbsp;⚙️|
 |[`engine`](#option-engine)|[`e`](#option-engine)|*A search engine (or website) to query*|[*engines*](#engines-configuration)|
 |[`route`](#option-route)|[`r`](#option-route)|*An engine's route to access*|[*engines*](#engines-configuration)|
-|[`address`](#option-address)|[`a`](#option-address)|*A custom address to access*|❌|
+|[`port`](#option-port)|[`:`](#option-port)|*The port number to add to the URL*|❌|
 
 > ⚙️ indicates that configuration is required.
 
@@ -173,6 +174,7 @@ Options that do not require a value are called ***flags***. The following are bu
 |[`incognito`](#option-incognito)|[`i`](#option-incognito)|*Open in incognito / private mode*|
 |[`split`](#option-split)| ❌ |*Split values into separate web queries*|
 |[`http`](#option-http)| ❌ |*Use the HTTP (non-secure) protocol*|
+|[`peek`](#option-peek)| ❌ |*Display the output without opening browser tabs*|
 
 > ***Caveat!***  
 > Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to ***"true"*** but the option will still accept a boolean value that's placed  after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign ***"true"*** or ***"false"*** to a flag if you do not intend it. Doing so will result in your web query missing the keyword ***"true"*** or ***"false"*** from the search term.
@@ -283,17 +285,40 @@ Specifies what search engine or website to query.
 
 <pre><code>web <em>--engine=value</em></code></pre>
 
-`value` refers to the engine's key or alias in the ***engines*** config.
+`value` refers to the engine's key or alias in the ***engines*** config or a URL.
 
-When supplying URLs to the command, this option overrides the default behavior of accessing the URLs directly. Instead, they are treated as search term keywords for the provided engine. For example:
+For example:
 
-<pre><code>web github.com <em>--engine=google</em></code></pre>
+<pre><code>web <em>--engine=npm</em> @lexjs/web-search</code></pre>
+
+&gt; `https://npmjs.com/search?q=@lexjs/web-search`
+
+When supplying URL values to the command, this option overrides the default behavior of accessing the URLs directly. Instead, they are treated as search term keywords for the provided engine. For example:
+
+<pre><code>web <em>--engine=google</em> github.com</code></pre>
 
 &gt; `https://google.com/search?q=github.com`
 
+The option also accepts an arbitrary URL value:
+
+<pre><code>web <em>--engine=npmjs.com/search?q=</em> @lexjs/web-search</code></pre>
+
+&gt; `https://npmjs.com/search?q=@lexjs/web-search`
+
+> ***Note!***  
+> Non-URL values are not allowed.
+
+When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options with it, such as `--route`, `--split`, or `--http`.
+
+Also note that since a URL value is a simple string and not an object that could better define an engine (for example, by having a `query` property), the program will simply append it with whatever command values are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`):
+
+<pre><code>web <em>--engine=example.com</em> hello world</code></pre>
+
+&gt; `https://example.com/hello%20world`
+
 ### ***Configuration***
 
-To use more engines and websites than the app defaults, add them to [*engines configuration*](#engines-configuration).
+To define more engines and websites than the app defaults, add them to [*engines configuration*](#engines-configuration).
 
 ## `--route`&nbsp;&nbsp;`-r` <a name="option-route"></a>
 
@@ -356,30 +381,32 @@ we can use `repos` and `stars` as a value of the `route` option:
 
 &gt; `https://github.com/username?tab=repositories`
 
-## `--address` <a name="option-address"></a>
+## `--port`&nbsp;&nbsp;`-:` <a name="option-port"></a>
 
-Explicitly specifies the address to access such as a URL, IP, localhost.
+Adds the provided port number to the URL.
 
-✅ Requires a value.  
-❌ No configuration is required.
+✅ Requires a number value.  
+❌ No configuration.
 
 ### ***Usage***
 
-<pre><code>web <em>--address=value</em></code></pre>
+<pre><code>web example.com <em>--port=3000</em></code></pre>
 
-`value` refers to the address that you want to open in a new browser tab.
+&gt; `https://example.com:3000/`
 
-When the program receives command values, it differentiates between search keywords and URLs. If the values supplied are just URLs, then the app opens them directly ([unless a valid engine option is provided](#option-engine). However, sometimes we want to open a custom address that does not fall under the URL pattern. For example:
+If multiple ports are supplied, each one will create a separate query:
 
-<pre><code>web <em>--address=localhost:3000</em></code></pre>
+<pre><code>web example.com <em>-: 3000 -: 5000</em></code></pre>
 
-&gt; `https://locahost:3000`
+&gt; `https://example.com:3000/`  
+&gt; `https://example.com:5000/`
 
-<pre><code>web <em>--address=127.0.0.1</em></code></pre>
+The program recognizes if an engine or a URL already includes a port and checks if it matches the option's value when building the final list of URLs:
 
-&gt; `https://127.0.0.1`
+<pre><code>web example.com:3000/api/users <em>-: 3000 -: 5000</em></code></pre>
 
-The program's default behavior is to use the secure HTTPS protocol when opening web queries. To open an address with HTTP, provide the [`--http`](#option-http) option.
+&gt; `https://example.com:3000/api/users`  
+&gt; `https://example.com:5000/api/users`
 
 ## `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
 
@@ -414,13 +441,16 @@ Uses the HTTP (non-secure) protocol when constructing the web queries.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
+## `--peek` <a name="option-peek"></a>
+
+Prevents opening browser tabs and only displays the output.
+
+🚩 Flag option - no value is required.  
+❌ No configuration.
+
 ### ***Usage***
 
-The default behavior is to always use the HTTPS (secure) protocol when building web queries. But sometimes this might not be convenient, especially when trying to access a URL, such as your project website, that does not have a secure certificate. In such cases, using the option overrides this default.
-
-<pre><code>web example.com <em>--http</em></code></pre>
-
-&gt; `http://example.com`
+<pre><code>web [values] [options] <em>--peek</em></code></pre>
 
 # Configuration <a name="configuration-setup"></a>
 
