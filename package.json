@@ -1,6 +1,6 @@
 {
   "name": "@lexjs/web-search",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Node.js library and CLI for making browser web queries",
   "type": "module",
   "scripts": {
