@@ -271,7 +271,8 @@ export default class URLs extends Options {
       return urls;
     }
 
-    const delimiter = typeof engine !== "string" ? engine.delimiter : " ";
+    const delimiter =
+      typeof engine !== "string" ? engine.delimiter ?? " " : " ";
     return this.getEngineQueryUrls(engine, values.join(delimiter));
   }
 
