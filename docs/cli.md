@@ -293,19 +293,19 @@ Specifies what search engine or website to query.
 
 For example:
 
-<pre><code>web <em>--engine=npm</em> @lexjs/web-search</code></pre>
+<pre><code>web @lexjs/web-search <em>--engine=npm</em></code></pre>
 
 &gt; `https://npmjs.com/search?q=@lexjs/web-search`
 
 When supplying URL values to the command, this option overrides the default behavior of accessing the URLs directly. Instead, they are treated as search term keywords for the provided engine. For example:
 
-<pre><code>web <em>--engine=google</em> github.com</code></pre>
+<pre><code>web github.com <em>--engine=google</em></code></pre>
 
 &gt; `https://google.com/search?q=github.com`
 
 The option also accepts an arbitrary URL value:
 
-<pre><code>web <em>--engine=npmjs.com/search?q=</em> @lexjs/web-search</code></pre>
+<pre><code>web @lexjs/web-search <em>--engine=npmjs.com/search?q=</em></code></pre>
 
 &gt; `https://npmjs.com/search?q=@lexjs/web-search`
 
@@ -316,7 +316,7 @@ When using the option with an arbitrary URL, it behaves in the same way as any o
 
 Also note that since a URL value is a simple string and not an object that could better define an engine (for example, by having a `query` property), the program will simply append it with whatever command values are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`):
 
-<pre><code>web <em>--engine=example.com</em> hello world</code></pre>
+<pre><code>web hello world <em>--engine=example.com</em></code></pre>
 
 &gt; `https://example.com/hello%20world`
 
