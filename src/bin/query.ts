@@ -11,7 +11,7 @@ import { print, severity, capitalize } from "./helpers/print/index.js";
 import { findEngine } from "./helpers/find/index.js";
 import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
 import { BrowserQuery } from "./types/query.js";
-import { urlPattern } from "./utilities/index.js";
+import { urlPattern } from "./utils/index.js";
 
 const { _: keywords, ...options } = getQueryArgs();
 
