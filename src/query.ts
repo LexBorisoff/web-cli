@@ -5,12 +5,13 @@ import { getDataArgs } from "./command/args/get-data-args.js";
 import { getQueryArgs } from "./command/args/get-query-args.js";
 import { validateArgs } from "./command/args/validate-args.js";
 import { getDefaultsData } from "./data/get-defaults-data.js";
-import { print, severity, capitalize } from "./helpers/print/index.js";
-import { findEngine } from "./helpers/find/index.js";
+import { print, severity } from "./helpers/print/print-severity.js";
+import { capitalize } from "./helpers/print/transform-text.js";
+import { findEngine } from "./helpers/find/find-engine.js";
 import { getBrowserName } from "./helpers/browser/get-browser-name.js";
 import { getProfiles } from "./helpers/browser/get-profiles.js";
 import { BrowserQuery } from "./types/query.js";
-import { urlPattern } from "./utils/index.js";
+import { urlPattern } from "./utils/patterns.js";
 
 const { _: keywords, ...options } = getQueryArgs();
 
