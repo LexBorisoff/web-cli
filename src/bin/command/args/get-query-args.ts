@@ -1,7 +1,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { Option, alias, options } from "../options.js";
-import { configFlags } from "../../data/index.js";
+import { configFlags } from "../../data/config-flags.js";
 import { getVersion } from "../../helpers/get-version.js";
 
 export function getQueryArgs() {

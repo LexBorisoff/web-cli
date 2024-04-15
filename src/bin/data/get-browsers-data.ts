@@ -5,3 +5,5 @@ import type { BrowsersData } from "../types/config.js";
 export function getBrowsersData(): BrowsersData {
   return getConfigData(ConfigValue.Browsers);
 }
+
+export const lex = "lex";

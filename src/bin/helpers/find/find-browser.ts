@@ -1,5 +1,5 @@
 import { findConfigItem } from "./find-config-item.js";
-import { getBrowsersData } from "../../data/index.js";
+import { getBrowsersData } from "../../data/get-browsers-data.js";
 import type { Browser } from "../../types/config.js";
 
 const browsersData = getBrowsersData();

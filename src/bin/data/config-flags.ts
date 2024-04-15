@@ -1,4 +1,5 @@
 import { getBrowsersData } from "./get-browsers-data.js";
+import { lex } from "./get-browsers-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getEnginesData } from "./get-engines-data.js";
 import type { WithAlias } from "../types/utility.js";
