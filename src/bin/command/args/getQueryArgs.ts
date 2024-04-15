@@ -2,7 +2,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { Option, alias, options } from "../options.js";
 import { configFlags } from "../../data/index.js";
-import getVersion from "../../helpers/getVersion.js";
+import { getVersion } from "../../helpers/get-version.js";
 
 export default function getQueryArgs() {
   return yargs(hideBin(process.argv))
@@ -21,9 +21,9 @@ export default function getQueryArgs() {
       alias: alias.engine,
       description: "The search engine (or website) to query",
     })
-    .option(Option.Route, {
+    .option(Option.Resource, {
       type: "string",
-      alias: alias.route,
+      alias: alias.resource,
       description: "The engine's route to access",
     })
     .option(Option.Port, {

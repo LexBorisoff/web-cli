@@ -8,7 +8,7 @@ import {
 } from "../helpers/config/index.js";
 import type { DefaultsData, Engine } from "../types/config.d.ts";
 import type { IsDefault } from "../types/utility.d.ts";
-import { at } from "../utilities/index.js";
+import { at } from "../utils/index.js";
 
 function getDefault<Data extends IsDefault>(
   data: Data

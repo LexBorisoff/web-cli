@@ -10,7 +10,7 @@ import {
 } from "../../data/index.js";
 import { getBrowserName } from "../../helpers/browser/index.js";
 import { severity } from "../../helpers/print/index.js";
-import { orArray, urlPattern } from "../../utilities/index.js";
+import { orArray, urlPattern } from "../../utils/index.js";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();

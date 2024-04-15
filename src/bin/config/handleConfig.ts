@@ -8,7 +8,7 @@ import {
   readConfigFile,
 } from "../helpers/config/index.js";
 import { print, printError, severity } from "../helpers/print/index.js";
-import { orArray } from "../utilities/index.js";
+import { orArray } from "../utils/index.js";
 import type { BrowsersData } from "../types/config.d.ts";
 import openConfigFile from "./openConfigFile.js";
 

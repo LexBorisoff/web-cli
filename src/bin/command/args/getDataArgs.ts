@@ -8,7 +8,7 @@ import {
   configProfileFlags,
 } from "../../data/index.js";
 import type { WithAlias } from "../../types/utility.d.ts";
-import { orArray } from "../../utilities/index.js";
+import { orArray } from "../../utils/index.js";
 
 const args = getQueryArgs();
 const browsersData = getBrowsersData();
