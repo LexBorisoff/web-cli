@@ -5,7 +5,11 @@ import { ConfigValue, configValues } from "../command/options.js";
 import { initialEngines } from "../helpers/config/initial-engines.js";
 import { getConfigPath } from "../helpers/config/get-config-path.js";
 import { readConfigFile } from "../helpers/config/read-config-file.js";
-import { print, printError, severity } from "../helpers/print/index.js";
+import {
+  print,
+  printError,
+  severity,
+} from "../helpers/print/print-severity.js";
 import { orArray } from "../utils/index.js";
 import type { BrowsersData } from "../types/config.js";
 import { openConfigFile } from "./open-config-file.js";
