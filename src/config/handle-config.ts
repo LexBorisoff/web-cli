@@ -2,11 +2,9 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { getConfigArgs } from "../command/args/get-config-args.js";
 import { ConfigValue, configValues } from "../command/options.js";
-import {
-  initialEngines,
-  getConfigPath,
-  readConfigFile,
-} from "../helpers/config/index.js";
+import { initialEngines } from "../helpers/config/initial-engines.js";
+import { getConfigPath } from "../helpers/config/get-config-path.js";
+import { readConfigFile } from "../helpers/config/read-config-file.js";
 import { print, printError, severity } from "../helpers/print/index.js";
 import { orArray } from "../utils/index.js";
 import type { BrowsersData } from "../types/config.js";

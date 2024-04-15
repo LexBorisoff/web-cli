@@ -1,5 +1,5 @@
 import { ConfigValue } from "../command/options.js";
-import { readConfigFile } from "../helpers/config/index.js";
+import { readConfigFile } from "../helpers/config/read-config-file.js";
 import type { BrowsersData, EnginesData } from "../types/config.js";
 
 interface Data {

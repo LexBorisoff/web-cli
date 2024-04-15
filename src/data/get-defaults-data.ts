@@ -1,8 +1,8 @@
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
-  initialEngines,
-} from "../helpers/config/index.js";
+} from "../helpers/config/defaults.js";
+import { initialEngines } from "../helpers/config/initial-engines.js";
 import type { DefaultsData, Engine } from "../types/config.js";
 import type { IsDefault } from "../types/utility.js";
 import { at } from "../utils/index.js";

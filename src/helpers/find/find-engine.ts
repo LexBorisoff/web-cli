@@ -1,4 +1,4 @@
-import { initialEngines } from "../config/index.js";
+import { initialEngines } from "../config/initial-engines.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import type { Engine } from "../../types/config.js";
 import { findConfigItem } from "./find-config-item.js";

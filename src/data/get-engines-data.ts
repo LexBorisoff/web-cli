@@ -1,5 +1,5 @@
 import { ConfigValue } from "../command/options.js";
-import { initialEngines } from "../helpers/config/index.js";
+import { initialEngines } from "../helpers/config/initial-engines.js";
 import type { EnginesData } from "../types/config.js";
 import { getConfigData } from "./get-config-data.js";
 
