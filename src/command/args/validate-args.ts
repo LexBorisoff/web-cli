@@ -5,7 +5,7 @@ import {
   configEngineFlags,
   browserProfileFlags,
 } from "../../data/config-flags.js";
-import { getBrowserName } from "../../helpers/browser/index.js";
+import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { severity } from "../../helpers/print/index.js";
 import { orArray, urlPattern } from "../../utils/index.js";
 import { getInvalidArgs } from "./get-invalid-args.js";

@@ -7,7 +7,8 @@ import { validateArgs } from "./command/args/validate-args.js";
 import { getDefaultsData } from "./data/get-defaults-data.js";
 import { print, severity, capitalize } from "./helpers/print/index.js";
 import { findEngine } from "./helpers/find/index.js";
-import { getBrowserName, getProfiles } from "./helpers/browser/index.js";
+import { getBrowserName } from "./helpers/browser/get-browser-name.js";
+import { getProfiles } from "./helpers/browser/get-profiles.js";
 import { BrowserQuery } from "./types/query.js";
 import { urlPattern } from "./utils/index.js";
 
