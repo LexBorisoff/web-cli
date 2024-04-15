@@ -4,7 +4,7 @@ import { Option, alias, options } from "../options.js";
 import { configFlags } from "../../data/index.js";
 import { getVersion } from "../../helpers/get-version.js";
 
-export default function getQueryArgs() {
+export function getQueryArgs() {
   return yargs(hideBin(process.argv))
     .option(Option.Browser, {
       type: "string",

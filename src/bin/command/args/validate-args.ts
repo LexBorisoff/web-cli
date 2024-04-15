@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import getQueryArgs from "./getQueryArgs.js";
-import getDataArgs from "./getDataArgs.js";
-import getInvalidArgs from "./getInvalidArgs.js";
+import { getQueryArgs } from "./get-query-args.js";
+import { getDataArgs } from "./get-data-args.js";
+import { getInvalidArgs } from "./get-invalid-args.js";
 import { withURLsOnly } from "../with.js";
 import {
   getDefaultsData,
@@ -27,7 +27,7 @@ function isEmptyArg(list: string[]): boolean {
  * Returns an array of error messages with invalid args
  * (empty array if all args are valid)
  */
-export default function validateArgs(): string[] {
+export function validateArgs(): string[] {
   const errorMessages: string[] = [];
 
   function add(message: string) {

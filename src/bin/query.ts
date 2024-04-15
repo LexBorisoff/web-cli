@@ -21,7 +21,7 @@ const browserArgs = getDataArgs.browser();
 const engineArgs = getDataArgs.engine();
 const { info, success, error, warning } = severity;
 
-export default function query(): void {
+export function query(): void {
   const errors = validateArgs();
   if (errors.length > 0) {
     errors.forEach((message) => {

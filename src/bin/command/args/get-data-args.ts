@@ -1,5 +1,5 @@
-import getQueryArgs from "./getQueryArgs.js";
-import combineArgLists from "./combineArgLists.js";
+import { getQueryArgs } from "./get-query-args.js";
+import { combineArgLists } from "./combine-arg-lists.js";
 import { options } from "../options.js";
 import {
   getBrowsersData,
@@ -7,7 +7,7 @@ import {
   getProfilesData,
   configProfileFlags,
 } from "../../data/index.js";
-import type { WithAlias } from "../../types/utility.d.ts";
+import type { WithAlias } from "../../types/utility.js";
 import { orArray } from "../../utils/index.js";
 
 const args = getQueryArgs();
@@ -50,7 +50,7 @@ function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
     .filter((nameOrAlias) => customFlags.includes(nameOrAlias));
 }
 
-const getDataArgs = {
+export const getDataArgs = {
   /**
    * Returns a unique list of browser args provided to the CLI
    *
@@ -126,5 +126,3 @@ const getDataArgs = {
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
 };
-
-export default getDataArgs;
