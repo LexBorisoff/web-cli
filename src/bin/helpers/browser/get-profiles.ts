@@ -1,7 +1,7 @@
 import getDefaultsData from "../../data/getDefaultsData.js";
 import { getDataArgs } from "../../command/args/index.js";
 import { withProfile } from "../../command/with.js";
-import { findProfile } from "../../helpers/find/index.js";
+import { findProfile } from "../find/index.js";
 import { Profile } from "../../types/config.js";
 
 const defaults = getDefaultsData();
@@ -10,7 +10,7 @@ const defaults = getDefaultsData();
  * Returns a list of tuples with profile's config key
  * and the Profile object for a provided browser name
  */
-export default function getProfiles(browserName: string): [string, Profile][] {
+export function getProfiles(browserName: string): [string, Profile][] {
   const profiles: [string, Profile][] = [];
 
   function handleProfile(profileNameOrAlias: string) {

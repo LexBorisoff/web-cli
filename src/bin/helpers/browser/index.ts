@@ -1,2 +1,2 @@
-export { default as getBrowserName } from "./getBrowserName.js";
-export { default as getProfiles } from "./getProfiles.js";
+export * from "./get-browser-name.js";
+export * from "./get-profiles.js";
