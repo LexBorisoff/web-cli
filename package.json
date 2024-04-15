@@ -9,7 +9,7 @@
     "postbuild": "rm -fr ./bin/types/bin",
     "prepublishOnly": "npm run build"
   },
-  "author": "Lex Borisoff <lex@borisoff.com>",
+  "author": "Lex Borisoff <lex@borisoff.dev>",
   "license": "ISC",
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@lexjs/browser-search": "^0.0.1",
     "chalk": "^5.3.0",
     "open": "^9.1.0",
     "yargs": "^17.6.2"
