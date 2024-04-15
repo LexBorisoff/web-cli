@@ -1,6 +1,6 @@
-import { getQueryArgs } from "./get-query-args.js";
-import { options, yargsOptions } from "../options.js";
 import { configFlags } from "../../data/config-flags.js";
+import { options, yargsOptions } from "../options.js";
+import { getQueryArgs } from "./get-query-args.js";
 
 const args = getQueryArgs();
 

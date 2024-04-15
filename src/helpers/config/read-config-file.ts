@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
-import { getConfigFilePath } from "./get-config-path.js";
 import { ConfigValue } from "../../command/options.js";
+import { getConfigFilePath } from "./get-config-path.js";
 
 export function readConfigFile(
   configType: ConfigValue.Browsers | ConfigValue.Engines

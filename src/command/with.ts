@@ -1,8 +1,8 @@
+import { getDefaultsData } from "../data/get-defaults-data.js";
+import { urlPattern } from "../utils/index.js";
 import { getDataArgs } from "./args/get-data-args.js";
 import { getQueryArgs } from "./args/get-query-args.js";
 import { getConfigArgs } from "./args/get-config-args.js";
-import { getDefaultsData } from "../data/get-defaults-data.js";
-import { urlPattern } from "../utils/index.js";
 
 const { _: args, update } = getQueryArgs();
 const { config } = getConfigArgs();

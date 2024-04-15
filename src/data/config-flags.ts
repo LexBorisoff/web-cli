@@ -1,8 +1,7 @@
+import type { WithAlias } from "../types/utility.js";
 import { getBrowsersData } from "./get-browsers-data.js";
-import { lex } from "./get-browsers-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getEnginesData } from "./get-engines-data.js";
-import type { WithAlias } from "../types/utility.js";
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
@@ -33,6 +32,7 @@ function getFlags<T extends WithAlias>(
 export const configBrowserFlags = getFlags(browsersData);
 
 type BrowserProfileFlags = Partial<Record<string, string[]>>;
+
 /** profile keys and aliases per each browser */
 export const browserProfileFlags: BrowserProfileFlags = {};
 

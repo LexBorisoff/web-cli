@@ -1,7 +1,7 @@
-import { findConfigItem } from "./find-config-item.js";
 import { initialEngines } from "../config/index.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import type { Engine } from "../../types/config.js";
+import { findConfigItem } from "./find-config-item.js";
 
 /**
  * Returns a tuple with the engine's config key and the Engine object

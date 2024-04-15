@@ -28,7 +28,7 @@ export function getConfigPath(): string {
     }
   }
 
-  return path.join(directory, "@lexjs", "web-search");
+  return path.join(directory, "@lexjs", "web-cli");
 }
 
 export function getConfigFilePath(

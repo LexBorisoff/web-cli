@@ -1,6 +1,6 @@
-import { findConfigItem } from "./find-config-item.js";
 import { getProfilesData } from "../../data/get-profiles-data.js";
 import type { Profile } from "../../types/config.js";
+import { findConfigItem } from "./find-config-item.js";
 
 /**
  * Returns a tuple with the profile's config key and the Profile object

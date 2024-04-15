@@ -1,6 +1,3 @@
-import { getBrowsersData } from "./get-browsers-data.js";
-import { getProfilesData } from "./get-profiles-data.js";
-import { getEnginesData } from "./get-engines-data.js";
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
@@ -9,6 +6,9 @@ import {
 import type { DefaultsData, Engine } from "../types/config.js";
 import type { IsDefault } from "../types/utility.js";
 import { at } from "../utils/index.js";
+import { getEnginesData } from "./get-engines-data.js";
+import { getProfilesData } from "./get-profiles-data.js";
+import { getBrowsersData } from "./get-browsers-data.js";
 
 function getDefault<Data extends IsDefault>(
   data: Data
