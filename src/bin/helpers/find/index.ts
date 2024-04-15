@@ -1,4 +1,4 @@
-export { default as findConfigItem } from "./findConfigItem.js";
-export { default as findBrowser } from "./findBrowser.js";
-export { default as findProfile } from "./findProfile.js";
-export { default as findEngine } from "./findEngine.js";
+export * from "./find-config-item.js";
+export * from "./find-browser.js";
+export * from "./find-profile.js";
+export * from "./find-engine.js";

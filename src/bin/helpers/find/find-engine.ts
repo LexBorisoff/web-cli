@@ -1,4 +1,4 @@
-import findConfigItem from "./findConfigItem.js";
+import { findConfigItem } from "./find-config-item.js";
 import { initialEngines } from "../config/index.js";
 import { getEnginesData } from "../../data/index.js";
 import type { Engine } from "../../types/config.js";
@@ -8,7 +8,7 @@ import type { Engine } from "../../types/config.js";
  * if it can be found in the config by the provided name or alias.
  * Otherwise returns undefined
  */
-export default function findEngine(
+export function findEngine(
   engineNameOrAlias?: string
 ): [string, Engine] | undefined {
   if (engineNameOrAlias == null) {

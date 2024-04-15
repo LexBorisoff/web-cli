@@ -12,7 +12,7 @@ function withAlias<Item>(item: Item): item is Item & Required<WithAlias> {
  * Returns a tuple with the item's config key and the Item object
  * found in the config by provided name or alias. Otherwise returns undefined
  */
-export default function findConfigItem<Item>(
+export function findConfigItem<Item>(
   nameOrAlias: string,
   list: List<Item>
 ): [string, Item] | undefined {

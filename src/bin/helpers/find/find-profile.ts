@@ -1,4 +1,4 @@
-import findConfigItem from "./findConfigItem.js";
+import { findConfigItem } from "./find-config-item.js";
 import { getProfilesData } from "../../data/index.js";
 import type { Profile } from "../../types/config.js";
 
@@ -7,7 +7,7 @@ import type { Profile } from "../../types/config.js";
  * if it can be found in the config by the browser name
  * and the profile's name or alias. Otherwise returns undefined
  */
-export default function findProfile(
+export function findProfile(
   browserName: string,
   profileNameOrAlias: string
 ): [string, Profile] | undefined {
