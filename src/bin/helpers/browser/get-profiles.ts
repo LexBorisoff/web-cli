@@ -1,5 +1,5 @@
 import { getDefaultsData } from "../../data/get-defaults-data.js";
-import { getDataArgs } from "../../command/args/index.js";
+import { getDataArgs } from "../../command/args/get-data-args.js";
 import { withProfile } from "../../command/with.js";
 import { findProfile } from "../find/index.js";
 import { Profile } from "../../types/config.js";

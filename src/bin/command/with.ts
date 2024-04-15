@@ -1,4 +1,6 @@
-import { getDataArgs, getQueryArgs, getConfigArgs } from "./args/index.js";
+import { getDataArgs } from "./args/get-data-args.js";
+import { getQueryArgs } from "./args/get-query-args.js";
+import { getConfigArgs } from "./args/get-config-args.js";
 import { getDefaultsData } from "../data/index.js";
 import { urlPattern } from "../utils/index.js";
 

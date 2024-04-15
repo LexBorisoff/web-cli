@@ -1,11 +1,9 @@
 import chalk from "chalk";
 import WebSearch from "../api/WebSearch.js";
 import type { Browser, Engine } from "../api/Options.js";
-import {
-  getDataArgs,
-  getQueryArgs,
-  validateArgs,
-} from "./command/args/index.js";
+import { getDataArgs } from "./command/args/get-data-args.js";
+import { getQueryArgs } from "./command/args/get-query-args.js";
+import { validateArgs } from "./command/args/validate-args.js";
 import { getDefaultsData } from "./data/get-defaults-data.js";
 import { print, severity, capitalize } from "./helpers/print/index.js";
 import { findEngine } from "./helpers/find/index.js";

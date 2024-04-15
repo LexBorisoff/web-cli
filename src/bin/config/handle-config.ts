@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { getConfigArgs } from "../command/args/index.js";
+import { getConfigArgs } from "../command/args/get-config-args.js";
 import { ConfigValue, configValues } from "../command/options.js";
 import {
   initialEngines,

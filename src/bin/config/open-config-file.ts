@@ -1,6 +1,6 @@
 import open from "open";
 import * as fs from "node:fs";
-import { getConfigArgs } from "../command/args/index.js";
+import { getConfigArgs } from "../command/args/get-config-args.js";
 
 const { _: apps } = getConfigArgs();
 
