@@ -1,13 +1,13 @@
-import getBrowsersData from "./getBrowsersData.js";
-import getProfilesData from "./getProfilesData.js";
-import getEnginesData from "./getEnginesData.js";
+import { getBrowsersData } from "./get-browsers-data.js";
+import { getProfilesData } from "./get-profiles-data.js";
+import { getEnginesData } from "./get-engines-data.js";
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
   initialEngines,
 } from "../helpers/config/index.js";
-import type { DefaultsData, Engine } from "../types/config.d.ts";
-import type { IsDefault } from "../types/utility.d.ts";
+import type { DefaultsData, Engine } from "../types/config.js";
+import type { IsDefault } from "../types/utility.js";
 import { at } from "../utils/index.js";
 
 function getDefault<Data extends IsDefault>(
@@ -48,7 +48,7 @@ const getDefaultProfile: DefaultsData["profile"] = (browserName) => {
   return getDefault(profiles);
 };
 
-export default function getDefaultsData(): DefaultsData {
+export function getDefaultsData(): DefaultsData {
   return {
     delimiter,
     engine: getDefaultEngine(),

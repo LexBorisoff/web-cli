@@ -1,7 +1,6 @@
-export * from "./configFlags.js";
-export { default as configFlags } from "./configFlags.js";
-export { default as getConfigData } from "./getConfigData.js";
-export { default as getDefaultsData } from "./getDefaultsData.js";
-export { default as getBrowsersData } from "./getBrowsersData.js";
-export { default as getProfilesData } from "./getProfilesData.js";
-export { default as getEnginesData } from "./getEnginesData.js";
+export * from "./config-flags.js";
+export * from "./get-config-data.js";
+export * from "./get-defaults-data.js";
+export * from "./get-browsers-data.js";
+export * from "./get-profiles-data.js";
+export * from "./get-engines-data.js";

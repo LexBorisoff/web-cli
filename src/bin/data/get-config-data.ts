@@ -1,13 +1,13 @@
 import { ConfigValue } from "../command/options.js";
 import { readConfigFile } from "../helpers/config/index.js";
-import type { BrowsersData, EnginesData } from "../types/config.d.ts";
+import type { BrowsersData, EnginesData } from "../types/config.js";
 
 interface Data {
   [ConfigValue.Browsers]: BrowsersData;
   [ConfigValue.Engines]: EnginesData;
 }
 
-export default function getConfigData<ConfigType extends keyof Data>(
+export function getConfigData<ConfigType extends keyof Data>(
   configType: ConfigType
 ): Data[ConfigType] {
   const config = readConfigFile(configType);

@@ -1,4 +1,4 @@
-import getDefaultsData from "../../data/getDefaultsData.js";
+import { getDefaultsData } from "../../data/get-defaults-data.js";
 import { getDataArgs } from "../../command/args/index.js";
 import { withProfile } from "../../command/with.js";
 import { findProfile } from "../find/index.js";

@@ -1,7 +1,7 @@
-import getBrowsersData from "./getBrowsersData.js";
-import getProfilesData from "./getProfilesData.js";
-import getEnginesData from "./getEnginesData.js";
-import type { WithAlias } from "../types/utility.d.ts";
+import { getBrowsersData } from "./get-browsers-data.js";
+import { getProfilesData } from "./get-profiles-data.js";
+import { getEnginesData } from "./get-engines-data.js";
+import type { WithAlias } from "../types/utility.js";
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
@@ -53,9 +53,8 @@ export const configEngineFlags = getFlags(enginesData);
  * - profiles (no aliases)
  * - engines
  */
-const configFlags = [
+export const configFlags = [
   ...configBrowserFlags,
   ...configProfileFlags,
   ...configEngineFlags,
 ];
-export default configFlags;
