@@ -2,7 +2,6 @@
   "name": "@lexjs/web-cli",
   "version": "0.0.9-beta.1",
   "description": "Node.js library and CLI for making browser web queries",
-  "type": "module",
   "scripts": {
     "prebuild": "rm -fr ./bin",
     "build": "tsc",
