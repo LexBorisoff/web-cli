@@ -1,43 +1,27 @@
 {
-  "name": "@lexjs/web-search",
-  "version": "0.1.6",
+  "name": "@lexjs/web-cli",
+  "version": "0.0.9-beta.1",
   "description": "Node.js library and CLI for making browser web queries",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -fr ./dist",
+    "prebuild": "rm -fr ./bin",
     "build": "tsc",
-    "postbuild": "rm -fr ./dist/types/bin",
+    "postbuild": "rm -fr ./bin/types/bin",
     "prepublishOnly": "npm run build"
   },
-  "author": "Lex Borisoff <hello@lexjs.com>",
+  "author": "Lex Borisoff <lex@borisoff.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LexBorisoff/web-search.git"
+    "url": "git+https://github.com/LexBorisoff/web-cli.git"
   },
-  "homepage": "https://github.com/LexBorisoff/web-search#readme",
+  "homepage": "https://github.com/LexBorisoff/web-cli#readme",
   "bugs": {
-    "url": "https://github.com/LexBorisoff/web-search/issues"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/types/api/WebSearch.d.ts",
-      "default": "./dist/api/WebSearch.js"
-    },
-    "./URLs": {
-      "types": "./dist/types/api/URLs.d.ts",
-      "default": "./dist/api/URLs.js"
-    },
-    "./Options": {
-      "types": "./dist/types/api/Options.d.ts",
-      "default": "./dist/api/Options.js"
-    }
+    "url": "https://github.com/LexBorisoff/web-cli/issues"
   },
   "bin": {
-    "web": "dist/bin/web-cli.js"
+    "web": "bin/index.js"
   },
-  "types": "./dist/types/api/WebSearch.d.ts",
-  "main": "./dist/api/WebSearch.js",
   "keywords": [
     "cli",
     "search",
@@ -50,7 +34,7 @@
     "google"
   ],
   "files": [
-    "dist"
+    "bin"
   ],
   "engines": {
     "node": ">=14"
