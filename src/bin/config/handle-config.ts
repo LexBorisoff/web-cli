@@ -9,8 +9,8 @@ import {
 } from "../helpers/config/index.js";
 import { print, printError, severity } from "../helpers/print/index.js";
 import { orArray } from "../utils/index.js";
-import type { BrowsersData } from "../types/config.d.ts";
-import openConfigFile from "./openConfigFile.js";
+import type { BrowsersData } from "../types/config.js";
+import { openConfigFile } from "./open-config-file.js";
 
 const configPath = getConfigPath();
 const { config } = getConfigArgs();
@@ -80,7 +80,7 @@ function isConfigOption(configType: string): boolean {
     : configArg === configType;
 }
 
-export default async function handleConfig(): Promise<void> {
+export async function handleConfig(): Promise<void> {
   const invalidValues = validateConfigArgs();
   const { info, success, warning, error } = severity;
 

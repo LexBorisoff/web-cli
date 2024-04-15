@@ -4,7 +4,7 @@ import { getConfigArgs } from "../command/args/index.js";
 
 const { _: apps } = getConfigArgs();
 
-export default function openConfigFile(filePath: string): void {
+export function openConfigFile(filePath: string): void {
   if (!fs.existsSync(filePath)) {
     return;
   }
