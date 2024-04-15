@@ -3,7 +3,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { ConfigValue } from "../../command/options.js";
 
-export default function getConfigPath(): string {
+export function getConfigPath(): string {
   const homedir = os.homedir();
   let directory: string | undefined;
   const { platform } = process;

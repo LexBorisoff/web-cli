@@ -1,6 +1,6 @@
-import type { EnginesData } from "../../types/config.d.ts";
+import type { EnginesData } from "../../types/config.js";
 
-const initialEngines: EnginesData = {
+export const initialEngines: EnginesData = {
   google: {
     name: "Google",
     url: "google.com",
@@ -29,5 +29,3 @@ const initialEngines: EnginesData = {
     query: "search?q=",
   },
 };
-
-export default initialEngines;
