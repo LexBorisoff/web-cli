@@ -53,19 +53,22 @@ export default function validateArgs(): string[] {
     add(error(`Invalid search engines: ${warning(invalidEngines.join(" "))}`));
   }
 
-  /* VALIDATE ROUTE ARGS */
-  const route = orArray(args.route);
-  if (route != null) {
-    const emptyList = Array.isArray(route) && route.every((arg) => arg === "");
-    const emptyArg = !Array.isArray(route) && route === "";
+  /* VALIDATE RESOURCE ARGS */
+  const resource = orArray(args.resource);
+  if (resource != null) {
+    const emptyList =
+      Array.isArray(resource) && resource.every((arg) => arg === "");
+    const emptyArg = !Array.isArray(resource) && resource === "";
     if (emptyList || emptyArg) {
-      add(error(`${chalk.italic("--route")} option must have a value`));
+      add(error(`${chalk.italic("--resource")} option must have a value`));
     }
 
     if (engineArgs.length === 0 && !withURLsOnly) {
       add(
         error(
-          `${chalk.italic("--route")} option must be used with --engine or URL`
+          `${chalk.italic(
+            "--resource"
+          )} option must be used with --engine or URL`
         )
       );
     }

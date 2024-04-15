@@ -18,15 +18,15 @@ export interface BrowsersData {
 }
 
 // ENGINES
-interface Routes {
-  [route: string]: string;
+interface Resources {
+  [resource: string]: string;
 }
 
 export interface Engine extends WithAlias, IsDefault {
   name: string;
   url: string;
   query?: string;
-  routes?: Routes;
+  resources?: Resources;
   delimiter?: string;
 }
 

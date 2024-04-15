@@ -24,7 +24,7 @@ export default function getQueryArgs() {
     .option(Option.Resource, {
       type: "string",
       alias: alias.resource,
-      description: "The engine's route to access",
+      description: "The engine's resource to access",
     })
     .option(Option.Port, {
       type: "number",
