@@ -7,7 +7,7 @@ export enum Option {
   Browser = "browser",
   Profile = "profile",
   Engine = "engine",
-  Route = "route",
+  Resource = "resource",
   Port = "port",
   Incognito = "incognito",
   Split = "split",
@@ -20,7 +20,7 @@ export const alias: Alias<Option> = {
   browser: ["b"],
   profile: ["p"],
   engine: ["e"],
-  route: ["r"],
+  resource: ["r"],
   port: [":"],
   incognito: ["i"],
 };
