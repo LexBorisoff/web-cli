@@ -5,7 +5,7 @@ import {
 import { initialEngines } from "../helpers/config/initial-engines.js";
 import type { DefaultsData, Engine } from "../types/config.js";
 import type { IsDefault } from "../types/utility.js";
-import { at } from "../utils/index.js";
+import { at } from "../utils/at.js";
 import { getEnginesData } from "./get-engines-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getBrowsersData } from "./get-browsers-data.js";

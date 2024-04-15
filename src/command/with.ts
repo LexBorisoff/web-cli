@@ -1,5 +1,5 @@
 import { getDefaultsData } from "../data/get-defaults-data.js";
-import { urlPattern } from "../utils/index.js";
+import { urlPattern } from "../utils/patterns.js";
 import { getDataArgs } from "./args/get-data-args.js";
 import { getQueryArgs } from "./args/get-query-args.js";
 import { getConfigArgs } from "./args/get-config-args.js";

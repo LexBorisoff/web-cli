@@ -10,7 +10,7 @@ import {
   printError,
   severity,
 } from "../helpers/print/print-severity.js";
-import { orArray } from "../utils/index.js";
+import { orArray } from "../utils/or-arrray.js";
 import type { BrowsersData } from "../types/config.js";
 import { openConfigFile } from "./open-config-file.js";
 
