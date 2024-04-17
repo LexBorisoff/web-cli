@@ -2,6 +2,7 @@
 _build
 build
 lib
+bin
 
 # Config files
 config.json
