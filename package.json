@@ -1,6 +1,6 @@
 {
   "name": "@lexjs/web-cli",
-  "version": "0.0.9-beta.1",
+  "version": "0.0.9",
   "description": "CLI for making browser web queries from a shell",
   "type": "module",
   "scripts": {
