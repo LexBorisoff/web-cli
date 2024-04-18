@@ -3,10 +3,15 @@ import * as path from "node:path";
 import type { PackageJson } from "type-fest";
 import { execa } from "execa";
 import { getConfigArgs } from "../../command/args/get-config-args.js";
-import { print, printError } from "../../helpers/print/print-severity.js";
+import {
+  print,
+  printError,
+  printSuccess,
+} from "../../helpers/print/print-severity.js";
 import { getVersion } from "../../helpers/get-version.js";
 import { fileContents } from "./file-contents.js";
 
+const IS_DEV = true;
 const { config } = getConfigArgs();
 
 function readFile(filePath: string): string {
@@ -34,23 +39,29 @@ function parseData<T extends object = any>(data?: string | null): T {
 }
 
 async function createProjectDir(projectDir: string) {
+  // TODO: handle if folder already exists
   fs.mkdirSync(projectDir);
-  process.chdir(projectDir);
+  printSuccess("🎉 Created config directory");
 }
 
 const initialize = {
   async git() {
     await execa("git", ["init"]);
+    printSuccess("🎉 Initialized git repository");
   },
 
   async npm() {
     await execa("npm", ["init", "-y"]);
+    printSuccess("🎉 Initialized npm project");
 
     const configFile = path.resolve(process.cwd(), "package.json");
     const contents = readFile(configFile);
     const data = parseData<PackageJson>(contents);
 
-    const dependencies = [`@lexjs/web-cli@${getVersion() ?? "latest"} `];
+    const version = getVersion();
+    const dependencies = [
+      `@lexjs/web-cli@${version != null && !IS_DEV ? version : "latest"} `,
+    ];
     const devDependencies = [
       "eslint",
       "typescript",
@@ -61,6 +72,7 @@ const initialize = {
 
     await execa("npm", ["install", ...dependencies]);
     await execa("npm", ["install", ...devDependencies, "--save-dev"]);
+    printSuccess("🎉 Installed dependencies");
 
     data.scripts = {
       config: "npm run config:engines && npm run config:browsers",
@@ -70,6 +82,7 @@ const initialize = {
 
     const space = 2;
     fs.writeFileSync(configFile, JSON.stringify(data, null, space));
+    printSuccess("🎉 Updated package.json");
   },
 };
 
@@ -78,14 +91,21 @@ async function createConfig(configFile: string, contents: string) {
   fs.writeFileSync(filePath, contents);
 }
 
-async function createConfigFiles(projectDir: string) {
-  const configDir = path.resolve(projectDir, "config");
+async function createConfigFiles() {
+  createConfig(".eslintrc.cjs", fileContents.eslintrc);
+  createConfig("tsconfig.json", fileContents.tsconfig);
+  createConfig(".gitignore", fileContents.gitignore);
+  printSuccess("🎉 Created config files");
+}
+
+async function createSrcFiles(projectDir: string) {
+  const configDir = path.resolve(projectDir, "src");
   fs.mkdirSync(configDir);
 
   const configFiles = [
     { name: "engines", contents: fileContents.enginesConfig },
     { name: "browsers", contents: fileContents.browsersConfig },
-  ].map((file) => ({ ...file, name: `config/${file.name}.config.ts` }));
+  ].map((file) => ({ ...file, name: `src/${file.name}.ts` }));
 
   await Promise.all(
     configFiles.map(({ name, contents }) => {
@@ -93,7 +113,8 @@ async function createConfigFiles(projectDir: string) {
     })
   );
 
-  await execa("npx", ["prettier", "--write", "config/*.ts"]);
+  await execa("npx", ["prettier", "--write", "src/*.ts"]);
+  printSuccess("🎉 Created src files");
 }
 
 export async function configInit() {
@@ -107,15 +128,14 @@ export async function configInit() {
 
   try {
     createProjectDir(projectDir);
+    process.chdir(projectDir);
 
-    await initialize.npm();
     await initialize.git();
+    await initialize.npm();
+    await createConfigFiles();
+    await createSrcFiles(projectDir);
 
-    createConfig(".eslintrc.cjs", fileContents.eslintrc);
-    createConfig("tsconfig.json", fileContents.tsconfig);
-    createConfig(".gitignore", fileContents.gitignore);
-
-    await createConfigFiles(projectDir);
+    // TODO: print instructions
   } catch (error) {
     console.log(error);
   }
