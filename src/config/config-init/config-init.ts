@@ -4,6 +4,7 @@ import type { PackageJson } from "type-fest";
 import { execa } from "execa";
 import { getConfigArgs } from "../../command/args/get-config-args.js";
 import { print, printError } from "../../helpers/print/print-severity.js";
+import { getVersion } from "../../helpers/get-version.js";
 import { fileContents } from "./file-contents.js";
 
 const { config } = getConfigArgs();
@@ -49,7 +50,8 @@ const initialize = {
     const contents = readFile(configFile);
     const data = parseData<PackageJson>(contents);
 
-    const dependencies = [
+    const dependencies = [`@lexjs/web-cli@${getVersion() ?? "latest"} `];
+    const devDependencies = [
       "eslint",
       "typescript",
       "@typescript-eslint/eslint-plugin",
@@ -57,8 +59,8 @@ const initialize = {
       "prettier",
     ];
 
-    await execa("npm", ["install", ...dependencies, "--save-dev"]);
-    await execa("npm", ["install", "@lexjs/web-cli"]);
+    await execa("npm", ["install", ...dependencies]);
+    await execa("npm", ["install", ...devDependencies, "--save-dev"]);
 
     data.scripts = {
       config: "npm run config:engines && npm run config:browsers",
