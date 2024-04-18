@@ -4,11 +4,6 @@ build
 lib
 bin
 
-# Config files
-config.json
-settings.json
-websearch.json
-
 # Logs
 logs
 *.log
@@ -129,6 +124,11 @@ dist
 
 # TernJS port file
 .tern-port
+
+# IDE - VSCode
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
