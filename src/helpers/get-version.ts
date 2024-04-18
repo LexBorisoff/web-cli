@@ -2,9 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 
-export function getVersion(): string {
-  let version = "Could not fetch version";
-
+export function getVersion(): string | undefined {
   /**
    * root
    *  ./bin/helpers/get-version.js
@@ -18,12 +16,8 @@ export function getVersion(): string {
     });
     const data = JSON.parse(json) as { version?: string };
 
-    if (data.version != null) {
-      version = `Version ${data.version}`;
-    }
+    return data.version;
   } catch {
-    // fail silently
+    return undefined;
   }
-
-  return version;
 }

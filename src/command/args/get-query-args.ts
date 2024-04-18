@@ -4,6 +4,8 @@ import { configFlags } from "../../data/config-flags.js";
 import { getVersion } from "../../helpers/get-version.js";
 import { Option, alias, options } from "../options.js";
 
+const version = getVersion();
+
 export function getQueryArgs() {
   return yargs(hideBin(process.argv))
     .option(Option.Browser, {
@@ -53,7 +55,7 @@ export function getQueryArgs() {
       description: "Update package to the most current version",
     })
     .help()
-    .version(getVersion())
+    .version(version != null ? `Version ${version}` : "Could not get version")
     .boolean(configFlags.filter((flag) => !options.includes(flag)))
     .parseSync();
 }
