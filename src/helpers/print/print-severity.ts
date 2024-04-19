@@ -1,9 +1,9 @@
 import chalk from "chalk";
 
-const info = chalk.cyanBright;
-const success = chalk.greenBright;
-const warning = chalk.yellowBright;
-const error = chalk.redBright;
+const info = chalk.cyan;
+const success = chalk.green;
+const warning = chalk.yellow;
+const error = chalk.red;
 
 export const severity = { info, success, warning, error };
 export const print = console.log;

@@ -1,7 +1,8 @@
 import * as os from "node:os";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { ConfigValue } from "../../command/options.js";
+
+export const CONFIG_FILE_NAME = "web-cli.config.json";
 
 export function getConfigPath(): string {
   const homedir = os.homedir();
@@ -31,9 +32,7 @@ export function getConfigPath(): string {
   return path.join(directory, "@lexjs", "web-cli");
 }
 
-export function getConfigFilePath(
-  configType: ConfigValue.Browsers | ConfigValue.Engines
-): string {
+export function getConfigFilePath(): string {
   const configPath = getConfigPath();
-  return path.join(configPath, `${configType}.json`);
+  return path.join(configPath, CONFIG_FILE_NAME);
 }

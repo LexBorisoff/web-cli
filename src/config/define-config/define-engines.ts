@@ -22,9 +22,11 @@ function createEngine<
   };
 }
 
+export type ConfigEngine = ReturnType<typeof createEngine>;
+
 type CallbackFn = (
   createFn: typeof createEngine
-) => Record<string, ReturnType<typeof createEngine>>;
+) => Record<string, ConfigEngine>;
 
 export function defineEngines(define: CallbackFn) {
   const engines = define(createEngine);

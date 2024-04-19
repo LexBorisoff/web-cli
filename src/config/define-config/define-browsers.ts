@@ -3,8 +3,7 @@ import type {
   BrowserName,
   ProfilesConfig,
 } from "@lexjs/browser-search";
-
-type OmitKey<T extends object, K extends keyof T> = Omit<T, K>;
+import { OmitKey } from "../../utils/types.js";
 
 interface Profile {
   directory: string;
@@ -33,9 +32,11 @@ function createBrowser<
   };
 }
 
+export type ConfigBrowser = ReturnType<typeof createBrowser>;
+
 type CallbackFn = (
   createFn: typeof createBrowser
-) => Record<string, ReturnType<typeof createBrowser>>;
+) => Record<string, ConfigBrowser>;
 
 export function defineBrowsers(callback: CallbackFn) {
   const browsers = callback(createBrowser);

@@ -5,7 +5,7 @@ import { getConfigFilePath } from "./get-config-path.js";
 export function readConfigFile(
   configType: ConfigValue.Browsers | ConfigValue.Engines
 ): string | null {
-  const filePath = getConfigFilePath(configType);
+  const filePath = getConfigFilePath();
   if (!fs.existsSync(filePath)) {
     return null;
   }
