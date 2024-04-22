@@ -14,10 +14,6 @@ const tsconfig = `{
 `;
 
 const eslintrc = `module.exports = {
-  env: {
-    node: true,
-    es2021: true,
-  },
   extends: [
     "prettier",
     "eslint:recommended",
@@ -32,7 +28,6 @@ const eslintrc = `module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  ignorePatterns: [".eslintrc.cjs"],
   rules: {
     eqeqeq: ["error", "smart"],
     "prefer-const": "warn",
@@ -40,8 +35,6 @@ const eslintrc = `module.exports = {
     "no-use-before-define": "error",
     "consistent-return": "error",
     "no-else-return": ["error", { allowElseIf: false }],
-
-    // typescript
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
     "@typescript-eslint/interface-name-prefix": "off",
@@ -55,46 +48,15 @@ const eslintrc = `module.exports = {
         ignoreRestSiblings: true,
       },
     ],
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        selector: "variable",
-        format: ["camelCase", "UPPER_CASE", "PascalCase"],
-        leadingUnderscore: "allowSingleOrDouble",
-        trailingUnderscore: "forbid",
-      },
-      {
-        selector: "enumMember",
-        format: ["PascalCase"],
-      },
-    ],
-
-    // import rules
     "import/no-unresolved": "error",
     "import/no-cycle": "error",
     "import/no-duplicates": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "padding-line-between-statements": [
-      "error",
-      { blankLine: "always", prev: "*", next: "" },
-      { blankLine: "always", prev: "", next: "*" },
-      { blankLine: "any", prev: "", next: "" },
-    ],
-    "import/order": [
-      "error",
-      {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-        ],
-      },
-    ],
   },
+  env: {
+    node: true,
+    es2021: true,
+  },
+  ignorePatterns: [".eslintrc.cjs"],
   settings: {
     "import/resolver": {
       typescript: {},
@@ -116,6 +78,7 @@ defineEngines((engine) => ({
 			tabs: {
 				repos: "?tab=repositories",
 				stars: "?tab=stars",
+				projects: "?tab=projects",
 			},
 		},
 	}),
@@ -142,8 +105,7 @@ defineBrowsers((browser) => ({
 }));
 `;
 
-const gitignore = `# Build
-dist
+const gitignore = `dist
 node_modules
 `;
 

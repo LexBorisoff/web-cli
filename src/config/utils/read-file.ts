@@ -1,16 +1,16 @@
 import * as fs from "node:fs";
 
 /**
- * Returns empty string if file does not exist or cannot be read
+ * Returns null if file does not exist or cannot be read
  */
-export function readFile(filePath: string): string {
+export function readFile(filePath: string): string | null {
   if (!fs.existsSync(filePath)) {
-    return "";
+    return null;
   }
 
   try {
     return fs.readFileSync(filePath, { encoding: "utf-8" });
   } catch {
-    return "";
+    return null;
   }
 }

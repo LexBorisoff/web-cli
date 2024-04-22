@@ -1,6 +1,4 @@
-export function parseData<T extends object = any>(
-  data?: string | null
-): T | null {
+export function parseData<Result = any>(data?: string | null): Result | null {
   if (data == null || data === "") {
     return null;
   }
