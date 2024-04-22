@@ -5,7 +5,7 @@ import prompts, {
   type Options,
   type PromptObject,
 } from "prompts";
-import { OmitKey } from "../utils/types.js";
+import { OmitKey } from "../../utils/types.js";
 
 export async function promptSelect<C extends Choice, T extends string = string>(
   choices: C[],

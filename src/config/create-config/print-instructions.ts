@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { print, severity } from "../../../helpers/print/print-severity.js";
+import { print, severity } from "../../helpers/print/print-severity.js";
 
 export function printInstructions(projectName: string) {
   const left = "  ";

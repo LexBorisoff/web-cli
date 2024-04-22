@@ -1,16 +1,17 @@
 import * as path from "node:path";
+import "dotenv/config";
 import {
   print,
   printError,
   printWarning,
   severity,
-} from "../../../helpers/print/print-severity.js";
-import { loading } from "../../utils/loading.js";
-import { promptText } from "../../prompts.js";
-import { printInstructions } from "./print-instructions.js";
-import { createProjectDir } from "./create-project-dir.js";
-import { createProjectFiles } from "./create-project-files.js";
-import { InitializeProject } from "./initialize-project.js";
+} from "../helpers/print/print-severity.js";
+import { loading } from "./utils/loading.js";
+import { promptText } from "./utils/prompts.js";
+import { printInstructions } from "./create-config/print-instructions.js";
+import { createProjectDir } from "./create-config/create-project-dir.js";
+import { createProjectFiles } from "./create-config/create-project-files.js";
+import { InitializeProject } from "./create-config/initialize-project.js";
 
 export async function createConfig() {
   const { projectName } = await promptText({
