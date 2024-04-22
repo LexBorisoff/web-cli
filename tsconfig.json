@@ -5,10 +5,12 @@
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "outDir": "./bin",
-    "declaration": false,
+    "declaration": true,
+    "declarationDir": "./bin/types",
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true
   }
 }
