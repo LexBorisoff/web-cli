@@ -18,6 +18,6 @@ function withProfile(browserName: string): boolean {
 const withURLsOnly =
   args.length > 0 && args.every((arg) => urlPattern.test(`${arg}`));
 
-const withConfig = config != null;
+const withConfig = !!config;
 
 export { withProfile, withURLsOnly, withConfig, update as withUpdate };

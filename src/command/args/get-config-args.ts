@@ -5,7 +5,7 @@ import { ConfigOption } from "../options.js";
 export function getConfigArgs() {
   return yargs(hideBin(process.argv))
     .option(ConfigOption.Config, {
-      type: "string",
+      type: "boolean",
     })
     .help(false)
     .parseSync();
