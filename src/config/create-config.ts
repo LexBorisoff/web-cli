@@ -11,7 +11,7 @@ import { promptText } from "../helpers/utils/prompts.js";
 import { printInstructions } from "./create-config/print-instructions.js";
 import { createProjectDir } from "./create-config/create-project-dir.js";
 import { createProjectFiles } from "./create-config/create-project-files.js";
-import { InitializeProject } from "./create-config/initialize-project.js";
+import { initializeProject } from "./create-config/initialize-project.js";
 
 export async function createConfig() {
   const { projectName } = await promptText({
@@ -41,7 +41,7 @@ export async function createConfig() {
   }
 
   try {
-    await InitializeProject.git();
+    await initializeProject.git();
   } catch (error) {
     printWarning("Could not initialize a git repository\n");
   }
@@ -55,7 +55,7 @@ export async function createConfig() {
         });
 
         await createProjectFiles(projectPath);
-        await InitializeProject.npm();
+        await initializeProject.npm();
       },
       {
         message: `⚡ Scaffolding ${severity.info(projectName)}`,

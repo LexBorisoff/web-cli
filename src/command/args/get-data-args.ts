@@ -60,6 +60,7 @@ export const getDataArgs = {
     const customArgs = getCustomArgs(browsersData);
     return getUniqueList(optionArg, customArgs, removeEmptyArg);
   },
+
   /**
    * Returns a unique list of profile args provided to the CLI.
    *
@@ -112,6 +113,7 @@ export const getDataArgs = {
 
     return getUniqueList(optionArg, profileArgs, removeEmptyArg);
   },
+
   /**
    * Returns a unique list of engine args provided to the CLI
    *

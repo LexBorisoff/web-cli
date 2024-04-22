@@ -9,12 +9,12 @@ import { SRC_FILES } from "./create-project-files.js";
 
 const isDev = process.env.IS_DEV === "true" || false;
 
-export class InitializeProject {
-  static async git() {
+export const initializeProject = {
+  async git() {
     await execa("git", ["init"]);
-  }
+  },
 
-  static async npm() {
+  async npm() {
     await execa("npm", ["init", "-y"]);
 
     const latest = "latest";
@@ -36,6 +36,7 @@ export class InitializeProject {
     const contents = readFile(configFile);
     const data = parseData<PackageJson>(contents) ?? {};
 
+    data.type = "module";
     data.scripts = {
       config: "npm run config:browsers && npm run config:engines",
       "config:browsers": `npx tsx ${SRC_FILES.browsers.fileName}`,
@@ -44,5 +45,5 @@ export class InitializeProject {
 
     const space = 2;
     fs.writeFileSync(configFile, JSON.stringify(data, null, space));
-  }
-}
+  },
+};
