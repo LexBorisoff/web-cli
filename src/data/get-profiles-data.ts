@@ -1,7 +1,19 @@
-import type { ProfilesData } from "../types/config.js";
+import type { ProfilesData } from "../config/types.js";
 import { getBrowsersData } from "./get-browsers-data.js";
 
 export function getProfilesData(browserName: string): ProfilesData {
   const config = getBrowsersData();
-  return config[browserName]?.profiles ?? {};
+
+  const profiles = Object.entries(
+    config[browserName]?.profiles ?? {}
+  ).reduce<ProfilesData>(
+    (result, [key, value]) =>
+      ({
+        ...result,
+        [key]: typeof value === "string" ? { directory: value } : value,
+      }) satisfies ProfilesData,
+    {}
+  );
+
+  return profiles;
 }

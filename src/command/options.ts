@@ -38,13 +38,6 @@ export enum ConfigOption {
   Config = "config",
 }
 
-export enum ConfigValue {
-  Browsers = "browsers",
-  Engines = "engines",
-}
-
-export const configValues = Object.values(ConfigValue) as string[];
-
 /**
  * CLI options and their aliases related to config
  */

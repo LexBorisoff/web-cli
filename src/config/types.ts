@@ -7,39 +7,49 @@ import type {
 } from "@lexjs/browser-search";
 import type { OmitKey } from "../utils/types.js";
 
-interface BaseConfigOptions {
+export interface WithAlias {
   alias?: string | string[];
+}
+
+export interface IsDefault {
   isDefault?: boolean;
 }
 
+export interface BaseConfigOptions extends WithAlias, IsDefault {}
+
 /* ~~~ BROWSERS ~~~ */
 
-interface Profile extends BaseConfigOptions {
+export interface Profile extends BaseConfigOptions {
   directory: string;
 }
 
-interface ConfigProfiles {
-  profiles?: { [key: string]: string | Profile };
+export interface ConfigProfiles {
+  [key: string]: string | Profile;
 }
 
-interface ConfigBrowserOptions
+export type ProfilesData = {
+  [K in keyof ConfigProfiles]: Exclude<ConfigProfiles[K], string>;
+};
+
+export interface ConfigBrowserOptions
   extends OmitKey<
       BrowserConfig<NonNullable<BrowserName>, undefined>,
       "profiles"
     >,
-    ConfigProfiles,
-    BaseConfigOptions {}
+    BaseConfigOptions {
+  profiles?: ConfigProfiles;
+}
 
-interface ConfigBrowser extends ConfigBrowserOptions {
+export interface ConfigBrowser extends ConfigBrowserOptions {
   name: NonNullable<BrowserName>;
 }
 
-type CreateBrowserFn = (
+export type CreateBrowserFn = (
   name: NonNullable<BrowserName>,
   config?: ConfigBrowserOptions
 ) => ConfigBrowser;
 
-type DefineBrowsersCallback = (
+export type DefineBrowsersCallback = (
   createFn: CreateBrowserFn
 ) => Record<string, ConfigBrowser>;
 
@@ -47,7 +57,7 @@ export type DefineBrowsersFn = (callback: DefineBrowsersCallback) => void;
 
 /* ~~~ ENGINES ~~~ */
 
-interface ConfigEngineOptions<
+export interface ConfigEngineOptions<
   S extends SearchConfig = undefined,
   R extends ResourceConfig = undefined,
 > extends EngineConfig<S, R>,
@@ -55,17 +65,17 @@ interface ConfigEngineOptions<
   name?: string;
 }
 
-interface ConfigEngine
+export interface ConfigEngine
   extends ConfigEngineOptions<SearchConfig, ResourceConfig> {
   baseUrl: string;
 }
 
-type CreateEngineFn = (
+export type CreateEngineFn = (
   baseUrl: string,
   config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
 ) => ConfigEngine;
 
-type DefineEnginesCallback = (
+export type DefineEnginesCallback = (
   createFn: CreateEngineFn
 ) => Record<string, ConfigEngine>;
 
@@ -76,4 +86,13 @@ export type DefineEnginesFn = (callback: DefineEnginesCallback) => void;
 export interface ConfigFileData {
   browsers?: Record<string, ConfigBrowser>;
   engines?: Record<string, ConfigEngine>;
+}
+
+/* ~~~ DEFAULTS ~~~ */
+
+export interface DefaultsData {
+  delimiter: string;
+  engine: [string, ConfigEngine];
+  browser: [string, ConfigBrowser] | null;
+  profile: (browserName: string) => [string, Profile] | null;
 }

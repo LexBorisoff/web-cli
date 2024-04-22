@@ -3,9 +3,7 @@ import {
   defaultDelimiter as delimiter,
 } from "../helpers/config/defaults.js";
 import { initialEngines } from "../helpers/config/initial-engines.js";
-import type { DefaultsData, Engine } from "../types/config.js";
-import type { IsDefault } from "../types/utility.js";
-import { at } from "../utils/at.js";
+import type { ConfigEngine, DefaultsData, IsDefault } from "../config/types.js";
 import { getEnginesData } from "./get-engines-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getBrowsersData } from "./get-browsers-data.js";
@@ -21,7 +19,7 @@ function getDefault<Data extends IsDefault>(
     return withDefault;
   }
 
-  const first = at(Object.entries(data), 0);
+  const first = Object.entries(data).at(0);
   if (first != null) {
     return first;
   }
@@ -31,7 +29,7 @@ function getDefault<Data extends IsDefault>(
 
 function getDefaultEngine(): DefaultsData["engine"] {
   const engines = getEnginesData();
-  const fallback: [string, Engine] = [
+  const fallback: [string, ConfigEngine] = [
     defaultEngine,
     initialEngines[defaultEngine],
   ];

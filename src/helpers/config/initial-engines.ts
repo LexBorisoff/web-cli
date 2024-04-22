@@ -1,31 +1,31 @@
-import type { EnginesData } from "../../types/config.js";
+import type { ConfigFileData } from "../../config/types.js";
 
-export const initialEngines: EnginesData = {
+export const initialEngines: NonNullable<ConfigFileData["engines"]> = {
   google: {
     name: "Google",
-    url: "google.com",
-    query: "search?q=",
+    baseUrl: "google.com",
+    search: "search?q=",
   },
   duckduckgo: {
     name: "DuckDuckGo",
-    url: "duckduckgo.com",
-    query: "?q=",
+    baseUrl: "duckduckgo.com",
+    search: "?q=",
     delimiter: "+",
     alias: ["duck"],
   },
   mdn: {
     name: "MDN",
-    url: "developer.mozilla.org",
-    query: "search?q=",
+    baseUrl: "developer.mozilla.org",
+    search: "search?q=",
   },
   youtube: {
     name: "YouTube",
-    url: "youtube.com",
-    query: "results?search_query=",
+    baseUrl: "youtube.com",
+    search: "results?search_query=",
   },
   npm: {
     name: "npm",
-    url: "npmjs.com",
-    query: "search?q=",
+    baseUrl: "npmjs.com",
+    search: "search?q=",
   },
 };

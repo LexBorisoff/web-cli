@@ -1,9 +1,8 @@
-import { ConfigValue } from "../command/options.js";
+import type { ConfigFileData } from "../config/types.js";
 import { initialEngines } from "../helpers/config/initial-engines.js";
-import type { EnginesData } from "../types/config.js";
 import { getConfigData } from "./get-config-data.js";
 
-export function getEnginesData(): EnginesData {
-  const configData = getConfigData(ConfigValue.Engines);
+export function getEnginesData(): NonNullable<ConfigFileData["engines"]> {
+  const configData = getConfigData().engines ?? {};
   return Object.keys(configData).length > 0 ? configData : initialEngines;
 }
