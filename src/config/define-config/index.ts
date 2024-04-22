@@ -1,2 +1,1 @@
-export * from "./define-browsers.js";
-export * from "./define-engines.js";
+export * from "./define-config.js";

@@ -66,41 +66,41 @@ const eslintrc = `module.exports = {
 `;
 
 const enginesConfig = `
-import { defineEngines } from "@lexjs/web-cli/config";
+import { defineConfig } from "@lexjs/web-cli/define-config";
 
-defineEngines((engine) => ({
-	google: engine("google.com", {
-		search: "search?q=",
-	}),
-	github: engine("github.com", {
-		search: "search?q=",
-		resources: {
-			tabs: {
-				repos: "?tab=repositories",
-				stars: "?tab=stars",
-				projects: "?tab=projects",
-			},
-		},
-	}),
-	mdn: engine("developer.mozilla.org", {
-		name: "MDN",
-		search: "search?q=",
-	}),
-	npm: engine("npmjs.com", {
-		name: "npm",
-		search: "search?q=",
-	}),
-	youtube: engine("youtube.com", {
-		name: "YouTube",
-		search: "results?search_query=",
-	}),
+defineConfig(({ engine }) => ({
+  google: engine("google.com", {
+    search: "search?q=",
+  }),
+  github: engine("github.com", {
+    search: "search?q=",
+    resources: {
+      tabs: {
+        repos: "?tab=repositories",
+        stars: "?tab=stars",
+        projects: "?tab=projects",
+      },
+    },
+  }),
+  mdn: engine("developer.mozilla.org", {
+    name: "MDN",
+    search: "search?q=",
+  }),
+  npm: engine("npmjs.com", {
+    name: "npm",
+    search: "search?q=",
+  }),
+  youtube: engine("youtube.com", {
+    name: "YouTube",
+    search: "results?search_query=",
+  }),
 }));
 `;
 
 const browsersConfig = `
-import { defineBrowsers } from "@lexjs/web-cli/config";
+import { defineConfig } from "@lexjs/web-cli/define-config";
 
-defineBrowsers((browser) => ({
+defineConfig(({ browser }) => ({
   chrome: browser("chrome"),
 }));
 `;

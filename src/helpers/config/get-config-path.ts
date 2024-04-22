@@ -4,7 +4,7 @@ import * as path from "node:path";
 
 export const CONFIG_FILE_NAME = "web-cli.config.json";
 
-export function getConfigPath(): string {
+export function getConfigDirPath(): string {
   const homedir = os.homedir();
   let directory: string | undefined;
   const { platform } = process;
@@ -33,6 +33,6 @@ export function getConfigPath(): string {
 }
 
 export function getConfigFilePath(): string {
-  const configPath = getConfigPath();
+  const configPath = getConfigDirPath();
   return path.join(configPath, CONFIG_FILE_NAME);
 }

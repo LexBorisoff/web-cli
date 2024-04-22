@@ -44,17 +44,6 @@ export interface ConfigBrowser extends ConfigBrowserOptions {
   name: NonNullable<BrowserName>;
 }
 
-export type CreateBrowserFn = (
-  name: NonNullable<BrowserName>,
-  config?: ConfigBrowserOptions
-) => ConfigBrowser;
-
-export type DefineBrowsersCallback = (
-  createFn: CreateBrowserFn
-) => Record<string, ConfigBrowser>;
-
-export type DefineBrowsersFn = (callback: DefineBrowsersCallback) => void;
-
 /* ~~~ ENGINES ~~~ */
 
 export interface ConfigEngineOptions<
@@ -70,16 +59,31 @@ export interface ConfigEngine
   baseUrl: string;
 }
 
+/* ~~~ DEFINE CONFIG ~~~ */
+
+export type CreatedBrowser = ConfigBrowser & { __browser: true };
+export type CreatedEngine = ConfigEngine & { __engine: true };
+
+export type CreateBrowserFn = (
+  name: NonNullable<BrowserName>,
+  config?: ConfigBrowserOptions
+) => CreatedBrowser;
+
 export type CreateEngineFn = (
   baseUrl: string,
   config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
-) => ConfigEngine;
+) => CreatedEngine;
 
-export type DefineEnginesCallback = (
-  createFn: CreateEngineFn
-) => Record<string, ConfigEngine>;
+export interface DefineConfigProps {
+  engine: CreateEngineFn;
+  browser: CreateBrowserFn;
+}
 
-export type DefineEnginesFn = (callback: DefineEnginesCallback) => void;
+export type DefineConfigCallback = (
+  props: DefineConfigProps
+) => Record<string, CreatedEngine | CreatedBrowser>;
+
+export type DefineConfigFn = (callback: DefineConfigCallback) => void;
 
 /* ~~~ CONFIG DATA ~~~ */
 
