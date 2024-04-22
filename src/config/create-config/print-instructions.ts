@@ -8,7 +8,6 @@ export function printInstructions(projectName: string) {
     left +
       `${severity.warning("1.")} Open ${severity.info(projectName)} in your IDE, e.g.`
   );
-  print();
   print(left + chalk.gray(`$ cd ${projectName}`));
   print(left + chalk.gray(`$ code .`));
   print();
@@ -27,7 +26,6 @@ export function printInstructions(projectName: string) {
         "JSON config file"
       )} (used by the CLI)`
   );
-  print();
   print(left + chalk.gray(`$ npm run config`));
 
   print();

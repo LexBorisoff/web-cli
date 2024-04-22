@@ -7,7 +7,7 @@ import { readFile } from "../utils/read-file.js";
 import { parseData } from "../utils/parse-data.js";
 import { SRC_FILES } from "./create-project-files.js";
 
-const isDev = process.env.IS_DEV ?? false;
+const isDev = process.env.IS_DEV === "true" || false;
 
 export class InitializeProject {
   static async git() {
