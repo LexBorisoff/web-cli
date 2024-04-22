@@ -1,6 +1,6 @@
+import type { ConfigEngine } from "../../types/config.types.js";
 import { initialEngines } from "../config/initial-engines.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
-import type { ConfigEngine } from "../../config/types.js";
 import { findConfigItem } from "./find-config-item.js";
 
 /**

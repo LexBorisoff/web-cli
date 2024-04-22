@@ -1,5 +1,5 @@
 import * as fs from "node:fs";
-import type { DefineBrowsersFn } from "../types.js";
+import type { DefineBrowsersFn } from "../../types/config.types.js";
 import { getConfigData } from "../../data/get-config-data.js";
 import { getConfigFilePath } from "../../helpers/config/get-config-path.js";
 

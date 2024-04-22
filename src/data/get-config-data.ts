@@ -1,4 +1,4 @@
-import type { ConfigFileData } from "../config/types.js";
+import type { ConfigFileData } from "../types/config.types.js";
 import { readConfigFile } from "../helpers/config/read-config-file.js";
 
 export function getConfigData(): ConfigFileData {

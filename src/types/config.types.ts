@@ -5,7 +5,7 @@ import type {
   ResourceConfig,
   SearchConfig,
 } from "@lexjs/browser-search";
-import type { OmitKey } from "../utils/types.js";
+import type { OmitKey } from "./omit-key.type.js";
 
 export interface WithAlias {
   alias?: string | string[];

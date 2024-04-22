@@ -1,8 +1,8 @@
+import type { Profile } from "../../types/config.types.js";
 import { getDefaultsData } from "../../data/get-defaults-data.js";
 import { getDataArgs } from "../../command/args/get-data-args.js";
 import { withProfile } from "../../command/with.js";
 import { findProfile } from "../find/find-profile.js";
-import { Profile } from "../../types/config.js";
 
 const defaults = getDefaultsData();
 

@@ -1,9 +1,13 @@
+import type {
+  ConfigEngine,
+  DefaultsData,
+  IsDefault,
+} from "../types/config.types.js";
 import {
   defaultEngine,
   defaultDelimiter as delimiter,
 } from "../helpers/config/defaults.js";
 import { initialEngines } from "../helpers/config/initial-engines.js";
-import type { ConfigEngine, DefaultsData, IsDefault } from "../config/types.js";
 import { getEnginesData } from "./get-engines-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getBrowsersData } from "./get-browsers-data.js";

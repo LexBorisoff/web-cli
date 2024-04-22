@@ -1,10 +1,10 @@
 import { options } from "../options.js";
+import type { WithAlias } from "../../types/config.types.js";
 import { getBrowsersData } from "../../data/get-browsers-data.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import { getProfilesData } from "../../data/get-profiles-data.js";
 import { configProfileFlags } from "../../data/config-flags.js";
 import { orArray } from "../../utils/or-arrray.js";
-import type { WithAlias } from "../../types/utility.js";
 import { combineArgLists } from "./combine-arg-lists.js";
 import { getQueryArgs } from "./get-query-args.js";
 

@@ -1,4 +1,4 @@
-import type { ConfigFileData } from "../../config/types.js";
+import type { ConfigFileData } from "../../types/config.types.js";
 
 export const initialEngines: NonNullable<ConfigFileData["engines"]> = {
   google: {

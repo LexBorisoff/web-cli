@@ -1,4 +1,4 @@
-import type { WithAlias } from "../config/types.js";
+import type { WithAlias } from "../types/config.types.js";
 import { getBrowsersData } from "./get-browsers-data.js";
 import { getProfilesData } from "./get-profiles-data.js";
 import { getEnginesData } from "./get-engines-data.js";
