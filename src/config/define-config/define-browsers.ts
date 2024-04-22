@@ -1,4 +1,8 @@
-import type { DefineBrowsersFn } from "../types.js";
+import * as fs from "node:fs";
+import { getConfigFilePath } from "../../helpers/config/get-config-path.js";
+import type { ConfigFileData, DefineBrowsersFn } from "../types.js";
+import { parseData } from "../utils/parse-data.js";
+import { readFile } from "../utils/read-file.js";
 
 export const defineBrowsers: DefineBrowsersFn = function defineBrowsers(
   define
@@ -8,6 +12,12 @@ export const defineBrowsers: DefineBrowsersFn = function defineBrowsers(
     ...config,
   }));
 
-  const json = JSON.stringify(browsers);
-  console.log(json);
+  const configFile = getConfigFilePath();
+  const contents = readFile(configFile);
+  const data = parseData<ConfigFileData>(contents) ?? {};
+
+  data.browsers = browsers;
+  const space = 2;
+
+  fs.writeFileSync(configFile, JSON.stringify(data, null, space));
 };
