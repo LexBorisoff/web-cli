@@ -6,9 +6,9 @@ import {
   browserProfileFlags,
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
-import { severity } from "../../helpers/print/print-severity.js";
-import { orArray } from "../../utils/or-arrray.js";
-import { urlPattern } from "../../utils/patterns.js";
+import { severity } from "../../helpers/print/severity.js";
+import { orArray } from "../../helpers/utils/or-arrray.js";
+import { urlPattern } from "../../helpers/utils/patterns.js";
 import { getInvalidArgs } from "./get-invalid-args.js";
 import { getDataArgs } from "./get-data-args.js";
 import { getQueryArgs } from "./get-query-args.js";

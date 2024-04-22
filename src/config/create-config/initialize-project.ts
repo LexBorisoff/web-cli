@@ -2,9 +2,9 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { execa } from "execa";
 import { PackageJson } from "type-fest";
-import { getVersion } from "../../helpers/get-version.js";
-import { readFile } from "../utils/read-file.js";
-import { parseData } from "../utils/parse-data.js";
+import { getVersion } from "../../helpers/utils/get-version.js";
+import { readFile } from "../../helpers/utils/read-file.js";
+import { parseData } from "../../helpers/utils/parse-data.js";
 import { SRC_FILES } from "./create-project-files.js";
 
 const isDev = process.env.IS_DEV === "true" || false;

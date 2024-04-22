@@ -5,9 +5,9 @@ import {
   printError,
   printWarning,
   severity,
-} from "../helpers/print/print-severity.js";
-import { loading } from "./utils/loading.js";
-import { promptText } from "./utils/prompts.js";
+} from "../helpers/print/severity.js";
+import { loading } from "../helpers/utils/loading.js";
+import { promptText } from "../helpers/utils/prompts.js";
 import { printInstructions } from "./create-config/print-instructions.js";
 import { createProjectDir } from "./create-config/create-project-dir.js";
 import { createProjectFiles } from "./create-config/create-project-files.js";
