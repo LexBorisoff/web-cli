@@ -1,4 +1,4 @@
-import type { WithAlias } from "../../types/utility.js";
+import type { WithAlias } from "../../config/types.js";
 
 interface List<Item> {
   [key: string]: Item;

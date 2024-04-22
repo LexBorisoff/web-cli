@@ -1,5 +1,5 @@
 import { getBrowsersData } from "../../data/get-browsers-data.js";
-import type { Browser } from "../../types/config.js";
+import type { ConfigBrowser } from "../../config/types.js";
 import { findConfigItem } from "./find-config-item.js";
 
 const browsersData = getBrowsersData();
@@ -10,6 +10,6 @@ const browsersData = getBrowsersData();
  */
 export function findBrowser(
   browserNameOrAlias: string
-): [string, Browser] | undefined {
+): [string, ConfigBrowser] | undefined {
   return findConfigItem(browserNameOrAlias, browsersData);
 }

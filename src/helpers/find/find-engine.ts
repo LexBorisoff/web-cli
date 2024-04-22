@@ -1,6 +1,6 @@
 import { initialEngines } from "../config/initial-engines.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
-import type { Engine } from "../../types/config.js";
+import type { ConfigEngine } from "../../config/types.js";
 import { findConfigItem } from "./find-config-item.js";
 
 /**
@@ -10,7 +10,7 @@ import { findConfigItem } from "./find-config-item.js";
  */
 export function findEngine(
   engineNameOrAlias?: string
-): [string, Engine] | undefined {
+): [string, ConfigEngine] | undefined {
   if (engineNameOrAlias == null) {
     return undefined;
   }
