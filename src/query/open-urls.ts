@@ -3,7 +3,7 @@ import { getProfiles } from "../helpers/browser/get-profiles.js";
 import { severity } from "../helpers/print/severity.js";
 import { getBrowsers } from "./get-browsers.js";
 
-const { ...options } = getQueryArgs();
+const options = getQueryArgs();
 const { info, success, error, warning } = severity;
 
 export async function openUrls(urls: string[]): Promise<void> {
