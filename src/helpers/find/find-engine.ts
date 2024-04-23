@@ -9,9 +9,9 @@ import { findConfigItem } from "./find-config-item.js";
  * Otherwise returns undefined
  */
 export function findEngine(
-  engineNameOrAlias?: string
+  engineArg?: string
 ): [string, ConfigEngine] | undefined {
-  if (engineNameOrAlias == null) {
+  if (engineArg == null) {
     return undefined;
   }
 
@@ -19,7 +19,7 @@ export function findEngine(
   const hasEnginesData = Object.keys(enginesData).length > 0;
 
   return findConfigItem(
-    engineNameOrAlias,
+    engineArg,
     hasEnginesData ? enginesData : initialEngines
   );
 }
