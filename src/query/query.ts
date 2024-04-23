@@ -16,7 +16,7 @@ export async function query(): Promise<void> {
 
   const engines = getEngines();
   const urls: string[] = engines.map((engine) => getUrls(engine)).flat();
-  const browserQueries = await openUrls(urls);
+  const browserQueries = openUrls(urls);
 
   printQuery(urls, browserQueries);
 }

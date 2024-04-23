@@ -6,12 +6,12 @@ import { getBrowsers } from "./get-browsers.js";
 
 const { peek, incognito } = getQueryArgs();
 
-export async function openUrls(urls: string[]): Promise<BrowserQuery[]> {
+export function openUrls(urls: string[]): BrowserQuery[] {
   const browsers = getBrowsers();
 
   if (browsers.length === 0) {
     if (!peek) {
-      await Promise.all(
+      Promise.all(
         urls.map((link) => {
           open(link);
         })
@@ -21,25 +21,22 @@ export async function openUrls(urls: string[]): Promise<BrowserQuery[]> {
     return [];
   }
 
-  const browserQueries: BrowserQuery[] = [];
+  const browserQueries = browsers.map<BrowserQuery>(([browser]) => ({
+    browser,
+    profiles: getProfiles(browser).map(([profile]) => profile),
+  }));
 
-  await Promise.all(
-    browsers.map(([browserName, browser]) => {
-      const browserProfiles = getProfiles(browserName);
-
-      browserQueries.push({
-        browser: browserName,
-        profiles: browserProfiles.map(([profile]) => profile),
-      });
-
-      if (!peek) {
+  if (!peek) {
+    Promise.all(
+      browsers.map(([browserName, browser]) => {
+        const browserProfiles = getProfiles(browserName);
         browser.open(urls, {
           profile: browserProfiles.map(([, profile]) => profile.directory),
           incognito,
         });
-      }
-    })
-  );
+      })
+    );
+  }
 
   return browserQueries;
 }
