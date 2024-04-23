@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-import { main } from "./main.js";
-import { updateVersion } from "./update-version.js";
-import { withUpdate, withConfig } from "./command/with.js";
+import { query } from "./query/query.js";
+import { updateVersion } from "./helpers/version/update-version.js";
 import { createConfig } from "./config/create-config.js";
+import { getQueryArgs } from "./command/args/get-query-args.js";
 
-if (withUpdate) {
+const { config, update } = getQueryArgs();
+
+if (update) {
   updateVersion();
-} else if (withConfig) {
+} else if (config) {
   createConfig();
 } else {
-  main();
+  query();
 }
