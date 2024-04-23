@@ -5,7 +5,10 @@ import { orArray } from "../helpers/utils/or-arrray.js";
 
 const { _: keywords, ...options } = getQueryArgs();
 
-export function getUrls([engineArg, engine]: [string, Engine<any, any>]) {
+export function getUrls([engineArg, engine]: [
+  string,
+  Engine<any, any>,
+]): string[] {
   const handleResource = (resource: string): string[] => {
     const foundResource = findResource(engineArg, resource);
     return engine.resource(foundResource ?? resource, {

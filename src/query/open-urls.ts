@@ -1,30 +1,45 @@
+import open from "open";
 import { getQueryArgs } from "../command/args/get-query-args.js";
 import { getProfiles } from "../helpers/browser/get-profiles.js";
-import { severity } from "../helpers/print/severity.js";
+import { BrowserQuery } from "../types/browser-query.type.js";
 import { getBrowsers } from "./get-browsers.js";
 
-const options = getQueryArgs();
-const { info, success, error, warning } = severity;
+const { peek, incognito } = getQueryArgs();
 
-export async function openUrls(urls: string[]): Promise<void> {
+export async function openUrls(urls: string[]): Promise<BrowserQuery[]> {
   const browsers = getBrowsers();
 
   if (browsers.length === 0) {
-    await Promise.all(
-      urls.map((link) => {
-        open(link);
-      })
-    );
-    return;
+    if (!peek) {
+      await Promise.all(
+        urls.map((link) => {
+          open(link);
+        })
+      );
+    }
+
+    return [];
   }
+
+  const browserQueries: BrowserQuery[] = [];
 
   await Promise.all(
     browsers.map(([browserName, browser]) => {
       const browserProfiles = getProfiles(browserName);
-      browser.open(urls, {
-        profile: browserProfiles.map(([, profile]) => profile.directory),
-        incognito: options.incognito,
+
+      browserQueries.push({
+        browser: browserName,
+        profiles: browserProfiles.map(([profile]) => profile),
       });
+
+      if (!peek) {
+        browser.open(urls, {
+          profile: browserProfiles.map(([, profile]) => profile.directory),
+          incognito,
+        });
+      }
     })
   );
+
+  return browserQueries;
 }
