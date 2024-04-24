@@ -1,9 +1,9 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { ConfigOption } from "../options.js";
+import { ConfigOptions as Options } from "../options.js";
 
 export const configArgs = yargs(hideBin(process.argv))
-  .option(ConfigOption.Config, {
+  .option(Options.Config, {
     type: "boolean",
   })
   .help(false)

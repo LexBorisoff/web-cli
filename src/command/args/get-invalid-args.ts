@@ -1,5 +1,5 @@
 import { configFlags } from "../../data/config-flags.js";
-import { options, yargsOptions } from "../options.js";
+import { queryOptions, yargsOptions } from "../options.js";
 import { queryArgs as args } from "./query-args.js";
 
 /**
@@ -10,5 +10,5 @@ import { queryArgs as args } from "./query-args.js";
 export function getInvalidArgs(): string[] {
   return Object.keys(args)
     .filter((key) => !yargsOptions.includes(key))
-    .filter((key) => ![...options, ...configFlags].includes(key));
+    .filter((key) => ![...queryOptions, ...configFlags].includes(key));
 }

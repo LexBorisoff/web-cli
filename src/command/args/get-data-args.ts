@@ -1,4 +1,4 @@
-import { options } from "../options.js";
+import { queryOptions } from "../options.js";
 import type { WithAlias } from "../../types/config.types.js";
 import { getBrowsersData } from "../../data/get-browsers-data.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
@@ -34,7 +34,9 @@ function getUniqueList<Arg>(
  * specific to config data and do not match standard args
  */
 function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
-  const customFlags = Object.keys(args).filter((key) => !options.includes(key));
+  const customFlags = Object.keys(args).filter(
+    (key) => !queryOptions.includes(key)
+  );
   return Object.entries(data)
     .map(([key, { alias }]) => {
       if (alias != null) {

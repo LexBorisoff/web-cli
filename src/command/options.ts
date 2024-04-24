@@ -4,7 +4,7 @@ type OptionType = "string" | "number" | "boolean";
 export const yargsOptions = ["_", "$0"];
 
 // QUERY OPTIONS
-export enum Option {
+export enum QueryOptions {
   Browser = "browser",
   Profile = "profile",
   Engine = "engine",
@@ -17,20 +17,20 @@ export enum Option {
   Update = "update",
 }
 
-export const optionTypes = {
-  [Option.Browser]: "string" as const,
-  [Option.Profile]: "string" as const,
-  [Option.Engine]: "string" as const,
-  [Option.Resource]: "string" as const,
-  [Option.Port]: "number" as const,
-  [Option.Incognito]: "boolean" as const,
-  [Option.Split]: "boolean" as const,
-  [Option.Http]: "boolean" as const,
-  [Option.Peek]: "boolean" as const,
-  [Option.Update]: "boolean" as const,
-} satisfies Record<Option, OptionType>;
+export const queryOptionTypes = {
+  [QueryOptions.Browser]: "string" as const,
+  [QueryOptions.Profile]: "string" as const,
+  [QueryOptions.Engine]: "string" as const,
+  [QueryOptions.Resource]: "string" as const,
+  [QueryOptions.Port]: "number" as const,
+  [QueryOptions.Incognito]: "boolean" as const,
+  [QueryOptions.Split]: "boolean" as const,
+  [QueryOptions.Http]: "boolean" as const,
+  [QueryOptions.Peek]: "boolean" as const,
+  [QueryOptions.Update]: "boolean" as const,
+} satisfies Record<QueryOptions, OptionType>;
 
-export const alias: Alias<Option> = {
+export const queryAlias: Alias<QueryOptions> = {
   browser: ["b"],
   profile: ["p"],
   engine: ["e"],
@@ -42,17 +42,17 @@ export const alias: Alias<Option> = {
 /**
  * CLI options and their aliases (excluding config options)
  */
-export const options: string[] = [
-  ...Object.values(Option),
-  ...Object.values(alias).flat(),
+export const queryOptions: string[] = [
+  ...Object.values(QueryOptions),
+  ...Object.values(queryAlias).flat(),
 ];
 
 // CONFIG OPTIONS
-export enum ConfigOption {
+export enum ConfigOptions {
   Config = "config",
 }
 
 /**
  * CLI options and their aliases related to config
  */
-export const configOptions: string[] = Object.values(ConfigOption);
+export const configOptions: string[] = Object.values(ConfigOptions);

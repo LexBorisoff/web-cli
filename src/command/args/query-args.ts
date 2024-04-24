@@ -2,56 +2,61 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { configFlags } from "../../data/config-flags.js";
 import { getVersion } from "../../helpers/version/get-version.js";
-import { Option, alias, optionTypes, options } from "../options.js";
+import {
+  QueryOptions as Options,
+  queryAlias as alias,
+  queryOptions as options,
+  queryOptionTypes as types,
+} from "../options.js";
 import { orArray } from "../../helpers/utils/or-arrray.js";
 
 const version = getVersion();
 
 const args = yargs(hideBin(process.argv))
-  .option(Option.Browser, {
-    type: optionTypes[Option.Browser],
+  .option(Options.Browser, {
+    type: types[Options.Browser],
     alias: alias.browser,
     description: "The browser app to open",
   })
-  .option(Option.Profile, {
-    type: optionTypes[Option.Profile],
+  .option(Options.Profile, {
+    type: types[Options.Profile],
     alias: alias.profile,
     description: "The user profile to open",
   })
-  .option(Option.Engine, {
-    type: optionTypes[Option.Engine],
+  .option(Options.Engine, {
+    type: types[Options.Engine],
     alias: alias.engine,
     description: "The search engine (or website) to query",
   })
-  .option(Option.Resource, {
-    type: optionTypes[Option.Resource],
+  .option(Options.Resource, {
+    type: types[Options.Resource],
     alias: alias.resource,
     description: "The engine's resource to access",
   })
-  .option(Option.Port, {
-    type: optionTypes[Option.Port],
+  .option(Options.Port, {
+    type: types[Options.Port],
     alias: alias.port,
     description: "The port number to add to the URL",
   })
-  .option(Option.Incognito, {
-    type: optionTypes[Option.Incognito],
+  .option(Options.Incognito, {
+    type: types[Options.Incognito],
     alias: alias.incognito,
     description: "Open in incognito / private mode",
   })
-  .option(Option.Split, {
-    type: optionTypes[Option.Split],
+  .option(Options.Split, {
+    type: types[Options.Split],
     description: "Split values into separate web queries",
   })
-  .option(Option.Http, {
-    type: optionTypes[Option.Http],
+  .option(Options.Http, {
+    type: types[Options.Http],
     description: "Use the HTTP (non-secure) protocol",
   })
-  .option(Option.Peek, {
-    type: optionTypes[Option.Peek],
+  .option(Options.Peek, {
+    type: types[Options.Peek],
     description: "Display the output without opening browser tabs",
   })
-  .option(Option.Update, {
-    type: optionTypes[Option.Update],
+  .option(Options.Update, {
+    type: types[Options.Update],
     description: "Update package to the most current version",
   })
   .help()
