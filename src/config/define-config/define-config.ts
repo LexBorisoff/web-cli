@@ -57,6 +57,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   );
 
   const data = getConfigData();
+  data.projectDir = process.cwd();
 
   if (Object.keys(engines).length > 0) {
     data.engines = engines;

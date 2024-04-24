@@ -88,6 +88,7 @@ export type DefineConfigFn = (callback: DefineConfigCallback) => void;
 /* ~~~ CONFIG DATA ~~~ */
 
 export interface ConfigFileData {
+  projectDir?: string;
   browsers?: Record<string, ConfigBrowser>;
   engines?: Record<string, ConfigEngine>;
 }
