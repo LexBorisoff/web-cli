@@ -1,4 +1,6 @@
+import * as fs from "node:fs";
 import { getConfigData } from "../../data/get-config-data.js";
+import { getConfigDirPath } from "../../helpers/config/get-config-path.js";
 import { printError } from "../../helpers/print/severity.js";
 import {
   ConfigBrowser,
@@ -7,15 +9,21 @@ import {
   CreateEngineFn,
   DefineConfigFn,
 } from "../../types/config.types.js";
-import { createConfigDir } from "./create-config-dir.js";
 import { writeConfigFile } from "./write-config-file.js";
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
-  try {
-    createConfigDir();
-  } catch {
-    printError("Could not create config directory");
-    return;
+  const configDir = getConfigDirPath();
+  const data = getConfigData();
+  const meta = data.meta ?? {};
+
+  if (!fs.existsSync(configDir)) {
+    try {
+      fs.mkdirSync(configDir);
+      meta.createdAt = new Date();
+    } catch {
+      printError("Could not create config directory");
+      return;
+    }
   }
 
   const engine: CreateEngineFn = (baseUrl, config = {}) => ({
@@ -56,8 +64,8 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     {}
   );
 
-  const data = getConfigData();
-  data.projectDir = process.cwd();
+  meta.updatedAt = new Date();
+  meta.projectDir = process.cwd();
 
   if (Object.keys(engines).length > 0) {
     data.engines = engines;
