@@ -7,6 +7,7 @@ import {
 import { parseData } from "../../helpers/utils/parse-data.js";
 import { readFile } from "../../helpers/utils/read-file.js";
 import type { ConfigFileDataJson } from "../../types/config.types.js";
+import { ConfigAction } from "../get-config-action.js";
 
 const configPath = getConfigFilePath();
 const { meta } = parseData<ConfigFileDataJson>(readFile(configPath)) ?? {};
@@ -27,20 +28,20 @@ function printDate(name: string, value: string = ""): void {
 }
 
 export const showConfigMeta = {
-  projectDir() {
+  [ConfigAction.ShowProjectDir]() {
     printInfo(
       meta?.projectDir ??
         severity.error("No project directory is stored in config")
     );
   },
 
-  updatedAt() {
-    const { updatedAt } = meta ?? {};
-    printDate("updated at ", updatedAt);
-  },
-
-  createdAt() {
+  [ConfigAction.ShowCreatedAt]() {
     const { createdAt } = meta ?? {};
     printDate("created at ", createdAt);
+  },
+
+  [ConfigAction.ShowUpdatedAt]() {
+    const { updatedAt } = meta ?? {};
+    printDate("updated at ", updatedAt);
   },
 };

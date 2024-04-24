@@ -18,13 +18,13 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
 
   const actions = [
     {
-      title: "Browsers",
-      value: ConfigAction.ShowBrowsers,
+      title: "Engines",
+      value: ConfigAction.ShowEngines,
       show: configExists,
     },
     {
-      title: "Engines",
-      value: ConfigAction.ShowEngines,
+      title: "Browsers",
+      value: ConfigAction.ShowBrowsers,
       show: configExists,
     },
     {

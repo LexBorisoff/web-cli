@@ -9,7 +9,8 @@ import { OmitKey } from "../../types/omit-key.type.js";
 
 export async function promptSelect<C extends Choice, T extends string = string>(
   choices: C[],
-  question: OmitKey<PromptObject<T>, "type">,
+  question: OmitKey<PromptObject<T>, "type"> &
+    Required<Pick<PromptObject<T>, "message">>,
   options?: Options
 ) {
   return prompts({ ...question, type: "select", choices }, options) as Promise<
