@@ -13,7 +13,7 @@ import { createProjectDir } from "./create-project-dir.js";
 import { createProjectFiles } from "./create-project-files.js";
 import { initializeProject } from "./initialize-project.js";
 
-export async function createConfig() {
+export async function createConfigProject() {
   const { projectName } = await promptText({
     name: "projectName",
     message: "Project name",
