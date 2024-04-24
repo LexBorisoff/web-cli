@@ -2,9 +2,9 @@ import chalk from "chalk";
 import { print, severity } from "../helpers/print/severity.js";
 import { capitalize } from "../helpers/print/transform-text.js";
 import { BrowserQuery } from "../types/browser-query.type.js";
-import { getQueryArgs } from "../command/args/get-query-args.js";
+import { queryArgs } from "../command/args/query-args.js";
 
-const options = getQueryArgs();
+const { incognito } = queryArgs;
 const { info, success } = severity;
 
 export function printQuery(
@@ -19,7 +19,7 @@ export function printQuery(
       browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
     }
 
-    if (options.incognito) {
+    if (incognito) {
       browserInfo += chalk.gray(" [private tab]");
     }
 

@@ -1,9 +1,8 @@
 import { Engine } from "@lexjs/browser-search";
 import { findResource } from "../helpers/find/find-resource.js";
-import { getQueryArgs } from "../command/args/get-query-args.js";
-import { orArray } from "../helpers/utils/or-arrray.js";
+import { queryArgs } from "../command/args/query-args.js";
 
-const { _: keywords, ...options } = getQueryArgs();
+const { _: keywords, ...options } = queryArgs;
 
 export function getUrls([engineArg, engine]: [
   string,
@@ -18,8 +17,8 @@ export function getUrls([engineArg, engine]: [
     });
   };
 
-  if (options.resource != null) {
-    const resource = orArray(options.resource);
+  const { resource } = options;
+  if (resource != null) {
     return Array.isArray(resource)
       ? resource.map((r) => handleResource(r)).flat()
       : handleResource(resource);

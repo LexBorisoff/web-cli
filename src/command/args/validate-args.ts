@@ -7,15 +7,13 @@ import {
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { severity } from "../../helpers/print/severity.js";
-import { orArray } from "../../helpers/utils/or-arrray.js";
 import { urlPattern } from "../../helpers/utils/patterns.js";
 import { getInvalidArgs } from "./get-invalid-args.js";
 import { getDataArgs } from "./get-data-args.js";
-import { getQueryArgs } from "./get-query-args.js";
+import { queryArgs as args } from "./query-args.js";
 
 const { warning, error } = severity;
 const defaults = getDefaultsData();
-const args = getQueryArgs();
 const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
 const browserArgs = getDataArgs.browser(false);
@@ -55,7 +53,7 @@ export function validateArgs(): string[] {
   }
 
   /* VALIDATE RESOURCE ARGS */
-  const resource = orArray(args.resource);
+  const { resource } = args;
   if (resource != null) {
     const emptyList =
       Array.isArray(resource) && resource.every((arg) => arg === "");

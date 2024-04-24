@@ -1,10 +1,10 @@
 import open from "open";
-import { getQueryArgs } from "../command/args/get-query-args.js";
+import { queryArgs } from "../command/args/query-args.js";
 import { getProfiles } from "../helpers/browser/get-profiles.js";
 import { BrowserQuery } from "../types/browser-query.type.js";
 import { getBrowsers } from "./get-browsers.js";
 
-const { peek, incognito } = getQueryArgs();
+const { peek, incognito } = queryArgs;
 
 export function openUrls(urls: string[]): BrowserQuery[] {
   const browsers = getBrowsers();

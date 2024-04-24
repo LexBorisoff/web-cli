@@ -3,13 +3,12 @@
 import { query } from "./query/query.js";
 import { updateVersion } from "./helpers/version/update-version.js";
 import { createConfig } from "./config/create-config.js";
-import { getQueryArgs } from "./command/args/get-query-args.js";
+import { queryArgs } from "./command/args/query-args.js";
+import { configArgs } from "./command/args/config-args.js";
 
-const { config, update } = getQueryArgs();
-
-if (update) {
+if (queryArgs.update) {
   updateVersion();
-} else if (config) {
+} else if (configArgs.config) {
   createConfig();
 } else {
   query();

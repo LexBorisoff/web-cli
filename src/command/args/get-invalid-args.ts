@@ -1,8 +1,6 @@
 import { configFlags } from "../../data/config-flags.js";
 import { options, yargsOptions } from "../options.js";
-import { getQueryArgs } from "./get-query-args.js";
-
-const args = getQueryArgs();
+import { queryArgs as args } from "./query-args.js";
 
 /**
  * Returns a list of args that do not match CLI and yargs' options,

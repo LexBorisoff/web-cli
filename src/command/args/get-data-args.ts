@@ -4,11 +4,9 @@ import { getBrowsersData } from "../../data/get-browsers-data.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import { getProfilesData } from "../../data/get-profiles-data.js";
 import { configProfileFlags } from "../../data/config-flags.js";
-import { orArray } from "../../helpers/utils/or-arrray.js";
 import { combineArgLists } from "./combine-arg-lists.js";
-import { getQueryArgs } from "./get-query-args.js";
+import { queryArgs as args } from "./query-args.js";
 
-const args = getQueryArgs();
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
 
@@ -56,9 +54,8 @@ export const getDataArgs = {
    * If true, removes the empty value from the list
    */
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
-    const optionArg = orArray(args.browser);
     const customArgs = getCustomArgs(browsersData);
-    return getUniqueList(optionArg, customArgs, removeEmptyArg);
+    return getUniqueList(args.browser, customArgs, removeEmptyArg);
   },
 
   /**
@@ -75,14 +72,14 @@ export const getDataArgs = {
     browserName?: string | null,
     removeEmptyArg = true
   ): string[] {
-    const optionArg = orArray(args.profile);
+    const { profile } = args;
 
     if (browserName == null) {
       const list: string[] = [];
 
       // push option arg values (--profile <name>) to the list
-      if (optionArg != null) {
-        list.push(...(Array.isArray(optionArg) ? optionArg : [optionArg]));
+      if (profile != null) {
+        list.push(...(Array.isArray(profile) ? profile : [profile]));
       }
 
       // push custom args (--profileName) to the list
@@ -111,7 +108,7 @@ export const getDataArgs = {
       configProfileFlags.includes(profileArg)
     );
 
-    return getUniqueList(optionArg, profileArgs, removeEmptyArg);
+    return getUniqueList(profile, profileArgs, removeEmptyArg);
   },
 
   /**
@@ -121,8 +118,7 @@ export const getDataArgs = {
    * If true, removes the empty value from the list
    */
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
-    const optionArg = orArray(args.engine);
     const customArgs = getCustomArgs(enginesData);
-    return getUniqueList(optionArg, customArgs, removeEmptyArg);
+    return getUniqueList(args.engine, customArgs, removeEmptyArg);
   },
 };
