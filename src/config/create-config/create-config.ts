@@ -5,13 +5,13 @@ import {
   printError,
   printWarning,
   severity,
-} from "../helpers/print/severity.js";
-import { loading } from "../helpers/utils/loading.js";
-import { promptText } from "../helpers/utils/prompts.js";
-import { printInstructions } from "./create-config/print-instructions.js";
-import { createProjectDir } from "./create-config/create-project-dir.js";
-import { createProjectFiles } from "./create-config/create-project-files.js";
-import { initializeProject } from "./create-config/initialize-project.js";
+} from "../../helpers/print/severity.js";
+import { loading } from "../../helpers/utils/loading.js";
+import { promptText } from "../../helpers/utils/prompts.js";
+import { printInstructions } from "./print-instructions.js";
+import { createProjectDir } from "./create-project-dir.js";
+import { createProjectFiles } from "./create-project-files.js";
+import { initializeProject } from "./initialize-project.js";
 
 export async function createConfig() {
   const { projectName } = await promptText({
