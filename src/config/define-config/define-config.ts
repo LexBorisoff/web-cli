@@ -5,11 +5,25 @@ import { printError } from "../../helpers/print/severity.js";
 import {
   ConfigBrowser,
   ConfigEngine,
+  ConfigMeta,
   CreateBrowserFn,
   CreateEngineFn,
   DefineConfigFn,
 } from "../../types/config.types.js";
 import { writeConfigFile } from "./write-config-file.js";
+
+function updateMeta(meta: ConfigMeta): ConfigMeta {
+  const updated = { ...meta };
+
+  if (updated.createdAt == null) {
+    updated.createdAt = new Date();
+  }
+
+  updated.updatedAt = new Date();
+  updated.projectDir = process.cwd();
+
+  return updated;
+}
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const configDir = getConfigDirPath();
@@ -64,8 +78,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     {}
   );
 
-  meta.updatedAt = new Date();
-  meta.projectDir = process.cwd();
+  data.meta = updateMeta(meta);
 
   if (Object.keys(engines).length > 0) {
     data.engines = engines;
