@@ -1,13 +1,13 @@
 import open from "open";
 import { queryArgs } from "../command/args/query-args.js";
 import { getProfiles } from "../helpers/browser/get-profiles.js";
-import { BrowserQuery } from "../types/browser-query.type.js";
-import { getBrowsers } from "./get-browsers.js";
+import { BrowserProfileQuery } from "../types/query.types.js";
+import { getQueryBrowsers } from "./get-query-browsers.js";
 
 const { peek, incognito } = queryArgs;
 
-export function openUrls(urls: string[]): BrowserQuery[] {
-  const browsers = getBrowsers();
+export function openUrls(urls: string[]): BrowserProfileQuery[] {
+  const browsers = getQueryBrowsers();
 
   if (browsers.length === 0) {
     if (!peek) {
@@ -21,7 +21,7 @@ export function openUrls(urls: string[]): BrowserQuery[] {
     return [];
   }
 
-  const browserQueries = browsers.map<BrowserQuery>(([browser]) => ({
+  const queries = browsers.map<BrowserProfileQuery>(([browser]) => ({
     browser,
     profiles: getProfiles(browser).map(([profile]) => profile),
   }));
@@ -38,5 +38,5 @@ export function openUrls(urls: string[]): BrowserQuery[] {
     );
   }
 
-  return browserQueries;
+  return queries;
 }

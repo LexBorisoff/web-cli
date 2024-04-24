@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { print, severity } from "../helpers/print/severity.js";
 import { capitalize } from "../helpers/print/transform-text.js";
-import { BrowserQuery } from "../types/browser-query.type.js";
+import { BrowserProfileQuery } from "../types/query.types.js";
 import { queryArgs } from "../command/args/query-args.js";
 
 const { incognito } = queryArgs;
@@ -9,7 +9,7 @@ const { info, success } = severity;
 
 export function printQuery(
   urls: string[],
-  browserQueries: BrowserQuery[]
+  browserQueries: BrowserProfileQuery[]
 ): void {
   browserQueries.forEach((browserQuery) => {
     const { browser, profiles } = browserQuery;
