@@ -20,43 +20,54 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: "Engines",
       value: ConfigAction.ShowEngines,
+      description: "show config engines",
       show: configExists,
     },
     {
       title: "Browsers",
       value: ConfigAction.ShowBrowsers,
+      description: "show config browsers",
       show: configExists,
     },
     {
-      title: "Config directory",
+      title: "Directory",
       value: ConfigAction.ShowProjectDir,
+      description: "show config's project directory",
       show: configExists,
     },
     {
-      title: "Updated at",
+      title: "Updated",
       value: ConfigAction.ShowUpdatedAt,
+      description: "show when config was last updated",
       show: configExists,
     },
     {
-      title: "Created at",
+      title: "Created",
       value: ConfigAction.ShowCreatedAt,
+      description: "show when config was first created",
       show: configExists,
     },
     {
-      title: "Delete generated config file",
+      title: "Delete",
       value: ConfigAction.DeleteConfigFile,
+      description: "delete generated config",
       show: configExists,
     },
     {
-      title: "Create new config project",
+      title: "Create",
       value: ConfigAction.CreateProject,
+      description: "create new config project",
       show: true,
     },
   ];
 
   const choices = actions
     .filter(({ show }) => show)
-    .map(({ title, value }) => ({ title, value }));
+    .map(({ title, value, description }) => ({
+      title,
+      value,
+      description,
+    }));
 
   const { configAction } = await promptSelect(choices, {
     name: "configAction",
