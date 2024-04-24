@@ -1,8 +1,12 @@
-import { getConfigFilePath } from "../helpers/config/get-config-path.js";
-import { printError, printInfo, severity } from "../helpers/print/severity.js";
-import { parseData } from "../helpers/utils/parse-data.js";
-import { readFile } from "../helpers/utils/read-file.js";
-import type { ConfigFileDataJson } from "../types/config.types.js";
+import { getConfigFilePath } from "../../helpers/config/get-config-path.js";
+import {
+  printError,
+  printInfo,
+  severity,
+} from "../../helpers/print/severity.js";
+import { parseData } from "../../helpers/utils/parse-data.js";
+import { readFile } from "../../helpers/utils/read-file.js";
+import type { ConfigFileDataJson } from "../../types/config.types.js";
 
 const configPath = getConfigFilePath();
 const { meta } = parseData<ConfigFileDataJson>(readFile(configPath)) ?? {};

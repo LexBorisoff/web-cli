@@ -1,6 +1,6 @@
 import { getConfigAction, ConfigAction } from "./get-config-action.js";
 import { createConfigProject } from "./create-config-project/create-config-project.js";
-import { showConfigMeta } from "./show-config-meta.js";
+import { showConfigMeta } from "./show-config-data/show-config-meta.js";
 
 export async function handleConfig() {
   const action = await getConfigAction();

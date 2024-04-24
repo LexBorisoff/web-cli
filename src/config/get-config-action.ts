@@ -3,6 +3,8 @@ import { promptSelect } from "../helpers/utils/prompts.js";
 import { getConfigFilePath } from "../helpers/config/get-config-path.js";
 
 export enum ConfigAction {
+  ShowBrowsers,
+  ShowEngines,
   ShowProjectDir,
   ShowUpdatedAt,
   ShowCreatedAt,
@@ -16,17 +18,27 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
 
   const actions = [
     {
-      title: "Show config directory",
+      title: "Browsers",
+      value: ConfigAction.ShowBrowsers,
+      show: configExists,
+    },
+    {
+      title: "Engines",
+      value: ConfigAction.ShowEngines,
+      show: configExists,
+    },
+    {
+      title: "Config directory",
       value: ConfigAction.ShowProjectDir,
       show: configExists,
     },
     {
-      title: "Show updated at",
+      title: "Updated at",
       value: ConfigAction.ShowUpdatedAt,
       show: configExists,
     },
     {
-      title: "Show created at",
+      title: "Created at",
       value: ConfigAction.ShowCreatedAt,
       show: configExists,
     },
