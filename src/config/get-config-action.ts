@@ -4,6 +4,9 @@ import { getConfigFilePath } from "../helpers/config/get-config-path.js";
 
 export enum ConfigAction {
   ShowProjectDir,
+  ShowUpdatedAt,
+  ShowCreatedAt,
+  DeleteConfigFile,
   CreateProject,
 }
 
@@ -13,8 +16,23 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
 
   const actions = [
     {
-      title: "Show config project directory",
+      title: "Show config directory",
       value: ConfigAction.ShowProjectDir,
+      show: configExists,
+    },
+    {
+      title: "Show updated at",
+      value: ConfigAction.ShowUpdatedAt,
+      show: configExists,
+    },
+    {
+      title: "Show created at",
+      value: ConfigAction.ShowCreatedAt,
+      show: configExists,
+    },
+    {
+      title: "Delete generated config file",
+      value: ConfigAction.DeleteConfigFile,
       show: configExists,
     },
     {

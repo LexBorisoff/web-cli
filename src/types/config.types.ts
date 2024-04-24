@@ -99,6 +99,16 @@ export interface ConfigFileData {
   engines?: Record<string, ConfigEngine>;
 }
 
+export interface ConfigMetaJson {
+  projectDir?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ConfigFileDataJson extends Omit<ConfigFileData, "meta"> {
+  meta?: ConfigMetaJson;
+}
+
 /* ~~~ DEFAULTS ~~~ */
 
 export interface DefaultsData {
