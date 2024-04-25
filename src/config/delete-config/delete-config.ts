@@ -5,7 +5,11 @@ import { writeConfigFile } from "../write-config-file.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import { getConfigData } from "../../data/get-config-data.js";
 
-const choices = ["engines", "browsers"] as const;
+const configData = getConfigData();
+const hasEngines = Object.keys(configData.engines ?? {}).length > 0;
+const choices: ("engines" | "browsers")[] = hasEngines
+  ? ["engines", "browsers"]
+  : ["browsers"];
 
 async function handleDelete<D extends object>(
   data: Record<string, D>,
@@ -38,8 +42,6 @@ export async function deleteConfig() {
     choices: choices.map((value) => ({ title: value, value })),
     instructions: false,
   });
-
-  const configData = getConfigData();
 
   if (answer === "engines") {
     if (configData.engines != null) {

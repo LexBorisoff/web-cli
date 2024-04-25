@@ -22,8 +22,8 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: "Engines",
       value: ConfigAction.Engines,
-      description: `show ${
-        Object.keys(configData.engines ?? {}).length > 0 ? "config" : "initial"
+      description: `show${
+        Object.keys(configData.engines ?? {}).length > 0 ? " config" : ""
       } engines`,
       show: true,
     },
