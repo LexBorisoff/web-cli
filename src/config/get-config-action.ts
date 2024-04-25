@@ -69,10 +69,11 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
       description,
     }));
 
-  const { configAction } = await prompts.select(choices, {
-    name: "configAction",
+  const { answer } = await prompts.select({
+    name: "answer",
     message: "Choose an option",
+    choices,
   });
 
-  return configAction;
+  return answer;
 }

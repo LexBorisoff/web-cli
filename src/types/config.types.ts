@@ -93,7 +93,7 @@ export interface ConfigMeta {
   updatedAt?: Date;
 }
 
-export interface ConfigFileData {
+export interface ConfigData {
   meta?: ConfigMeta;
   browsers?: Record<string, ConfigBrowser>;
   engines?: Record<string, ConfigEngine>;
@@ -105,7 +105,7 @@ export interface ConfigMetaJson {
   updatedAt?: string;
 }
 
-export interface ConfigFileDataJson extends Omit<ConfigFileData, "meta"> {
+export interface ConfigDataJson extends Omit<ConfigData, "meta"> {
   meta?: ConfigMetaJson;
 }
 

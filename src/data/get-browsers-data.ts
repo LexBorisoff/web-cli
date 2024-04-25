@@ -1,6 +1,6 @@
-import type { ConfigFileData } from "../types/config.types.js";
+import type { ConfigData } from "../types/config.types.js";
 import { getConfigData } from "./get-config-data.js";
 
-export function getBrowsersData(): NonNullable<ConfigFileData["browsers"]> {
+export function getBrowsersData(): NonNullable<ConfigData["browsers"]> {
   return getConfigData().browsers ?? {};
 }

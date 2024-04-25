@@ -1,3 +1,4 @@
+import type { ConfigDataJson } from "../../types/config.types.js";
 import { getConfigFilePath } from "../../helpers/config/get-config-path.js";
 import {
   printError,
@@ -6,11 +7,10 @@ import {
 } from "../../helpers/print/severity.js";
 import { parseData } from "../../helpers/utils/parse-data.js";
 import { readFile } from "../../helpers/utils/read-file.js";
-import type { ConfigFileDataJson } from "../../types/config.types.js";
 import { ConfigAction } from "../get-config-action.js";
 
 const configPath = getConfigFilePath();
-const { meta } = parseData<ConfigFileDataJson>(readFile(configPath)) ?? {};
+const { meta } = parseData<ConfigDataJson>(readFile(configPath)) ?? {};
 
 function validDateString(value: string): value is string {
   return !Number.isNaN(new Date(value).getTime());
