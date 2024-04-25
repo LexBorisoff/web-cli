@@ -9,8 +9,7 @@ export enum ConfigAction {
   Directory,
   Updated,
   Created,
-  Delete,
-  Create,
+  NewConfig,
 }
 
 export async function getConfigAction(): Promise<ConfigAction | undefined> {
@@ -48,18 +47,12 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: "Created",
       value: ConfigAction.Created,
-      description: "show when config was first created",
+      description: "show when config was created",
       show: configExists,
     },
     {
-      title: "Delete",
-      value: ConfigAction.Delete,
-      description: "delete generated config data",
-      show: configExists,
-    },
-    {
-      title: "Create",
-      value: ConfigAction.Create,
+      title: "New Config",
+      value: ConfigAction.NewConfig,
       description: "create new config project",
       show: true,
     },

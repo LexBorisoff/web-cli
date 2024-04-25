@@ -2,13 +2,11 @@ import { getConfigAction, ConfigAction } from "./get-config-action.js";
 import { createConfigProject } from "./create-config-project/create-config-project.js";
 import { showConfigMeta } from "./show-config/show-config-meta.js";
 import { showConfigData } from "./show-config/show-config-data.js";
-import { deleteConfig } from "./delete-config/delete-config.js";
 
 const actions: Record<ConfigAction, () => void | Promise<void>> = {
   ...showConfigMeta,
   ...showConfigData,
-  [ConfigAction.Delete]: deleteConfig,
-  [ConfigAction.Create]: createConfigProject,
+  [ConfigAction.NewConfig]: createConfigProject,
 };
 
 export async function handleConfig() {
