@@ -17,6 +17,21 @@ export interface IsDefault {
 
 export interface BaseConfigOptions extends WithAlias, IsDefault {}
 
+/* ~~~ ENGINES ~~~ */
+
+export interface ConfigEngineOptions<
+  S extends SearchConfig = undefined,
+  R extends ResourceConfig = undefined,
+> extends EngineConfig<S, R>,
+    BaseConfigOptions {
+  name?: string;
+}
+
+export interface ConfigEngine
+  extends ConfigEngineOptions<SearchConfig, ResourceConfig> {
+  baseUrl: string;
+}
+
 /* ~~~ BROWSERS ~~~ */
 
 export interface Profile extends BaseConfigOptions {
@@ -44,35 +59,23 @@ export interface ConfigBrowser extends ConfigBrowserOptions {
   name: NonNullable<BrowserName>;
 }
 
-/* ~~~ ENGINES ~~~ */
-
-export interface ConfigEngineOptions<
-  S extends SearchConfig = undefined,
-  R extends ResourceConfig = undefined,
-> extends EngineConfig<S, R>,
-    BaseConfigOptions {
-  name?: string;
-}
-
-export interface ConfigEngine
-  extends ConfigEngineOptions<SearchConfig, ResourceConfig> {
-  baseUrl: string;
-}
-
 /* ~~~ DEFINE CONFIG ~~~ */
 
-export type CreatedBrowser = ConfigBrowser & { __browser: true };
 export type CreatedEngine = ConfigEngine & { __engine: true };
+export type CreatedBrowser = ConfigBrowser & { __browser: true };
+
+export type CreateEngineFn = (
+  baseUrl: string,
+  config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
+) => CreatedEngine;
 
 export type CreateBrowserFn = (
   name: NonNullable<BrowserName>,
   config?: ConfigBrowserOptions
 ) => CreatedBrowser;
 
-export type CreateEngineFn = (
-  baseUrl: string,
-  config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
-) => CreatedEngine;
+export type ClearEnginesFn = () => void;
+export type ClearBrowsersFn = () => void;
 
 export interface DefineConfigProps {
   engine: CreateEngineFn;
@@ -87,14 +90,14 @@ export type DefineConfigFn = (callback: DefineConfigCallback) => void;
 
 /* ~~~ CONFIG DATA ~~~ */
 
-export interface ConfigMeta {
+export interface ConfigMetaDto {
   projectDir?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface ConfigData {
-  meta?: ConfigMeta;
+export interface ConfigDataDto {
+  meta?: ConfigMetaDto;
   browsers?: Record<string, ConfigBrowser>;
   engines?: Record<string, ConfigEngine>;
 }
@@ -105,7 +108,7 @@ export interface ConfigMetaJson {
   updatedAt?: string;
 }
 
-export interface ConfigDataJson extends Omit<ConfigData, "meta"> {
+export interface ConfigDataJson extends Omit<ConfigDataDto, "meta"> {
   meta?: ConfigMetaJson;
 }
 
