@@ -1,6 +1,8 @@
 import $_ from "prompts";
 import type { Choice, Options } from "prompts";
 import type {
+  MultiSelectConfig,
+  MultiSelectReturn,
   SelectConfig,
   SelectReturn,
   TextConfig,
@@ -11,11 +13,17 @@ import type {
 
 export const prompts = {
   select<C extends Choice, Name extends string = string>(
-    choices: C[],
-    config: SelectConfig<Name>,
+    config: SelectConfig<C, Name>,
     options?: Options
   ): SelectReturn<C, Name> {
-    return $_({ ...config, type: "select", choices }, options);
+    return $_({ ...config, type: "select" }, options);
+  },
+
+  multiselect<C extends Choice, Name extends string = string>(
+    config: MultiSelectConfig<C, Name>,
+    options?: Options
+  ): MultiSelectReturn<C, Name> {
+    return $_({ ...config, type: "multiselect" }, options);
   },
 
   text<Name extends string = string>(
@@ -25,27 +33,24 @@ export const prompts = {
     return $_({ ...config, type: "text" }, options);
   },
 
-  toggle<Name extends string>({
-    name,
-    message,
-    active = "yes",
-    inactive = "no",
-    initial = false,
-  }: ToggleOptions<Name>): ToggleReturn<Name> {
-    return $_({
-      type: "toggle",
-      name,
-      message,
-      initial,
-      active,
-      inactive,
-    });
-  },
-
-  multiselect() {
-    return $_({
-      type: "multiselect",
-      name: "",
-    });
+  toggle<Name extends string>(
+    {
+      active = "yes",
+      inactive = "no",
+      initial = false,
+      ...config
+    }: ToggleOptions<Name>,
+    options?: Options
+  ): ToggleReturn<Name> {
+    return $_(
+      {
+        ...config,
+        type: "toggle",
+        initial,
+        active,
+        inactive,
+      },
+      options
+    );
   },
 };
