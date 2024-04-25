@@ -12,5 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "strict": true
-  }
+  },
+  "include": ["src"]
 }
