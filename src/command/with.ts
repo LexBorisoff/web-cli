@@ -1,5 +1,5 @@
+import { matchers } from "@lexjs/browser-search/matchers";
 import { getDefaultsData } from "../data/get-defaults-data.js";
-import { urlPattern } from "../helpers/utils/patterns.js";
 import { getDataArgs } from "./args/get-data-args.js";
 import { queryArgs } from "./args/query-args.js";
 
@@ -15,6 +15,6 @@ function withProfile(browserName: string): boolean {
 
 const withURLsOnly =
   keywords.length > 0 &&
-  keywords.every((keyword) => urlPattern.test(`${keyword}`));
+  keywords.every((keyword) => matchers.url.test(`${keyword}`));
 
 export { withProfile, withURLsOnly };

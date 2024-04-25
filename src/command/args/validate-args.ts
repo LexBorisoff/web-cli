@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { matchers } from "@lexjs/browser-search/matchers";
 import { withURLsOnly } from "../with.js";
 import { getDefaultsData } from "../../data/get-defaults-data.js";
 import {
@@ -7,7 +8,6 @@ import {
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { severity } from "../../helpers/print/severity.js";
-import { urlPattern } from "../../helpers/utils/patterns.js";
 import { getInvalidArgs } from "./get-invalid-args.js";
 import { getDataArgs } from "./get-data-args.js";
 import { queryArgs as args } from "./query-args.js";
@@ -45,7 +45,7 @@ export function validateArgs(): string[] {
 
   const invalidEngines = engineArgs.filter(
     (arg) =>
-      arg !== "" && !configEngineFlags.includes(arg) && !urlPattern.test(arg)
+      arg !== "" && !configEngineFlags.includes(arg) && !matchers.url.test(arg)
   );
 
   if (invalidEngines.length > 0) {
