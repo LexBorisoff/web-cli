@@ -20,13 +20,17 @@ export const initializeProject = {
     const latest = "latest";
     const version = isDev ? latest : getVersion() ?? latest;
 
-    const dependencies = [`@lexjs/web-cli@${version} `];
+    const dependencies = [`@lexjs/web-cli@${version}`];
     const devDependencies = [
-      "eslint",
-      "typescript",
-      "@typescript-eslint/eslint-plugin",
-      "@typescript-eslint/parser",
-      "prettier",
+      `typescript`,
+      `eslint@"<9.0.0"`,
+      `prettier`,
+      `@typescript-eslint/eslint-plugin`,
+      `@typescript-eslint/parser`,
+      `eslint-config-prettier`,
+      `eslint-import-resolver-typescript`,
+      `eslint-plugin-import`,
+      `eslint-plugin-prettier`,
     ];
 
     await execa("npm", ["install", ...dependencies]);
