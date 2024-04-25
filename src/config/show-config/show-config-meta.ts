@@ -28,19 +28,19 @@ function printDate(name: string, value: string = ""): void {
 }
 
 export const showConfigMeta = {
-  [ConfigAction.ShowProjectDir]() {
+  [ConfigAction.Directory]() {
     printInfo(
       meta?.projectDir ??
         severity.error("No project directory is stored in config")
     );
   },
 
-  [ConfigAction.ShowCreatedAt]() {
+  [ConfigAction.Created]() {
     const { createdAt } = meta ?? {};
     printDate("created at ", createdAt);
   },
 
-  [ConfigAction.ShowUpdatedAt]() {
+  [ConfigAction.Updated]() {
     const { updatedAt } = meta ?? {};
     printDate("updated at ", updatedAt);
   },

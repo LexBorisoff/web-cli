@@ -3,13 +3,13 @@ import { prompts } from "../helpers/utils/prompts.js";
 import { getConfigFilePath } from "../helpers/config/get-config-path.js";
 
 export enum ConfigAction {
-  ShowBrowsers,
-  ShowEngines,
-  ShowProjectDir,
-  ShowUpdatedAt,
-  ShowCreatedAt,
-  DeleteConfigFile,
-  CreateProject,
+  Browsers,
+  Engines,
+  Directory,
+  Updated,
+  Created,
+  Delete,
+  Create,
 }
 
 export async function getConfigAction(): Promise<ConfigAction | undefined> {
@@ -19,43 +19,43 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
   const actions = [
     {
       title: "Engines",
-      value: ConfigAction.ShowEngines,
+      value: ConfigAction.Engines,
       description: "show config engines",
       show: configExists,
     },
     {
       title: "Browsers",
-      value: ConfigAction.ShowBrowsers,
+      value: ConfigAction.Browsers,
       description: "show config browsers",
       show: configExists,
     },
     {
       title: "Directory",
-      value: ConfigAction.ShowProjectDir,
+      value: ConfigAction.Directory,
       description: "show config's project directory",
       show: configExists,
     },
     {
       title: "Updated",
-      value: ConfigAction.ShowUpdatedAt,
+      value: ConfigAction.Updated,
       description: "show when config was last updated",
       show: configExists,
     },
     {
       title: "Created",
-      value: ConfigAction.ShowCreatedAt,
+      value: ConfigAction.Created,
       description: "show when config was first created",
       show: configExists,
     },
     {
       title: "Delete",
-      value: ConfigAction.DeleteConfigFile,
+      value: ConfigAction.Delete,
       description: "delete generated config data",
       show: configExists,
     },
     {
       title: "Create",
-      value: ConfigAction.CreateProject,
+      value: ConfigAction.Create,
       description: "create new config project",
       show: true,
     },

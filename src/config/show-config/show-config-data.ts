@@ -63,7 +63,7 @@ function handleData<T extends WithAlias & IsDefault>(
 }
 
 export const showConfigData = {
-  async [ConfigAction.ShowBrowsers]() {
+  async [ConfigAction.Browsers]() {
     const browsers = getBrowsersData();
     handleData(browsers, {
       extra: ({ profiles }) =>
@@ -75,7 +75,7 @@ export const showConfigData = {
     });
   },
 
-  async [ConfigAction.ShowEngines]() {
+  async [ConfigAction.Engines]() {
     const engines = getEnginesData();
     handleData(engines, {
       extra: (engine) => ` > ${severity.success(engine.baseUrl)}`,
