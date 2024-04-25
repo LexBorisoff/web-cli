@@ -7,14 +7,14 @@ import {
   severity,
 } from "../../helpers/print/severity.js";
 import { loading } from "../../helpers/utils/loading.js";
-import { promptText } from "../../helpers/utils/prompts.js";
+import { prompts } from "../../helpers/utils/prompts.js";
 import { printInstructions } from "./print-instructions.js";
 import { createProjectDir } from "./create-project-dir.js";
 import { createProjectFiles } from "./create-project-files.js";
 import { initializeProject } from "./initialize-project.js";
 
 export async function createConfigProject() {
-  const { projectName } = await promptText({
+  const { projectName } = await prompts.text({
     name: "projectName",
     message: "Project name",
     initial: "web-cli-config",

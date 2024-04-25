@@ -1,5 +1,5 @@
 import * as fs from "node:fs";
-import { promptSelect } from "../helpers/utils/prompts.js";
+import { prompts } from "../helpers/utils/prompts.js";
 import { getConfigFilePath } from "../helpers/config/get-config-path.js";
 
 export enum ConfigAction {
@@ -50,7 +50,7 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: "Delete",
       value: ConfigAction.DeleteConfigFile,
-      description: "delete generated config",
+      description: "delete generated config data",
       show: configExists,
     },
     {
@@ -69,7 +69,7 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
       description,
     }));
 
-  const { configAction } = await promptSelect(choices, {
+  const { configAction } = await prompts.select(choices, {
     name: "configAction",
     message: "Choose an option",
   });

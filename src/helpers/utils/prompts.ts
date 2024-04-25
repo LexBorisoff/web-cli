@@ -1,31 +1,51 @@
-// eslint-disable-next-line import/no-named-as-default
-import prompts, {
-  type Answers,
-  type Choice,
-  type Options,
-  type PromptObject,
-} from "prompts";
-import { OmitKey } from "../../types/omit-key.type.js";
+import $_ from "prompts";
+import type { Choice, Options } from "prompts";
+import type {
+  SelectConfig,
+  SelectReturn,
+  TextConfig,
+  TextReturn,
+  ToggleOptions,
+  ToggleReturn,
+} from "../../types/prompts.types.js";
 
-export async function promptSelect<C extends Choice, T extends string = string>(
-  choices: C[],
-  question: OmitKey<PromptObject<T>, "type"> &
-    Required<Pick<PromptObject<T>, "message">>,
-  options?: Options
-) {
-  return prompts({ ...question, type: "select", choices }, options) as Promise<
-    OmitKey<Answers<T>, T> & { [P in T]: C["value"] | undefined }
-  >;
-}
+export const prompts = {
+  select<C extends Choice, Name extends string = string>(
+    choices: C[],
+    config: SelectConfig<Name>,
+    options?: Options
+  ): SelectReturn<C, Name> {
+    return $_({ ...config, type: "select", choices }, options);
+  },
 
-export async function promptText<T extends string = string>(
-  question: OmitKey<PromptObject<T>, "type">,
-  options?: Options
-) {
-  const result = (await prompts(
-    { ...question, type: "text" },
-    options
-  )) as Promise<OmitKey<Answers<T>, T> & { [P in T]: string | undefined }>;
+  text<Name extends string = string>(
+    config: TextConfig<Name>,
+    options?: Options
+  ): TextReturn<Name> {
+    return $_({ ...config, type: "text" }, options);
+  },
 
-  return result;
-}
+  toggle<Name extends string>({
+    name,
+    message,
+    active = "yes",
+    inactive = "no",
+    initial = false,
+  }: ToggleOptions<Name>): ToggleReturn<Name> {
+    return $_({
+      type: "toggle",
+      name,
+      message,
+      initial,
+      active,
+      inactive,
+    });
+  },
+
+  multiselect() {
+    return $_({
+      type: "multiselect",
+      name: "",
+    });
+  },
+};
