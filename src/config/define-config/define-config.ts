@@ -6,11 +6,28 @@ import {
   ConfigBrowser,
   ConfigEngine,
   ConfigMeta,
+  ConfigMetaJson,
   CreateBrowserFn,
   CreateEngineFn,
   DefineConfigFn,
 } from "../../types/config.types.js";
 import { writeConfigFile } from "../write-config-file.js";
+import { isValidDateString } from "../../helpers/utils/is-valid-date-string.js";
+
+function getConfigMeta(meta: ConfigMetaJson = {}): ConfigMeta {
+  const { projectDir, createdAt, updatedAt } = meta;
+  return {
+    projectDir,
+    createdAt:
+      createdAt != null && isValidDateString(createdAt)
+        ? new Date(createdAt)
+        : undefined,
+    updatedAt:
+      updatedAt != null && isValidDateString(updatedAt)
+        ? new Date(updatedAt)
+        : undefined,
+  };
+}
 
 function updateMeta(meta: ConfigMeta): ConfigMeta {
   const updated = { ...meta };
@@ -28,7 +45,7 @@ function updateMeta(meta: ConfigMeta): ConfigMeta {
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const configDir = getConfigDirPath();
   const data = getConfigData();
-  const meta = data.meta ?? {};
+  const meta = getConfigMeta(data.meta);
 
   if (!fs.existsSync(configDir)) {
     try {
@@ -78,8 +95,6 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     {}
   );
 
-  data.meta = updateMeta(meta);
-
   if (Object.keys(engines).length > 0) {
     data.engines = engines;
   }
@@ -89,7 +104,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   }
 
   try {
-    writeConfigFile(data);
+    writeConfigFile({ ...data, meta: updateMeta(meta) });
   } catch {
     printError("Could not write to config file");
   }

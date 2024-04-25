@@ -5,6 +5,7 @@ import {
   printInfo,
   severity,
 } from "../../helpers/print/severity.js";
+import { isValidDateString } from "../../helpers/utils/is-valid-date-string.js";
 import { parseData } from "../../helpers/utils/parse-data.js";
 import { readFile } from "../../helpers/utils/read-file.js";
 import { ConfigAction } from "../get-config-action.js";
@@ -12,13 +13,9 @@ import { ConfigAction } from "../get-config-action.js";
 const configPath = getConfigFilePath();
 const { meta } = parseData<ConfigDataJson>(readFile(configPath)) ?? {};
 
-function validDateString(value: string): value is string {
-  return !Number.isNaN(new Date(value).getTime());
-}
-
 function printDate(name: string, value: string = ""): void {
   if (value != null) {
-    if (validDateString(value)) {
+    if (isValidDateString(value)) {
       printInfo(new Date(value).toString());
       return;
     }

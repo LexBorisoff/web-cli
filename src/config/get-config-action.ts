@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import { prompts } from "../helpers/utils/prompts.js";
 import { getConfigFilePath } from "../helpers/config/get-config-path.js";
+import { getConfigData } from "../data/get-config-data.js";
 
 export enum ConfigAction {
   Browsers,
@@ -15,13 +16,16 @@ export enum ConfigAction {
 export async function getConfigAction(): Promise<ConfigAction | undefined> {
   const configPath = getConfigFilePath();
   const configExists = fs.existsSync(configPath);
+  const configData = getConfigData();
 
   const actions = [
     {
       title: "Engines",
       value: ConfigAction.Engines,
-      description: "show config engines",
-      show: configExists,
+      description: `show ${
+        Object.keys(configData.engines ?? {}).length > 0 ? "config" : "initial"
+      } engines`,
+      show: true,
     },
     {
       title: "Browsers",
