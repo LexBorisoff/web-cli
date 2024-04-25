@@ -10,7 +10,7 @@ import {
   CreateEngineFn,
   DefineConfigFn,
 } from "../../types/config.types.js";
-import { writeConfigFile } from "./write-config-file.js";
+import { writeConfigFile } from "../write-config-file.js";
 
 function updateMeta(meta: ConfigMeta): ConfigMeta {
   const updated = { ...meta };
@@ -88,5 +88,9 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     data.browsers = browsers;
   }
 
-  writeConfigFile(data);
+  try {
+    writeConfigFile(data);
+  } catch {
+    printError("Could not write to config file");
+  }
 };
