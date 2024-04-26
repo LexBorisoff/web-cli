@@ -26,33 +26,30 @@ function handleResource(
   }
 
   return engine.resource(
-    (engineResources = {}) => {
+    (config = {}) => {
       // NOTE: resource object has a property key containing the splitter
-      const foundResourceValue = findResourceByValue(engineResources);
+      const foundResourceValue = findResourceByValue(config);
       if (foundResourceValue != null) {
         return foundResourceValue;
       }
 
       const [resourceKey, pathKey] = splitResource();
-      const foundPath =
-        pathKey && findNested<string>(engineResources, pathKey, "");
+      const foundPath = pathKey && findNested<string>(config, pathKey, "");
 
       return foundPath == null
         ? resourceValue
-        : findNested<string>(engineResources, resourceKey, resourceKey) ??
-            resourceKey;
+        : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
     },
     {
-      path(engineResources = {}) {
+      path(config = {}) {
         const path = keywords.map((k) => `${k}`);
-        const foundResource = findResourceByValue(engineResources);
+        const foundResource = findResourceByValue(config);
 
         // Relates to the NOTE in the above callback
         // Add path found by splitted path key only if resource does not include the splitter
         if (foundResource == null) {
           const [, pathKey] = splitResource();
-          const foundPath =
-            pathKey && findNested<string>(engineResources, pathKey, "");
+          const foundPath = pathKey && findNested<string>(config, pathKey, "");
 
           if (foundPath != null) {
             path.push(foundPath);
@@ -67,6 +64,26 @@ function handleResource(
   );
 }
 
+function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
+  function getQuery(query: string): string {
+    return typeof config !== "string"
+      ? findNested<string>(config, query, query) ?? query
+      : query;
+  }
+
+  const { query } = options;
+
+  if (query == null) {
+    return typeof config === "string" ? config : config.main;
+  }
+
+  if (Array.isArray(query)) {
+    return query.map((q) => getQuery(q));
+  }
+
+  return getQuery(query);
+}
+
 export function getUrls(
   engine: Engine<SearchConfig, ResourceConfig>
 ): string[] {
@@ -78,6 +95,7 @@ export function getUrls(
   }
 
   return engine.search(keywords.join(" "), {
+    query: handleQuery,
     port: options.port,
     split: options.split,
     unsecureHttp: options.http,

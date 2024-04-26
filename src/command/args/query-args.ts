@@ -28,6 +28,11 @@ const args = yargs(hideBin(process.argv))
     alias: alias.engine,
     description: "The search engine (or website) to query",
   })
+  .option(Options.Query, {
+    type: types[Options.Query],
+    alias: alias.query,
+    description: "The engine's query to use for searching",
+  })
   .option(Options.Resource, {
     type: types[Options.Resource],
     alias: alias.resource,
@@ -68,6 +73,7 @@ const arrayArgs = {
   browser: orArray(args.browser),
   profile: orArray(args.profile),
   engine: orArray(args.engine),
+  query: orArray(args.query),
   resource: orArray(args.resource),
   prefix: orArray(args.prefix),
   port: orArray(args.port),

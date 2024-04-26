@@ -8,12 +8,12 @@ const isPrimitive = (value: unknown): value is string | number | boolean =>
   typeof value === "number";
 
 /**
- * @param fallbackValue is used when a matched value is an object
+ * @param objectFallbackValue fallback value that is used when a matched property's value is an object
  */
 export function findNested<
   V extends boolean | string | number,
   T extends NestedObject<V> = NestedObject<V>,
->(target: T, lookupKey: string, fallbackValue: V): V | null {
+>(target: T, lookupKey: string, objectFallbackValue: V): V | null {
   return Object.keys(target).reduce<V | null>((result, key) => {
     if (result != null) {
       return result;
@@ -26,11 +26,11 @@ export function findNested<
         return value;
       }
 
-      return fallbackValue;
+      return objectFallbackValue;
     }
 
     if (typeof value === "object") {
-      return findNested(value, lookupKey, fallbackValue);
+      return findNested(value, lookupKey, objectFallbackValue);
     }
 
     return null;
