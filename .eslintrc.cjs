@@ -16,6 +16,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: "./tsconfig.json",
   },
   ignorePatterns: [".eslintrc.cjs"],
   rules: {
@@ -33,6 +34,8 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "require-await": "off",
+    "@typescript-eslint/require-await": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",

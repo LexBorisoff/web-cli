@@ -9,7 +9,7 @@ interface File {
   contents: string;
 }
 
-type ConfigFile = "eslint" | "tsconfig" | "gitignore";
+type ConfigFile = "eslint" | "tsconfig" | "gitignore" | "eslintignore";
 type SourceFile = "engines" | "browsers";
 
 export const srcDir = "src";
@@ -24,14 +24,18 @@ export const srcFiles: Record<SourceFile, File> = {
   },
 } as const;
 
-const CONFIG_FILES: Record<ConfigFile, File> = {
+const configFiles: Record<ConfigFile, File> = {
+  tsconfig: {
+    fileName: "tsconfig.json",
+    contents: fileContents.tsconfig,
+  },
   eslint: {
     fileName: ".eslintrc.cjs",
     contents: fileContents.eslintrc,
   },
-  tsconfig: {
-    fileName: "tsconfig.json",
-    contents: fileContents.tsconfig,
+  eslintignore: {
+    fileName: ".eslintignore",
+    contents: fileContents.eslintignore,
   },
   gitignore: {
     fileName: ".gitignore",
@@ -46,23 +50,20 @@ export class ProjectFilesBuilder {
     this.#projectPath = projectPath;
   }
 
-  public async config() {
-    await Promise.all(
-      Object.values(CONFIG_FILES).map((configFile) =>
-        this.#createFile(configFile)
-      )
-    );
+  public config(): void {
+    Object.values(configFiles).map((configFile) => {
+      this.#createFile(configFile);
+    });
   }
 
-  public async src() {
+  public async src(): Promise<void> {
     const srcPath = path.resolve(this.#projectPath, srcDir);
 
     try {
       fs.mkdirSync(srcPath);
-
-      await Promise.all(
-        Object.values(srcFiles).map((srcFile) => this.#createFile(srcFile))
-      );
+      Object.values(srcFiles).map((srcFile) => {
+        this.#createFile(srcFile);
+      });
 
       await execa("npx", ["prettier", "--write", `${srcDir}/*.ts`]);
     } catch {
@@ -70,7 +71,7 @@ export class ProjectFilesBuilder {
     }
   }
 
-  async #createFile({ fileName, contents }: File): Promise<void> {
+  #createFile({ fileName, contents }: File): void {
     const filePath = path.resolve(process.cwd(), fileName);
     try {
       fs.writeFileSync(filePath, contents);
@@ -86,11 +87,11 @@ class CreateError extends Error {
   }
 }
 
-export async function createProjectFiles(projectPath: string) {
+export async function createProjectFiles(projectPath: string): Promise<void> {
   const builder = new ProjectFilesBuilder(projectPath);
 
   try {
-    await builder.config();
+    builder.config();
   } catch {
     throw new CreateError("config");
   }

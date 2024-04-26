@@ -2,6 +2,50 @@ import { getPackageJson } from "../../helpers/project/get-package-json.js";
 
 const projectName = getPackageJson().name!;
 
+/* ~~~ SOURCE FILES ~~~ */
+
+const enginesConfig = `
+import { defineConfig } from "${projectName}/config";
+
+defineConfig(({ engine }) => ({
+  google: engine("google.com", {
+    search: "search?q=",
+  }),
+  github: engine("github.com", {
+    search: "search?q=",
+    resources: {
+      tabs: {
+        repos: "?tab=repositories",
+        stars: "?tab=stars",
+        projects: "?tab=projects",
+      },
+    },
+  }),
+  mdn: engine("developer.mozilla.org", {
+    name: "MDN",
+    search: "search?q=",
+  }),
+  npm: engine("npmjs.com", {
+    name: "npm",
+    search: "search?q=",
+  }),
+  youtube: engine("youtube.com", {
+    name: "YouTube",
+    search: "results?search_query=",
+  }),
+}));
+`;
+
+const browsersConfig = `
+import { defineConfig } from "${projectName}/config";
+
+defineConfig(({ browser }) => ({
+  chrome: browser("chrome"),
+}));
+`;
+
+/* ~~~ CONFIG FILES ~~~ */
+
 const tsconfig = `{
   "compilerOptions": {
     "target": "ES2015",
@@ -69,52 +113,14 @@ const eslintrc = `module.exports = {
 };
 `;
 
-const enginesConfig = `
-import { defineConfig } from "${projectName}/config";
-
-defineConfig(({ engine }) => ({
-  google: engine("google.com", {
-    search: "search?q=",
-  }),
-  github: engine("github.com", {
-    search: "search?q=",
-    resources: {
-      tabs: {
-        repos: "?tab=repositories",
-        stars: "?tab=stars",
-        projects: "?tab=projects",
-      },
-    },
-  }),
-  mdn: engine("developer.mozilla.org", {
-    name: "MDN",
-    search: "search?q=",
-  }),
-  npm: engine("npmjs.com", {
-    name: "npm",
-    search: "search?q=",
-  }),
-  youtube: engine("youtube.com", {
-    name: "YouTube",
-    search: "results?search_query=",
-  }),
-}));
-`;
-
-const browsersConfig = `
-import { defineConfig } from "${projectName}/config";
-
-defineConfig(({ browser }) => ({
-  chrome: browser("chrome"),
-}));
-`;
-
 const gitignore = `dist\nnode_modules`;
+const eslintignore = gitignore;
 
 export const fileContents = {
+  enginesConfig,
+  browsersConfig,
   tsconfig,
   eslintrc,
-  browsersConfig,
-  enginesConfig,
+  eslintignore,
   gitignore,
 };

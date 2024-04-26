@@ -5,7 +5,7 @@ import { openUrls } from "./open-urls.js";
 import { getUrls } from "./get-urls.js";
 import { printQuery } from "./print-query.js";
 
-export async function query(): Promise<void> {
+export function query(): void {
   const errors = validateArgs();
   if (errors.length > 0) {
     errors.forEach((message) => {
