@@ -7,8 +7,8 @@ import { readFile } from "../../helpers/utils/read-file.js";
 import { parseData } from "../../helpers/utils/parse-data.js";
 import { srcFiles } from "./create-project-files.js";
 
-const isDev = process.env.IS_DEV === "true" || false;
-const version = isDev ? "latest" : getPackageJson().version!;
+const isDev = process.env.NODE_ENV === "development" || false;
+const version = getPackageJson().version!;
 const projectName = getPackageJson().name!;
 
 export const initializeProject = {
@@ -19,10 +19,12 @@ export const initializeProject = {
   async npm() {
     await execa("npm", ["init", "-y"]);
 
-    const dependencies = [`${projectName}@${version}`];
+    const thisProject = `${projectName}@${version}`;
+    const dependencies = [thisProject];
+
     const devDependencies = [
       `typescript`,
-      `eslint@"<9.0.0"`,
+      `eslint@8`,
       `prettier`,
       `@typescript-eslint/eslint-plugin`,
       `@typescript-eslint/parser`,
@@ -32,8 +34,15 @@ export const initializeProject = {
       `eslint-plugin-prettier`,
     ];
 
-    await execa("npm", ["install", ...dependencies]);
-    await execa("npm", ["install", ...devDependencies, "--save-dev"]);
+    // do not install this project when in dev environment
+    await execa("npm", [
+      "install",
+      ...dependencies.filter(
+        (dependency) => !isDev || dependency !== thisProject
+      ),
+    ]);
+
+    await execa("npm", ["install", "--save-dev", ...devDependencies]);
 
     const configFile = path.resolve(process.cwd(), "package.json");
     const contents = readFile(configFile);
