@@ -33,6 +33,11 @@ const args = yargs(hideBin(process.argv))
     alias: alias.resource,
     description: "The engine's resource to access",
   })
+  .option(Options.Affix, {
+    type: types[Options.Affix],
+    alias: alias.affix,
+    description: "Affix to be added before the engine's resource",
+  })
   .option(Options.Port, {
     type: types[Options.Port],
     alias: alias.port,
@@ -69,6 +74,7 @@ const arrayArgs = {
   profile: orArray(args.profile),
   engine: orArray(args.engine),
   resource: orArray(args.resource),
+  prefix: orArray(args.prefix),
   port: orArray(args.port),
 };
 
