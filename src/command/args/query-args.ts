@@ -1,16 +1,16 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { configFlags } from "../../data/config-flags.js";
-import { getVersion } from "../../helpers/version/get-version.js";
+import { orArray } from "../../helpers/utils/or-arrray.js";
 import {
   QueryOptions as Options,
   queryAlias as alias,
   queryOptions as options,
   queryOptionTypes as types,
 } from "../options.js";
-import { orArray } from "../../helpers/utils/or-arrray.js";
 
-const version = getVersion();
+const version = getPackageJson().version!;
 
 const args = yargs(hideBin(process.argv))
   .option(Options.Browser, {
@@ -60,7 +60,7 @@ const args = yargs(hideBin(process.argv))
     description: "Update package to the most current version",
   })
   .help()
-  .version(version != null ? `Version ${version}` : "Could not get version")
+  .version(version)
   .boolean(configFlags.filter((flag) => !options.includes(flag)))
   .parseSync();
 

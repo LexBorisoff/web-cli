@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { execa } from "execa";
+import { printError } from "../../helpers/print/severity.js";
 import { fileContents } from "./file-contents.js";
 
 interface File {
@@ -11,14 +12,14 @@ interface File {
 type ConfigFile = "eslint" | "tsconfig" | "gitignore";
 type SourceFile = "engines" | "browsers";
 
-export const SRC_DIR = "src";
-export const SRC_FILES: Record<SourceFile, File> = {
+export const srcDir = "src";
+export const srcFiles: Record<SourceFile, File> = {
   engines: {
-    fileName: `${SRC_DIR}/engines.ts`,
+    fileName: `${srcDir}/engines.ts`,
     contents: fileContents.enginesConfig,
   },
   browsers: {
-    fileName: `${SRC_DIR}/browsers.ts`,
+    fileName: `${srcDir}/browsers.ts`,
     contents: fileContents.browsersConfig,
   },
 } as const;
@@ -54,25 +55,34 @@ export class ProjectFilesBuilder {
   }
 
   public async src() {
-    const srcPath = path.resolve(this.#projectPath, SRC_DIR);
-    fs.mkdirSync(srcPath);
+    const srcPath = path.resolve(this.#projectPath, srcDir);
 
-    await Promise.all(
-      Object.values(SRC_FILES).map((srcFile) => this.#createFile(srcFile))
-    );
+    try {
+      fs.mkdirSync(srcPath);
 
-    await execa("npx", ["prettier", "--write", `${SRC_DIR}/*.ts`]);
+      await Promise.all(
+        Object.values(srcFiles).map((srcFile) => this.#createFile(srcFile))
+      );
+
+      await execa("npx", ["prettier", "--write", `${srcDir}/*.ts`]);
+    } catch {
+      printError(`Could not create directory "${srcDir}"`);
+    }
   }
 
   async #createFile({ fileName, contents }: File): Promise<void> {
     const filePath = path.resolve(process.cwd(), fileName);
-    fs.writeFileSync(filePath, contents);
+    try {
+      fs.writeFileSync(filePath, contents);
+    } catch {
+      printError(`Could not write to file "${fileName}"`);
+    }
   }
 }
 
 class CreateError extends Error {
   constructor(fileType: string) {
-    super(`Could not create project ${fileType} CONFIG_FILES`);
+    super(`Could not create project ${fileType} files`);
   }
 }
 

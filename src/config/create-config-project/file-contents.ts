@@ -1,3 +1,7 @@
+import { getPackageJson } from "../../helpers/project/get-package-json.js";
+
+const projectName = getPackageJson().name!;
+
 const tsconfig = `{
   "compilerOptions": {
     "target": "ES2015",
@@ -66,7 +70,7 @@ const eslintrc = `module.exports = {
 `;
 
 const enginesConfig = `
-import { defineConfig } from "@lexjs/web-cli/define-config";
+import { defineConfig } from "${projectName}/config";
 
 defineConfig(({ engine }) => ({
   google: engine("google.com", {
@@ -98,16 +102,14 @@ defineConfig(({ engine }) => ({
 `;
 
 const browsersConfig = `
-import { defineConfig } from "@lexjs/web-cli/define-config";
+import { defineConfig } from "${projectName}/config";
 
 defineConfig(({ browser }) => ({
   chrome: browser("chrome"),
 }));
 `;
 
-const gitignore = `dist
-node_modules
-`;
+const gitignore = `dist\nnode_modules`;
 
 export const fileContents = {
   tsconfig,

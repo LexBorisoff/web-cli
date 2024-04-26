@@ -2,12 +2,14 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { execa } from "execa";
 import { PackageJson } from "type-fest";
-import { getVersion } from "../../helpers/version/get-version.js";
+import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { readFile } from "../../helpers/utils/read-file.js";
 import { parseData } from "../../helpers/utils/parse-data.js";
-import { SRC_FILES } from "./create-project-files.js";
+import { srcFiles } from "./create-project-files.js";
 
 const isDev = process.env.IS_DEV === "true" || false;
+const version = isDev ? "latest" : getPackageJson().version!;
+const projectName = getPackageJson().name!;
 
 export const initializeProject = {
   async git() {
@@ -17,10 +19,7 @@ export const initializeProject = {
   async npm() {
     await execa("npm", ["init", "-y"]);
 
-    const latest = "latest";
-    const version = isDev ? latest : getVersion() ?? latest;
-
-    const dependencies = [`@lexjs/web-cli@${version}`];
+    const dependencies = [`${projectName}@${version}`];
     const devDependencies = [
       `typescript`,
       `eslint@"<9.0.0"`,
@@ -43,8 +42,8 @@ export const initializeProject = {
     data.type = "module";
     data.scripts = {
       config: "npm run config:browsers && npm run config:engines",
-      "config:browsers": `npx tsx ${SRC_FILES.browsers.fileName}`,
-      "config:engines": `npx tsx ${SRC_FILES.engines.fileName}`,
+      "config:browsers": `npx tsx ${srcFiles.browsers.fileName}`,
+      "config:engines": `npx tsx ${srcFiles.engines.fileName}`,
     };
 
     const space = 2;
