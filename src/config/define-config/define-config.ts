@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import { getConfigData } from "../../data/get-config-data.js";
 import { getConfigDirPath } from "../../helpers/config/get-config-path.js";
-import { printError } from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 import {
   ConfigDataDto,
   ConfigMetaDto,
@@ -65,7 +65,7 @@ function updateConfig<Data extends ConfigDataDto>(
 
     writeConfigFile(updated);
   } catch {
-    printError("Could not write to config file");
+    logger.error("Could not write to config file");
   }
 }
 
@@ -87,7 +87,7 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
     try {
       fs.mkdirSync(configDir);
     } catch {
-      printError("Could not create config directory");
+      logger.error("Could not create config directory");
       return;
     }
   }

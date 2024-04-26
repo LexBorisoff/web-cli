@@ -1,11 +1,6 @@
 import * as path from "node:path";
 import "dotenv/config";
-import {
-  print,
-  printError,
-  printWarning,
-  severity,
-} from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 import { loading } from "../../helpers/utils/loading.js";
 import { prompts } from "../../helpers/utils/prompts.js";
 import { printInstructions } from "./print-instructions.js";
@@ -27,14 +22,14 @@ export async function createConfigProject() {
   const parentPath = process.cwd();
   const projectPath = path.resolve(parentPath, projectName);
 
-  print();
+  logger();
 
   try {
     createProjectDir(projectPath);
     process.chdir(projectPath);
   } catch (error) {
     if (error instanceof Error) {
-      printError(error.message);
+      logger.error(error.message);
     }
 
     return;
@@ -43,7 +38,7 @@ export async function createConfigProject() {
   try {
     await initializeProject.git();
   } catch (error) {
-    printWarning("Could not initialize a git repository\n");
+    logger.warning("Could not initialize a git repository\n");
   }
 
   try {
@@ -58,15 +53,15 @@ export async function createConfigProject() {
         await initializeProject.npm();
       },
       {
-        message: `⚡ Scaffolding ${severity.info(projectName)}`,
+        message: `⚡ Scaffolding ${logger.level.info(projectName)}`,
       }
     );
 
-    print(`🚀 Successfully created ${severity.success(projectName)}\n`);
+    logger(`🚀 Successfully created ${logger.level.success(projectName)}\n`);
     printInstructions(projectName);
   } catch (error) {
     if (error instanceof Error) {
-      printError(error.message);
+      logger.error(error.message);
     }
   }
 }

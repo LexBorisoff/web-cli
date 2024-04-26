@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import type { IsDefault, WithAlias } from "../../types/config.types.js";
 import { getBrowsersData } from "../../data/get-browsers-data.js";
-import { print, severity } from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import { ConfigAction } from "../get-config-action.js";
 
@@ -14,12 +14,12 @@ function printDataInfo<D extends WithAlias>(
   engine: D,
   { isDefault, extra }: PrintDataOptions = {}
 ) {
-  let info = severity.info(key);
+  let info = logger.level.info(key);
 
   if (engine.alias) {
     info += " | ";
     const aliases = Array.isArray(engine.alias) ? engine.alias : [engine.alias];
-    info += aliases.map((alias) => severity.info(alias)).join(" | ");
+    info += aliases.map((alias) => logger.level.info(alias)).join(" | ");
   }
 
   if (extra != null) {
@@ -30,7 +30,7 @@ function printDataInfo<D extends WithAlias>(
     info += chalk.gray(" (default)");
   }
 
-  print(info);
+  logger(info);
 }
 
 interface HandleDataOptions<T extends WithAlias & IsDefault> {
@@ -70,7 +70,7 @@ export const showConfigData = {
         profiles == null
           ? ""
           : ` [${Object.keys(profiles)
-              .map((profile) => severity.warning(profile))
+              .map((profile) => logger.level.warning(profile))
               .join(", ")}]`,
     });
   },
@@ -78,7 +78,7 @@ export const showConfigData = {
   [ConfigAction.Engines]() {
     const engines = getEnginesData();
     handleData(engines, {
-      extra: (engine) => ` > ${severity.success(engine.baseUrl)}`,
+      extra: (engine) => ` > ${logger.level.success(engine.baseUrl)}`,
     });
   },
 };

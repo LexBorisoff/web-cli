@@ -1,11 +1,10 @@
 import chalk from "chalk";
-import { print, severity } from "../helpers/print/severity.js";
-import { capitalize } from "../helpers/print/transform-text.js";
+import { logger } from "../helpers/utils/logger.js";
+import { capitalize } from "../helpers/utils/transform-text.js";
 import { BrowserProfileQuery } from "../types/query.types.js";
 import { queryArgs } from "../command/args/query-args.js";
 
 const { incognito } = queryArgs;
-const { info, success } = severity;
 
 export function printQuery(
   urls: string[],
@@ -13,7 +12,7 @@ export function printQuery(
 ): void {
   browserQueries.forEach((browserQuery) => {
     const { browser, profiles } = browserQuery;
-    let browserInfo = info(capitalize(browser));
+    let browserInfo = logger.level.info(capitalize(browser));
 
     if (profiles.length > 0) {
       browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
@@ -23,10 +22,10 @@ export function printQuery(
       browserInfo += chalk.gray(" [private tab]");
     }
 
-    print(browserInfo);
+    logger(browserInfo);
   });
 
   urls.forEach((url: string) => {
-    print(`> ${success(url)}`);
+    logger(`> ${logger.level.success(url)}`);
   });
 }

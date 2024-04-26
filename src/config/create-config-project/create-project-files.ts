@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { execa } from "execa";
-import { printError } from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 import { fileContents } from "./file-contents.js";
 
 interface File {
@@ -67,7 +67,7 @@ export class ProjectFilesBuilder {
 
       await execa("npx", ["prettier", "--write", `${srcDir}/*.ts`]);
     } catch {
-      printError(`Could not create directory "${srcDir}"`);
+      logger.error(`Could not create directory "${srcDir}"`);
     }
   }
 
@@ -76,7 +76,7 @@ export class ProjectFilesBuilder {
     try {
       fs.writeFileSync(filePath, contents);
     } catch {
-      printError(`Could not write to file "${fileName}"`);
+      logger.error(`Could not write to file "${fileName}"`);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { validateArgs } from "../command/args/validate-args.js";
-import { print } from "../helpers/print/severity.js";
+import { logger } from "../helpers/utils/logger.js";
 import { getQueryEngines } from "./get-query-engines.js";
 import { openUrls } from "./open-urls.js";
 import { getUrls } from "./get-urls.js";
@@ -9,7 +9,7 @@ export function query(): void {
   const errors = validateArgs();
   if (errors.length > 0) {
     errors.forEach((message) => {
-      print(message);
+      logger(message);
     });
     return;
   }

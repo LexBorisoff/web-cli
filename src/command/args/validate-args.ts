@@ -7,12 +7,11 @@ import {
   browserProfileFlags,
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
-import { severity } from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 import { getInvalidArgs } from "./get-invalid-args.js";
 import { getDataArgs } from "./get-data-args.js";
 import { queryArgs as args } from "./query-args.js";
 
-const { warning, error } = severity;
 const defaults = getDefaultsData();
 const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
@@ -35,12 +34,18 @@ export function validateArgs(): string[] {
 
   /* VALIDATE CLI ARGS */
   if (invalidArgs.length > 0) {
-    add(error(`Invalid options: ${warning(invalidArgs.join(", "))}`));
+    add(
+      logger.level.error(
+        `Invalid options: ${logger.level.warning(invalidArgs.join(", "))}`
+      )
+    );
   }
 
   /* VALIDATE ENGINE ARGS */
   if (isEmptyArg(engineArgs)) {
-    add(error(`${chalk.italic("--engine")} option must have a value`));
+    add(
+      logger.level.error(`${chalk.italic("--engine")} option must have a value`)
+    );
   }
 
   const invalidEngines = engineArgs.filter(
@@ -49,7 +54,11 @@ export function validateArgs(): string[] {
   );
 
   if (invalidEngines.length > 0) {
-    add(error(`Invalid search engines: ${warning(invalidEngines.join(" "))}`));
+    add(
+      logger.level.error(
+        `Invalid search engines: ${logger.level.warning(invalidEngines.join(" "))}`
+      )
+    );
   }
 
   /* VALIDATE RESOURCE ARGS */
@@ -59,12 +68,16 @@ export function validateArgs(): string[] {
       Array.isArray(resource) && resource.every((arg) => arg === "");
     const emptyArg = !Array.isArray(resource) && resource === "";
     if (emptyList || emptyArg) {
-      add(error(`${chalk.italic("--resource")} option must have a value`));
+      add(
+        logger.level.error(
+          `${chalk.italic("--resource")} option must have a value`
+        )
+      );
     }
 
     if (engineArgs.length === 0 && !withURLsOnly) {
       add(
-        error(
+        logger.level.error(
           `${chalk.italic(
             "--resource"
           )} option must be used with --engine or URL`
@@ -82,7 +95,11 @@ export function validateArgs(): string[] {
    */
   const emptyBrowserArg = isEmptyArg(browserArgs);
   if (emptyBrowserArg) {
-    add(error(`${chalk.italic("--browser")} option must have a value`));
+    add(
+      logger.level.error(
+        `${chalk.italic("--browser")} option must have a value`
+      )
+    );
   }
 
   /**
@@ -101,7 +118,11 @@ export function validateArgs(): string[] {
     );
 
     if (isEmptyArg(profileArgs)) {
-      add(error(`${chalk.italic("--profile")} option must have a value`));
+      add(
+        logger.level.error(
+          `${chalk.italic("--profile")} option must have a value`
+        )
+      );
     }
 
     let flags: { [browserName: string]: string[] } = {};
@@ -125,7 +146,11 @@ export function validateArgs(): string[] {
     );
 
     if (invalidProfiles.length > 0) {
-      add(error(`Invalid profiles: ${warning(invalidProfiles.join(" "))}`));
+      add(
+        logger.level.error(
+          `Invalid profiles: ${logger.level.warning(invalidProfiles.join(" "))}`
+        )
+      );
     }
   }
 
@@ -136,12 +161,14 @@ export function validateArgs(): string[] {
   /* VALIDATE PORT ARG */
   if ("port" in args) {
     if (args.port == null) {
-      add(error(`${chalk.italic("--port")} option must have a value`));
+      add(
+        logger.level.error(`${chalk.italic("--port")} option must have a value`)
+      );
     }
 
     if (engineArgs.length === 0 && !withURLsOnly)
       add(
-        error(
+        logger.level.error(
           `${chalk.italic("--port")} option must be used with --engine or URL`
         )
       );

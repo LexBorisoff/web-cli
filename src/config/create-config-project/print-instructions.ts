@@ -1,37 +1,39 @@
 import chalk from "chalk";
-import { print, severity } from "../../helpers/print/severity.js";
+import { logger } from "../../helpers/utils/logger.js";
 
 export function printInstructions(projectName: string) {
   const left = "  ";
 
-  print(
+  logger(
     left +
-      `${severity.warning("1.")} Open ${severity.info(projectName)} in your IDE, e.g.`
+      `${logger.level.warning("1.")} Open ${logger.level.info(
+        projectName
+      )} in your IDE, e.g.`
   );
-  print(left + chalk.gray(`$ cd ${projectName}`));
-  print(left + chalk.gray(`$ code .`));
-  print();
+  logger(left + chalk.gray(`$ cd ${projectName}`));
+  logger(left + chalk.gray(`$ code .`));
+  logger();
 
-  print(
+  logger(
     left +
-      `${severity.warning("2.")} Define config by editing ${severity.info(
+      `${logger.level.warning("2.")} Define config by editing ${logger.level.info(
         "engines.ts"
-      )} and ${severity.info("browsers.ts")}`
+      )} and ${logger.level.info("browsers.ts")}`
   );
 
-  print();
-  print(
+  logger();
+  logger(
     left +
-      `${severity.warning("3.")} Generate a ${severity.info(
+      `${logger.level.warning("3.")} Generate a ${logger.level.info(
         "JSON config file"
       )} (used by the CLI)`
   );
-  print(left + chalk.gray(`$ npm run config`));
+  logger(left + chalk.gray(`$ npm run config`));
 
-  print();
-  print(
+  logger();
+  logger(
     left +
-      `${severity.warning("4.")} Enjoy using the ${severity.info(
+      `${logger.level.warning("4.")} Enjoy using the ${logger.level.info(
         "web"
       )} command 😎`
   );
