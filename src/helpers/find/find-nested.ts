@@ -7,6 +7,9 @@ const isPrimitive = (value: unknown): value is string | number | boolean =>
   typeof value === "string" ||
   typeof value === "number";
 
+/**
+ * @param fallbackValue is used when a matched value is an object
+ */
 export function findNested<
   V extends boolean | string | number,
   T extends NestedObject<V> = NestedObject<V>,
@@ -21,11 +24,6 @@ export function findNested<
     if (key === lookupKey) {
       if (isPrimitive(value)) {
         return value;
-      }
-
-      const first = Object.values(value).at(0);
-      if (isPrimitive(first)) {
-        return first;
       }
 
       return fallbackValue;

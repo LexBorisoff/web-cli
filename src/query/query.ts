@@ -15,7 +15,7 @@ export function query(): void {
   }
 
   const engines = getQueryEngines();
-  const urls: string[] = engines.map((engine) => getUrls(engine)).flat();
+  const urls: string[] = engines.map(([, engine]) => getUrls(engine)).flat();
   const browserQueries = openUrls(urls);
 
   printQuery(urls, browserQueries);

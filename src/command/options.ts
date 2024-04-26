@@ -9,7 +9,6 @@ export enum QueryOptions {
   Profile = "profile",
   Engine = "engine",
   Resource = "resource",
-  Affix = "affix",
   Port = "port",
   Incognito = "incognito",
   Split = "split",
@@ -23,7 +22,6 @@ export const queryOptionTypes = {
   [QueryOptions.Profile]: "string" as const,
   [QueryOptions.Engine]: "string" as const,
   [QueryOptions.Resource]: "string" as const,
-  [QueryOptions.Affix]: "string" as const,
   [QueryOptions.Port]: "number" as const,
   [QueryOptions.Incognito]: "boolean" as const,
   [QueryOptions.Split]: "boolean" as const,
@@ -37,7 +35,6 @@ export const queryAlias: Alias<QueryOptions> = {
   profile: ["p"],
   engine: ["e"],
   resource: ["r"],
-  affix: ["a"],
   port: [":"],
   incognito: ["i"],
 };
