@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { matchers } from "@lexjs/browser-search/matchers";
-import { withURLsOnly } from "../with.js";
+import { withUrlsOnly } from "../with.js";
 import { getDefaultsData } from "../../data/get-defaults-data.js";
 import {
   configEngineFlags,
@@ -12,6 +12,7 @@ import { getInvalidArgs } from "./get-invalid-args.js";
 import { getDataArgs } from "./get-data-args.js";
 import { queryArgs as args } from "./query-args.js";
 
+const { resource, _: keywords } = args;
 const defaults = getDefaultsData();
 const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
@@ -62,7 +63,6 @@ export function validateArgs(): string[] {
   }
 
   /* VALIDATE RESOURCE ARGS */
-  const { resource } = args;
   if (resource != null) {
     const emptyList =
       Array.isArray(resource) && resource.every((arg) => arg === "");
@@ -75,7 +75,7 @@ export function validateArgs(): string[] {
       );
     }
 
-    if (engineArgs.length === 0 && !withURLsOnly) {
+    if (engineArgs.length === 0 && !withUrlsOnly(keywords)) {
       add(
         logger.level.error(
           `${chalk.italic(
@@ -166,7 +166,7 @@ export function validateArgs(): string[] {
       );
     }
 
-    if (engineArgs.length === 0 && !withURLsOnly)
+    if (engineArgs.length === 0 && !withUrlsOnly(keywords))
       add(
         logger.level.error(
           `${chalk.italic("--port")} option must be used with --engine or URL`

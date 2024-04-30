@@ -4,6 +4,7 @@ import {
   ResourceObject,
   SearchConfig,
 } from "@lexjs/browser-search";
+import { withUrlsOnly } from "../command/with.js";
 import { queryArgs } from "../command/args/query-args.js";
 import { findNested } from "../helpers/find/find-nested.js";
 
@@ -42,7 +43,7 @@ function handleResource(
     },
     {
       path(config = {}) {
-        const path = keywords.map((k) => `${k}`);
+        const path = withUrlsOnly(keywords) ? [] : keywords.map((k) => `${k}`);
         const foundResource = findResourceByValue(config);
 
         // Relates to the NOTE in the above callback

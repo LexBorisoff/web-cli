@@ -1,9 +1,7 @@
 import { matchers } from "@lexjs/browser-search/matchers";
 import { getDefaultsData } from "../data/get-defaults-data.js";
 import { getDataArgs } from "./args/get-data-args.js";
-import { queryArgs } from "./args/query-args.js";
 
-const { _: keywords } = queryArgs;
 const defaults = getDefaultsData();
 
 function withProfile(browserName: string): boolean {
@@ -13,8 +11,10 @@ function withProfile(browserName: string): boolean {
   );
 }
 
-const withURLsOnly =
-  keywords.length > 0 &&
-  keywords.every((keyword) => matchers.url.test(`${keyword}`));
+function withUrlsOnly(args: (string | number)[]): args is string[] {
+  return (
+    args.length > 0 && args.every((keyword) => matchers.url.test(`${keyword}`))
+  );
+}
 
-export { withProfile, withURLsOnly };
+export { withProfile, withUrlsOnly };
