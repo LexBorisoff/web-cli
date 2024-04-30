@@ -22,6 +22,10 @@ export function getQueryEngines(): QueryEngine[] {
     ]);
   }
 
+  if (keywords.length === 0) {
+    return [];
+  }
+
   return engineArgs.length === 0
     ? [
         [
