@@ -1,6 +1,6 @@
 import open from "open";
 import { queryArgs } from "../command/args/query-args.js";
-import { getProfiles } from "../helpers/browser/get-profiles.js";
+import { getQueryProfiles } from "../helpers/browser/get-query-profiles.js";
 import { BrowserProfileQuery } from "../types/query.types.js";
 import { getQueryBrowsers } from "./get-query-browsers.js";
 
@@ -23,13 +23,13 @@ export function openUrls(urls: string[]): BrowserProfileQuery[] {
 
   const queries = browsers.map<BrowserProfileQuery>(([browser]) => ({
     browser,
-    profiles: getProfiles(browser).map(([profile]) => profile),
+    profiles: getQueryProfiles(browser).map(([profile]) => profile),
   }));
 
   if (!peek) {
     Promise.all(
       browsers.map(([browserName, browser]) => {
-        const browserProfiles = getProfiles(browserName);
+        const browserProfiles = getQueryProfiles(browserName);
         browser.open(urls, {
           profile: browserProfiles.map(([, profile]) => profile.directory),
           incognito,

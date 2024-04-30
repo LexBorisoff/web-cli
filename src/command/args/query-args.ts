@@ -21,7 +21,7 @@ const args = yargs(hideBin(process.argv))
   .option(Options.Profile, {
     type: types[Options.Profile],
     alias: alias.profile,
-    description: "The user profile to open",
+    description: "The browser profile to open",
   })
   .option(Options.Engine, {
     type: types[Options.Engine],

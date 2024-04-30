@@ -10,7 +10,7 @@ const defaults = getDefaultsData();
  * Returns a list of tuples with profile's config key
  * and the Profile object for a provided browser name
  */
-export function getProfiles(browserName: string): [string, Profile][] {
+export function getQueryProfiles(browserName: string): [string, Profile][] {
   const profiles: [string, Profile][] = [];
 
   function handleProfile(profileNameOrAlias: string) {
