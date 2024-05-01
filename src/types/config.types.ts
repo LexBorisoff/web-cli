@@ -23,9 +23,7 @@ export interface ConfigEngineOptions<
   S extends SearchConfig = undefined,
   R extends ResourceConfig = undefined,
 > extends EngineConfig<S, R>,
-    BaseConfigOptions {
-  name?: string;
-}
+    BaseConfigOptions {}
 
 export interface ConfigEngine
   extends ConfigEngineOptions<SearchConfig, ResourceConfig> {
