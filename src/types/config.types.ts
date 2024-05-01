@@ -4,7 +4,7 @@ import type {
   EngineConfig,
   ResourceConfig,
   SearchConfig,
-} from "@lexjs/browser-search";
+} from "@lexjs/web-search";
 import type { OmitKey } from "./omit-key.type.js";
 
 export interface WithAlias {

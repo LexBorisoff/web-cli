@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { matchers } from "@lexjs/browser-search/matchers";
+import { matchers } from "@lexjs/web-search/matchers";
 import { withUrlsOnly } from "../with.js";
 import { getDefaultsData } from "../../data/get-defaults-data.js";
 import {

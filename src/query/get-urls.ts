@@ -3,7 +3,7 @@ import {
   ResourceConfig,
   ResourceObject,
   SearchConfig,
-} from "@lexjs/browser-search";
+} from "@lexjs/web-search";
 import { withUrlsOnly } from "../command/with.js";
 import { queryArgs } from "../command/args/query-args.js";
 import { findNested } from "../helpers/find/find-nested.js";

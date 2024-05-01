@@ -1,4 +1,4 @@
-import { Browser } from "@lexjs/browser-search";
+import { Browser } from "@lexjs/web-search";
 import type { QueryBrowser } from "../types/query.types.js";
 import { getDataArgs } from "../command/args/get-data-args.js";
 import { getDefaultsData } from "../data/get-defaults-data.js";

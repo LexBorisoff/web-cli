@@ -1,4 +1,4 @@
-import { Browser, Engine } from "@lexjs/browser-search";
+import { Browser, Engine } from "@lexjs/web-search";
 
 export interface BrowserProfileQuery {
   browser: string;

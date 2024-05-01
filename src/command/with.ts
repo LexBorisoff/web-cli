@@ -1,4 +1,4 @@
-import { matchers } from "@lexjs/browser-search/matchers";
+import { matchers } from "@lexjs/web-search/matchers";
 import { getDefaultsData } from "../data/get-defaults-data.js";
 import { getDataArgs } from "./args/get-data-args.js";
 

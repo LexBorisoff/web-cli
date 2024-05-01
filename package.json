@@ -47,7 +47,7 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@lexjs/browser-search": "^0.0.4",
+    "@lexjs/web-search": "^0.0.1-beta.3",
     "chalk": "^5.3.0",
     "dotenv": "^16.4.5",
     "execa": "^8.0.1",
