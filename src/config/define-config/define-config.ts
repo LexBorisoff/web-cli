@@ -48,24 +48,31 @@ function updateMeta(): ConfigMetaDto {
   return meta;
 }
 
+interface ClearConfigProps {
+  clear?: {
+    engines?: boolean;
+    browsers?: boolean;
+  };
+}
 type UpdateConfigProps<Data extends ConfigDataDto | ConfigDataJson> = Partial<
   OmitKey<Data, "meta">
->;
+> &
+  ClearConfigProps;
 
-function updateConfig<Data extends ConfigDataDto>(
-  data: UpdateConfigProps<Data>
-) {
-  const { engines, browsers } = getConfigData();
+function updateConfig<Data extends ConfigDataDto>({
+  engines,
+  browsers,
+  clear,
+}: UpdateConfigProps<Data>) {
+  const config = getConfigData();
 
   try {
     const updated = {
       engines: {
-        ...engines,
-        ...data.engines,
+        ...(clear?.engines ? {} : { ...config.engines, ...engines }),
       },
       browsers: {
-        ...browsers,
-        ...data.browsers,
+        ...(clear?.browsers ? {} : { ...config.browsers, ...browsers }),
       },
       meta: updateMeta(),
     };
@@ -133,9 +140,9 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
 };
 
 export const clearEngines: ClearEnginesFn = function clearEngines() {
-  updateConfig({ engines: {} });
+  updateConfig({ clear: { engines: true } });
 };
 
 export const clearBrowsers: ClearBrowsersFn = function clearBrowsers() {
-  updateConfig({ browsers: {} });
+  updateConfig({ clear: { browsers: true } });
 };

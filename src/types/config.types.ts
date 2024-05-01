@@ -61,18 +61,18 @@ export interface ConfigBrowser extends ConfigBrowserOptions {
 
 /* ~~~ DEFINE CONFIG ~~~ */
 
-export type CreatedEngine = ConfigEngine & { __engine: true };
-export type CreatedBrowser = ConfigBrowser & { __browser: true };
+export type DefinedEngine = ConfigEngine & { __engine: true };
+export type DefinedBrowser = ConfigBrowser & { __browser: true };
 
 export type CreateEngineFn = (
   baseUrl: string,
   config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
-) => CreatedEngine;
+) => DefinedEngine;
 
 export type CreateBrowserFn = (
   name: NonNullable<BrowserName>,
   config?: ConfigBrowserOptions
-) => CreatedBrowser;
+) => DefinedBrowser;
 
 export type ClearEnginesFn = () => void;
 export type ClearBrowsersFn = () => void;
@@ -84,7 +84,7 @@ export interface DefineConfigProps {
 
 export type DefineConfigCallback = (
   props: DefineConfigProps
-) => Record<string, CreatedEngine | CreatedBrowser>;
+) => Record<string, DefinedEngine | DefinedBrowser>;
 
 export type DefineConfigFn = (callback: DefineConfigCallback) => void;
 
