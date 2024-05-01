@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "rm -fr ./bin",
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "prepublishOnly": "npm run build"
   },
   "author": "Lex Borisoff <lex@borisoff.dev>",
