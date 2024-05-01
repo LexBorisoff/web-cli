@@ -11,6 +11,12 @@ defineConfig(({ engine }) => ({
   google: engine("google.com", {
     search: "search?q=",
   }),
+  duck: {
+    baseUrl: "duckduckgo.com",
+    search: "?q=",
+    delimiter: "+",
+    alias: ["duckduckgo"],
+  },
   github: engine("github.com", {
     search: "search?q=",
     resources: {
@@ -22,15 +28,12 @@ defineConfig(({ engine }) => ({
     },
   }),
   mdn: engine("developer.mozilla.org", {
-    name: "MDN",
     search: "search?q=",
   }),
   npm: engine("npmjs.com", {
-    name: "npm",
     search: "search?q=",
   }),
   youtube: engine("youtube.com", {
-    name: "YouTube",
     search: "results?search_query=",
   }),
 }));
