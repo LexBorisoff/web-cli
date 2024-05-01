@@ -15,9 +15,12 @@ export function getQueryProfiles(browserName: string): [string, Profile][] {
 
   function handleProfile(profileNameOrAlias: string) {
     const found = findProfile(browserName, profileNameOrAlias);
-    if (found != null) {
-      profiles.push(found);
-    }
+
+    profiles.push(
+      found != null
+        ? found
+        : [profileNameOrAlias, { directory: profileNameOrAlias }]
+    );
   }
 
   if (withProfile(browserName)) {

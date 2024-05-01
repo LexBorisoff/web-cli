@@ -18,6 +18,10 @@ const invalidArgs = getInvalidArgs();
 const engineArgs = getDataArgs.engine(false);
 const browserArgs = getDataArgs.browser(false);
 
+const validate = {
+  profiles: false,
+};
+
 function isEmptyArg(list: string[]): boolean {
   return list.length === 1 && list[0] === "";
 }
@@ -29,22 +33,22 @@ function isEmptyArg(list: string[]): boolean {
 export function validateArgs(): string[] {
   const errorMessages: string[] = [];
 
-  function add(message: string) {
+  function addMessage(message: string) {
     errorMessages.push(message);
   }
 
-  /* VALIDATE CLI ARGS */
+  /* ~~~ VALIDATE CLI ARGS ~~~ */
   if (invalidArgs.length > 0) {
-    add(
+    addMessage(
       logger.level.error(
         `Invalid options: ${logger.level.warning(invalidArgs.join(", "))}`
       )
     );
   }
 
-  /* VALIDATE ENGINE ARGS */
+  /* ~~~ VALIDATE ENGINE ARGS ~~~  */
   if (isEmptyArg(engineArgs)) {
-    add(
+    addMessage(
       logger.level.error(`${chalk.italic("--engine")} option must have a value`)
     );
   }
@@ -55,20 +59,20 @@ export function validateArgs(): string[] {
   );
 
   if (invalidEngines.length > 0) {
-    add(
+    addMessage(
       logger.level.error(
         `Invalid search engines: ${logger.level.warning(invalidEngines.join(" "))}`
       )
     );
   }
 
-  /* VALIDATE RESOURCE ARGS */
+  /* ~~~ VALIDATE RESOURCE ARGS ~~~ */
   if (resource != null) {
     const emptyList =
       Array.isArray(resource) && resource.every((arg) => arg === "");
     const emptyArg = !Array.isArray(resource) && resource === "";
     if (emptyList || emptyArg) {
-      add(
+      addMessage(
         logger.level.error(
           `${chalk.italic("--resource")} option must have a value`
         )
@@ -76,7 +80,7 @@ export function validateArgs(): string[] {
     }
 
     if (engineArgs.length === 0 && !withUrlsOnly(keywords)) {
-      add(
+      addMessage(
         logger.level.error(
           `${chalk.italic(
             "--resource"
@@ -87,7 +91,7 @@ export function validateArgs(): string[] {
   }
 
   /**
-   * VALIDATE BROWSER ARGS
+   * ~~~ VALIDATE BROWSER ARGS ~~~
    *
    * Only an empty browser option should is checked.
    * A browser value that does not exist in the config should still be valid
@@ -95,7 +99,7 @@ export function validateArgs(): string[] {
    */
   const emptyBrowserArg = isEmptyArg(browserArgs);
   if (emptyBrowserArg) {
-    add(
+    addMessage(
       logger.level.error(
         `${chalk.italic("--browser")} option must have a value`
       )
@@ -103,7 +107,7 @@ export function validateArgs(): string[] {
   }
 
   /**
-   * VALIDATE PROFILE ARGS
+   * ~~~ VALIDATE PROFILE ARGS ~~~
    *
    * @param browser
    * * If a single string is provided - profile args are checked against
@@ -118,7 +122,7 @@ export function validateArgs(): string[] {
     );
 
     if (isEmptyArg(profileArgs)) {
-      add(
+      addMessage(
         logger.level.error(
           `${chalk.italic("--profile")} option must have a value`
         )
@@ -146,7 +150,7 @@ export function validateArgs(): string[] {
     );
 
     if (invalidProfiles.length > 0) {
-      add(
+      addMessage(
         logger.level.error(
           `Invalid profiles: ${logger.level.warning(invalidProfiles.join(" "))}`
         )
@@ -154,20 +158,22 @@ export function validateArgs(): string[] {
     }
   }
 
-  validateProfileArgs(
-    browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
-  );
+  if (validate.profiles) {
+    validateProfileArgs(
+      browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
+    );
+  }
 
-  /* VALIDATE PORT ARG */
+  /* ~~~ VALIDATE PORT ARG ~~~ */
   if ("port" in args) {
     if (args.port == null) {
-      add(
+      addMessage(
         logger.level.error(`${chalk.italic("--port")} option must have a value`)
       );
     }
 
     if (engineArgs.length === 0 && !withUrlsOnly(keywords))
-      add(
+      addMessage(
         logger.level.error(
           `${chalk.italic("--port")} option must be used with --engine or URL`
         )
