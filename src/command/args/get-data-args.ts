@@ -1,0 +1,126 @@
+import { queryOptions } from "../options.js";
+import type { WithAlias } from "../../types/config.types.js";
+import { getBrowsersData } from "../../data/get-browsers-data.js";
+import { getEnginesData } from "../../data/get-engines-data.js";
+import { getProfilesData } from "../../data/get-profiles-data.js";
+import { configProfileFlags } from "../../data/config-flags.js";
+import { combineArgLists } from "./combine-arg-lists.js";
+import { queryArgs as args } from "./query-args.js";
+
+const browsersData = getBrowsersData();
+const enginesData = getEnginesData();
+
+interface Data<T> {
+  [key: string]: T;
+}
+
+/**
+ * Returns a unique list of non-nullable args
+ */
+function getUniqueList<Arg>(
+  optionArg: Arg | NonNullable<Arg>[] | undefined,
+  customArgs: Arg[],
+  removeEmptyArg: boolean
+): NonNullable<Arg>[] {
+  const list = combineArgLists(optionArg, customArgs);
+  const uniqueList = [...new Set(list)].filter(
+    (arg): arg is NonNullable<Arg> => arg != null
+  );
+  return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
+}
+
+/**
+ * Returns a list of arg options supplied to the CLI that are
+ * specific to config data and do not match standard args
+ */
+function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
+  const customFlags = Object.keys(args).filter(
+    (key) => !queryOptions.includes(key)
+  );
+  return Object.entries(data)
+    .map(([key, { alias }]) => {
+      if (alias != null) {
+        return Array.isArray(alias) ? [key, ...alias] : [key, alias];
+      }
+      return key;
+    })
+    .flat()
+    .filter((nameOrAlias) => customFlags.includes(nameOrAlias));
+}
+
+export const getDataArgs = {
+  /**
+   * Returns a unique list of browser args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  browser: function getBrowserArgs(removeEmptyArg = true): string[] {
+    const customArgs = getCustomArgs(browsersData);
+    return getUniqueList(args.browser, customArgs, removeEmptyArg);
+  },
+
+  /**
+   * Returns a unique list of profile args provided to the CLI.
+   *
+   * @param browserName
+   * If value is provided, returns profile args for that browser name,
+   * otherwise returns all profile args supplied to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes an empty arg value from the list
+   */
+  profile: function getProfileArgs(
+    browserName?: string | null,
+    removeEmptyArg = true
+  ): string[] {
+    const { profile } = args;
+
+    if (browserName == null) {
+      const list: string[] = [];
+
+      // push option arg values (--profile <name>) to the list
+      if (profile != null) {
+        list.push(...(Array.isArray(profile) ? profile : [profile]));
+      }
+
+      // push custom args (--profileName) to the list
+      Object.keys(browsersData).forEach((arg) => {
+        const profilesData = getProfilesData(arg);
+        const customArgs = getCustomArgs(profilesData);
+
+        // filter out short aliases
+        const profileArgs = customArgs.filter((profileArg) =>
+          configProfileFlags.includes(profileArg)
+        );
+
+        list.push(...profileArgs);
+      });
+
+      return [
+        ...new Set(removeEmptyArg ? list.filter((arg) => arg !== "") : list),
+      ];
+    }
+
+    const profilesData = getProfilesData(browserName);
+    const customArgs = getCustomArgs(profilesData);
+
+    // filter out short aliases
+    const profileArgs = customArgs.filter((profileArg) =>
+      configProfileFlags.includes(profileArg)
+    );
+
+    return getUniqueList(profile, profileArgs, removeEmptyArg);
+  },
+
+  /**
+   * Returns a unique list of engine args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  engine: function getEngineArgs(removeEmptyArg = true): string[] {
+    const customArgs = getCustomArgs(enginesData);
+    return getUniqueList(args.engine, customArgs, removeEmptyArg);
+  },
+};
