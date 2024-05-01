@@ -55,11 +55,18 @@ type UpdateConfigProps<Data extends ConfigDataDto | ConfigDataJson> = Partial<
 function updateConfig<Data extends ConfigDataDto>(
   data: UpdateConfigProps<Data>
 ) {
-  const configData = getConfigData();
+  const { engines, browsers } = getConfigData();
+
   try {
     const updated = {
-      ...configData,
-      ...data,
+      engines: {
+        ...engines,
+        ...data.engines,
+      },
+      browsers: {
+        ...browsers,
+        ...data.browsers,
+      },
       meta: updateMeta(),
     };
 
