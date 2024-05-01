@@ -1,0 +1,31 @@
+import chalk from "chalk";
+import { logger } from "../helpers/utils/logger.js";
+import { capitalize } from "../helpers/utils/transform-text.js";
+import { BrowserProfileQuery } from "../types/query.types.js";
+import { queryArgs } from "../command/args/query-args.js";
+
+const { incognito } = queryArgs;
+
+export function printQuery(
+  urls: string[],
+  browserQueries: BrowserProfileQuery[]
+): void {
+  browserQueries.forEach((browserQuery) => {
+    const { browser, profiles } = browserQuery;
+    let browserInfo = logger.level.info(capitalize(browser));
+
+    if (profiles.length > 0) {
+      browserInfo += ` (${chalk.gray(profiles.join(", "))})`;
+    }
+
+    if (incognito) {
+      browserInfo += chalk.gray(" [private tab]");
+    }
+
+    logger(browserInfo);
+  });
+
+  urls.forEach((url: string) => {
+    logger(`> ${logger.level.success(url)}`);
+  });
+}
