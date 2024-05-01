@@ -55,9 +55,7 @@ export interface ConfigBrowserOptions
   profiles?: ConfigProfiles;
 }
 
-export interface ConfigBrowser extends ConfigBrowserOptions {
-  name: NonNullable<BrowserName>;
-}
+export interface ConfigBrowser extends ConfigBrowserOptions {}
 
 /* ~~~ DEFINE CONFIG ~~~ */
 
@@ -68,11 +66,7 @@ export type CreateEngineFn = (
   baseUrl: string,
   config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
 ) => DefinedEngine;
-
-export type CreateBrowserFn = (
-  name: NonNullable<BrowserName>,
-  config?: ConfigBrowserOptions
-) => DefinedBrowser;
+export type CreateBrowserFn = (config?: ConfigBrowserOptions) => DefinedBrowser;
 
 export type ClearEnginesFn = () => void;
 export type ClearBrowsersFn = () => void;

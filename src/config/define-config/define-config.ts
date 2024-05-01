@@ -89,9 +89,8 @@ const engine: CreateEngineFn = (baseUrl, config = {}) => ({
   ...config,
 });
 
-const browser: CreateBrowserFn = (name, config = {}) => ({
+const browser: CreateBrowserFn = (config = {}) => ({
   __browser: true,
-  name,
   ...config,
 });
 
