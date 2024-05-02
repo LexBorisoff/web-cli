@@ -3,31 +3,31 @@
 CLI for making web search queries from a shell.
 
 - [Installation](#installation)
-- [Usage](#basic-usage)
-  - [Keywords](#basic-usage-keywords)
-  - [URLs](#basic-usage-urls)
+- [Usage](#usage)
+  - [Keywords](#keywords)
+  - [URLs](#urls)
 - [Options](#options)
-  - [Usage](#options-usage)
+  - [Usage](#usage)
   - [Value options](#value-options)
   - [Flag options](#flag-options)
-  - [Placement](#options-placement)
+  - [Placement](#placement)
 - [Built-in Options](#built-in-options)
-  - [`browser`](#option-browser)
-  - [`profile`](#option-profile)
-  - [`engine`](#option-engine)
-  - [`query`](#option-query)
-  - [`resource`](#option-resource)
-  - [`port`](#option-port)
-  - [`incognito`](#option-incognito)
-  - [`split`](#option-split)
-  - [`http`](#option-http)
-  - [`peek`](#option-peek)
-- [Configuration](#configuration-setup)
-  - [Browsers](#browsers-configuration)
-  - [Engines](#engines-configuration)
+  - [`browser`](#browser)
+  - [`profile`](#profile)
+  - [`engine`](#engine)
+  - [`query`](#query)
+  - [`resource`](#--resource--r)
+  - [`port`](#--port--:)
+  - [`incognito`](#--incognito--i)
+  - [`split`](#--split)
+  - [`http`](#--http)
+  - [`peek`](#--peek)
+- [Configuration](#configuration)
+  - [Browsers](#browsers)
+  - [Engines](#engines)
 - [Custom Flags](#custom-flags)
 
-# Installation <a name="installation"></a>
+# Installation
 
 Install the package globally:
 
@@ -35,7 +35,7 @@ Install the package globally:
 
 After installing, the `web` command is ready for use without any setup.
 
-```
+```bash
 web hello world
 ```
 
@@ -49,7 +49,7 @@ To get help with command options, use the `--help` option:
 
 <pre><code>web <em>--help</em></code></pre>
 
-# Usage <a name="basic-usage"></a>
+# Usage
 
 To perform basic web queries, provide **_space-separated values_**
 
@@ -62,11 +62,11 @@ There are 2 types of values:
 1. Keywords
 2. URLs
 
-## Keywords <a name="basic-usage-keywords"></a>
+## Keywords
 
 When providing keywords, only 1 web query is created using the values as a search term:
 
-```
+```bash
 web hello world
 ```
 
@@ -79,7 +79,7 @@ In the absence of [_options_](#options), the CLI uses the **_default search engi
 
 You can change these defaults and add new engines and browsers by setting up and running a [_config project_](#configuration-setup).
 
-### _Initial search engines_ <a name="initial-search-engines"></a>
+### _Initial search engines_
 
 | Search Engine |    Option Value     |
 | ------------- | :-----------------: |
@@ -89,13 +89,13 @@ You can change these defaults and add new engines and browsers by setting up and
 | YouTube       |      `youtube`      |
 | NPM           |        `npm`        |
 
-The option value can be either supplied to the [`engine`](#option-engine) option or used as a [_custom flag_](#custom-flags).
+The option value can be either supplied to the [`engine`](#engine) option or used as a [_custom flag_](#custom-flags).
 
-## URLs <a name="basic-usage-urls"></a>
+## URLs
 
 When providing a URL as a value, the default behavior is to access that URL directly:
 
-```
+```bash
 web github.com
 ```
 
@@ -103,7 +103,7 @@ web github.com
 
 If multiple URLs are provided, each URL creates a separate web query:
 
-```
+```bash
 web github.com npmjs.com developer.mozilla.org
 ```
 
@@ -115,17 +115,17 @@ web github.com npmjs.com developer.mozilla.org
 
 If both keywords and URLs are provided, then all values are treated as search term keywords:
 
-```
+```bash
 web most starred repos on github.com
 ```
 
 &gt; `https://google.com/search?q=most%20starred%20repos%20on%20github.com`
 
-# Options <a name="options"></a>
+# Options
 
 Options give you control over web queries by overriding the CLI's defaults.
 
-## Usage <a name="options-usage"></a>
+## Usage
 
 To use an option in the command, prefix it with a double dash `--`
 
@@ -154,38 +154,38 @@ which is equivalent to:
 > **_Caution!_**  
 > Combining 1-letter aliases of multiple [_value options_](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [_flag options_](#flag-options), which can be built-in or custom. If you want to add a 1-letter value option, it must be placed at the very end of the combination. If the value option is placed in the middle, the value will not get assigned to it.
 
-## Value options <a name="value-options"></a>
+## Value options
 
 The following are built-in options that require a value:
 
-| Option                         |          Alias          | Description                            |
-| ------------------------------ | :---------------------: | -------------------------------------- |
-| [`browser`](#option-browser)   | [`b`](#option-browser)  | _Browser app to open_                  |
-| [`profile`](#option-profile)   | [`p`](#option-profile)  | _Browser profile to use_               |
-| [`engine`](#option-engine)     |  [`e`](#option-engine)  | _Search engine (or website) to query_  |
-| [`query`](#option-query)       |  [`q`](#option-query)   | _Engine's query to use for searchhing_ |
-| [`resource`](#option-resource) | [`r`](#option-resource) | _Engine's resource to access_          |
-| [`port`](#option-port)         |   [`:`](#option-port)   | _Port number to add to the URL_        |
+| Option                       |         Alias         | Description                            |
+| ---------------------------- | :-------------------: | -------------------------------------- |
+| [`browser`](#browser)        |    [`b`](#browser)    | _Browser app to open_                  |
+| [`profile`](#profile)        |    [`p`](#profile)    | _Browser profile to use_               |
+| [`engine`](#engine)          |    [`e`](#engine)     | _Search engine (or website) to query_  |
+| [`query`](#query)            |     [`q`](#query)     | _Engine's query to use for searchhing_ |
+| [`resource`](#--resource--r) | [`r`](#--resource--r) | _Engine's resource to access_          |
+| [`port`](#--port--:)         |   [`:`](#--port--:)   | _Port number to add to the URL_        |
 
 All value options work without any initial configuration but each option's usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
-## Flag options <a name="flag-options"></a>
+## Flag options
 
 Options that do not require a value are called **_flags_**. The following are built-in flag options:
 
-| Option                           |          Alias           | Description                                       |
-| -------------------------------- | :----------------------: | ------------------------------------------------- |
-| [`incognito`](#option-incognito) | [`i`](#option-incognito) | _Open in incognito / private mode_                |
-| [`split`](#option-split)         |            ❌            | _Split values into separate web queries_          |
-| [`http`](#option-http)           |            ❌            | _Use the HTTP (non-secure) protocol_              |
-| [`peek`](#option-peek)           |            ❌            | _Display the output without opening browser tabs_ |
+| Option                         |         Alias          | Description                                       |
+| ------------------------------ | :--------------------: | ------------------------------------------------- |
+| [`incognito`](#--incognito--i) | [`i`](#--incognito--i) | _Open in incognito / private mode_                |
+| [`split`](#--split)            |           ❌           | _Split values into separate web queries_          |
+| [`http`](#--http)              |           ❌           | _Use the HTTP (non-secure) protocol_              |
+| [`peek`](#--peek)              |           ❌           | _Display the output without opening browser tabs_ |
 
 > **_Caveat!_**  
 > Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to **_"true"_** but the option will still accept a boolean value that's placed after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign **_"true"_** or **_"false"_** to a flag if you do not intend it. Doing so will result in your web query missing the keyword **_"true"_** or **_"false"_** from the search term.
 
 With browsers and engines configuration set up, you can also use [_custom flags_](#custom-flags) which are created from the keys and aliases of _browsers_, _browser profiles_, and _engines_ from the generated config file. Custom flags simplify your web queries by being a convenient substitute for value options.
 
-## Placement <a name="options-placement"></a>
+## Placement
 
 Options can be placed anywhere in the command
 
@@ -204,23 +204,30 @@ The above command will do the following:
 - open the constructed query in a new **_Firefox_** tab (`--browser=firefox`)
 - in **_incognito / private mode_** (`--incognito`)
 
-# Built-in Options <a name="built-in-options"></a>
+# Built-in Options
 
-## `--browser`&nbsp;&nbsp;`-b` <a name="option-browser"></a>
+## `browser`
 
 Specifies the browser app to open.
 
 ✅ Requires a value.  
 ⚙️ Allows configuration.
 
-### **_Usage_**
+### _Options_
+
+`--browser` `-b`
+
+### _Usage_
 
 <pre><code>web <em>--browser=value</em></code></pre>
 
 `value` is one of the following:
 
-- a browser app name, e.g. `chrome`, `firefox`, `brave`, `edge`, etc.
-- a browser's key or alias in the config, like `chrome`, `firefox`, `c`, `f`, or `ff` here:
+- #### _Browser app name, e.g. `chrome`, `firefox`, `brave`, `edge`, etc._
+
+<pre><code>web <em>--browser=chrome</em></code></pre>
+
+- #### _Browser key or alias in the config, like `chrome`, `firefox`, `c`, `f`, or `ff`:_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -235,6 +242,8 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
+<pre><code>web <em>--browser=ff</em></code></pre>
+
 > **_Note!_**  
 > The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
 
@@ -244,14 +253,14 @@ You can specify multiple browsers:
 
 <pre><code>web <em>--browser=value</em> <em>--browser=value</em> ...</code></pre>
 
-### **_Configuration_**
+### _Configuration_
 
 Setting up [_browsers configuration_](#browsers-configuration) allows using
 
 - browser aliases as the option's value
 - browser keys and aliases as custom flags
 
-## `--profile`&nbsp;&nbsp;`-p` <a name="option-profile"></a>
+## `profile`
 
 Specifies what browser profile to use when opening a new browser tab.
 
@@ -260,7 +269,11 @@ Specifies what browser profile to use when opening a new browser tab.
 
 The option works only if the browser application supports profiles functionality. Otherwise, it will have no effect on the opened web query.
 
-### **_Usage_**
+### _Options_
+
+`--profile` `-p`
+
+### _Usage_
 
 This option depends on the `browser` option or generated config.
 
@@ -271,11 +284,11 @@ This option depends on the `browser` option or generated config.
 
 `value` is one of the following:
 
-- a profile directory name, e.g.:
+- #### _Profile directory name, e.g._
 
 <pre><code>web <em>--profile="Profile 1"</em></code></pre>
 
-> For this scenario to work, make sure that you either provide the `--browser` option or create config, like here:
+> For this scenario to work, make sure that you either provide the `--browser` option or create config, for example:
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -285,7 +298,7 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-- a property key in the `profiles` object of the browser config, like `dev` or `personal`:
+- #### _Property key in the `profiles` object of the browser config, like `dev` or `personal`:_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -300,7 +313,9 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-- a value of a profile's `alias` property, like `d`, `main`, `p`, or `second`:
+<pre><code>web <em>--profile=personal</em></code></pre>
+
+- #### _Value of a profile's `alias` property, like `d`, `main`, `p`, or `second`:_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -321,33 +336,57 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
+<pre><code>web <em>--profile=p</em></code></pre>
+
 #### **_Multiple profiles_**
 
 You can specify multiple profiles:
 
 <pre><code>web <em>--profile=value</em> <em>--profile=value</em> ...</code></pre>
 
-### **_Configuration_**
+### _Configuration_
 
 Setting up [_browsers configuration_](#browsers-configuration) allows using
 
 - profile keys and aliases as the option's value
 - profile keys as custom flags
 
-## `--engine`&nbsp;&nbsp;`-e` <a name="option-engine"></a>
+## `engine`
 
 Specifies what search engine or website to query.
 
 ✅ Requires a value.  
 ⚙️ Allows configuration.
 
-### **_Usage_**
+### _Options_
+
+`--engine` `-e`
+
+### _Usage_
 
 <pre><code>web <em>--engine=value</em></code></pre>
 
-`value` refers to the engine's key or alias in the **_engines_** config or a URL.
+`value` is one of the following:
 
-For example:
+- #### _Engine key or alias in the config, like `google`, `npm`, `duck`, or `duckduckgo`:_
+
+```typescript
+import { defineConfig } from "@lexjs/web-cli/config";
+
+defineConfig(({ engine }) => ({
+  google: engine("google.com", {
+    search: "search?q=",
+  }),
+  npm: engine("npmjs.com", {
+    search: "search?q=",
+  }),
+  duck: engine("duckduckgo.com", {
+    search: "?q=",
+    delimiter: "+",
+    alias: ["duckduckgo"],
+  }),
+}));
+```
 
 <pre><code>web @lexjs/web-cli <em>--engine=npm</em></code></pre>
 
@@ -359,39 +398,50 @@ When supplying URL values to the command, this option overrides the default beha
 
 &gt; `https://google.com/search?q=github.com`
 
-The option also accepts an arbitrary URL value:
+- #### _An arbitrary URL string like `google.com/search?q=` or `example.com`_
 
 <pre><code>web @lexjs/web-cli <em>--engine=npmjs.com/search?q=</em></code></pre>
 
 &gt; `https://npmjs.com/search?q=@lexjs/web-cli`
 
-> **_Note!_**  
 > Non-URL values are not allowed.
 
-When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options with it, such as `--resource`, `--split`, or `--http`.
+When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options such as `--query`, `--resource`, `--port`, `--split`, or `--http`.
 
-Also note that since a URL value is a simple string and not an object that could better define an engine (for example, by having a `query` property), the program will simply append it with whatever command values are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`):
+Note that since a URL value is a basic string, the CLI will simply append it with whatever keywords are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`), e.g.
 
 <pre><code>web hello world <em>--engine=example.com</em></code></pre>
 
 &gt; `https://example.com/hello%20world`
 
-### **_Configuration_**
+### _Configuration_
 
 To define more engines and websites than the app defaults, add them to [_engines configuration_](#engines-configuration).
 
-## `--query`&nbsp;&nbsp;`-q` <a name="option-query"></a>
+## `query`
 
 TODO
 
-## `--resource`&nbsp;&nbsp;`-r` <a name="option-resource"></a>
+### _Options_
+
+`--query` `-q`
+
+### _What is a query_
+
+In the context of Web CLI, a query is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords.
+
+## `resource`
 
 Overrides the default behavior of _querying_ a search engine by specifying the engine's route to access directly.
 
 ✅ Requires a value.  
 ⭕ Configuration is optional.
 
-### **_Usage_**
+### _Options_
+
+`--resource` `-r`
+
+### _Usage_
 
 The option must be used together with the `engine` option. If the engine is NOT supplied, the validation will fail and the web query will not be performed.
 
@@ -419,7 +469,7 @@ For example, the following creates 3 distinct web queries:
 &gt; `https://npmjs.com/package/axios`  
 &gt; `https://npmjs.com/package/express`
 
-### **_Configuration_**
+### _Configuration_
 
 The option's value can be a key from an engine's `routes` property in [_engines configuration_](#engines-configuration). When this config property is set up, the program will search it first to find the provided value among the property's keys. If it is not there, then the supplied value itself is used to build the web query.
 
@@ -445,14 +495,14 @@ we can use `repos` and `stars` as a value of the `route` option:
 
 &gt; `https://github.com/username?tab=repositories`
 
-## `--port`&nbsp;&nbsp;`-:` <a name="option-port"></a>
+## `--port` `-:`
 
 Adds the provided port number to the URL.
 
 ✅ Requires a number value.  
 ❌ No configuration.
 
-### **_Usage_**
+### _Usage_
 
 <pre><code>web example.com <em>--port=3000</em></code></pre>
 
@@ -472,25 +522,25 @@ The program recognizes if an engine or a URL already includes a port and checks 
 &gt; `https://example.com:3000/api/users`  
 &gt; `https://example.com:5000/api/users`
 
-## `--incognito`&nbsp;&nbsp;`-i` <a name="option-incognito"></a>
+## `--incognito` `-i`
 
 Opens web queries in a private / incognito mode.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### **_Usage_**
+### _Usage_
 
 <pre><code>web <em>--incognito</em></code></pre>
 
-## `--split` <a name="option-split"></a>
+## `--split`
 
 Splits provided values into separate web queries.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### **_Usage_**
+### _Usage_
 
 <pre><code>web <em>--engine=mdn</em> Object Symbol class <em>--split</em></code></pre>
 
@@ -498,25 +548,25 @@ Splits provided values into separate web queries.
 &gt; `https://developer.mozilla.org/search?q=Symbol`  
 &gt; `https://developer.mozilla.org/search?q=class`
 
-## `--http` <a name="option-http"></a>
+## `--http`
 
 Uses the HTTP (non-secure) protocol when constructing the web queries.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-## `--peek` <a name="option-peek"></a>
+## `--peek`
 
 Prevents opening browser tabs and only displays the output.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-### **_Usage_**
+### _Usage_
 
 <pre><code>web [values] [options] <em>--peek</em></code></pre>
 
-# Configuration <a name="configuration-setup"></a>
+# Configuration
 
 To see where the config files are stored on your machine, use the `config` option without a value.
 
@@ -549,7 +599,7 @@ Optionally, you can supply 1 or more space-separated apps that should open the c
 
 Modifying each config requires you to follow their accepted data structures explained below.
 
-## Browsers <a name="browsers-configuration"></a>
+## Browsers
 
 Browsers configuration is a JSON file containing an object with browsers data. The following describes a browser object inside the JSON config file.
 
@@ -639,7 +689,7 @@ interface Profiles {
 }
 ```
 
-## Engines <a name="engines-configuration"></a>
+## Engines
 
 Engines configuration is a JSON file containing an object with engines data. The following describes an engine object inside the JSON config file.
 
@@ -733,7 +783,7 @@ interface Routes {
 }
 ```
 
-# Custom Flags <a name="custom-flags"></a>
+# Custom Flags
 
 When browsers and engines config files are set up, certain keys and alias values automatically become _flags_. You can use these custom flags as substitutes for `browser`, `profile`, and `engine` options.
 
@@ -745,7 +795,7 @@ can be re-written using custom flags:
 
 <pre><code>web <em>--chrome --dev --mdn</em></code></pre>
 
-> If a custom flag conflicts with a [_query option_](#query-options) or its alias, the query option takes precedence.
+> If a custom flag conflicts with an [_option_](#options) or its alias, the query option takes precedence.
 
 ## How custom flags are created
 
