@@ -95,7 +95,7 @@ export function getUrls(
       : handleResource(engine, resource);
   }
 
-  return engine.search(keywords.join(" "), {
+  return engine.search(withUrlsOnly(keywords) ? null : keywords.join(" "), {
     query: handleQuery,
     port: options.port,
     split: options.split,
