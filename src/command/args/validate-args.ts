@@ -1,22 +1,19 @@
 import chalk from "chalk";
 import { matchers } from "@lexjs/web-search/matchers";
-import { withUrlsOnly } from "../with.js";
-import { getDefaultsData } from "../../data/get-defaults-data.js";
+import { defaultsData } from "../../data/defaults-data.js";
 import {
   configEngineFlags,
   browserProfileFlags,
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { logger } from "../../helpers/utils/logger.js";
-import { getInvalidArgs } from "./get-invalid-args.js";
-import { getDataArgs } from "./get-data-args.js";
-import { queryArgs as args } from "./query-args.js";
+import { invalidArgs } from "./invalid-args.js";
+import { dataArgs } from "./data-args.js";
+import { queryArgs, urlArgs } from "./query-args.js";
 
-const { resource, _: keywords } = args;
-const defaults = getDefaultsData();
-const invalidArgs = getInvalidArgs();
-const engineArgs = getDataArgs.engine(false);
-const browserArgs = getDataArgs.browser(false);
+const { resource } = queryArgs;
+const engineArgs = dataArgs.engine(false);
+const browserArgs = dataArgs.browser(false);
 
 const validate = {
   profiles: false,
@@ -79,7 +76,7 @@ export function validateArgs(): string[] {
       );
     }
 
-    if (engineArgs.length === 0 && !withUrlsOnly(keywords)) {
+    if (engineArgs.length === 0 && !urlArgs) {
       addMessage(
         logger.level.error(
           `${chalk.italic(
@@ -116,7 +113,7 @@ export function validateArgs(): string[] {
    * profile keys and aliases of all config browsers
    */
   function validateProfileArgs(browser?: string | string[] | null) {
-    const profileArgs = getDataArgs.profile(
+    const profileArgs = dataArgs.profile(
       browser == null || Array.isArray(browser) ? null : browser,
       false
     );
@@ -160,19 +157,19 @@ export function validateArgs(): string[] {
 
   if (validate.profiles) {
     validateProfileArgs(
-      browserArgs.length > 0 ? browserArgs : defaults.browser?.[0]
+      browserArgs.length > 0 ? browserArgs : defaultsData.browser?.[0]
     );
   }
 
   /* ~~~ VALIDATE PORT ARG ~~~ */
-  if ("port" in args) {
-    if (args.port == null) {
+  if ("port" in queryArgs) {
+    if (queryArgs.port == null) {
       addMessage(
         logger.level.error(`${chalk.italic("--port")} option must have a value`)
       );
     }
 
-    if (engineArgs.length === 0 && !withUrlsOnly(keywords))
+    if (engineArgs.length === 0 && !urlArgs)
       addMessage(
         logger.level.error(
           `${chalk.italic("--port")} option must be used with --engine or URL`

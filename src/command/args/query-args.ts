@@ -1,5 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { matchers } from "@lexjs/web-search/matchers";
 import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { configFlags } from "../../data/config-flags.js";
 import { orArray } from "../../helpers/utils/or-arrray.js";
@@ -79,11 +80,23 @@ const arrayArgs = {
   port: orArray(args.port),
 };
 
+const _ = args._.map((arg) => `${arg}`);
+
+const urlsOnly: boolean =
+  _.length > 0 && _.every((arg) => matchers.url.test(arg));
+
+/**
+ * Is populated only if all value args are URLs
+ */
+const urlArgs = urlsOnly ? _ : undefined;
+
 const queryArgs = {
   ...args,
   ...arrayArgs,
+  _,
 };
 
+// delete undefined properties created in arrayArgs
 type QueryArgs = typeof queryArgs;
 Object.keys(arrayArgs).forEach((key) => {
   if (args[key] == null) {
@@ -91,4 +104,4 @@ Object.keys(arrayArgs).forEach((key) => {
   }
 });
 
-export { queryArgs };
+export { queryArgs, urlArgs };

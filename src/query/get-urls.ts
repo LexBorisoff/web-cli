@@ -4,11 +4,18 @@ import {
   ResourceObject,
   SearchConfig,
 } from "@lexjs/web-search";
-import { withUrlsOnly } from "../command/with.js";
-import { queryArgs } from "../command/args/query-args.js";
+import { queryArgs, urlArgs } from "../command/args/query-args.js";
 import { findNested } from "../helpers/find/find-nested.js";
+import { dataArgs } from "../command/args/data-args.js";
 
-const { _: keywords, ...options } = queryArgs;
+const { _: args, resource, port, http } = queryArgs;
+const engineArgs = dataArgs.engine();
+
+// if there are no engine args and all value args are URLs,
+// remove URL args from keywords list because they are used as engines
+const keywords: string[] = args.filter(
+  (keyword) => engineArgs.length > 0 || !urlArgs || !urlArgs.includes(keyword)
+);
 
 function handleResource(
   engine: Engine<SearchConfig, ResourceConfig>,
@@ -43,7 +50,6 @@ function handleResource(
     },
     {
       path(config = {}) {
-        const path = withUrlsOnly(keywords) ? [] : keywords.map((k) => `${k}`);
         const foundResource = findResourceByValue(config);
 
         // Relates to the NOTE in the above callback
@@ -53,14 +59,14 @@ function handleResource(
           const foundPath = pathKey && findNested<string>(config, pathKey, "");
 
           if (foundPath != null) {
-            path.push(foundPath);
+            return [...keywords, foundPath];
           }
         }
 
-        return path;
+        return keywords;
       },
-      port: options.port,
-      unsecureHttp: options.http,
+      port,
+      unsecureHttp: http,
     }
   );
 }
@@ -72,7 +78,7 @@ function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
       : query;
   }
 
-  const { query } = options;
+  const { query } = queryArgs;
 
   if (query == null) {
     return typeof config === "string" ? config : config.main;
@@ -88,17 +94,16 @@ function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
 export function getUrls(
   engine: Engine<SearchConfig, ResourceConfig>
 ): string[] {
-  const { resource } = options;
   if (resource != null) {
     return Array.isArray(resource)
       ? resource.map((r) => handleResource(engine, r)).flat()
       : handleResource(engine, resource);
   }
 
-  return engine.search(withUrlsOnly(keywords) ? null : keywords.join(" "), {
+  return engine.search(keywords.join(" "), {
     query: handleQuery,
-    port: options.port,
-    split: options.split,
-    unsecureHttp: options.http,
+    port: queryArgs.port,
+    split: queryArgs.split,
+    unsecureHttp: queryArgs.http,
   });
 }

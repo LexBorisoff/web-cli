@@ -4,7 +4,6 @@ import { getBrowsersData } from "../../data/get-browsers-data.js";
 import { getEnginesData } from "../../data/get-engines-data.js";
 import { getProfilesData } from "../../data/get-profiles-data.js";
 import { configProfileFlags } from "../../data/config-flags.js";
-import { combineArgLists } from "./combine-arg-lists.js";
 import { queryArgs } from "./query-args.js";
 
 const browsersData = getBrowsersData();
@@ -12,6 +11,22 @@ const enginesData = getEnginesData();
 
 interface Data<T> {
   [key: string]: T;
+}
+
+/**
+ * Returns a combined list of values that were supplied to the CLI
+ * as standard options and custom flags
+ */
+function combineArgLists<Arg>(
+  optionArg: Arg | NonNullable<Arg>[] | null,
+  customArgs: Arg[] = []
+): Arg[] {
+  const argList = [...customArgs];
+  if (optionArg != null) {
+    argList.push(...(Array.isArray(optionArg) ? optionArg : [optionArg]));
+  }
+
+  return argList;
 }
 
 /**

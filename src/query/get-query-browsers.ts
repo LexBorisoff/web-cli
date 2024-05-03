@@ -1,20 +1,19 @@
 import { Browser } from "@lexjs/web-search";
 import type { QueryBrowser } from "../types/query.types.js";
-import { getDataArgs } from "../command/args/get-data-args.js";
-import { getDefaultsData } from "../data/get-defaults-data.js";
+import { dataArgs } from "../command/args/data-args.js";
+import { defaultsData } from "../data/defaults-data.js";
 import { getBrowserName } from "../helpers/browser/get-browser-name.js";
 import { getProfilesConfig } from "./get-profiles-config.js";
 
-const defaults = getDefaultsData();
-const browserArgs = getDataArgs.browser();
+const browserArgs = dataArgs.browser();
 
 export function getQueryBrowsers(): QueryBrowser[] {
   if (browserArgs.length === 0) {
-    if (defaults.browser == null) {
+    if (defaultsData.browser == null) {
       return [];
     }
 
-    const [defaultBrowserName] = defaults.browser;
+    const [defaultBrowserName] = defaultsData.browser;
     return [
       [
         defaultBrowserName,
