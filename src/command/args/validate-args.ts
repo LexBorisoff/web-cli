@@ -11,7 +11,7 @@ import { invalidArgs } from "./invalid-args.js";
 import { dataArgs } from "./data-args.js";
 import { queryArgs, urlArgs } from "./query-args.js";
 
-const { resource } = queryArgs;
+const { resource, query } = queryArgs;
 const engineArgs = dataArgs.engine(false);
 const browserArgs = dataArgs.browser(false);
 
@@ -19,8 +19,90 @@ const validate = {
   profiles: false,
 };
 
+const errorMessages: string[] = [];
+
+function addMessage(message: string) {
+  errorMessages.push(message);
+}
+
 function isEmptyArg(list: string[]): boolean {
   return list.length === 1 && list[0] === "";
+}
+
+function validateResource(
+  value: string | string[],
+  name: "resource" | "query"
+): void {
+  const emptyArg = !Array.isArray(value) && value === "";
+  const emptyList = Array.isArray(value) && value.every((arg) => arg === "");
+
+  if (emptyArg || emptyList) {
+    addMessage(
+      logger.level.error(
+        `${chalk.italic(`--${name}`)} option must have a value`
+      )
+    );
+  }
+
+  if (engineArgs.length === 0 && !urlArgs) {
+    addMessage(
+      logger.level.error(
+        `${chalk.italic(`--${name}`)} option must be used with --engine or URL`
+      )
+    );
+  }
+}
+
+/**
+ * Validates provile args
+ *
+ * @param browser
+ * * If a single string is provided - profile args are checked against
+ * profile keys and aliases of the provided config browser
+ * * String array, null or undefined - profile args are validated against
+ * profile keys and aliases of all config browsers
+ */
+function validateProfileArgs(browser?: string | string[] | null) {
+  const profileArgs = dataArgs.profile(
+    browser == null || Array.isArray(browser) ? null : browser,
+    false
+  );
+
+  if (isEmptyArg(profileArgs)) {
+    addMessage(
+      logger.level.error(
+        `${chalk.italic("--profile")} option must have a value`
+      )
+    );
+  }
+
+  let flags: { [browserName: string]: string[] } = {};
+
+  if (browser != null) {
+    (Array.isArray(browser) ? browser : [browser]).forEach(
+      (browserNameOrAlias) => {
+        const browserName = getBrowserName(browserNameOrAlias);
+        const profileFlags = browserProfileFlags[browserName];
+
+        flags = {
+          ...flags,
+          [browserName]: profileFlags ?? [],
+        };
+      }
+    );
+  }
+
+  const invalidProfiles = profileArgs.filter(
+    (arg) => arg !== "" && !Object.values(flags).flat().includes(arg)
+  );
+
+  if (invalidProfiles.length > 0) {
+    addMessage(
+      logger.level.error(
+        `Invalid profiles: ${logger.level.warning(invalidProfiles.join(" "))}`
+      )
+    );
+  }
 }
 
 /**
@@ -28,12 +110,6 @@ function isEmptyArg(list: string[]): boolean {
  * (empty array if all args are valid)
  */
 export function validateArgs(): string[] {
-  const errorMessages: string[] = [];
-
-  function addMessage(message: string) {
-    errorMessages.push(message);
-  }
-
   /* ~~~ VALIDATE CLI ARGS ~~~ */
   if (invalidArgs.length > 0) {
     addMessage(
@@ -64,27 +140,15 @@ export function validateArgs(): string[] {
   }
 
   /* ~~~ VALIDATE RESOURCE ARGS ~~~ */
-  if (resource != null) {
-    const emptyList =
-      Array.isArray(resource) && resource.every((arg) => arg === "");
-    const emptyArg = !Array.isArray(resource) && resource === "";
-    if (emptyList || emptyArg) {
-      addMessage(
-        logger.level.error(
-          `${chalk.italic("--resource")} option must have a value`
-        )
-      );
-    }
 
-    if (engineArgs.length === 0 && !urlArgs) {
-      addMessage(
-        logger.level.error(
-          `${chalk.italic(
-            "--resource"
-          )} option must be used with --engine or URL`
-        )
-      );
-    }
+  if (resource != null) {
+    validateResource(resource, "resource");
+  }
+
+  /* ~~~ VALIDATE QUERY ARGS ~~~ */
+
+  if (query != null) {
+    validateResource(query, "query");
   }
 
   /**
@@ -103,57 +167,7 @@ export function validateArgs(): string[] {
     );
   }
 
-  /**
-   * ~~~ VALIDATE PROFILE ARGS ~~~
-   *
-   * @param browser
-   * * If a single string is provided - profile args are checked against
-   * profile keys and aliases of the provided config browser
-   * * String array, null or undefined - profile args are validated against
-   * profile keys and aliases of all config browsers
-   */
-  function validateProfileArgs(browser?: string | string[] | null) {
-    const profileArgs = dataArgs.profile(
-      browser == null || Array.isArray(browser) ? null : browser,
-      false
-    );
-
-    if (isEmptyArg(profileArgs)) {
-      addMessage(
-        logger.level.error(
-          `${chalk.italic("--profile")} option must have a value`
-        )
-      );
-    }
-
-    let flags: { [browserName: string]: string[] } = {};
-
-    if (browser != null) {
-      (Array.isArray(browser) ? browser : [browser]).forEach(
-        (browserNameOrAlias) => {
-          const browserName = getBrowserName(browserNameOrAlias);
-          const profileFlags = browserProfileFlags[browserName];
-
-          flags = {
-            ...flags,
-            [browserName]: profileFlags ?? [],
-          };
-        }
-      );
-    }
-
-    const invalidProfiles = profileArgs.filter(
-      (arg) => arg !== "" && !Object.values(flags).flat().includes(arg)
-    );
-
-    if (invalidProfiles.length > 0) {
-      addMessage(
-        logger.level.error(
-          `Invalid profiles: ${logger.level.warning(invalidProfiles.join(" "))}`
-        )
-      );
-    }
-  }
+  /* ~~~ VALIDATE PROFILE ARGS ~~~ */
 
   if (validate.profiles) {
     validateProfileArgs(
