@@ -5,7 +5,7 @@ import { getEnginesData } from "../../data/get-engines-data.js";
 import { getProfilesData } from "../../data/get-profiles-data.js";
 import { configProfileFlags } from "../../data/config-flags.js";
 import { combineArgLists } from "./combine-arg-lists.js";
-import { queryArgs as args } from "./query-args.js";
+import { queryArgs } from "./query-args.js";
 
 const browsersData = getBrowsersData();
 const enginesData = getEnginesData();
@@ -34,7 +34,7 @@ function getUniqueList<Arg>(
  * specific to config data and do not match standard args
  */
 function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
-  const customFlags = Object.keys(args).filter(
+  const customFlags = Object.keys(queryArgs).filter(
     (key) => !queryOptions.includes(key)
   );
   return Object.entries(data)
@@ -48,7 +48,7 @@ function getCustomArgs<T extends WithAlias>(data: Data<T>): string[] {
     .filter((nameOrAlias) => customFlags.includes(nameOrAlias));
 }
 
-export const getDataArgs = {
+export const dataArgs = {
   /**
    * Returns a unique list of browser args provided to the CLI
    *
@@ -57,7 +57,7 @@ export const getDataArgs = {
    */
   browser: function getBrowserArgs(removeEmptyArg = true): string[] {
     const customArgs = getCustomArgs(browsersData);
-    return getUniqueList(args.browser, customArgs, removeEmptyArg);
+    return getUniqueList(queryArgs.browser, customArgs, removeEmptyArg);
   },
 
   /**
@@ -74,7 +74,7 @@ export const getDataArgs = {
     browserName?: string | null,
     removeEmptyArg = true
   ): string[] {
-    const { profile } = args;
+    const { profile } = queryArgs;
 
     if (browserName == null) {
       const list: string[] = [];
@@ -121,6 +121,6 @@ export const getDataArgs = {
    */
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
     const customArgs = getCustomArgs(enginesData);
-    return getUniqueList(args.engine, customArgs, removeEmptyArg);
+    return getUniqueList(queryArgs.engine, customArgs, removeEmptyArg);
   },
 };

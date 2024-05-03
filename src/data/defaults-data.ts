@@ -50,11 +50,9 @@ const getDefaultProfile: DefaultsData["profile"] = (browserName) => {
   return getDefault(profiles);
 };
 
-export function getDefaultsData(): DefaultsData {
-  return {
-    delimiter,
-    engine: getDefaultEngine(),
-    browser: getDefaultBrowser(),
-    profile: getDefaultProfile,
-  };
-}
+export const defaultsData: DefaultsData = {
+  delimiter,
+  engine: getDefaultEngine(),
+  browser: getDefaultBrowser(),
+  profile: getDefaultProfile,
+};
