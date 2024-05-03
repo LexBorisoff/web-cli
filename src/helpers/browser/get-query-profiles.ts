@@ -1,10 +1,14 @@
 import type { Profile } from "../../types/config.types.js";
-import { getDefaultsData } from "../../data/get-defaults-data.js";
-import { getDataArgs } from "../../command/args/get-data-args.js";
-import { withProfile } from "../../command/with.js";
+import { defaultsData } from "../../data/defaults-data.js";
+import { dataArgs } from "../../command/args/data-args.js";
 import { findProfile } from "../find/find-profile.js";
 
-const defaults = getDefaultsData();
+function withProfile(browserName: string): boolean {
+  return (
+    dataArgs.profile(browserName).length > 0 ||
+    defaultsData.profile(browserName) != null
+  );
+}
 
 /**
  * Returns a list of tuples with profile's config key
@@ -24,8 +28,8 @@ export function getQueryProfiles(browserName: string): [string, Profile][] {
   }
 
   if (withProfile(browserName)) {
-    const profileArgs = getDataArgs.profile(browserName);
-    const defaultProfile = defaults.profile(browserName);
+    const profileArgs = dataArgs.profile(browserName);
+    const defaultProfile = defaultsData.profile(browserName);
 
     if (profileArgs.length > 0) {
       profileArgs.forEach((profileNameOrAlias) => {
