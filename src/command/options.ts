@@ -14,7 +14,7 @@ export enum QueryOptions {
   Incognito = "incognito",
   Split = "split",
   Http = "http",
-  Peek = "peek",
+  Test = "test",
   Update = "update",
 }
 
@@ -28,7 +28,7 @@ export const queryOptionTypes = {
   [QueryOptions.Incognito]: "boolean" as const,
   [QueryOptions.Split]: "boolean" as const,
   [QueryOptions.Http]: "boolean" as const,
-  [QueryOptions.Peek]: "boolean" as const,
+  [QueryOptions.Test]: "boolean" as const,
   [QueryOptions.Update]: "boolean" as const,
 } satisfies Record<QueryOptions, OptionType>;
 
@@ -40,6 +40,7 @@ export const queryAlias: Alias<QueryOptions> = {
   resource: ["r"],
   port: [":"],
   incognito: ["i"],
+  test: ["t"],
 };
 
 /**

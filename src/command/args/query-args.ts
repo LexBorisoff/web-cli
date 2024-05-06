@@ -57,8 +57,9 @@ const args = yargs(hideBin(process.argv))
     type: types[Options.Http],
     description: "Use the HTTP (non-secure) protocol",
   })
-  .option(Options.Peek, {
-    type: types[Options.Peek],
+  .option(Options.Test, {
+    type: types[Options.Test],
+    alias: alias.test,
     description: "Display the output without opening browser tabs",
   })
   .option(Options.Update, {
