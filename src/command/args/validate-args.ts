@@ -31,7 +31,8 @@ function isEmptyArg(list: string[]): boolean {
 
 function validateResource(
   value: string | string[],
-  name: "resource" | "query"
+  name: "resource" | "query",
+  allowUrlArgs = true
 ): void {
   const emptyArg = !Array.isArray(value) && value === "";
   const emptyList = Array.isArray(value) && value.every((arg) => arg === "");
@@ -44,10 +45,10 @@ function validateResource(
     );
   }
 
-  if (engineArgs.length === 0 && !urlArgs) {
+  if (engineArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
     addMessage(
       logger.level.error(
-        `${chalk.italic(`--${name}`)} option must be used with --engine or URL`
+        `${chalk.italic(`--${name}`)} option must be used with --engine${allowUrlArgs ? " or URL" : ""}`
       )
     );
   }
@@ -148,7 +149,7 @@ export function validateArgs(): string[] {
   /* ~~~ VALIDATE QUERY ARGS ~~~ */
 
   if (query != null) {
-    validateResource(query, "query");
+    validateResource(query, "query", false);
   }
 
   /**
