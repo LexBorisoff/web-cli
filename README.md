@@ -11,6 +11,7 @@ CLI for making web search queries from a shell.
   - [Value options](#value-options)
   - [Flag options](#flag-options)
   - [Placement](#placement)
+- [Configuration](#configuration)
 - [Built-in Options](#built-in-options)
   - [`browser`](#browser)
   - [`profile`](#profile)
@@ -203,6 +204,158 @@ The above command will do the following:
   - the **_DuckDuckGo_** search engine (`--engine=duckduckgo`)
 - open the constructed query in a new **_Firefox_** tab (`--browser=firefox`)
 - in **_incognito / private mode_** (`--incognito`)
+
+# Configuration
+
+Creating configuration allows you to customize the usage of Web CLI and enhance many of the built-in options. Before learning about these options, it is beneficial to know how to create and generate your own custom config.
+
+## Creating a config project
+
+Web CLI allows you to create a config by scaffolding a TypeScript project and then running it with an npm script defined in the project's `package.json`. Even if you are not familiar with TypeScript, you should be able to quickly grasp and navigate around the created application.
+
+First, run the following command in the directory where you want to create the project.
+
+<pre><code>web <em>--config</em></code></pre>
+
+On its first run, you won't have an existing config so it will give you only 2 options:
+
+- `Engines` to show the initial engines
+- `New config` to crete a new config project
+
+As was mentioned earlier, you get access to a set of initial search engines after installing the package. You can see these engines by selecting the first option.
+
+What we need, however, is to select the second option in order to create a new config directory. Once selected, the CLI will:
+
+- prompt you to type a name for the directory to be created
+- initialize and scaffold the project
+
+## Editing the config project
+
+After the scaffolding process is complete, you can navigate to the created directory and open it in your IDE. You can also push it to a remote git repository such as Github to keep your config in sync on different machines.
+
+There are two initial files in the `src` folder that you can customize:
+
+- `engines.ts`
+- `browsers.ts`
+
+Both of these files import a function called `defineConfig` from `@lexjs/web-cli/config`.
+
+```typescript
+// src/engines.ts
+import { defineConfig } from "@lexjs/web-cli/config";
+
+defineConfig(({ engine }) => ({
+  google: engine("google.com", {
+    search: "search?q=",
+  }),
+  // ... other engines
+}));
+```
+
+```typescript
+// src/browsers.ts
+import { defineConfig } from "@lexjs/web-cli/config";
+
+defineConfig(({ browser }) => ({
+  // the browser you entered during initialization, e.g.
+  chrome: browser("chrome"),
+}));
+```
+
+You can add more engines and browsers, as well as edit or remove them as you need by extending the initial code.
+
+Also, since this is a regular TypeScript project, you are free to organize it however you want and use other libraries. Just remember to:
+
+- call the `defineConfig` function that defines the engines and/or browsers, and
+- correctly generate the config file (described in the next section)
+
+### **_defining config_**
+
+`defineConfig` accepts a callback that
+
+- passes an object with `engine` and `browser` functions in its parameter
+- returns an object with defined engines and/or browsers
+
+```typescript
+// not exact representation
+type DefineConfigCallback = ({
+  engine: CreateEngineFn;
+  browser: CreateBrowserFn;
+}) => Record<string, Engine | Browser>;
+```
+
+### **_Engines Configuration_**
+
+To create an engine, use the `engine` function from the callback's parameter and assign it to a property of the callback's return object:
+
+```typescript
+defineConfig(({ engine }) => ({
+  google: engine("google.com", {
+    search: "search?q=",
+  }),
+}));
+```
+
+> The property key is important because it can be used as a value for the `--engine` option and also as a custom flag. So make sure to create meaningful property keys.
+
+The `engine` function is of type `CreateEngineFn`:
+
+```typescript
+// not exact representation
+type CreateEngineFn = (baseUrl: string, config?: Config) => Engine;
+```
+
+When defining an engine, you must provide the base URL string as the first parameter and, optionally, a config object as the second parameter.
+
+The optional config parameter has the following shape:
+
+```typescript
+interface Config {
+  search?: string | SearchObject;
+  resources?: ResourceObject;
+  alias?: string | string[];
+  delimiter?: string;
+  isDefault?: boolean;
+}
+
+interface SearchObject {
+  [key: string]: string | StringObject;
+  main: string;
+}
+
+interface ResourceObject {
+  [key: string]: string | StringObject;
+}
+
+interface StringObject {
+  [key: string]: string | StringObject;
+}
+```
+
+## Generating the config file
+
+In order to start using the engines and browsers defined in the previous step, you must generate a **_config file_**. What Web CLI uses to customize its behavior is not the config project itself but rather the config file that gets generated based on the project.
+
+To generate the config file, run the following command from the root directory of the project:
+
+<pre><code>npm run config</code></pre>
+
+You can notice that this is just a simple npm script defined in `package.json` which consists of two other commands that you can run individually:
+
+<pre><code>npm run config:engines</code></pre>
+
+<pre><code>npm run config:browsers</code></pre>
+
+Both commands execute their respective files (`src/engines.ts` and `src/browsers.ts`) to set the config engines and browsers.
+
+> Again, you can customize this behavior as long as you execute a file that calls `defineConfig`.
+
+Please note that only 1 config file gets generated even if you call `defineConfig` multiple times from different files. The location of the generated file depends on your OS:
+
+- Windows - `~/AppData/Roaming/@lexjs/web-cli.config.json`
+- Linux - `~/.config/@lexjs/web-cli.config.json`
+- Darwin (MacOS) - `~/Library/Application Support/@lexjs/web-cli.config.json`
+- other - `~/@lexjs/web-cli.config.json`
 
 # Built-in Options
 
