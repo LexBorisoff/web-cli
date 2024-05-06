@@ -11,12 +11,11 @@ defineConfig(({ engine }) => ({
   google: engine("google.com", {
     search: "search?q=",
   }),
-  duck: {
-    baseUrl: "duckduckgo.com",
+  duck: engine("duckduckgo.com", {
     search: "?q=",
     delimiter: "+",
     alias: ["duckduckgo"],
-  },
+  }),
   github: engine("github.com", {
     search: "search?q=",
     resources: {
@@ -43,7 +42,7 @@ const browsersConfig = `
 import { defineConfig } from "${projectName}/config";
 
 defineConfig(({ browser }) => ({
-  chrome: browser("chrome"),
+  chrome: browser(),
 }));
 `;
 
