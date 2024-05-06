@@ -16,12 +16,12 @@ CLI for making web search queries from a shell.
   - [`profile`](#profile)
   - [`engine`](#engine)
   - [`query`](#query)
-  - [`resource`](#--resource--r)
-  - [`port`](#--port--:)
-  - [`incognito`](#--incognito--i)
-  - [`split`](#--split)
-  - [`http`](#--http)
-  - [`peek`](#--peek)
+  - [`resource`](#resource)
+  - [`port`](#port)
+  - [`incognito`](#incognito)
+  - [`split`](#split)
+  - [`http`](#http)
+  - [`test`](#test)
 - [Configuration](#configuration)
   - [Browsers](#browsers)
   - [Engines](#engines)
@@ -158,14 +158,14 @@ which is equivalent to:
 
 The following are built-in options that require a value:
 
-| Option                       |         Alias         | Description                            |
-| ---------------------------- | :-------------------: | -------------------------------------- |
-| [`browser`](#browser)        |    [`b`](#browser)    | _Browser app to open_                  |
-| [`profile`](#profile)        |    [`p`](#profile)    | _Browser profile to use_               |
-| [`engine`](#engine)          |    [`e`](#engine)     | _Search engine (or website) to query_  |
-| [`query`](#query)            |     [`q`](#query)     | _Engine's query to use for searchhing_ |
-| [`resource`](#--resource--r) | [`r`](#--resource--r) | _Engine's resource to access_          |
-| [`port`](#--port--:)         |   [`:`](#--port--:)   | _Port number to add to the URL_        |
+| Option                  |      Alias       | Description                            |
+| ----------------------- | :--------------: | -------------------------------------- |
+| [`browser`](#browser)   | [`b`](#browser)  | _Browser app to open_                  |
+| [`profile`](#profile)   | [`p`](#profile)  | _Browser profile to use_               |
+| [`engine`](#engine)     |  [`e`](#engine)  | _Search engine (or website) to query_  |
+| [`query`](#query)       |  [`q`](#query)   | _Engine's query to use for searchhing_ |
+| [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_          |
+| [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_        |
 
 All value options work without any initial configuration but each option's usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
@@ -173,12 +173,12 @@ All value options work without any initial configuration but each option's usage
 
 Options that do not require a value are called **_flags_**. The following are built-in flag options:
 
-| Option                         |         Alias          | Description                                       |
-| ------------------------------ | :--------------------: | ------------------------------------------------- |
-| [`incognito`](#--incognito--i) | [`i`](#--incognito--i) | _Open in incognito / private mode_                |
-| [`split`](#--split)            |           ❌           | _Split values into separate web queries_          |
-| [`http`](#--http)              |           ❌           | _Use the HTTP (non-secure) protocol_              |
-| [`peek`](#--peek)              |           ❌           | _Display the output without opening browser tabs_ |
+| Option                    |       Alias       | Description                                       |
+| ------------------------- | :---------------: | ------------------------------------------------- |
+| [`incognito`](#incognito) | [`i`](#incognito) | _Open in incognito / private mode_                |
+| [`split`](#split)         |        ❌         | _Split values into separate web queries_          |
+| [`http`](#http)           |        ❌         | _Use the HTTP (non-secure) protocol_              |
+| [`test`](#test)           |   [`t`](#test)    | _Display the output without opening browser tabs_ |
 
 > **_Caveat!_**  
 > Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to **_"true"_** but the option will still accept a boolean value that's placed after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign **_"true"_** or **_"false"_** to a flag if you do not intend it. Doing so will result in your web query missing the keyword **_"true"_** or **_"false"_** from the search term.
@@ -420,15 +420,45 @@ To define more engines and websites than the app defaults, add them to [_engines
 
 ## `query`
 
-TODO
+Specifies what "search path" to use for querying the provided engine. In the context of Web CLI, a query is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords. There could be multiple ways to search a single engine, for example via `search?q=` or `images?q=`, and this option allows you to indicate which one you want to use.
 
 ### _Options_
 
 `--query` `-q`
 
-### _What is a query_
+### _Usage_
 
-In the context of Web CLI, a query is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords.
+This option must be used with the `--engine` option and keywords.
+
+<pre><code>web <em>--query=value</em> <em>--engine=value</em> &lt;keywords&gt;</code></pre>
+
+If keywords are not provided, then only the base URL will be opened (i.e. the query `value` is not added).
+
+`value` is one of the following:
+
+- #### _URL segment string like `search?q=` or `?q=`_
+
+<pre><code>web hello world <em>--query=?q=</em> <em>--engine=duckduckgo.com</em></code></pre>
+
+&gt; `https://duckduckgo.com/?q=hello%20world`
+
+- #### _Query key in the engine's "search" config, like `main`, `images`, or `user`:_
+
+```typescript
+import { defineConfig } from "@lexjs/web-cli/config";
+
+defineConfig(({ engine }) => ({
+  example: engine("example.com", {
+    search: {
+      main: "search?q=",
+      images: "images?q=",
+      user: "user?q=",
+    },
+  }),
+}));
+```
+
+The `search` property of the engine config can be either a string or an object. When using the object, you must provide the `main` property.
 
 ## `resource`
 
@@ -555,7 +585,7 @@ Uses the HTTP (non-secure) protocol when constructing the web queries.
 🚩 Flag option - no value is required.  
 ❌ No configuration.
 
-## `--peek`
+## `--test`
 
 Prevents opening browser tabs and only displays the output.
 
@@ -564,7 +594,7 @@ Prevents opening browser tabs and only displays the output.
 
 ### _Usage_
 
-<pre><code>web [values] [options] <em>--peek</em></code></pre>
+<pre><code>web [values] [options] <em>--test</em></code></pre>
 
 # Configuration
 

@@ -53,7 +53,7 @@ export async function getConfigAction(): Promise<ConfigAction | undefined> {
     {
       title: "New Config",
       value: ConfigAction.NewConfig,
-      description: "create new config project",
+      description: "create a new config project",
       show: true,
     },
   ];
