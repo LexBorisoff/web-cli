@@ -29,10 +29,10 @@ const args = yargs(hideBin(process.argv))
     alias: alias.engine,
     description: "The search engine (or website) to query",
   })
-  .option(Options.Query, {
-    type: types[Options.Query],
-    alias: alias.query,
-    description: "The engine's query to use for searching",
+  .option(Options.Search, {
+    type: types[Options.Search],
+    alias: alias.search,
+    description: "The engine's search option to use for querying",
   })
   .option(Options.Resource, {
     type: types[Options.Resource],

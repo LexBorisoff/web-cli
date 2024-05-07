@@ -72,23 +72,23 @@ function handleResource(
 }
 
 function handleQuery(config: SearchConfig = { main: "/" }): string | string[] {
-  function getQuery(query: string): string {
+  function getQuery(search: string): string {
     return typeof config !== "string"
-      ? findNested<string>(config, query, query) ?? query
-      : query;
+      ? findNested<string>(config, search, search) ?? search
+      : search;
   }
 
-  const { query } = queryArgs;
+  const { search } = queryArgs;
 
-  if (query == null) {
+  if (search == null) {
     return typeof config === "string" ? config : config.main;
   }
 
-  if (Array.isArray(query)) {
-    return query.map((q) => getQuery(q));
+  if (Array.isArray(search)) {
+    return search.map((s) => getQuery(s));
   }
 
-  return getQuery(query);
+  return getQuery(search);
 }
 
 export function getUrls(

@@ -11,7 +11,7 @@ import { invalidArgs } from "./invalid-args.js";
 import { dataArgs } from "./data-args.js";
 import { queryArgs, urlArgs } from "./query-args.js";
 
-const { resource, query } = queryArgs;
+const { resource, search } = queryArgs;
 const engineArgs = dataArgs.engine(false);
 const browserArgs = dataArgs.browser(false);
 
@@ -31,7 +31,7 @@ function isEmptyArg(list: string[]): boolean {
 
 function validateResource(
   value: string | string[],
-  name: "resource" | "query",
+  name: "resource" | "search",
   allowUrlArgs = true
 ): void {
   const emptyArg = !Array.isArray(value) && value === "";
@@ -148,8 +148,8 @@ export function validateArgs(): string[] {
 
   /* ~~~ VALIDATE QUERY ARGS ~~~ */
 
-  if (query != null) {
-    validateResource(query, "query", false);
+  if (search != null) {
+    validateResource(search, "search", false);
   }
 
   /**
