@@ -16,7 +16,7 @@ CLI for making web search queries from a shell.
   - [`browser`](#browser)
   - [`profile`](#profile)
   - [`engine`](#engine)
-  - [`query`](#query)
+  - [`search`](#search)
   - [`resource`](#resource)
   - [`port`](#port)
   - [`incognito`](#incognito)
@@ -159,14 +159,14 @@ which is equivalent to:
 
 The following are built-in options that require a value:
 
-| Option                  |      Alias       | Description                            |
-| ----------------------- | :--------------: | -------------------------------------- |
-| [`browser`](#browser)   | [`b`](#browser)  | _Browser app to open_                  |
-| [`profile`](#profile)   | [`p`](#profile)  | _Browser profile to use_               |
-| [`engine`](#engine)     |  [`e`](#engine)  | _Search engine (or website) to query_  |
-| [`query`](#query)       |  [`q`](#query)   | _Engine's query to use for searchhing_ |
-| [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_          |
-| [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_        |
+| Option                  |      Alias       | Description                           |
+| ----------------------- | :--------------: | ------------------------------------- |
+| [`browser`](#browser)   | [`b`](#browser)  | _Browser app to open_                 |
+| [`profile`](#profile)   | [`p`](#profile)  | _Browser profile to use_              |
+| [`engine`](#engine)     |  [`e`](#engine)  | _Search engine (or website) to query_ |
+| [`search`](#search)     |  [`s`](#search)  | _Engine's search to use for querying_ |
+| [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_         |
+| [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_       |
 
 All value options work without any initial configuration but each option's usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
@@ -331,6 +331,66 @@ interface StringObject {
   [key: string]: string | StringObject;
 }
 ```
+
+Let's dive into each available option:
+
+1. **_`search`_** - defines how the search engine should be queried.
+
+The value of this option can be one of the following:
+
+- a string such as `search?q=` or `?q=`
+
+```typescript
+defineConfig(({ engine }) => ({
+  example: engine("example.com", {
+    search: "search?q=",
+  }),
+}));
+```
+
+- an object with:
+  - at least 1 property called `main` of type string
+  - other optional properties with string or nested object values (the values of the last nested properties must be strings), e.g.
+
+```typescript
+defineConfig(({ engine }) => ({
+  example: engine("example.com", {
+    search: {
+      main: "search?q=",
+      foo: {
+        bar: "foobar?q=",
+        baz: {
+          deep: "foobaz?q=",
+        },
+      },
+    },
+  }),
+}));
+```
+
+Defining the `search` config as an object allows you to provide its keys as values to the [`--search` built-in option](#search) instead of typing the actual whole string. For example:
+
+<pre><code>web <em>--search=main</em></code></pre>
+<pre><code>web <em>--search=bar</em></code></pre>
+<pre><code>web <em>--search=deep</em></code></pre>
+
+> ⚠️ Using the keys `foo` and `baz` is not valid because they do not point to a string value!
+
+2. **_`resources`_**
+
+defines what routes can be accessed on the engine.
+
+3.  **_`alias`_**
+
+a string or array of strings that provide alias names for the engine.
+
+4. **_`delimeter`_**
+
+defines how the search keywords should be delimited when building search URLs.
+
+5. **_`isDefault`_**
+
+defines whether the engine should be used as a default.
 
 ## Generating the config file
 
@@ -559,7 +619,7 @@ When supplying URL values to the command, this option overrides the default beha
 
 > Non-URL values are not allowed.
 
-When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options such as `--query`, `--resource`, `--port`, `--split`, or `--http`.
+When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options such as `--search`, `--resource`, `--port`, `--split`, or `--http`.
 
 Note that since a URL value is a basic string, the CLI will simply append it with whatever keywords are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`), e.g.
 
@@ -571,31 +631,31 @@ Note that since a URL value is a basic string, the CLI will simply append it wit
 
 To define more engines and websites than the app defaults, add them to [_engines configuration_](#engines-configuration).
 
-## `query`
+## `search`
 
-Specifies what "search path" to use for querying the provided engine. In the context of Web CLI, a query is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords. There could be multiple ways to search a single engine, for example via `search?q=` or `images?q=`, and this option allows you to indicate which one you want to use.
+Specifies what "search path" to use for querying the provided engine. This search path is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords. There could be multiple ways to search a single engine, for example via `search?q=` or `images?q=`, and this option allows you to indicate which one you want to use.
 
 ### _Options_
 
-`--query` `-q`
+`--search` `-s`
 
 ### _Usage_
 
 This option must be used with the `--engine` option and keywords.
 
-<pre><code>web <em>--query=value</em> <em>--engine=value</em> &lt;keywords&gt;</code></pre>
+<pre><code>web <em>--search=value</em> <em>--engine=value</em> &lt;keywords&gt;</code></pre>
 
-If keywords are not provided, then only the base URL will be opened (i.e. the query `value` is not added).
+If keywords are not provided, only the base URL will be opened (i.e. the search `value` is not added).
 
 `value` is one of the following:
 
 - #### _URL segment string like `search?q=` or `?q=`_
 
-<pre><code>web hello world <em>--query=?q=</em> <em>--engine=duckduckgo.com</em></code></pre>
+<pre><code>web hello world <em>--search=?q=</em> <em>--engine=duckduckgo.com</em></code></pre>
 
 &gt; `https://duckduckgo.com/?q=hello%20world`
 
-- #### _Query key in the engine's "search" config, like `main`, `images`, or `user`:_
+- #### _Search key in the engine's "search" config, like `main`, `images`, `bar`, or `deep`:_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -605,13 +665,18 @@ defineConfig(({ engine }) => ({
     search: {
       main: "search?q=",
       images: "images?q=",
-      user: "user?q=",
+      foo: {
+        bar: "foobar?q=",
+        baz: {
+          deep: 'foobaz?q=",
+        },
+      },
     },
   }),
 }));
 ```
 
-The `search` property of the engine config can be either a string or an object. When using the object, you must provide the `main` property.
+> ⚠️ Note that using the keys `foo` and `baz` is not valid because they do not point to a string value!
 
 ## `resource`
 
