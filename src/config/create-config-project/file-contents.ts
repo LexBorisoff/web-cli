@@ -10,11 +10,12 @@ import { defineConfig } from "${projectName}/config";
 defineConfig(({ engine }) => ({
   google: engine("google.com", {
     search: "search?q=",
+    isDefault: true,
   }),
-  duck: engine("duckduckgo.com", {
+  duckduckgo: engine("duckduckgo.com", {
     search: "?q=",
     delimiter: "+",
-    alias: ["duckduckgo"],
+    alias: ["duck"],
   }),
   github: engine("github.com", {
     search: "search?q=",

@@ -159,14 +159,14 @@ which is equivalent to:
 
 The following are built-in options that require a value:
 
-| Option                  |      Alias       | Description                           |
-| ----------------------- | :--------------: | ------------------------------------- |
-| [`browser`](#browser)   | [`b`](#browser)  | _Browser app to open_                 |
-| [`profile`](#profile)   | [`p`](#profile)  | _Browser profile to use_              |
-| [`engine`](#engine)     |  [`e`](#engine)  | _Search engine (or website) to query_ |
-| [`search`](#search)     |  [`s`](#search)  | _Engine's search to use for querying_ |
-| [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_         |
-| [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_       |
+| Option                  |      Alias       | Description                                |
+| ----------------------- | :--------------: | ------------------------------------------ |
+| [`browser`](#browser)   | [`b`](#browser)  | _Browser app to open_                      |
+| [`profile`](#profile)   | [`p`](#profile)  | _Browser profile to use_                   |
+| [`engine`](#engine)     |  [`e`](#engine)  | _Search engine (or website) to query_      |
+| [`search`](#search)     |  [`s`](#search)  | _Engine's search path to use for querying_ |
+| [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_              |
+| [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_            |
 
 All value options work without any initial configuration but each option's usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
@@ -211,7 +211,7 @@ Creating configuration allows you to customize the usage of Web CLI and enhance 
 
 ## Creating a config project
 
-Web CLI allows you to create a config by scaffolding a TypeScript project and then running it with an npm script defined in the project's `package.json`. Even if you are not familiar with TypeScript, you should be able to quickly grasp and navigate around the created application.
+Web CLI allows you to create a config by scaffolding a TypeScript project and then running it with an npm script defined in `package.json`. Even if you are not familiar with TypeScript, you should be able to quickly grasp and navigate around the created application.
 
 First, run the following command in the directory where you want to create the project.
 
@@ -296,7 +296,7 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-> The property key is important because it can be used as a value for the `--engine` option and also as a custom flag. So make sure to create meaningful property keys.
+> The property key is important because it is used as a value for the `--engine` option and also as a custom flag. Make sure to always create meaningful property keys.
 
 The `engine` function is of type `CreateEngineFn`:
 
@@ -332,7 +332,7 @@ interface StringObject {
 }
 ```
 
-Let's dive into each available option:
+Let's examine each available option:
 
 1. **_`search`_** - defines how the search engine should be queried.
 
@@ -349,8 +349,8 @@ defineConfig(({ engine }) => ({
 ```
 
 - an object with:
-  - at least 1 property called `main` of type string
-  - other optional properties with string or nested object values (the values of the last nested properties must be strings), e.g.
+  - at least 1 property called `main` of string type
+  - other optional properties with string or nested object values (the most nested values must be strings), e.g.
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -368,7 +368,7 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-Defining the `search` config as an object allows you to provide its keys as values to the [`--search` built-in option](#search) instead of typing the actual whole string. For example:
+Defining the `search` config as an object allows you to provide its keys as values to the [`--search` built-in option](#search) instead of typing the actual search string. For example:
 
 <pre><code>web <em>--search=main</em></code></pre>
 <pre><code>web <em>--search=bar</em></code></pre>
@@ -376,21 +376,185 @@ Defining the `search` config as an object allows you to provide its keys as valu
 
 > ⚠️ Using the keys `foo` and `baz` is not valid because they do not point to a string value!
 
-2. **_`resources`_**
+2. **_`resources`_** - defines what routes can be accessed on the engine.
 
-defines what routes can be accessed on the engine.
+The value of this option is an object with string or object values (similar to the object in the `search` property, the most nested values must be strings), e.g.
 
-3.  **_`alias`_**
+```typescript
+defineConfig(({ engine }) => ({
+  github: engine("github.com", {
+    resources: {
+      profile: "username",
+      example: "example/path/to/something",
+      tabs: {
+        repos: "?tab=repositories",
+        stars: "?tab=stars",
+        projects: "?tab=projects",
+      },
+    },
+  }),
+}));
+```
 
-a string or array of strings that provide alias names for the engine.
+Defining the `resources` config allows you to provide its keys as values to the [`--resource` built-in option](#resource). For example:
 
-4. **_`delimeter`_**
+<pre><code>web <em>--resource=example</em></code></pre>
 
-defines how the search keywords should be delimited when building search URLs.
+<pre><code>web <em>--resource=profile::tabs</em></code></pre>
 
-5. **_`isDefault`_**
+Note the `profile::tabs` syntax - it allows you to construct a route based on multiple config keys.
 
-defines whether the engine should be used as a default.
+> ⚠️ Just like in the `search` example above, using keys like `tabs` that do not point to a string value is not valid!
+
+3. **_`alias`_** - a string or array of strings that provides alias names for the engine.
+
+```typescript
+defineConfig(({ engine }) => ({
+  youtube: engine("youtube.com", {
+    alias: ["y", "yt"],
+  }),
+  duckduckgo: engine("duckduckgo.com", {
+    alias: "duck",
+  }),
+}));
+```
+
+Defining engine aliases allows you to provide them to the [`--engine` built-in option](#engine) or use them as custom flags. For example:
+
+<pre><code>web <em>--engine=duck</em></code></pre>
+
+<pre><code>web <em>--duck</em></code></pre>
+
+<pre><code>web <em>-y</em></code></pre>
+
+4. **_`delimeter`_** - defines how the search keywords should be delimited when building search URLs.
+
+```typescript
+defineConfig(({ engine }) => ({
+  duck: engine("duckduckgo.com", {
+    delimiter: "+",
+    search: "?q=",
+  }),
+}));
+```
+
+When the engine is used, the delimiter specified in its config will be applied to combine the keywords. You should only provide the delimiter value if it differs from the default single whitespace character `" "`.
+
+5. **_`isDefault`_** - defines whether the engine should be used as a default.
+
+```typescript
+defineConfig(({ engine }) => ({
+  duck: engine("duckduckgo.com", {
+    search: "?q=",
+    delimiter: "+",
+    isDefault: true,
+  }),
+}));
+```
+
+When setting this option to true, Web CLI will use that engine when there no `--engine` option provided.
+
+- You should only specify 1 engine as default. If multiple default engines are set, the first one will be used.
+- If this option is not set on any engine, the first one will be used.
+
+### **_Browsers Configuration_**
+
+To create a browser, use the `browser` function from the callback's parameter and assign it to a property of the callback's return object:
+
+```typescript
+defineConfig(({ browser }) => ({
+  chrome: browser(),
+}));
+```
+
+> The property key is important because it is used as a value for the `--browser` option and also as a custom flag. Make sure to always create meaningful property keys.
+
+The `browser` function is of type `CreateBrowserFn`:
+
+```typescript
+// not exact representation
+type CreateBrowserFn = (config?: Config) => Browser;
+```
+
+As you can see, there are no required parameters but there is an optional config of the following form:
+
+```typescript
+// not exact representation
+interface Config {
+  alias?: string | string[];
+  isDefault?: boolean;
+  profiles?: {
+    [key: string]: string | Profile;
+  };
+}
+
+interface Profile {
+  directory: string;
+  alias?: string | string[];
+  isDefault?: boolean;
+}
+```
+
+Let's examine each available option.
+
+1. **_`alias`_** - a string or array of strings that provides alias names for the browser.
+
+```typescript
+defineConfig(({ browser }) => ({
+  chrome: browser({
+    alias: "c",
+  }),
+  firefox: browser({
+    alias: ["f", "ff"],
+  }),
+}));
+```
+
+Defining browser aliases allows you to provide them to the [`--browser` built-in option](#browser) or use them as custom flags. For example:
+
+<pre><code>web <em>--browser=ff</em></code></pre>
+
+<pre><code>web <em>--ff</em></code></pre>
+
+2. **_`isDefault`_** - defines whether the browser should be used as a default.
+
+Same concept and rules as described in the engines configuration.
+
+3. **_`profiles`_** - defines browser profiles that can be used.
+
+Some browsers (such as Chrome) have the functionality to create and use multiple browser profiles. When a browser has multiple profiles, it typically keeps the data used by each profile in a **_directory_** (folder) stored somewhere on your machine. For example, Chrome stores this information in `~/AppData/Local/Google/Chrome/User Data` on a Windows machine (you can google where this data is for your OS). Here, you can find profile directories such "Profile 1", "Profile 2", etc. These are the names that you need to assign to the `profiles` properties.
+
+The value of this option can be one of the following:
+
+- a string value specifying the name of a profile directory described above.
+- an object value with:
+  - at least 1 property called `directory` that points to a profile directory
+  - optional `alias` and `isDefault` properties (same concept and rules as explained above)
+
+```typescript
+defineConfig(({ browser }) => ({
+  chrome: browser({
+    alias: "c",
+    profiles: {
+      work: "Profile 1",
+      dev: {
+        directory: "Profile 2",
+      },
+      personal: {
+        directory: "Profile 3",
+        alias: "p",
+        isDefault: true,
+      },
+    },
+  }),
+}));
+```
+
+Defining browser profiles allows you to use its keys as values to the [`--profile` build-in option](#profile). For example:
+
+<pre><code>web <em>--profile=dev</em></code></pre>
+
+> ⚠️ Note that, unlike engine and browser aliases, profile aliases cannot be used as custom flags!
 
 ## Generating the config file
 
