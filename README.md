@@ -17,6 +17,7 @@ CLI for making web search queries from a shell.
     - [Engines configuration](#engines-configuration)
     - [Browsers configuration](#browsers-configuration)
   - [Generating the config file](#generating-the-config-file)
+  - [Deleting config](#deleting-config)
 - [Built-in Options](#built-in-options)
   - [`browser`](#browser)
   - [`profile`](#profile)
@@ -58,7 +59,7 @@ To perform basic web queries, provide **_space-separated values_**
 
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-The CLI will then construct 1 or more queries based on the type of values and open them in the new browser tab(s).
+The CLI will then construct 1 or more queries based on the type of values and open them in a new browser tab(s).
 
 There are 2 types of values:
 
@@ -75,7 +76,7 @@ web hello world
 
 &gt; `https://google.com/search?q=hello%20world`
 
-In the absence of [_options_](#options), the CLI uses the **_default search engine_** to construct the query and opens it in the **_default browser_**:
+In the absence of [_options_](#options), CLI uses the **_default search engine_** to construct the query and opens it in the **_default browser_**:
 
 - After installation, there is a set of initial search engines that you can use (default - Google).
 - The operating system's default browser is used to open the web queries.
@@ -96,7 +97,7 @@ The option value can be either supplied to the [`--engine`](#engine) option or u
 
 ## URLs
 
-When providing a URL as a value, the default behavior is to access that URL directly:
+When providing a URL value, the default behavior is to open that URL directly:
 
 ```bash
 web github.com
@@ -141,7 +142,7 @@ If an option requires a value ([_value options_](#value-options)), provide it in
 <pre><code>web <em>--option=value</em></code></pre>
 <pre><code>web <em>--option value</em></code></pre>
 
-> ⚠️ The assignment syntax (`--option=value`) is preferred, especially when building larger web queries with many search term keywords. This helps avoid any confusion between what is an option's value and what is an actual keyword.
+> The assignment syntax (`--option=value`) is more explicit and helps avoid any confusion between what is an option's value and what is an actual keyword, especially when building larger web queries with many search term keywords.
 
 1-letter options can be combined together with a single dash `-` as long as their combination is valid:
 
@@ -151,7 +152,7 @@ which is equivalent to:
 
 <pre><code>web <em>-x</em> <em>-y</em> <em>-z</em></code></pre>
 
-> ⚠️ Combining 1-letter aliases of multiple [_value options_](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [_flag options_](#flag-options), which can be built-in or custom. If you want to add a 1-letter value option, it must be placed at the very end of the combination. If the value option is placed in the middle, the value will not get assigned to it.
+> ⚠️ Combining 1-letter aliases of multiple [_value options_](#value-options) will result in invalid queries when such combinations are followed by a value. It is recommended to combine only the [_flag options_](#flag-options) which can be built-in or custom. If you want to add a 1-letter value option, it must be placed at the very end of the combination. If the value option is placed in the middle, the value argument will not get assigned to it.
 
 ## Value options
 
@@ -166,21 +167,20 @@ The following are built-in options that require a value:
 | [`resource`](#resource) | [`r`](#resource) | _Engine's resource to access_              |
 | [`port`](#port)         |   [`:`](#port)   | _Port number to add to the URL_            |
 
-All value options work without any initial configuration but each option's usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
+All value options work without any initial configuration but most options' usage can be enhanced by setting up the config. Refer to each option as well as [_engines configuration_](#engines-configuration) and [_browsers configuration_](#browsers-configuration) for more details.
 
 ## Flag options
 
 Options that do not require a value are called **_flags_**. The following are built-in flag options:
 
-| Option                    |       Alias       | Description                                       |
-| ------------------------- | :---------------: | ------------------------------------------------- |
-| [`incognito`](#incognito) | [`i`](#incognito) | _Open in incognito / private mode_                |
-| [`split`](#split)         |        ❌         | _Split values into separate web queries_          |
-| [`http`](#http)           |        ❌         | _Use the HTTP (non-secure) protocol_              |
-| [`test`](#test)           |   [`t`](#test)    | _Display the output without opening browser tabs_ |
+| Option                    |       Alias       | Description                                           |
+| ------------------------- | :---------------: | ----------------------------------------------------- |
+| [`incognito`](#incognito) | [`i`](#incognito) | _Open in incognito / private mode_                    |
+| [`split`](#split)         |        ❌         | _Create a separate web query for each value argument_ |
+| [`http`](#http)           |        ❌         | _Use the HTTP (non-secure) protocol_                  |
+| [`test`](#test)           |   [`t`](#test)    | _Display the output without opening browser tabs_     |
 
-> **_Caveat!_**  
-> Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to **_"true"_** but the option will still accept a boolean value that's placed after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign **_"true"_** or **_"false"_** to a flag if you do not intend it. Doing so will result in your web query missing the keyword **_"true"_** or **_"false"_** from the search term.
+> ⚠️ Flag options can be assigned values `true` and `false`. This is because, internally, flags are `boolean`s. Using a flag option in the command automatically sets its value to **_"true"_** but the option will still accept a boolean value that's placed after it (even without the explicit `=` sign). Therefore, make sure to not accidentally assign **_"true"_** or **_"false"_** to a flag if you do not intend it. Doing so will result in your web query missing the keyword **_"true"_** or **_"false"_** from the search term.
 
 With browsers and engines configuration set up, you can also use [_custom flags_](#custom-flags) which are created from the keys and aliases of _browsers_, _browser profiles_, and _engines_ from the generated config file. Custom flags simplify your web queries by being a convenient substitute for value options.
 
@@ -192,13 +192,12 @@ Options can be placed anywhere in the command
 
 <pre><code>web <em>-b=firefox</em> this is <em>-i</em> an example <em>-e=duckduckgo</em> search query</code></pre>
 
-> **_Note_**  
-> Normally, you would place the options where they make sense visually such as at the start or the end of the command. This example just shows you that their placement does not impact the constructed query.
+> Typically, you would place the options where they make sense visually such as at the start or the end of the command. This example just shows you that their placement does not impact the constructed queries.
 
 The above command will do the following:
 
 - construct a web query using
-  - the keywords **_"this is an example search query"_**
+  - keywords **_"this is an example search query"_**
   - the **_DuckDuckGo_** search engine (`--engine=duckduckgo`)
 - open the constructed query in a new **_Firefox_** tab (`--browser=firefox`)
 - in **_incognito / private mode_** (`--incognito`)
@@ -218,14 +217,11 @@ First, run the following command in the directory where you want to create the p
 On its first run, you won't have an existing config so it will give you only 2 options:
 
 - `Engines` to show the initial engines
-- `New config` to crete a new config project
+- `New config` to create a new config project
 
 As was mentioned earlier, you get access to a set of initial search engines after installing the package. You can see these engines by selecting the first option.
 
-What we need, however, is to select the second option in order to create a new config directory. Once selected, the CLI will:
-
-- prompt you to type a name for the directory to be created
-- initialize and scaffold the project
+What we need, however, is to select the second option in order to create a new config directory. Once selected, the CLI will help you initialize and scaffold the project.
 
 ## Editing the config project
 
@@ -255,23 +251,22 @@ defineConfig(({ engine }) => ({
 import { defineConfig } from "@lexjs/web-cli/config";
 
 defineConfig(({ browser }) => ({
-  // the browser you entered during initialization, e.g.
-  chrome: browser("chrome"),
+  chrome: browser(),
 }));
 ```
 
-You can add more engines and browsers, as well as edit or remove them as you need by extending the initial code.
+You can add more engines and browsers, as well as edit or remove them by extending the initial code.
 
-Also, since this is a regular TypeScript project, you are free to organize it however you want and use other libraries. Just remember to:
+Since this is a regular TypeScript project, you are free to organize it however you want, add more files, functions, use other libraries, etc. Just remember to:
 
 - call the `defineConfig` function that defines the engines and/or browsers, and
-- correctly generate the config file (described in the next section)
+- correctly [generate the config file](#generating-the-config-file) (described in the next section)
 
 ### **_Defining config_**
 
 `defineConfig` accepts a callback that
 
-- passes an object with `engine` and `browser` functions in its parameter
+- takes an object with `engine` and `browser` functions in its parameter
 - returns an object with defined engines and/or browsers
 
 ```typescript
@@ -294,7 +289,7 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-> The property key is important because it is used as a value for the `--engine` option and also as a custom flag. Make sure to always create meaningful property keys.
+> ⚠️ The property's key name is important because it is used as a value for the `--engine` option and as a custom flag.
 
 The `engine` function is of type `CreateEngineFn`:
 
@@ -303,7 +298,7 @@ The `engine` function is of type `CreateEngineFn`:
 type CreateEngineFn = (baseUrl: string, config?: Config) => Engine;
 ```
 
-When defining an engine, you must provide the base URL string as the first parameter and, optionally, a config object as the second parameter.
+When defining an engine, you must provide the base URL string as the first argument and, optionally, a config object as the second argument.
 
 The optional config parameter has the following shape:
 
@@ -336,7 +331,7 @@ Let's examine each available option:
 
 The value of this option can be one of the following:
 
-- a string such as `search?q=` or `?q=`
+- a string such as `search?q=`, `?q=`, etc. For example:
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -347,8 +342,8 @@ defineConfig(({ engine }) => ({
 ```
 
 - an object with:
-  - at least 1 property called `main` of string type
-  - other optional properties with string or nested object values (the most nested values must be strings), e.g.
+  - at least 1 property called `main` of the string type
+  - other optional properties with string or nested object values (the most nested values must be strings). For example:
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -358,7 +353,9 @@ defineConfig(({ engine }) => ({
       foo: {
         bar: "foobar?q=",
         baz: {
-          deep: "foobaz?q=",
+          deeply: {
+            nested: "foobaz?q=",
+          },
         },
       },
     },
@@ -370,24 +367,28 @@ Defining the `search` config as an object allows you to provide its keys as valu
 
 <pre><code>web <em>--search=main</em></code></pre>
 <pre><code>web <em>--search=bar</em></code></pre>
-<pre><code>web <em>--search=deep</em></code></pre>
+<pre><code>web <em>--search=nested</em></code></pre>
 
-> ⚠️ Using the keys `foo` and `baz` is not valid because they do not point to a string value!
+> ⚠️ Using the keys `foo`, `baz`, and `deeply` is not valid because they do not point to a string value!
 
 2. **_`resources`_** - defines what routes can be accessed on the engine.
 
-The value of this option is an object with string or object values (similar to the object in the `search` property, the most nested values must be strings), e.g.
+The value of this option is an object with string or nested object values (similarly, the most nested values must be strings). For example:
 
 ```typescript
 defineConfig(({ engine }) => ({
   github: engine("github.com", {
     resources: {
       profile: "username",
-      example: "example/path/to/something",
       tabs: {
         repos: "?tab=repositories",
         stars: "?tab=stars",
         projects: "?tab=projects",
+      },
+      deeply: {
+        nested: {
+          example: "example/path/to/some/resource",
+        },
       },
     },
   }),
@@ -396,13 +397,13 @@ defineConfig(({ engine }) => ({
 
 Defining the `resources` config allows you to provide its keys as values to the [`--resource` built-in option](#resource). For example:
 
+<pre><code>web <em>--resource=profile</em></code></pre>
 <pre><code>web <em>--resource=example</em></code></pre>
-
 <pre><code>web <em>--resource=profile::tabs</em></code></pre>
 
-Note the `profile::tabs` syntax - it allows you to construct a route based on multiple config keys.
+> ⚠️ Just like in the `search` example above, using keys like `tabs`, `deeply`, or `nested` that do not point to a string value is not valid!
 
-> ⚠️ Just like in the `search` example above, using keys like `tabs` that do not point to a string value is not valid!
+Note the `profile::tabs` syntax - it allows you to construct a route based on 2 config keys. The final URL will combine together both values of the provided property keys.
 
 3. **_`alias`_** - a string or array of strings that provides alias names for the engine.
 
@@ -420,12 +421,10 @@ defineConfig(({ engine }) => ({
 Defining engine aliases allows you to provide them to the [`--engine` built-in option](#engine) or use them as custom flags. For example:
 
 <pre><code>web <em>--engine=duck</em></code></pre>
-
 <pre><code>web <em>--duck</em></code></pre>
-
 <pre><code>web <em>-y</em></code></pre>
 
-4. **_`delimeter`_** - defines how the search keywords should be delimited when building search URLs.
+4. **_`delimeter`_** - defines how the search keywords should be delimited in the constructed URLs.
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -438,7 +437,7 @@ defineConfig(({ engine }) => ({
 
 When the engine is used, the delimiter specified in its config will be applied to combine the keywords. You should only provide the delimiter value if it differs from the default single whitespace character `" "`.
 
-5. **_`isDefault`_** - defines whether the engine should be used as a default.
+5. **_`isDefault`_** - defines whether the engine should be used as the default.
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -450,10 +449,11 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-When setting this option to true, Web CLI will use that engine when there is no `--engine` option provided.
+When setting this option to true, Web CLI will use that engine when there is no `--engine` option or engine custom flag provided.
 
-- You should only specify 1 engine as default. If multiple default engines are set, the first one will be used.
-- If this option is not set on any engine, the first one will be used.
+- You should only specify 1 engine as the default
+- If multiple default engines are set, the first one will be used (although JavaScript does not guarantee it)
+- If this option is not set on any engine, the first one in the config will be used (again no guarantee)
 
 ### **_Browsers Configuration_**
 
@@ -465,7 +465,7 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-> The property key is important because it is used as a value for the `--browser` option and also as a custom flag. Make sure to always create meaningful property keys.
+> ⚠️ The property's key name is important because it is used as a value for the `--browser` option and as a custom flag.
 
 The `browser` function is of type `CreateBrowserFn`:
 
@@ -474,7 +474,7 @@ The `browser` function is of type `CreateBrowserFn`:
 type CreateBrowserFn = (config?: Config) => Browser;
 ```
 
-As you can see, there are no required parameters but there is an optional config of the following form:
+There are no required parameters but there is an optional config of the following form:
 
 ```typescript
 // not exact representation
@@ -511,7 +511,6 @@ defineConfig(({ browser }) => ({
 Defining browser aliases allows you to provide them to the [`--browser` built-in option](#browser) or use them as custom flags. For example:
 
 <pre><code>web <em>--browser=ff</em></code></pre>
-
 <pre><code>web <em>--ff</em></code></pre>
 
 2. **_`isDefault`_** - defines whether the browser should be used as a default.
@@ -520,23 +519,23 @@ Same concept and rules as described in the engines configuration.
 
 3. **_`profiles`_** - defines browser profiles that can be used.
 
-Some browsers (such as Chrome) have the functionality to create and use multiple browser profiles. When a browser has multiple profiles, it typically keeps the data used by each profile in a **_directory_** (folder) stored somewhere on your machine. For example, Chrome stores this information in `~/AppData/Local/Google/Chrome/User Data` on a Windows machine (you can google where this data is for your OS). Here, you can find profile directories such "Profile 1", "Profile 2", etc. These are the names that you need to assign to the `profiles` properties.
+Some browsers (such as Chrome) have the functionality to create and use multiple browser profiles. When a browser has multiple profiles, it typically keeps the data used by each profile in a **_directory_** (folder) stored somewhere on your machine. For example, Chrome stores this information in `~/AppData/Local/Google/Chrome/User Data` on a Windows machine (you can google where this data is stored on your OS). Here, you can find profile directories such "Profile 1", "Profile 2", etc. These are the names that you need to assign to the `profiles` properties.
 
 The value of this option can be one of the following:
 
-- a string value specifying the name of a profile directory described above.
+- a string value specifying the name of a profile **_directory_** described above.
 - an object value with:
   - at least 1 property called `directory` that points to a profile directory
-  - optional `alias` and `isDefault` properties (same concept and rules as explained above)
+  - optional `alias` and `isDefault` properties (same concept and rules as above)
 
 ```typescript
 defineConfig(({ browser }) => ({
   chrome: browser({
-    alias: "c",
     profiles: {
       work: "Profile 1",
       dev: {
         directory: "Profile 2",
+        alias: ["code", "d"],
       },
       personal: {
         directory: "Profile 3",
@@ -548,11 +547,15 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-Defining browser profiles allows you to use its keys as values to the [`--profile` build-in option](#profile). For example:
+Defining browser profiles allows you to use its keys as values to the [`--profile` built-in option](#profile) and as custom flags (excluding 1-letter aliases).
+
+> ⚠️ Unlike engine and browser aliases, **_1-letter_** profile aliases (such as `d` in the above example) cannot be used as custom flags!
+
+For example:
 
 <pre><code>web <em>--profile=dev</em></code></pre>
-
-> ⚠️ Unlike engine and browser aliases, **_1-letter_** profile aliases (not multi-letter aliases) cannot be used as custom flags!
+<pre><code>web <em>--profile=p</em></code></pre>
+<pre><code>web <em>--code</em></code></pre>
 
 ## Generating the config file
 
@@ -565,19 +568,44 @@ To generate the config file, run the following command from the root directory o
 You can notice that this is just a simple npm script defined in `package.json` which consists of two other commands that you can run individually:
 
 <pre><code>npm run config:engines</code></pre>
-
 <pre><code>npm run config:browsers</code></pre>
 
 Both commands execute their respective files (`src/engines.ts` and `src/browsers.ts`) to set the config engines and browsers.
 
-> Again, you can customize this behavior as long as you execute a file that calls `defineConfig`.
+> Again, you can customize or change this part of the project as long as you execute a file (or multiple files) that calls `defineConfig`.
 
-Please note that only 1 config file gets generated even if you call `defineConfig` multiple times from different files. The location of the generated file depends on your OS:
+Please note that only 1 config file gets generated even if you call `defineConfig` multiple times from different files. Each time the `defineConfig` function is called, new engines and browsers from its return value are appended to the generated config file.
+
+The location of the generated file depends on your OS:
 
 - Windows - `~/AppData/Roaming/@lexjs/web-cli.config.json`
 - Linux - `~/.config/@lexjs/web-cli.config.json`
 - Darwin (MacOS) - `~/Library/Application Support/@lexjs/web-cli.config.json`
 - other - `~/@lexjs/web-cli.config.json`
+
+## Deleting config
+
+To delete the config engines or browsers, you have a couple of options:
+
+1. **_Not recommended_** - Manually going into the generated config file and removing values from there.
+
+2. Using `clearEngines` and `clearBrowsers` functions:
+
+```typescript
+// e.g. src/clear-config.ts
+import { clearEngines, clearBrowsers } from "@lexjs/web-cli/config";
+
+clearBrowsers();
+clearEngines();
+```
+
+To apply the changes you need to execute the file(s) where these functions are called by employing the same technique used to generate the config file. For example:
+
+<pre><code>npm run config:clear</code></pre>
+
+where `config:clear` is `npx tsx src/clear-config.ts`.
+
+> Alternatively, you can simply run `npx tsx src/clear-config.ts` without creating a package.json script.
 
 # Built-in Options
 
