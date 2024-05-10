@@ -51,7 +51,7 @@ const args = yargs(hideBin(process.argv))
   })
   .option(Options.Split, {
     type: types[Options.Split],
-    description: "Split values into separate web queries",
+    description: "Create a separate web query for each value argument",
   })
   .option(Options.Http, {
     type: types[Options.Http],

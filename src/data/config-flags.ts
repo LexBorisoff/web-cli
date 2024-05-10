@@ -16,12 +16,14 @@ interface Data<T> {
  */
 function getFlags<T extends WithAlias>(
   data: Data<T>,
-  includeAlias = true
+  includeSingleLetterAlias = true
 ): string[] {
   return Object.entries(data)
     .map(([key, { alias }]) => {
-      if (includeAlias && alias != null) {
-        return Array.isArray(alias) ? [key, ...alias] : [key, alias];
+      if (alias != null) {
+        const aliases = Array.isArray(alias) ? alias : [alias];
+        const filter = (a: string) => includeSingleLetterAlias || a.length > 1;
+        return [key, ...aliases.filter(filter)];
       }
       return key;
     })
