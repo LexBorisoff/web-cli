@@ -59,7 +59,7 @@ To perform basic web queries, provide **_space-separated values_**
 
 <pre><code>web <em>&lt;values&gt;</em></code></pre>
 
-The CLI will then construct 1 or more queries based on the type of values and open them in a new browser tab(s).
+The CLI will then construct 1 or more queries based on the type of values and open them in a new browser tab.
 
 There are 2 types of values:
 
@@ -97,7 +97,7 @@ The option value can be either supplied to the [`--engine`](#engine) option or u
 
 ## URLs
 
-When providing a URL value, the default behavior is to open that URL directly:
+When providing a URL value, the default behavior is to open it directly:
 
 ```bash
 web github.com
@@ -133,7 +133,7 @@ To use an option in the command, prefix it with a double dash `--`
 
 <pre><code>web <em>--option</em></code></pre>
 
-1-letter options (like an option's aliases, for example) are prefixed by a single dash `-`
+1-letter options (like an option's alias, for example) are prefixed by a single dash `-`
 
 <pre><code>web <em>-x</em></code></pre>
 
@@ -325,9 +325,9 @@ interface StringObject {
 }
 ```
 
-Let's examine each available option:
+All Config properties are optional. Let's examine each available option:
 
-1. **_`search`_** - defines how the search engine should be queried.
+1. **_`search`_** - defines how the search engine should be queried with keywords.
 
 The value of this option can be one of the following:
 
@@ -493,7 +493,7 @@ interface Profile {
 }
 ```
 
-Let's examine each available option.
+All Config properties are optional. Let's examine each available option.
 
 1. **_`alias`_** - a string or array of strings that provides alias names for the browser.
 
@@ -866,6 +866,8 @@ defineConfig(({ engine }) => ({
 ```
 
 > ⚠️ Using the keys `foo` and `baz` is not valid because they do not point to a string value!
+
+When the `--search` option is not provided, the CLI will use either the string value or the `main` property's value, depending on how the `search` config is defined.
 
 #### **_Multiple options_**
 
