@@ -45,13 +45,21 @@ web hello world
 
 &gt; `https://google.com/search?q=hello%20world`
 
-To check the installed version, use the `--version` option:
+<pre><code>web Array.prototype.at <em>--mdn</em></code></pre>
 
-<pre><code>web <em>--version</em></code></pre>
+&gt; `https://developer.mozilla.org/search?q=String.prototype.at`
+
+<pre><code>web typescript tutorial <em>--youtube</em></code></pre>
+
+&gt; `https://youtube.com/results?search_query=typescript%20tutorial`
 
 To get help with command options, use the `--help` option:
 
 <pre><code>web <em>--help</em></code></pre>
+
+To check the installed version, use the `--version` option:
+
+<pre><code>web <em>--version</em></code></pre>
 
 # Usage
 
