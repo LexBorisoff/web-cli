@@ -41,12 +41,10 @@ function handleResource(
         return foundResourceValue;
       }
 
-      const [resourceKey, pathKey] = splitResource();
-      const foundPath = pathKey && findNested<string>(config, pathKey, "");
-
-      return foundPath == null
-        ? resourceValue
-        : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
+      const [resourceKey] = splitResource();
+      return (
+        findNested<string>(config, resourceKey, resourceKey) ?? resourceKey
+      );
     },
     {
       path(config = {}) {
@@ -55,11 +53,15 @@ function handleResource(
         // Relates to the NOTE in the above callback
         // Add path found by splitted path key only if resource does not include the splitter
         if (foundResource == null) {
-          const [, pathKey] = splitResource();
+          const pathKey = splitResource().at(1);
           const foundPath = pathKey && findNested<string>(config, pathKey, "");
 
           if (foundPath != null) {
             return [...keywords, foundPath];
+          }
+
+          if (pathKey != null) {
+            return [...keywords, pathKey];
           }
         }
 
