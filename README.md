@@ -369,7 +369,7 @@ Defining the `search` config as an object allows you to provide its keys as valu
 <pre><code>web <em>--search=bar</em></code></pre>
 <pre><code>web <em>--search=nested</em></code></pre>
 
-> ⚠️ Using the keys `foo`, `baz`, and `deeply` is not valid because they do not point to a string value!
+> ⚠️ Using the keys `foo`, `baz`, and `deeply` is not valid because they do not point to a string value.
 
 2. **_`resources`_** - defines what routes can be accessed on the engine.
 
@@ -382,8 +382,8 @@ defineConfig(({ engine }) => ({
       profile: "username",
       tabs: {
         repos: "?tab=repositories",
-        stars: "?tab=stars",
         projects: "?tab=projects",
+        stars: "?tab=stars",
       },
       deeply: {
         nested: {
@@ -401,7 +401,7 @@ Defining the `resources` config allows you to provide its keys as values to the 
 <pre><code>web <em>--resource=example</em></code></pre>
 <pre><code>web <em>--resource=profile::tabs</em></code></pre>
 
-> ⚠️ Just like in the `search` example above, using keys like `tabs`, `deeply`, or `nested` that do not point to a string value is not valid!
+> ⚠️ Just like in the `search` example above, using keys like `tabs`, `deeply`, or `nested` that do not point to a string value is not valid.
 
 Note the `profile::tabs` syntax - it allows you to construct a route based on 2 config keys. The final URL will combine together both values of the provided property keys.
 
@@ -549,7 +549,7 @@ defineConfig(({ browser }) => ({
 
 Defining browser profiles allows you to use its keys as values to the [`--profile` built-in option](#profile) and as custom flags (excluding 1-letter aliases).
 
-> ⚠️ Unlike engine and browser aliases, **_1-letter_** profile aliases (such as `d` in the above example) cannot be used as custom flags!
+> ⚠️ Unlike engine and browser aliases, **_1-letter_** profile aliases (such as `d` in the above example) cannot be used as custom flags.
 
 For example:
 
@@ -613,7 +613,7 @@ where `config:clear` is `npx tsx src/clear-config.ts`.
 
 Specifies the browser app to open.
 
-✅ Requires a value.  
+⚡ Takes a value.  
 ⚙️ Allows configuration.
 
 ### _Options_
@@ -626,11 +626,13 @@ Specifies the browser app to open.
 
 `value` is one of the following:
 
-- #### _Browser app name, e.g. `chrome`, `firefox`, `brave`, `edge`, etc._
+1. #### _Browser app name on your machine, e.g. `chrome`, `firefox`, `brave`, `edge`, etc._
 
 <pre><code>web <em>--browser=chrome</em></code></pre>
 
-- #### _Browser key or alias in the config, like `chrome`, `firefox`, `c`, `f`, or `ff`:_
+> ⚠️ The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
+
+2. #### _Browser key or alias in the config. For example, `chrome`, `firefox`, `c`, `f`, or `ff`_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -647,9 +649,7 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--browser=ff</em></code></pre>
 
-> ⚠️ The command will not prevent you from specifying a value that refers to an invalid browser or to another non-browser application on your machine. As far as the program is concerned - any value provided to the `browser` option is a possible browser app, so it will attempt to open it.
-
-#### **_Multiple browsers_**
+### _Multiple options_
 
 You can specify multiple browsers:
 
@@ -664,9 +664,9 @@ Setting up [_browsers configuration_](#browsers-configuration) allows using
 
 ## `profile`
 
-Specifies what browser profile to use when opening a new browser tab.
+Specifies what browser profile to use when opening a new browser tab. Learn more about profiles in the [_browsers configuration_](#browsers-configuration).
 
-✅ Requires a value.  
+⚡ Takes a value.  
 ⚙️ Allows configuration.
 
 The option works only if the browser application supports profiles functionality. Otherwise, it will have no effect on the opened web query.
@@ -677,7 +677,7 @@ The option works only if the browser application supports profiles functionality
 
 ### _Usage_
 
-This option depends on the `browser` option or generated config.
+This option relies on the provided `browser` option or generated config.
 
 - If the `browser` option is not provided, the CLI will use the config's **_default browser_** (see how it is determined in [_browsers configuration_](#browsers-configuration)).
 - If the `browser` option is not provided and there is no browser config, the query will not be opened.
@@ -686,7 +686,7 @@ This option depends on the `browser` option or generated config.
 
 `value` is one of the following:
 
-- #### _Profile directory name, e.g._
+1. #### _Profile directory name. For example `Profile 1`_
 
 <pre><code>web <em>--profile="Profile 1"</em></code></pre>
 
@@ -700,7 +700,7 @@ defineConfig(({ browser }) => ({
 }));
 ```
 
-- #### _Property key in the `profiles` object of the browser config, like `dev` or `personal`:_
+2. #### _Property key in the `profiles` object of the browser config. For example, `dev` or `personal`_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -709,7 +709,9 @@ defineConfig(({ browser }) => ({
   chrome: browser({
     profiles: {
       dev: "Profile 1",
-      personal: "Profile 2",
+      personal: {
+        directory: "Profile 2",
+      },
     },
   }),
 }));
@@ -717,7 +719,7 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--profile=personal</em></code></pre>
 
-- #### _Value of a profile's `alias` property, like `d`, `main`, `p`, or `second`:_
+3. #### _Value of a profile's `alias` property. For example, `d`, `p`, or `second`_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -727,7 +729,7 @@ defineConfig(({ browser }) => ({
     profiles: {
       dev: {
         directory: "Profile 1",
-        alias: ["d", "main"],
+        alias: "d",
       },
       personal: {
         directory: "Profile 2",
@@ -740,7 +742,7 @@ defineConfig(({ browser }) => ({
 
 <pre><code>web <em>--profile=p</em></code></pre>
 
-#### **_Multiple profiles_**
+### _Multiple options_
 
 You can specify multiple profiles:
 
@@ -751,13 +753,13 @@ You can specify multiple profiles:
 Setting up [_browsers configuration_](#browsers-configuration) allows using
 
 - profile keys and aliases as the option's value
-- profile keys as custom flags
+- profile keys and multi-letter aliases as custom flags
 
 ## `engine`
 
 Specifies what search engine or website to query.
 
-✅ Requires a value.  
+⚡ Takes a value.  
 ⚙️ Allows configuration.
 
 ### _Options_
@@ -770,7 +772,7 @@ Specifies what search engine or website to query.
 
 `value` is one of the following:
 
-- #### _Engine key or alias in the config, like `google`, `npm`, `duck`, or `duckduckgo`:_
+1. #### _Engine key or alias in the config. For example, `google`, `npm`, `duck`, or `duckduckgo`_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -794,35 +796,40 @@ defineConfig(({ engine }) => ({
 
 &gt; `https://npmjs.com/search?q=@lexjs/web-cli`
 
-When supplying URL values to the command, this option overrides the default behavior of accessing the URLs directly. Instead, they are treated as search term keywords for the provided engine. For example:
+When supplying URL values to the command, this option overrides the default behavior of opening the URLs. Instead, they are treated as search term keywords for the provided engine. For example:
 
 <pre><code>web github.com <em>--engine=google</em></code></pre>
 
 &gt; `https://google.com/search?q=github.com`
 
-- #### _An arbitrary URL string like `google.com/search?q=` or `example.com`_
+2. #### _An arbitrary URL string like `google.com/search?q=` or `example.com`_
 
 <pre><code>web @lexjs/web-cli <em>--engine=npmjs.com/search?q=</em></code></pre>
 
 &gt; `https://npmjs.com/search?q=@lexjs/web-cli`
 
-> Non-URL values are not allowed.
+> ⚠️ Non-URL values are not allowed.
 
 When using the option with an arbitrary URL, it behaves in the same way as any other engine from the config, meaning that you can use other options such as `--search`, `--resource`, `--port`, `--split`, or `--http`.
 
 Note that since a URL value is a basic string, the CLI will simply append it with whatever keywords are supplied. If the URL has no query string that ends with an equals sign (`=`), the values will be added after a forward-slash (`/`), e.g.
 
-<pre><code>web hello world <em>--engine=example.com</em></code></pre>
+<pre><code>web <em>--engine=example.com</em> hello world</code></pre>
 
 &gt; `https://example.com/hello%20world`
 
 ### _Configuration_
 
-To define more engines and websites than the app defaults, add them to [_engines configuration_](#engines-configuration).
+To define more engines and websites than the app defaults, use [_engines configuration_](#engines-configuration).
 
 ## `search`
 
-Specifies what "search path" to use for querying the provided engine. This search path is a URL segment that is appended to the search engine's base URL and allows to **_search_** that engine with the provided keywords. There could be multiple ways to search a single engine, for example via `search?q=` or `images?q=`, and this option allows you to indicate which one you want to use.
+Specifies what _search path_ to use for querying the provided engine. This search path is a URL segment that is appended to the engine's base URL and allows to **_search_** that engine with the provided keywords. There could be multiple ways to search a single engine and this option allows to specify it.
+
+⚡ Takes a value.  
+🛠️ Requires an `--engine` option.  
+🛠️ Requires keywords.  
+⚙️ Allows configuration.
 
 ### _Options_
 
@@ -832,19 +839,20 @@ Specifies what "search path" to use for querying the provided engine. This searc
 
 This option must be used with the `--engine` option and keywords.
 
-<pre><code>web <em>--search=value</em> <em>--engine=value</em> &lt;keywords&gt;</code></pre>
+- If the engine is not specified, validation will fail and the web query will not be performed.
+- If keywords are not provided, only the base URL will be opened (i.e. the search `value` is not added).
 
-If keywords are not provided, only the base URL will be opened (i.e. the search `value` is not added).
+<pre><code>web <em>--search=value</em> <em>--engine=engine</em> &lt;keywords&gt;</code></pre>
 
 `value` is one of the following:
 
-- #### _URL segment string like `search?q=` or `?q=`_
+1. #### _URL segment string. For example, `search?q=` or `?q=`_
 
-<pre><code>web hello world <em>--search=?q=</em> <em>--engine=duckduckgo.com</em></code></pre>
+<pre><code>web <em>--search=?q=</em> <em>--engine=duckduckgo.com</em> hello world</code></pre>
 
 &gt; `https://duckduckgo.com/?q=hello%20world`
 
-- #### _Search key in the engine's "search" config, like `main`, `images`, `bar`, or `deep`:_
+2. #### _Search key in the engine's "search" config. For example, `main`, `images`, `bar`, or `deep`_
 
 ```typescript
 import { defineConfig } from "@lexjs/web-cli/config";
@@ -865,11 +873,11 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-> ⚠️ Using the keys `foo` and `baz` is not valid because they do not point to a string value!
+> ⚠️ Using keys like `foo` and `baz` that do not point to a string value is not valid.
 
-When the `--search` option is not provided, the CLI will use either the string value or the `main` property's value, depending on how the `search` config is defined.
+Most of the time when queying an engine, the `--search` option will not be provided. In these cases, it defaults to either the string value or the `main` property's value, depending on how the `search` config is set up.
 
-#### **_Multiple options_**
+### _Multiple options_
 
 Supplying multiple `--search` options will create a separate URL for each value.
 
@@ -879,9 +887,10 @@ Setting up [_engines configuration_](#engines-configuration) allows using search
 
 ## `resource`
 
-Overrides the default behavior of _querying_ a search engine by specifying the engine's route to access directly.
+Overrides the default behavior of _querying_ an engine by specifying the engine's route to be accessed directly.
 
-✅ Requires a value.  
+⚡ Takes a value.  
+🛠️ Requires an `--engine` option.  
 ⚙️ Allows configuration.
 
 ### _Options_
@@ -890,37 +899,66 @@ Overrides the default behavior of _querying_ a search engine by specifying the e
 
 ### _Usage_
 
-The option must be used together with the `engine` option. If the engine is **_not_** supplied, the validation will fail and the web query will not be performed.
+This option must be used with the `--engine` option.
 
-#### 1. Without command values
+- If the engine is not specified, validation will fail and the web query will not be performed.
 
-<pre><code>web <em>--resource=value</em></code></pre>
+<pre><code>web <em>--resource=value</em> <em>--engine=engine</em></code></pre>
 
-`value` refers to the engine's resource path to access.
+`value` is one of the following:
 
-For example, the following command adds "teapot" to the engine's URL to access the resource directly instead of searching it as a keyword.
+1. #### _URL segment string. For example_
 
-<pre><code>web <em>--engine=google</em> <em>--resource=teapot</em></code></pre>
+<pre><code>web <em>--resource=teapot</em> <em>--engine=google.com</em></code></pre>
 
 &gt; `https://google.com/teapot`
 
-#### 2. With command values
+<pre><code>web <em>--resource=path/to/resource</em> <em>--engine=example.com</em></code></pre>
+
+&gt; `https://example.com/path/to/resource`
+
+2. #### _Resource key in the engine's "resources" config. For example, `test`, `bar`, `baz` or `example`_
+
+```typescript
+import { defineConfig } from "@lexjs/web-cli/config";
+
+defineConfig(({ engine }) => ({
+  example: engine("example.com", {
+    resources: {
+      test: "path/to/resource",
+      foo: {
+        bar: "?foo=bar",
+        baz: "?foo=baz",
+      },
+      deeply: {
+        nested: {
+          example: "deeply/nested/example/resource",
+        },
+      },
+    },
+  }),
+}));
+```
+
+> ⚠️ Using keys like `foo`, `deeply`, or `nested` that do not point to a string value is not valid.
+
+### _Command values_
 
 When supplying command values, each value is used in a separate web query as a URL path segment after the provided resource.
 
 For example, the following creates 3 distinct web queries:
 
-<pre><code>web lodash axios express <em>--resource=package</em> <em>--engine=npmjs.com</em></code></pre>
+<pre><code>web typescript react @nestjs/cli <em>--resource=package</em> <em>--engine=npmjs.com</em></code></pre>
 
-&gt; `https://npmjs.com/package/lodash`  
-&gt; `https://npmjs.com/package/axios`  
-&gt; `https://npmjs.com/package/express`
+&gt; `https://npmjs.com/package/typescript`  
+&gt; `https://npmjs.com/package/react`  
+&gt; `https://npmjs.com/package/@nestjs/cli`
 
-#### **_Combining multiple resource keys_**
+### _Combining resources_
 
-You can combine multiple resource keys to create a single web query by using the `::` separator between the keys. Currently there is support for just 2 keys.
+You can combine 2 resources together to create a single web query by using the `::` separator. Each resource can be either a key from the engine's `resources` config or an arbitrary string.
 
-For example, given the following engine config:
+Let's examine each scenario by using the following Github engine config:
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -930,19 +968,49 @@ defineConfig(({ engine }) => ({
       profile: "LexBorisoff",
       tabs: {
         repos: "?tab=repositories",
-        stars: "?tab=stars",
         projects: "?tab=projects",
+        stars: "?tab=stars",
       },
     },
   }),
 }));
 ```
 
-You can run this command to generate the correct URL:
+#### _Combining two resource keys_
 
-<pre><code>web <em>--engine=github</em> <em>--resource=profile::repos</em></code></pre>
+You can generate a URL that accesses a profile's repositories page:
+
+<pre><code>web <em>--resource=profile::repos</em> <em>--engine=github</em></code></pre>
 
 &gt; `https://github.com/LexBorisoff?tab=repositories`
+
+#### _Combining a resource key with an arbitrary string_
+
+You can generate a URL that accesses a profile's arbitrary repository:
+
+<pre><code>web <em>--resource=profile::web-cli</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/LexBorisoff/web-cli`
+
+#### _Combining an arbitrary string with a resource key_
+
+You can generate a URL that accesses a repositories page of an arbitrary profile:
+
+<pre><code>web <em>--resource=username::repos</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/username?tab=repositories`
+
+#### _Combining two arbitrary strings_
+
+<pre><code>web <em>--resource=LexBorisoff::web-cli</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/LexBorisoff/web-cli`
+
+This scenario is essentially the same as providing a single resource value with `/`
+
+<pre><code>web <em>--resource=LexBorisoff/web-cli</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/LexBorisoff/web-cli`
 
 ### _Configuration_
 
@@ -952,7 +1020,7 @@ Setting up [_engines configuration_](#engines-configuration) allows using resour
 
 Adds the provided port number to the URL.
 
-✅ Requires a number value.  
+⚡ Requires a number value.  
 ❌ No configuration.
 
 ### _Options_
@@ -961,20 +1029,20 @@ Adds the provided port number to the URL.
 
 ### _Usage_
 
-<pre><code>web example.com <em>--port=3000</em></code></pre>
+<pre><code>web <em>--port=3000</em> example.com</code></pre>
 
 &gt; `https://example.com:3000/`
 
 If multiple ports are supplied, each one will create a separate query:
 
-<pre><code>web example.com <em>-: 3000 -: 5000</em></code></pre>
+<pre><code>web <em>-: 3000 -: 5000</em> example.com</code></pre>
 
 &gt; `https://example.com:3000/`  
 &gt; `https://example.com:5000/`
 
 The program recognizes if an engine or a URL already includes a port and checks if it matches the option's value when building the final list of URLs:
 
-<pre><code>web example.com:3000/api/users <em>-: 3000 -: 5000</em></code></pre>
+<pre><code>web <em>-: 3000 -: 5000</em> example.com:3000/api/users</code></pre>
 
 &gt; `https://example.com:3000/api/users`  
 &gt; `https://example.com:5000/api/users`
@@ -996,7 +1064,7 @@ Opens web queries in a private / incognito mode.
 
 ## `split`
 
-Splits provided values into separate web queries.
+Creates a separate web query for each value argument.
 
 🚩 Flag option - no value is required.  
 ❌ No configuration.
@@ -1026,7 +1094,7 @@ Uses the non-secure HTTP protocol when constructing web queries.
 
 ### _Usage_
 
-<pre><code>web <em>https://google.com</em> --http</em></code></pre>
+<pre><code>web <em>--http</em> https://google.com</code></pre>
 
 &gt; `http://google.com/`
 
