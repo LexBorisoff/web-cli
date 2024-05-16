@@ -49,7 +49,7 @@ After installing, the `web` command is ready for use without any setup.
 
 <pre><code>web typescript tutorial <em>--youtube</em></code></pre>
 
-&gt; `https://youtube.com/results?search_query=typescript%20tutorial`
+&gt; `https://youtube.com/results?search_query=typescript+tutorial`
 
 To get help with command options, use the `--help` option:
 
