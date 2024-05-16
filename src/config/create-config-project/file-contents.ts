@@ -22,8 +22,8 @@ defineConfig(({ engine }) => ({
     resources: {
       tabs: {
         repos: "?tab=repositories",
-        stars: "?tab=stars",
         projects: "?tab=projects",
+        stars: "?tab=stars",
       },
     },
   }),
@@ -35,6 +35,7 @@ defineConfig(({ engine }) => ({
   }),
   youtube: engine("youtube.com", {
     search: "results?search_query=",
+    delimiter: "+",
   }),
 }));
 `;

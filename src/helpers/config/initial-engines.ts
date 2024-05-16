@@ -18,6 +18,7 @@ export const initialEngines: NonNullable<ConfigDataDto["engines"]> = {
   youtube: {
     baseUrl: "youtube.com",
     search: "results?search_query=",
+    delimiter: "+",
   },
   npm: {
     baseUrl: "npmjs.com",
