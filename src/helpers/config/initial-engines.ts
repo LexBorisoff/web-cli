@@ -11,6 +11,17 @@ export const initialEngines: NonNullable<ConfigDataDto["engines"]> = {
     delimiter: "+",
     alias: ["duckduckgo"],
   },
+  github: {
+    baseUrl: "github.com",
+    search: "search?q=",
+    resources: {
+      tabs: {
+        repos: "?tab=repositories",
+        projects: "?tab=projects",
+        stars: "?tab=stars",
+      },
+    },
+  },
   mdn: {
     baseUrl: "developer.mozilla.org",
     search: "search?q=",

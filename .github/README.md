@@ -95,6 +95,7 @@ You can change these defaults and add new engines and browsers by setting up and
 | ------------- | :-----------------: |
 | Google        |      `google`       |
 | DuckDuckGo    | `duckduckgo` `duck` |
+| Github        |      `github`       |
 | MDN           |        `mdn`        |
 | YouTube       |      `youtube`      |
 | NPM           |        `npm`        |
