@@ -1,6 +1,6 @@
 {
   "name": "@lexjs/web-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "CLI for making browser search queries",
   "type": "module",
   "scripts": {
