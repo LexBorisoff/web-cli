@@ -14,9 +14,7 @@ Install the package globally:
 
 After installing, the `web` command is ready for use without any setup.
 
-```bash
-web hello world
-```
+<pre><code>web hello world</code></pre>
 
 &gt; `https://google.com/search?q=hello%20world`
 
