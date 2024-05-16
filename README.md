@@ -1,6 +1,6 @@
 <h1 align="center">Web CLI</h1>
 
-CLI for making web search queries from a shell.
+CLI for making browser search queries.
 
 # Documentation
 
