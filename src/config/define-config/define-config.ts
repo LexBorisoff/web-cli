@@ -83,14 +83,17 @@ function updateConfig<Data extends ConfigDataDto>({
   }
 }
 
+const engineSym: symbol = Symbol("engine");
+const browserSym: symbol = Symbol("browser");
+
 const engine: CreateEngineFn = (baseUrl, config = {}) => {
-  return Object.defineProperty({ ...config, baseUrl }, "__engine", {
+  return Object.defineProperty({ ...config, baseUrl }, engineSym, {
     value: true,
   });
 };
 
 const browser: CreateBrowserFn = (config = {}) => {
-  return Object.defineProperty(config, "__browser", {
+  return Object.defineProperty(config, browserSym, {
     value: true,
   });
 };
@@ -111,12 +114,12 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const engines = Object.entries(definedConfig).reduce<
     Record<string, ConfigEngine>
   >((result, [key, engineOrBrowser]) => {
-    const { value: __engine } = Object.getOwnPropertyDescriptor(
+    const { value: isEngine } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      "__engine"
+      engineSym
     ) ?? { value: false };
 
-    if (__engine) {
+    if (isEngine) {
       result[key] = engineOrBrowser as ConfigEngine;
     }
 
@@ -126,12 +129,12 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const browsers = Object.entries(definedConfig).reduce<
     Record<string, ConfigBrowser>
   >((result, [key, engineOrBrowser]) => {
-    const { value: __browser } = Object.getOwnPropertyDescriptor(
+    const { value: isBrowser } = Object.getOwnPropertyDescriptor(
       engineOrBrowser,
-      "__browser"
+      browserSym
     ) ?? { value: false };
 
-    if (__browser) {
+    if (isBrowser) {
       result[key] = engineOrBrowser as ConfigBrowser;
     }
 
