@@ -50,6 +50,7 @@ export interface ConfigBrowserOptions
       "profiles"
     >,
     BaseConfigOptions {
+  appPath?: string;
   profiles?: ConfigProfiles;
 }
 
@@ -57,14 +58,11 @@ export interface ConfigBrowser extends ConfigBrowserOptions {}
 
 /* ~~~ DEFINE CONFIG ~~~ */
 
-export type DefinedEngine = ConfigEngine & { __engine: true };
-export type DefinedBrowser = ConfigBrowser & { __browser: true };
-
 export type CreateEngineFn = (
   baseUrl: string,
   config?: ConfigEngineOptions<SearchConfig, ResourceConfig>
-) => DefinedEngine;
-export type CreateBrowserFn = (config?: ConfigBrowserOptions) => DefinedBrowser;
+) => ConfigEngine;
+export type CreateBrowserFn = (config?: ConfigBrowserOptions) => ConfigBrowser;
 
 export type ClearEnginesFn = () => void;
 export type ClearBrowsersFn = () => void;
@@ -76,7 +74,7 @@ export interface DefineConfigProps {
 
 export type DefineConfigCallback = (
   props: DefineConfigProps
-) => Record<string, DefinedEngine | DefinedBrowser>;
+) => Record<string, ConfigEngine | ConfigBrowser>;
 
 export type DefineConfigFn = (callback: DefineConfigCallback) => void;
 

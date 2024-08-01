@@ -83,16 +83,17 @@ function updateConfig<Data extends ConfigDataDto>({
   }
 }
 
-const engine: CreateEngineFn = (baseUrl, config = {}) => ({
-  __engine: true,
-  baseUrl,
-  ...config,
-});
+const engine: CreateEngineFn = (baseUrl, config = {}) => {
+  return Object.defineProperty({ ...config, baseUrl }, "__engine", {
+    value: true,
+  });
+};
 
-const browser: CreateBrowserFn = (config = {}) => ({
-  __browser: true,
-  ...config,
-});
+const browser: CreateBrowserFn = (config = {}) => {
+  return Object.defineProperty(config, "__browser", {
+    value: true,
+  });
+};
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const configDir = getConfigDirPath();
@@ -109,10 +110,14 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
 
   const engines = Object.entries(definedConfig).reduce<
     Record<string, ConfigEngine>
-  >((result, [key, value]) => {
-    if ("__engine" in value && value.__engine) {
-      const { __engine, ...configEngine } = value;
-      result[key] = configEngine;
+  >((result, [key, engineOrBrowser]) => {
+    const { value: __engine } = Object.getOwnPropertyDescriptor(
+      engineOrBrowser,
+      "__engine"
+    ) ?? { value: false };
+
+    if (__engine) {
+      result[key] = engineOrBrowser as ConfigEngine;
     }
 
     return result;
@@ -120,10 +125,14 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
 
   const browsers = Object.entries(definedConfig).reduce<
     Record<string, ConfigBrowser>
-  >((result, [key, value]) => {
-    if ("__browser" in value && value.__browser) {
-      const { __browser, ...configEngine } = value;
-      result[key] = configEngine;
+  >((result, [key, engineOrBrowser]) => {
+    const { value: __browser } = Object.getOwnPropertyDescriptor(
+      engineOrBrowser,
+      "__browser"
+    ) ?? { value: false };
+
+    if (__browser) {
+      result[key] = engineOrBrowser as ConfigBrowser;
     }
 
     return result;

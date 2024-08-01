@@ -40,7 +40,7 @@ function getDefaultEngine(): DefaultsData["engine"] {
   return getDefault(engines) ?? fallback;
 }
 
-function getDefaultBrowser(): DefaultsData["browser"] {
+function getDefaultBrowser(): DefaultsData["browser"] | null {
   const browsers = getBrowsersData();
   return getDefault(browsers);
 }
