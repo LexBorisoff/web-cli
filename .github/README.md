@@ -567,7 +567,7 @@ For example:
 
 4. **_`appPath`_** - defines the browser application path in the file system.
 
-Some browser applications can have multiple versions available for download, such as Chrome/Chrome Dev/Chrome Canary and not all of them could be found by their app name when supplying it to the Web CLI (for example, you can specify `web --browser=chrome` but not `web --browser=chrome-dev` because the program name`chrome-dev` does not exist). In such cases, you can provide this option an exact file path of the browser you want to open. For example:
+Some browser applications can have multiple versions available for download, such as Chrome/Chrome Dev/Chrome Canary and not all of them could be found by their app name when supplying it to the Web CLI (for example, you can specify `web --browser=chrome` but not `web --browser=chrome-dev` because the program name `chrome-dev` does not exist). In such cases, you can provide this option an exact path of the browser program you want to open. For example:
 
 ```typescript
 defineConfig(({ browser }) => ({
