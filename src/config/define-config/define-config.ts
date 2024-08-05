@@ -83,16 +83,20 @@ function updateConfig<Data extends ConfigDataDto>({
   }
 }
 
-const engine: CreateEngineFn = (baseUrl, config = {}) => ({
-  __engine: true,
-  baseUrl,
-  ...config,
-});
+const engineSym: symbol = Symbol("engine");
+const browserSym: symbol = Symbol("browser");
 
-const browser: CreateBrowserFn = (config = {}) => ({
-  __browser: true,
-  ...config,
-});
+const engine: CreateEngineFn = (baseUrl, config = {}) => {
+  return Object.defineProperty({ ...config, baseUrl }, engineSym, {
+    value: true,
+  });
+};
+
+const browser: CreateBrowserFn = (config = {}) => {
+  return Object.defineProperty(config, browserSym, {
+    value: true,
+  });
+};
 
 export const defineConfig: DefineConfigFn = function defineConfig(define) {
   const configDir = getConfigDirPath();
@@ -109,10 +113,14 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
 
   const engines = Object.entries(definedConfig).reduce<
     Record<string, ConfigEngine>
-  >((result, [key, value]) => {
-    if ("__engine" in value && value.__engine) {
-      const { __engine, ...configEngine } = value;
-      result[key] = configEngine;
+  >((result, [key, engineOrBrowser]) => {
+    const { value: isEngine } = Object.getOwnPropertyDescriptor(
+      engineOrBrowser,
+      engineSym
+    ) ?? { value: false };
+
+    if (isEngine) {
+      result[key] = engineOrBrowser as ConfigEngine;
     }
 
     return result;
@@ -120,10 +128,14 @@ export const defineConfig: DefineConfigFn = function defineConfig(define) {
 
   const browsers = Object.entries(definedConfig).reduce<
     Record<string, ConfigBrowser>
-  >((result, [key, value]) => {
-    if ("__browser" in value && value.__browser) {
-      const { __browser, ...configEngine } = value;
-      result[key] = configEngine;
+  >((result, [key, engineOrBrowser]) => {
+    const { value: isBrowser } = Object.getOwnPropertyDescriptor(
+      engineOrBrowser,
+      browserSym
+    ) ?? { value: false };
+
+    if (isBrowser) {
+      result[key] = engineOrBrowser as ConfigBrowser;
     }
 
     return result;

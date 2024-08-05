@@ -2,7 +2,7 @@ import { Browser } from "@lexjs/web-search";
 import type { QueryBrowser } from "../types/query.types.js";
 import { dataArgs } from "../command/args/data-args.js";
 import { defaultsData } from "../data/defaults-data.js";
-import { getBrowserName } from "../helpers/browser/get-browser-name.js";
+import { findBrowser } from "../helpers/find/find-browser.js";
 import { getProfilesConfig } from "./get-profiles-config.js";
 
 const browserArgs = dataArgs.browser();
@@ -13,11 +13,11 @@ export function getQueryBrowsers(): QueryBrowser[] {
       return [];
     }
 
-    const [defaultBrowserName] = defaultsData.browser;
+    const [defaultBrowserName, defaultBrowser] = defaultsData.browser;
     return [
       [
         defaultBrowserName,
-        new Browser(defaultBrowserName, {
+        new Browser(defaultBrowser.appPath ?? defaultBrowserName, {
           profiles: getProfilesConfig(defaultBrowserName),
         }),
       ],
@@ -25,11 +25,13 @@ export function getQueryBrowsers(): QueryBrowser[] {
   }
 
   return browserArgs.map((browserNameOrAlias) => {
-    const browserName = getBrowserName(browserNameOrAlias);
+    const [browserName, browser] = findBrowser(browserNameOrAlias) ?? [
+      browserNameOrAlias,
+    ];
 
     return [
       browserName,
-      new Browser(browserName, {
+      new Browser(browser?.appPath ?? browserName, {
         profiles: getProfilesConfig(browserName),
       }),
     ];
