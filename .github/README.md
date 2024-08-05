@@ -491,6 +491,7 @@ interface Config {
   profiles?: {
     [key: string]: string | Profile;
   };
+  appPath?: string;
 }
 
 interface Profile {
@@ -563,6 +564,19 @@ For example:
 <pre><code>web <em>--profile=dev</em></code></pre>
 <pre><code>web <em>--profile=p</em></code></pre>
 <pre><code>web <em>--code</em></code></pre>
+
+4. **_`appPath`_** - defines the browser application path in the file system.
+
+Some browser applications can have multiple versions available for download, such as Chrome/Chrome Dev/Chrome Canary and not all of them could be found by their app name when supplying it to the Web CLI (for example, you can specify `web --browser=chrome` but not `web --browser=chrome-dev` because the program name`chrome-dev` does not exist). In such cases, you can provide this option an exact file path of the browser you want to open. For example:
+
+```typescript
+defineConfig(({ browser }) => ({
+  chrome: browser(),
+  "chrome-dev": browser({
+    appPath: "C:\\Program Files\\Google\\Chrome Dev\\Application\\chrome.exe",
+  }),
+}));
+```
 
 ## Generating the config file
 
