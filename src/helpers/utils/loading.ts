@@ -1,4 +1,4 @@
-import { stdout } from "process";
+import { stdout } from "node:process";
 
 interface Options {
   bar?: string;
@@ -21,7 +21,7 @@ const hideCursor = () => stdout.write("\u001b[?25l\r");
 const showCursor = () => stdout.write("\u001b[?25h\r");
 const clearLine = () => stdout.write("\r" + " ".repeat(80) + "\r");
 
-function cleanup(interval: NodeJS.Timer) {
+function cleanup(interval: NodeJS.Timeout) {
   clearLine();
   showCursor();
   clearInterval(interval);
