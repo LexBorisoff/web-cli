@@ -32,7 +32,7 @@
     }
   },
   "bin": {
-    "web": "bin/index.js"
+    "web": "dist/cli.js"
   },
   "keywords": [
     "cli",
