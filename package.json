@@ -4,7 +4,7 @@
   "description": "CLI for making browser search queries",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -fr ./bin",
+    "prebuild": "rm -fr ./dist",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "prepublishOnly": "npm run build"
@@ -21,9 +21,14 @@
   },
   "exports": {
     "./config": {
-      "types": "./bin/types/config/index.d.ts",
-      "import": "./bin/config/index.js",
-      "default": "./bin/config/index.js"
+      "types": "./dist/types/config/index.d.ts",
+      "import": "./dist/config/index.js",
+      "default": "./dist/config/index.js"
+    },
+    "./core": {
+      "types": "./dist/types/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "default": "./dist/core/index.js"
     }
   },
   "bin": {
@@ -41,7 +46,7 @@
     "google"
   ],
   "files": [
-    "bin"
+    "dist"
   ],
   "engines": {
     "node": ">=16"
