@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { matchers } from "@lexjs/web-search/matchers";
+import { matchers } from "../../core/utils/matchers.js";
 import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { configFlags } from "../../data/config-flags.js";
 import { orArray } from "../../helpers/utils/or-arrray.js";

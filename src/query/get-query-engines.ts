@@ -1,4 +1,4 @@
-import { Engine } from "@lexjs/web-search";
+import { Engine } from "../core/engine/engine.js";
 import type { QueryEngine } from "../types/query.types.js";
 import { dataArgs } from "../command/args/data-args.js";
 import { queryArgs, urlArgs } from "../command/args/query-args.js";

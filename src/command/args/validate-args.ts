@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { matchers } from "@lexjs/web-search/matchers";
+import { matchers } from "../../core/utils/matchers.js";
 import { defaultsData } from "../../data/defaults-data.js";
 import {
   configEngineFlags,

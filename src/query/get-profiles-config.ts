@@ -1,4 +1,4 @@
-import { ProfilesConfig } from "@lexjs/web-search";
+import type { ProfilesConfig } from "../core/browser/browser.types.js";
 import { findBrowser } from "../helpers/find/find-browser.js";
 
 export function getProfilesConfig(

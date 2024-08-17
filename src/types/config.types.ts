@@ -1,10 +1,9 @@
+import { BrowserConfig, BrowserName } from "../core/browser/browser.types.js";
 import type {
-  BrowserConfig,
-  BrowserName,
   EngineConfig,
   ResourceConfig,
   SearchConfig,
-} from "@lexjs/web-search";
+} from "../core/engine/engine.types.js";
 import type { OmitKey } from "./omit-key.type.js";
 
 export interface WithAlias {
