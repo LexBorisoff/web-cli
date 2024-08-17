@@ -20,15 +20,15 @@
     "url": "https://github.com/LexBorisoff/web-cli/issues"
   },
   "exports": {
+    ".": {
+      "types": "./dist/types/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "default": "./dist/core/index.js"
+    },
     "./config": {
       "types": "./dist/types/config/index.d.ts",
       "import": "./dist/config/index.js",
       "default": "./dist/config/index.js"
-    },
-    "./core": {
-      "types": "./dist/types/core/index.d.ts",
-      "import": "./dist/core/index.js",
-      "default": "./dist/core/index.js"
     }
   },
   "bin": {
