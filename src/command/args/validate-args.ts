@@ -16,6 +16,7 @@ const { italic } = chalk;
 const { resource, search } = queryArgs;
 const engineArgs = dataArgs.engine(false);
 const browserArgs = dataArgs.browser(false);
+const portArgs = dataArgs.port();
 
 const validate = {
   profiles: false,
@@ -170,9 +171,17 @@ export function validateArgs(): string[] {
     );
   }
 
-  /* ~~~ VALIDATE PORT ARG ~~~ */
-  if ("port" in queryArgs) {
+  /* ~~~ VALIDATE PORT ARGS ~~~ */
+
+  if (Object.hasOwn(queryArgs, "port")) {
+    if (portArgs.length === 0) {
       noValueError(QueryOptions.Port);
+    }
+
+    if (portArgs.some((port) => Number.isNaN(port))) {
+      addMessage(
+        logger.level.error(`${italic("--port")} option must be a number`)
+      );
     }
 
     if (engineArgs.length === 0 && !urlArgs)
