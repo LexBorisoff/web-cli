@@ -3,13 +3,13 @@ import { hideBin } from "yargs/helpers";
 import { matchers } from "@lexjs/web-search/matchers";
 import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { configFlags } from "../../data/config-flags.js";
-import { orArray } from "../../helpers/utils/or-arrray.js";
 import {
   QueryOptions as Options,
   queryAlias as alias,
   queryOptions as options,
   queryOptionTypes as types,
 } from "../options.js";
+import type { ArrayArgs } from "../../types/arg.types.js";
 
 const version = getPackageJson().version!;
 
@@ -38,6 +38,11 @@ const args = yargs(hideBin(process.argv))
     type: types[Options.Resource],
     alias: alias.resource,
     description: "The engine's resource to access",
+  })
+  .option(Options.Delimiter, {
+    type: types[Options.Delimiter],
+    alias: alias.delimiter,
+    description: "The engine's delimiter to separate query terms",
   })
   .option(Options.Port, {
     type: types[Options.Port],
@@ -71,14 +76,13 @@ const args = yargs(hideBin(process.argv))
   .boolean(configFlags.filter((flag) => !options.includes(flag)))
   .parseSync();
 
-const arrayArgs = {
-  browser: orArray(args.browser),
-  profile: orArray(args.profile),
-  engine: orArray(args.engine),
-  query: orArray(args.query),
-  resource: orArray(args.resource),
-  prefix: orArray(args.prefix),
-  port: orArray(args.port),
+const arrayArgs: ArrayArgs = {
+  browser: args.browser,
+  profile: args.profile,
+  engine: args.engine,
+  search: args.search,
+  resource: args.resource,
+  port: args.port,
 };
 
 const _ = args._.map((arg) => `${arg}`);
