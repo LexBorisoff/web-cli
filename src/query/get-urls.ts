@@ -8,8 +8,9 @@ import { queryArgs, urlArgs } from "../command/args/query-args.js";
 import { findNested } from "../helpers/find/find-nested.js";
 import { dataArgs } from "../command/args/data-args.js";
 
-const { _: args, resource, port, http } = queryArgs;
+const { _: args, resource, http } = queryArgs;
 const engineArgs = dataArgs.engine();
+const port = dataArgs.port();
 
 // if there are no engine args and all value args are URLs,
 // remove URL args from keywords list because they are used as engines
@@ -104,7 +105,7 @@ export function getUrls(
 
   return engine.search(keywords.join(" "), {
     query: handleQuery,
-    port: queryArgs.port,
+    port,
     split: queryArgs.split,
     unsecureHttp: queryArgs.http,
   });
