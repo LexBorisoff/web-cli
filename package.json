@@ -44,7 +44,7 @@
     "bin"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=16.10.0"
   },
   "dependencies": {
     "@lexjs/web-search": "^1.1.2",
