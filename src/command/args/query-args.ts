@@ -101,10 +101,10 @@ const queryArgs = {
   _,
 };
 
-// delete undefined properties created in arrayArgs except for number type options
+// delete undefined properties
 type QueryArgs = typeof queryArgs;
-for (const key of Object.keys(arrayArgs) as (keyof ArrayArgs)[]) {
-  if (types[key] !== "number" && args[key] == null) {
+for (const key of Object.keys(queryArgs) as (keyof QueryArgs)[]) {
+  if (args[key] == null) {
     delete queryArgs[key as keyof QueryArgs];
   }
 }
