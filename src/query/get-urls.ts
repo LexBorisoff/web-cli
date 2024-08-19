@@ -23,13 +23,7 @@ function handleResource(
   engine: Engine<SearchConfig, ResourceConfig>,
   resourceValue: string
 ): string[] {
-  function splitResource(): [string, string | undefined] {
-    const splitter = "::";
-    const splitted = resourceValue.split(splitter);
-    const resourceKey = splitted.at(0) ?? resourceValue;
-    const pathKey = splitted.at(1);
-    return [resourceKey, pathKey];
-  }
+  const splitter = "::";
 
   function findResourceByValue(resources: ResourceObject) {
     return findNested<string>(resources, resourceValue, resourceValue);
@@ -43,10 +37,12 @@ function handleResource(
         return foundResourceValue;
       }
 
-      const [resourceKey] = splitResource();
-      return (
-        findNested<string>(config, resourceKey, resourceKey) ?? resourceKey
-      );
+      const [resourceKey] = resourceValue.split(splitter);
+      const isEscaped = resourceKey.startsWith("/");
+      // do not search in config if resource key starts with slash
+      return isEscaped
+        ? resourceKey.slice(1)
+        : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
     },
     {
       path(config = {}) {
@@ -55,15 +51,26 @@ function handleResource(
         // Relates to the NOTE in the above callback
         // Add path found by splitted path key only if resource does not include the splitter
         if (foundResource == null) {
-          const pathKey = splitResource().at(1);
-          const foundPath = pathKey && findNested<string>(config, pathKey, "");
+          const pathKeys = resourceValue.split(splitter).slice(1);
 
-          if (foundPath != null) {
-            return [...keywords, foundPath];
-          }
+          if (pathKeys.length > 0) {
+            const result = pathKeys
+              .reduce<string[]>((acc, pathKey) => {
+                const isEscaped = pathKey.startsWith("/");
+                acc.push(
+                  // do not search in config if path key starts with slash
+                  isEscaped
+                    ? pathKey.slice(1)
+                    : findNested<string>(config, pathKey, "") ?? pathKey
+                );
 
-          if (pathKey != null) {
-            return [...keywords, pathKey];
+                return acc;
+              }, [])
+              .reduce<string>((acc, value) => {
+                return `${acc}${value.startsWith("?") ? value : `/${value}`}`;
+              }, "");
+
+            return [...keywords, result];
           }
         }
 
