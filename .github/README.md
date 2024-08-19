@@ -23,6 +23,7 @@ CLI for making browser search queries.
   - [`profile`](#profile)
   - [`engine`](#engine)
   - [`search`](#search)
+  - [`delimiter`](#delimiter)
   - [`resource`](#resource)
   - [`port`](#port)
   - [`incognito`](#incognito)
@@ -905,6 +906,32 @@ Supplying multiple `--search` options will create a separate URL for each value.
 ### _Configuration_
 
 Setting up [_engines configuration_](#engines-configuration) allows using search keys as the option's value.
+
+## `delimiter`
+
+Specifies the delimiter character used by the search engine to separate keywords.
+
+⚡ Takes a value.  
+🛠️ Requires an `--engine` option.  
+❌ No configuration.
+
+### _Options_
+
+`--delimiter` `-d`
+
+### _Usage_
+
+This option only works in conjunction with the `--engine` option where [the engine is specified as a URL](#an-arbitrary-url-string-like-googlecomsearchq-or-examplecom). If this option is used with an engine that **_is_** defined in the config, then the option has no effect.
+
+<pre><code>web typescript docs <em>--delimiter=+</em> <em>--engine=duckduckgo.com</em> <em>--search=?q=</em></code></pre>
+
+&gt; `https://duckduckgo.com/?q=typescript+docs`
+
+When the delimiter option is not specified and the engine is not defined in the config, the delimiter defaults to a single whitespace character.
+
+<pre><code>web typescript docs <em>--engine=duckduckgo.com</em> <em>--search=?q=</em></code></pre>
+
+&gt; `https://duckduckgo.com/?q=typescript%20docs`
 
 ## `resource`
 
