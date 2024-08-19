@@ -7,13 +7,16 @@ import {
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { logger } from "../../helpers/utils/logger.js";
+import { QueryOptions as Options } from "../options.js";
 import { invalidArgs } from "./invalid-args.js";
 import { dataArgs } from "./data-args.js";
 import { queryArgs, urlArgs } from "./query-args.js";
 
-const { resource, search } = queryArgs;
+const { italic } = chalk;
+const { resource, search, delimiter } = queryArgs;
 const engineArgs = dataArgs.engine(false);
 const browserArgs = dataArgs.browser(false);
+const portArgs = dataArgs.port();
 
 const validate = {
   profiles: false,
@@ -29,33 +32,35 @@ function isEmptyArg(list: string[]): boolean {
   return list.length === 1 && list[0] === "";
 }
 
+function noValueError(option: Options): void {
+  addMessage(
+    logger.level.error(`${italic(`--${option}`)} option must have a value`)
+  );
+}
+
 function validateResource(
   value: string | string[],
-  name: "resource" | "search",
+  option: Options.Resource | Options.Search,
   allowUrlArgs = true
 ): void {
   const emptyArg = !Array.isArray(value) && value === "";
   const emptyList = Array.isArray(value) && value.every((arg) => arg === "");
 
   if (emptyArg || emptyList) {
-    addMessage(
-      logger.level.error(
-        `${chalk.italic(`--${name}`)} option must have a value`
-      )
-    );
+    noValueError(option);
   }
 
   if (engineArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
     addMessage(
       logger.level.error(
-        `${chalk.italic(`--${name}`)} option must be used with --engine${allowUrlArgs ? " or URL" : ""}`
+        `${italic(`--${option}`)} option must be used with --engine${allowUrlArgs ? " or URL" : ""}`
       )
     );
   }
 }
 
 /**
- * Validates provile args
+ * Validates profile args
  *
  * @param browser
  * * If a single string is provided - profile args are checked against
@@ -70,11 +75,7 @@ function validateProfileArgs(browser?: string | string[] | null) {
   );
 
   if (isEmptyArg(profileArgs)) {
-    addMessage(
-      logger.level.error(
-        `${chalk.italic("--profile")} option must have a value`
-      )
-    );
+    noValueError(Options.Profile);
   }
 
   let flags: { [browserName: string]: string[] } = {};
@@ -122,9 +123,7 @@ export function validateArgs(): string[] {
 
   /* ~~~ VALIDATE ENGINE ARGS ~~~  */
   if (isEmptyArg(engineArgs)) {
-    addMessage(
-      logger.level.error(`${chalk.italic("--engine")} option must have a value`)
-    );
+    noValueError(Options.Engine);
   }
 
   const invalidEngines = engineArgs.filter(
@@ -143,13 +142,29 @@ export function validateArgs(): string[] {
   /* ~~~ VALIDATE RESOURCE ARGS ~~~ */
 
   if (resource != null) {
-    validateResource(resource, "resource");
+    validateResource(resource, Options.Resource);
   }
 
-  /* ~~~ VALIDATE QUERY ARGS ~~~ */
+  /* ~~~ VALIDATE SEARCH ARGS ~~~ */
 
   if (search != null) {
-    validateResource(search, "search", false);
+    validateResource(search, Options.Search, false);
+  }
+
+  /* ~~~ VALIDATE DELIMITER ARGS ~~~ */
+
+  if (delimiter != null) {
+    if (Array.isArray(delimiter)) {
+      addMessage(
+        logger.level.error(
+          `Multiple ${italic("--delimiter")} options are not allowed`
+        )
+      );
+    }
+
+    if (delimiter === "") {
+      noValueError(Options.Delimiter);
+    }
   }
 
   /**
@@ -159,13 +174,9 @@ export function validateArgs(): string[] {
    * A browser value that does not exist in the config should still be valid
    * because it is an app that should be attempted to open
    */
-  const emptyBrowserArg = isEmptyArg(browserArgs);
-  if (emptyBrowserArg) {
-    addMessage(
-      logger.level.error(
-        `${chalk.italic("--browser")} option must have a value`
-      )
-    );
+
+  if (isEmptyArg(browserArgs)) {
+    noValueError(Options.Browser);
   }
 
   /* ~~~ VALIDATE PROFILE ARGS ~~~ */
@@ -176,18 +187,19 @@ export function validateArgs(): string[] {
     );
   }
 
-  /* ~~~ VALIDATE PORT ARG ~~~ */
-  if ("port" in queryArgs) {
-    if (queryArgs.port == null) {
+  /* ~~~ VALIDATE PORT ARGS ~~~ */
+
+  if (portArgs.length > 0) {
+    if (portArgs.some((port) => Number.isNaN(port))) {
       addMessage(
-        logger.level.error(`${chalk.italic("--port")} option must have a value`)
+        logger.level.error(`${italic("--port")} option must be a number`)
       );
     }
 
     if (engineArgs.length === 0 && !urlArgs)
       addMessage(
         logger.level.error(
-          `${chalk.italic("--port")} option must be used with --engine or URL`
+          `${italic("--port")} option must be used with --engine or URL`
         )
       );
   }

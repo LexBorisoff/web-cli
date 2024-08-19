@@ -1,5 +1,6 @@
+import type { PrimitiveTypeLiteral } from "../types/primitive.type.js";
+
 type Alias<T extends string> = Partial<Record<T, string | string[]>>;
-type OptionType = "string" | "number" | "boolean";
 
 export const yargsOptions = ["_", "$0"];
 
@@ -10,6 +11,7 @@ export enum QueryOptions {
   Engine = "engine",
   Search = "search",
   Resource = "resource",
+  Delimiter = "delimiter",
   Port = "port",
   Incognito = "incognito",
   Split = "split",
@@ -24,13 +26,14 @@ export const queryOptionTypes = {
   [QueryOptions.Engine]: "string" as const,
   [QueryOptions.Search]: "string" as const,
   [QueryOptions.Resource]: "string" as const,
+  [QueryOptions.Delimiter]: "string" as const,
   [QueryOptions.Port]: "number" as const,
   [QueryOptions.Incognito]: "boolean" as const,
   [QueryOptions.Split]: "boolean" as const,
   [QueryOptions.Http]: "boolean" as const,
   [QueryOptions.Test]: "boolean" as const,
   [QueryOptions.Update]: "boolean" as const,
-} satisfies Record<QueryOptions, OptionType>;
+} satisfies Record<QueryOptions, PrimitiveTypeLiteral>;
 
 export const queryAlias: Alias<QueryOptions> = {
   browser: ["b"],
@@ -38,6 +41,7 @@ export const queryAlias: Alias<QueryOptions> = {
   engine: ["e"],
   search: ["s"],
   resource: ["r"],
+  delimiter: ["d"],
   port: [":"],
   incognito: ["i"],
   test: ["t"],
