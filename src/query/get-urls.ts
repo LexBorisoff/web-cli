@@ -38,9 +38,9 @@ function handleResource(
       }
 
       const [resourceKey] = resourceValue.split(splitter);
-      const escaped = resourceKey.startsWith("/");
+      const isEscaped = resourceKey.startsWith("/");
       // do not search in config if resource key starts with slash
-      return escaped
+      return isEscaped
         ? resourceKey.slice(1)
         : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
     },
@@ -56,10 +56,10 @@ function handleResource(
           if (pathKeys.length > 0) {
             const result = pathKeys
               .reduce<string[]>((acc, pathKey) => {
-                const escaped = pathKey.startsWith("/");
+                const isEscaped = pathKey.startsWith("/");
                 acc.push(
                   // do not search in config if path key starts with slash
-                  escaped
+                  isEscaped
                     ? pathKey.slice(1)
                     : findNested<string>(config, pathKey, "") ?? pathKey
                 );
