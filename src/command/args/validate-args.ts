@@ -7,13 +7,13 @@ import {
 } from "../../data/config-flags.js";
 import { getBrowserName } from "../../helpers/browser/get-browser-name.js";
 import { logger } from "../../helpers/utils/logger.js";
-import { QueryOptions } from "../options.js";
+import { QueryOptions as Options } from "../options.js";
 import { invalidArgs } from "./invalid-args.js";
 import { dataArgs } from "./data-args.js";
 import { queryArgs, urlArgs } from "./query-args.js";
 
 const { italic } = chalk;
-const { resource, search } = queryArgs;
+const { resource, search, delimiter } = queryArgs;
 const engineArgs = dataArgs.engine(false);
 const browserArgs = dataArgs.browser(false);
 const portArgs = dataArgs.port();
@@ -32,7 +32,7 @@ function isEmptyArg(list: string[]): boolean {
   return list.length === 1 && list[0] === "";
 }
 
-function noValueError(option: QueryOptions): void {
+function noValueError(option: Options): void {
   addMessage(
     logger.level.error(`${italic(`--${option}`)} option must have a value`)
   );
@@ -40,7 +40,7 @@ function noValueError(option: QueryOptions): void {
 
 function validateResource(
   value: string | string[],
-  option: QueryOptions.Resource | QueryOptions.Search,
+  option: Options.Resource | Options.Search,
   allowUrlArgs = true
 ): void {
   const emptyArg = !Array.isArray(value) && value === "";
@@ -75,7 +75,7 @@ function validateProfileArgs(browser?: string | string[] | null) {
   );
 
   if (isEmptyArg(profileArgs)) {
-    noValueError(QueryOptions.Profile);
+    noValueError(Options.Profile);
   }
 
   let flags: { [browserName: string]: string[] } = {};
@@ -123,7 +123,7 @@ export function validateArgs(): string[] {
 
   /* ~~~ VALIDATE ENGINE ARGS ~~~  */
   if (isEmptyArg(engineArgs)) {
-    noValueError(QueryOptions.Engine);
+    noValueError(Options.Engine);
   }
 
   const invalidEngines = engineArgs.filter(
@@ -142,13 +142,29 @@ export function validateArgs(): string[] {
   /* ~~~ VALIDATE RESOURCE ARGS ~~~ */
 
   if (resource != null) {
-    validateResource(resource, QueryOptions.Resource);
+    validateResource(resource, Options.Resource);
   }
 
   /* ~~~ VALIDATE SEARCH ARGS ~~~ */
 
   if (search != null) {
-    validateResource(search, QueryOptions.Search, false);
+    validateResource(search, Options.Search, false);
+  }
+
+  /* ~~~ VALIDATE DELIMITER ARGS ~~~ */
+
+  if (delimiter != null) {
+    if (Array.isArray(delimiter)) {
+      addMessage(
+        logger.level.error(
+          `Multiple ${italic("--delimiter")} options are not allowed`
+        )
+      );
+    }
+
+    if (delimiter === "") {
+      noValueError(Options.Delimiter);
+    }
   }
 
   /**
@@ -158,9 +174,9 @@ export function validateArgs(): string[] {
    * A browser value that does not exist in the config should still be valid
    * because it is an app that should be attempted to open
    */
-  const emptyBrowserArg = isEmptyArg(browserArgs);
-  if (emptyBrowserArg) {
-    noValueError(QueryOptions.Browser);
+
+  if (isEmptyArg(browserArgs)) {
+    noValueError(Options.Browser);
   }
 
   /* ~~~ VALIDATE PROFILE ARGS ~~~ */
@@ -173,11 +189,7 @@ export function validateArgs(): string[] {
 
   /* ~~~ VALIDATE PORT ARGS ~~~ */
 
-  if (Object.hasOwn(queryArgs, "port")) {
-    if (portArgs.length === 0) {
-      noValueError(QueryOptions.Port);
-    }
-
+  if (portArgs.length > 0) {
     if (portArgs.some((port) => Number.isNaN(port))) {
       addMessage(
         logger.level.error(`${italic("--port")} option must be a number`)
