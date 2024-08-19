@@ -38,9 +38,11 @@ function handleResource(
       }
 
       const [resourceKey] = resourceValue.split(splitter);
-      return (
-        findNested<string>(config, resourceKey, resourceKey) ?? resourceKey
-      );
+      const escaped = resourceKey.startsWith("/");
+      // do not search in config if resource key starts with slash
+      return escaped
+        ? resourceKey.slice(1)
+        : findNested<string>(config, resourceKey, resourceKey) ?? resourceKey;
     },
     {
       path(config = {}) {
