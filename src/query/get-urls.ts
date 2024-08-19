@@ -10,7 +10,8 @@ import { dataArgs } from "../command/args/data-args.js";
 
 const { _: args, resource, http } = queryArgs;
 const engineArgs = dataArgs.engine();
-const port = dataArgs.port();
+const portArgs = dataArgs.port();
+const port = portArgs.length === 0 ? undefined : portArgs;
 
 // if there are no engine args and all value args are URLs,
 // remove URL args from keywords list because they are used as engines
