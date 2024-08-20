@@ -4,12 +4,16 @@ import { capitalize } from "../helpers/utils/transform-text.js";
 import { BrowserProfileQuery } from "../types/query.types.js";
 import { queryArgs } from "../command/args/query-args.js";
 
-const { incognito } = queryArgs;
+const { incognito, test } = queryArgs;
 
 export function printQuery(
   urls: string[],
   browserQueries: BrowserProfileQuery[]
 ): void {
+  if (test) {
+    logger.warning("[test]");
+  }
+
   browserQueries.forEach((browserQuery) => {
     const { browser, profiles } = browserQuery;
     let browserInfo = logger.level.info(capitalize(browser));
