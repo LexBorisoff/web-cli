@@ -17,10 +17,10 @@ interface Data<T> {
  * Returns a combined list of values that were supplied to the CLI
  * as standard options and custom flags
  */
-function combineArgLists<Arg>(
-  optionArg: Arg | NonNullable<Arg>[] | null,
-  customArgs: Arg[] = []
-): Arg[] {
+function combineArgLists(
+  optionArg: string | string[] | undefined,
+  customArgs: string[] = []
+): string[] {
   const argList = [...customArgs];
   if (optionArg != null) {
     argList.push(...(Array.isArray(optionArg) ? optionArg : [optionArg]));
@@ -32,15 +32,13 @@ function combineArgLists<Arg>(
 /**
  * Returns a unique list of non-nullable args
  */
-function getUniqueList<Arg>(
-  optionArg: Arg | NonNullable<Arg>[] | undefined,
-  customArgs: Arg[],
-  removeEmptyArg: boolean
-): NonNullable<Arg>[] {
+function getUniqueList(
+  optionArg: string | string[] | undefined,
+  customArgs: string[] = [],
+  removeEmptyArg: boolean = true
+): string[] {
   const list = combineArgLists(optionArg, customArgs);
-  const uniqueList = [...new Set(list)].filter(
-    (arg): arg is NonNullable<Arg> => arg != null
-  );
+  const uniqueList = [...new Set(list)];
   return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
 }
 
@@ -137,5 +135,20 @@ export const dataArgs = {
   engine: function getEngineArgs(removeEmptyArg = true): string[] {
     const customArgs = getCustomArgs(enginesData);
     return getUniqueList(queryArgs.engine, customArgs, removeEmptyArg);
+  },
+
+  /**
+   * Returns a unique list of port args provided to the CLI
+   *
+   * @param removeEmptyArg
+   * If true, removes the empty value from the list
+   */
+  port: function getPortArgs(): number[] {
+    const ports = Array.isArray(queryArgs.port)
+      ? queryArgs.port
+      : [queryArgs.port];
+    const uniquePorts = [...new Set(ports)];
+
+    return uniquePorts.filter((port): port is number => port != null);
   },
 };

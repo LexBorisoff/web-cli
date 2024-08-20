@@ -23,6 +23,7 @@ CLI for making browser search queries.
   - [`profile`](#profile)
   - [`engine`](#engine)
   - [`search`](#search)
+  - [`delimiter`](#delimiter)
   - [`resource`](#resource)
   - [`port`](#port)
   - [`incognito`](#incognito)
@@ -906,6 +907,32 @@ Supplying multiple `--search` options will create a separate URL for each value.
 
 Setting up [_engines configuration_](#engines-configuration) allows using search keys as the option's value.
 
+## `delimiter`
+
+Specifies the delimiter character used by the search engine to separate keywords.
+
+⚡ Takes a value.  
+🛠️ Requires an `--engine` option.  
+❌ No configuration.
+
+### _Options_
+
+`--delimiter` `-d`
+
+### _Usage_
+
+This option only works in conjunction with the `--engine` option where [the engine is specified as a URL](#an-arbitrary-url-string-like-googlecomsearchq-or-examplecom). If this option is used with an engine that **_is_** defined in the config, then the option has no effect.
+
+<pre><code>web typescript docs <em>--delimiter=+</em> <em>--engine=duckduckgo.com</em> <em>--search=?q=</em></code></pre>
+
+&gt; `https://duckduckgo.com/?q=typescript+docs`
+
+When the delimiter option is not specified and the engine is not defined in the config, the delimiter defaults to a single whitespace character.
+
+<pre><code>web typescript docs <em>--engine=duckduckgo.com</em> <em>--search=?q=</em></code></pre>
+
+&gt; `https://duckduckgo.com/?q=typescript%20docs`
+
 ## `resource`
 
 Overrides the default behavior of _querying_ an engine by specifying the engine's route to be accessed directly.
@@ -977,9 +1004,9 @@ For example, the following creates 3 distinct web queries:
 
 ### _Combining resources_
 
-You can combine 2 resources together to create a single web query by using the `::` separator. Each resource can be either a key from the engine's `resources` config or an arbitrary string.
+You can combine multiple resources together to create a single web query by using the `::` separator. Each resource can be either a key from the engine's `resources` config or an arbitrary string.
 
-Let's examine each scenario by using the following Github engine config:
+Let's examine some scenarios by using the following Github engine config:
 
 ```typescript
 defineConfig(({ engine }) => ({
@@ -997,13 +1024,25 @@ defineConfig(({ engine }) => ({
 }));
 ```
 
-#### _Combining two resource keys_
+#### _Combining resource keys_
 
 You can generate a URL that accesses a profile's repositories page:
 
 <pre><code>web <em>--resource=profile::repos</em> <em>--engine=github</em></code></pre>
 
 &gt; `https://github.com/LexBorisoff?tab=repositories`
+
+To use a string literally in situations where it has the same value as the resource key, you can escape it with a `/`:
+
+<pre><code>web <em>--resource=profile::/repos</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/LexBorisoff/repos`
+
+> ⚠️ In some shells, to escape the first resource key you also need to escape the forward slash:
+
+<pre><code>web <em>--resource=//profile::/repos</em> <em>--engine=github</em></code></pre>
+
+&gt; `https://github.com/profile/repos`
 
 #### _Combining a resource key with an arbitrary string_
 
@@ -1021,7 +1060,7 @@ You can generate a URL that accesses a repositories page of an arbitrary profile
 
 &gt; `https://github.com/username?tab=repositories`
 
-#### _Combining two arbitrary strings_
+#### _Combining arbitrary strings_
 
 <pre><code>web <em>--resource=LexBorisoff::web-cli</em> <em>--engine=github</em></code></pre>
 
@@ -1032,6 +1071,15 @@ This scenario is essentially the same as providing a single resource value with 
 <pre><code>web <em>--resource=LexBorisoff/web-cli</em> <em>--engine=github</em></code></pre>
 
 &gt; `https://github.com/LexBorisoff/web-cli`
+
+#### _Combining more resources_
+
+You can combine as many resources as you want and each one will be resolved to its:
+
+- config value found by the provided resource key, or
+- literal value if
+  - the config does not contain the provided resource key, or
+  - the resource key is escaped with a forward slash `/`.
 
 ### _Configuration_
 

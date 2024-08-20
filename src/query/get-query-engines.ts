@@ -8,6 +8,7 @@ import { defaultDelimiter } from "../helpers/config/defaults.js";
 
 const [defaultEngineName, defaultEngine] = defaultsData.engine;
 const engineArgs = dataArgs.engine();
+const delimiter = queryArgs.delimiter || defaultDelimiter;
 
 export function getQueryEngines(): QueryEngine[] {
   // create engines based on provided engine args
@@ -16,7 +17,8 @@ export function getQueryEngines(): QueryEngine[] {
       const found = findEngine(engineArg);
       if (found == null) {
         // engine arg can be provided as a URL string
-        return [engineArg, new Engine(engineArg)];
+        const engine = new Engine(engineArg, { delimiter });
+        return [engineArg, engine];
       }
 
       const [engineName, engine] = found;
@@ -38,12 +40,7 @@ export function getQueryEngines(): QueryEngine[] {
 
   // create engines when all value args are URLs
   if (urlArgs != null) {
-    return urlArgs.map((url) => [
-      url,
-      new Engine(url, {
-        delimiter: defaultDelimiter,
-      }),
-    ]);
+    return urlArgs.map((url) => [url, new Engine(url, { delimiter })]);
   }
 
   // create default engine

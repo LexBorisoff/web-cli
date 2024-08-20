@@ -7,6 +7,7 @@ import { printInstructions } from "./print-instructions.js";
 import { createProjectDir } from "./create-project-dir.js";
 import { createProjectFiles } from "./create-project-files.js";
 import { initializeProject } from "./initialize-project.js";
+import { PackageManager } from "./package-manager/package-manager.enum.js";
 
 export async function createConfigProject() {
   const { projectName } = await prompts.text({
@@ -16,6 +17,29 @@ export async function createConfigProject() {
   });
 
   if (projectName == null) {
+    return;
+  }
+
+  const { pm } = await prompts.select({
+    name: "pm",
+    message: "How to install dependencies",
+    choices: [
+      {
+        title: PackageManager.NPM,
+        value: PackageManager.NPM,
+      },
+      {
+        title: PackageManager.YARN,
+        value: PackageManager.YARN,
+      },
+      {
+        title: PackageManager.PNPM,
+        value: PackageManager.PNPM,
+      },
+    ],
+  });
+
+  if (pm == null) {
     return;
   }
 
@@ -50,7 +74,7 @@ export async function createConfigProject() {
         });
 
         await createProjectFiles(projectPath);
-        await initializeProject.npm();
+        await initializeProject.dependencies(pm);
       },
       {
         message: `⚡ Scaffolding ${logger.level.info(projectName)}`,
@@ -58,7 +82,7 @@ export async function createConfigProject() {
     );
 
     logger(`🚀 Successfully created ${logger.level.success(projectName)}\n`);
-    printInstructions(projectName);
+    printInstructions(projectName, pm);
   } catch (error) {
     if (error instanceof Error) {
       logger.error(error.message);
