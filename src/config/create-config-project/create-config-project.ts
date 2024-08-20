@@ -74,7 +74,7 @@ export async function createConfigProject() {
         });
 
         await createProjectFiles(projectPath);
-        await initializeProject.dependencies(pm);
+        await initializeProject.dependencies(projectName, pm);
       },
       {
         message: `⚡ Scaffolding ${logger.level.info(projectName)}`,
