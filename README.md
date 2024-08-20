@@ -4,7 +4,7 @@ CLI for making browser search queries.
 
 # Documentation
 
-Read full documentation [here](https://github.com/LexBorisoff/web-cli#readme).
+Read full documentation [here](https://github.com/LexBorisoff/web-cli/tree/main#readme).
 
 # Installation
 
@@ -26,7 +26,7 @@ After installing, the `web` command is ready for use without any setup.
 
 &gt; `https://youtube.com/results?search_query=typescript+tutorial`
 
-> 📗 Read [full documentation](https://github.com/LexBorisoff/web-cli#readme) to learn more.
+> 📗 Read [full documentation](https://github.com/LexBorisoff/web-cli/tree/main#readme) to learn more.
 
 To get help with command options, use the `--help` option:
 
