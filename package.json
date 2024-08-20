@@ -4,10 +4,12 @@
   "description": "CLI for making browser search queries",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -fr ./bin",
+    "prebuild": "npm run lint:fix && rm -fr ./bin",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "prepublishOnly": "npm run build"
+    "prepack": "npm run build",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "npm run lint -- --fix"
   },
   "author": "Lex Borisoff <lex@borisoff.dev>",
   "license": "ISC",
