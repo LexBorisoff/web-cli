@@ -9,18 +9,25 @@ import { srcFiles } from "./create-project-files.js";
 import { PackageManager } from "./package-manager/package-manager.enum.js";
 import { pmCommands } from "./package-manager/pm-commands.js";
 
-const version = getPackageJson().version!;
-const projectName = getPackageJson().name!;
+const packageVersion = getPackageJson().version!;
+const packageName = getPackageJson().name!;
 
 export const initializeProject = {
   async git() {
     await execa("git", ["init"]);
   },
 
-  async dependencies(pm: PackageManager) {
+  async dependencies(projectName: string, pm: PackageManager) {
+    if (projectName.startsWith(".")) {
+      fs.writeFileSync(
+        "package.json",
+        JSON.stringify({ name: projectName.replace(/^\.+/, "") })
+      );
+    }
+
     await execa("npm", ["init", "-y"]);
 
-    const thisProject = `${projectName}@${process.env.WEB_CLI_VERSION || version}`;
+    const thisProject = `${packageName}@${process.env.WEB_CLI_VERSION || packageVersion}`;
     const dependencies = [thisProject];
 
     const devDependencies = [
