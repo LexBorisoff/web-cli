@@ -6,8 +6,9 @@ import { getPackageJson } from "../../helpers/project/get-package-json.js";
 import { readFile } from "../../helpers/utils/read-file.js";
 import { parseData } from "../../helpers/utils/parse-data.js";
 import { srcFiles } from "./create-project-files.js";
+import { PackageManager } from "./package-manager/package-manager.enum.js";
+import { pmCommands } from "./package-manager/pm-commands.js";
 
-const isDev = process.env.NODE_ENV === "development" || false;
 const version = getPackageJson().version!;
 const projectName = getPackageJson().name!;
 
@@ -16,15 +17,16 @@ export const initializeProject = {
     await execa("git", ["init"]);
   },
 
-  async npm() {
+  async dependencies(pm: PackageManager) {
     await execa("npm", ["init", "-y"]);
 
-    const thisProject = `${projectName}@${version}`;
+    const thisProject = `${projectName}@${process.env.WEB_CLI_VERSION || version}`;
     const dependencies = [thisProject];
 
     const devDependencies = [
       `typescript`,
-      `eslint@8`,
+      `tsx`,
+      `eslint`,
       `prettier`,
       `@typescript-eslint/eslint-plugin`,
       `@typescript-eslint/parser`,
@@ -35,14 +37,15 @@ export const initializeProject = {
     ];
 
     // do not install this project when in dev environment
-    await execa("npm", [
-      "install",
-      ...dependencies.filter(
-        (dependency) => !isDev || dependency !== thisProject
-      ),
-    ]);
+    const { install, saveDev } = pmCommands[pm];
 
-    await execa("npm", ["install", "--save-dev", ...devDependencies]);
+    if (dependencies.length > 0) {
+      await execa(pm, [install, ...dependencies]);
+    }
+
+    if (devDependencies.length > 0) {
+      await execa(pm, [install, saveDev, ...devDependencies]);
+    }
 
     const configFile = path.resolve(process.cwd(), "package.json");
     const contents = readFile(configFile);
@@ -50,9 +53,9 @@ export const initializeProject = {
 
     data.type = "module";
     data.scripts = {
-      config: "npm run config:browsers && npm run config:engines",
-      "config:browsers": `npx tsx ${srcFiles.browsers.fileName}`,
-      "config:engines": `npx tsx ${srcFiles.engines.fileName}`,
+      config: `${pm} run config:browsers && ${pm} run config:engines`,
+      "config:browsers": `tsx ${srcFiles.browsers.fileName}`,
+      "config:engines": `tsx ${srcFiles.engines.fileName}`,
     };
 
     const space = 2;

@@ -1,8 +1,11 @@
 import chalk from "chalk";
 import { logger } from "../../helpers/utils/logger.js";
+import { PackageManager } from "./package-manager/package-manager.enum.js";
+import { pmCommands } from "./package-manager/pm-commands.js";
 
-export function printInstructions(projectName: string) {
+export function printInstructions(projectName: string, pm: PackageManager) {
   const left = "  ";
+  const { run } = pmCommands[pm];
 
   logger(
     left +
@@ -28,7 +31,8 @@ export function printInstructions(projectName: string) {
         "JSON config file"
       )} (used by the CLI)`
   );
-  logger(left + chalk.gray(`$ npm run config`));
+  const runCommand = run != null ? ` ${run}` : "";
+  logger(left + chalk.gray(`$ ${pm}${runCommand} config`));
 
   logger();
   logger(
