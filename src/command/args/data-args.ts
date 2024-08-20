@@ -18,7 +18,7 @@ interface Data<T> {
  * as standard options and custom flags
  */
 function combineArgLists(
-  optionArg: string | NonNullable<string>[] | undefined,
+  optionArg: string | string[] | undefined,
   customArgs: string[] = []
 ): string[] {
   const argList = [...customArgs];
@@ -33,14 +33,12 @@ function combineArgLists(
  * Returns a unique list of non-nullable args
  */
 function getUniqueList(
-  optionArg: string | NonNullable<string>[] | undefined,
+  optionArg: string | string[] | undefined,
   customArgs: string[] = [],
   removeEmptyArg: boolean = true
-): NonNullable<string>[] {
+): string[] {
   const list = combineArgLists(optionArg, customArgs);
-  const uniqueList = [...new Set(list)].filter(
-    (arg): arg is NonNullable<string> => arg != null
-  );
+  const uniqueList = [...new Set(list)];
   return removeEmptyArg ? uniqueList.filter((arg) => arg !== "") : uniqueList;
 }
 
