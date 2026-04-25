@@ -3,6 +3,10 @@
   "version": "0.0.0-semantically-released",
   "description": "CLI for making browser web searches from the shell",
   "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "prepack": "npm run build",
     "prebuild": "npm run ci && rimraf ./dist",
@@ -81,7 +85,7 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "rimraf": "^6.0.1",
-    "semantic-release": "^24.2.1",
+    "semantic-release": "^25.0.3",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.4.5"
   }

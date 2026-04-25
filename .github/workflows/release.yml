@@ -16,10 +16,8 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
-      id-token: write
+      id-token: write # enable use of OIDC for trusted publishing and npm provenance
     uses: LexBorisoff/workflows/.github/workflows/release.yml@main
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   sync-dev:
     name: Sync main to dev
