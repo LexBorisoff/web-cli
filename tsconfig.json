@@ -2,8 +2,10 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "NodeNext",
+    "types": ["node"],
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
+    "rootDir": "./src",
     "outDir": "./dist/bin",
     "declaration": true,
     "declarationDir": "./dist/types",
@@ -21,7 +23,7 @@
       "@data/*": ["./src/data/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@query/*": ["./src/query/*"]
-    }
+    },
   },
   "include": ["src"]
 }

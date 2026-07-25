@@ -45,8 +45,9 @@ export interface SharedOptions {
   unsecureHttp?: boolean;
 }
 
-export interface SearchMethodOptions<S extends SearchConfig>
-  extends SharedOptions {
+export interface SearchMethodOptions<
+  S extends SearchConfig,
+> extends SharedOptions {
   /**
    * String that represents a URL segment that's placed before
    * the search keywords and allows to ***search*** the engine.
@@ -67,8 +68,9 @@ export interface SearchMethodOptions<S extends SearchConfig>
   split?: boolean;
 }
 
-export interface ResourceMethodOptions<R extends ResourceConfig>
-  extends SharedOptions {
+export interface ResourceMethodOptions<
+  R extends ResourceConfig,
+> extends SharedOptions {
   /**
    * String that represents a deeper path within the resource.
    *

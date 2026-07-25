@@ -22,11 +22,13 @@ export interface BaseConfigOptions extends WithAlias, IsDefault {}
 export interface ConfigEngineOptions<
   S extends SearchConfig = undefined,
   R extends ResourceConfig = undefined,
-> extends EngineConfig<S, R>,
-    BaseConfigOptions {}
+>
+  extends EngineConfig<S, R>, BaseConfigOptions {}
 
-export interface ConfigEngine
-  extends ConfigEngineOptions<SearchConfig, ResourceConfig> {
+export interface ConfigEngine extends ConfigEngineOptions<
+  SearchConfig,
+  ResourceConfig
+> {
   baseUrl: string;
 }
 
@@ -45,10 +47,8 @@ export type ProfilesData = {
 };
 
 export interface ConfigBrowserOptions
-  extends OmitKey<
-      BrowserConfig<NonNullable<BrowserName>, undefined>,
-      'profiles'
-    >,
+  extends
+    OmitKey<BrowserConfig<NonNullable<BrowserName>, undefined>, 'profiles'>,
     BaseConfigOptions {
   appPath?: string;
   profiles?: ConfigProfiles;

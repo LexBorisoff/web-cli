@@ -78,9 +78,8 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
-    "@lexjs/eslint-plugin": "^1.1.2",
-    "@types/node": "^18.17.6",
-    "@types/prompts": "^2.4.9",
+    "@lexjs/eslint-plugin": "^1.2.0",
+    "@types/node": "^24.13.3",
     "@types/yargs": "^17.0.24",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "globals": "^15.14.0",
@@ -88,6 +87,6 @@
     "rimraf": "^6.0.1",
     "semantic-release": "^25.0.3",
     "tsc-alias": "^1.8.10",
-    "typescript": "^5.4.5"
+    "typescript": "^6.0.3"
   }
 }
