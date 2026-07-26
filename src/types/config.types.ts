@@ -12,7 +12,7 @@ export interface WithAlias {
 }
 
 export interface WithDefault {
-  isDefault?: boolean;
+  default?: boolean;
 }
 
 export interface BaseConfigOptions extends WithAlias, WithDefault {}

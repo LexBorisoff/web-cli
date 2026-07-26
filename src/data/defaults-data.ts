@@ -18,7 +18,7 @@ function getDefault<Data extends WithDefault>(
   data: Data,
 ): [string, Data[keyof Data]] | null {
   const withDefault = Object.entries(data).find(
-    ([, item]: [key: string, item: Data]) => !!item.isDefault,
+    ([, item]: [key: string, item: Data]) => !!item.default,
   );
 
   if (withDefault != null) {

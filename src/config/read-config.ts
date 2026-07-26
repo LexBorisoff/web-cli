@@ -27,7 +27,7 @@ function sortConfigData<
   sortedKeys.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
   const [defaultKey] =
-    Object.entries(config).find(([_key, v]) => v?.isDefault) ?? [];
+    Object.entries(config).find(([_key, v]) => v?.default) ?? [];
 
   const sortReducer = (acc: Config, key: string): Config => ({
     ...acc,
