@@ -11,11 +11,11 @@ export interface ResourceObject {
   [key: string]: string | StringObject;
 }
 
-export type SearchConfig = string | SearchObject | undefined;
+export type SearchPathConfig = string | SearchObject | undefined;
 export type ResourceConfig = ResourceObject | undefined;
 
-export interface EngineConfig<
-  S extends SearchConfig,
+export interface SiteConfig<
+  S extends SearchPathConfig,
   R extends ResourceConfig,
 > {
   search?: S;
@@ -23,8 +23,8 @@ export interface EngineConfig<
   delimiter?: string;
 }
 
-export type QueryGetterFn<S extends SearchConfig> = (
-  searchConfig?: S,
+export type SearchPathGetterFn<S extends SearchPathConfig> = (
+  search?: S,
 ) => string | string[];
 
 export type ResourceGetterFn<R extends ResourceConfig> = (
@@ -46,14 +46,14 @@ export interface SharedOptions {
 }
 
 export interface SearchMethodOptions<
-  S extends SearchConfig,
+  S extends SearchPathConfig,
 > extends SharedOptions {
   /**
    * String that represents a URL segment that's placed before
    * the search keywords and allows to ***search*** the engine.
    *
    * - If array is provided, each value creates a separate URL
-   * with keywords provided to that `query`
+   * with keywords provided to that `searchPath`
    *
    * For example, the value for Google is `search?q=`
    * as seen in the following sample URL:
@@ -61,7 +61,7 @@ export interface SearchMethodOptions<
    * `https://google.com/search?q=keywords`
    *
    */
-  query?: string | string[] | QueryGetterFn<S>;
+  searchPath?: string | string[] | SearchPathGetterFn<S>;
   /**
    * Creates a separate URL for each keyword in the search query
    */

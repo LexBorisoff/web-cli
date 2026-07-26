@@ -1,18 +1,18 @@
-import type { ConfigDataDto } from '@app-types/config.types.js';
+import type { ConfigSite } from '@app-types/config.types.js';
 
-export const initialEngines: NonNullable<ConfigDataDto['engines']> = {
+export const initialEngines: NonNullable<Record<string, ConfigSite>> = {
   google: {
-    baseUrl: 'google.com',
+    url: 'google.com',
     search: 'search?q=',
   },
   duck: {
-    baseUrl: 'duckduckgo.com',
+    url: 'duckduckgo.com',
     search: '?q=',
     delimiter: '+',
     alias: ['duckduckgo'],
   },
   github: {
-    baseUrl: 'github.com',
+    url: 'github.com',
     search: 'search?q=',
     resources: {
       tabs: {
@@ -23,16 +23,16 @@ export const initialEngines: NonNullable<ConfigDataDto['engines']> = {
     },
   },
   mdn: {
-    baseUrl: 'developer.mozilla.org',
+    url: 'developer.mozilla.org',
     search: 'search?q=',
   },
   youtube: {
-    baseUrl: 'youtube.com',
+    url: 'youtube.com',
     search: 'results?search_query=',
     delimiter: '+',
   },
   npm: {
-    baseUrl: 'npmjs.com',
+    url: 'npmjs.com',
     search: 'search?q=',
   },
 };

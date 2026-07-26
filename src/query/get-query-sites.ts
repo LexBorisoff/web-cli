@@ -5,13 +5,13 @@ import { defaultsData } from '@data/defaults-data.js';
 import { defaultDelimiter } from '@helpers/config/defaults.js';
 import { findEngine } from '@helpers/find/find-engine.js';
 
-import type { QueryEngine } from '@app-types/query.types.js';
+import type { QuerySite } from '@app-types/query.types.js';
 
 const [defaultEngineName, defaultEngine] = defaultsData.engine;
 const engineArgs = dataArgs.engine();
 const delimiter = queryArgs.delimiter || defaultDelimiter;
 
-export function getQueryEngines(): QueryEngine[] {
+export function getQuerySites(): QuerySite[] {
   // create engines based on provided engine args
   if (engineArgs.length > 0) {
     return engineArgs.map((engineArg) => {
@@ -25,7 +25,7 @@ export function getQueryEngines(): QueryEngine[] {
       const [engineName, engine] = found;
       return [
         engineName,
-        new Engine(engine.baseUrl, {
+        new Engine(engine.url, {
           search: engine.search,
           delimiter: engine.delimiter,
           resources: engine.resources,
@@ -48,7 +48,7 @@ export function getQueryEngines(): QueryEngine[] {
   return [
     [
       defaultEngineName,
-      new Engine(defaultEngine.baseUrl, {
+      new Engine(defaultEngine.url, {
         search: defaultEngine.search,
         delimiter: defaultEngine.delimiter,
         resources: defaultEngine.resources,

@@ -6,4 +6,4 @@ export interface BrowserProfileQuery {
 }
 
 export type QueryBrowser = [string, Browser<string, any>];
-export type QueryEngine = [string, Engine<any, any>];
+export type QuerySite = [string, Engine<any, any>];

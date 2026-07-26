@@ -4,22 +4,13 @@ import path from 'node:path';
 
 import { load } from 'js-yaml';
 
-import type { ConfigBrowser, ConfigEngine } from '@app-types/config.types.js';
-
-interface WithSchema {
-  $schema: string;
-}
-
-type SitesData = Record<string, ConfigEngine>;
-type BrowsersData = Record<string, ConfigBrowser>;
-
-type SitesConfig = SitesData & WithSchema;
-type BrowsersConfig = BrowsersData & WithSchema;
-
-interface ConfigData {
-  sites: SitesData;
-  browsers: BrowsersData;
-}
+import type {
+  BrowsersConfig,
+  ConfigBrowser,
+  ConfigData,
+  ConfigSite,
+  SitesConfig,
+} from '@app-types/config.types.js';
 
 function getConfigPath(configType: 'sites' | 'browsers'): string | undefined {
   const configPath = path.join(os.homedir(), '.search-web', 'config');
@@ -29,7 +20,7 @@ function getConfigPath(configType: 'sites' | 'browsers'): string | undefined {
 }
 
 function sortConfigData<
-  T extends ConfigEngine | ConfigBrowser,
+  T extends ConfigSite | ConfigBrowser,
   Config extends Record<string, T>,
 >(config: Config): Config {
   const sortedKeys = Object.keys(config);

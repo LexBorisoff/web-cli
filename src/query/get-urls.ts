@@ -6,7 +6,7 @@ import type {
   Engine,
   ResourceConfig,
   ResourceObject,
-  SearchConfig,
+  SearchPathConfig,
 } from '@api/index.js';
 
 const { _: args, resource, http } = queryArgs;
@@ -21,7 +21,7 @@ const keywords: string[] = args.filter(
 );
 
 function handleResource(
-  engine: Engine<SearchConfig, ResourceConfig>,
+  engine: Engine<SearchPathConfig, ResourceConfig>,
   resourceValue: string,
 ): string[] {
   const splitter = '::';
@@ -83,7 +83,9 @@ function handleResource(
   );
 }
 
-function handleQuery(config: SearchConfig = { main: '/' }): string | string[] {
+function handleSearchPath(
+  config: SearchPathConfig = { main: '/' },
+): string | string[] {
   function getQuery(search: string): string {
     return typeof config !== 'string'
       ? (findNested<string>(config, search, search) ?? search)
@@ -104,7 +106,7 @@ function handleQuery(config: SearchConfig = { main: '/' }): string | string[] {
 }
 
 export function getUrls(
-  engine: Engine<SearchConfig, ResourceConfig>,
+  engine: Engine<SearchPathConfig, ResourceConfig>,
 ): string[] {
   if (resource != null) {
     return Array.isArray(resource)
@@ -113,7 +115,7 @@ export function getUrls(
   }
 
   return engine.search(keywords.join(' '), {
-    query: handleQuery,
+    searchPath: handleSearchPath,
     port,
     split: queryArgs.split,
     unsecureHttp: queryArgs.http,

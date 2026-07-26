@@ -3,7 +3,7 @@ import { initialEngines } from '@helpers/config/initial-engines.js';
 
 import { findConfigItem } from './find-config-item.js';
 
-import type { ConfigEngine } from '@app-types/config.types.js';
+import type { ConfigSite } from '@app-types/config.types.js';
 
 /**
  * Returns a tuple with the engine's config key and the Engine object
@@ -12,7 +12,7 @@ import type { ConfigEngine } from '@app-types/config.types.js';
  */
 export function findEngine(
   engineArg?: string,
-): [string, ConfigEngine] | undefined {
+): [string, ConfigSite] | undefined {
   if (engineArg == null) {
     return undefined;
   }

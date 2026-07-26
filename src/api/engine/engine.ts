@@ -10,7 +10,7 @@ import type {
   ResourceConfig,
   SearchMethodOptions,
   ResourceMethodOptions,
-  QueryGetterFn,
+  SearchPathGetterFn,
   ResourceGetterFn,
 } from './engine.types.js';
 
@@ -81,12 +81,12 @@ export class Engine<
     searchValue?: string | null,
     options: SearchMethodOptions<S> = {},
   ): string[] {
-    const { query, port, split, unsecureHttp } = options;
+    const { searchPath, port, split, unsecureHttp } = options;
 
     return searchValue == null || searchValue.trim() === ''
       ? this.getBaseUrls({ port, unsecureHttp })
       : this.getSearchUrls(searchValue, {
-          query,
+          searchPath,
           port,
           split,
           unsecureHttp,
@@ -147,14 +147,14 @@ export class Engine<
     searchValue: string,
     options: Pick<
       SearchMethodOptions<S>,
-      'query' | 'port' | 'split' | 'unsecureHttp'
+      'searchPath' | 'port' | 'split' | 'unsecureHttp'
     >,
   ): string[] {
-    const { query, port, split, unsecureHttp } = options;
+    const { searchPath, port, split, unsecureHttp } = options;
 
     const keywords = this.getKeywords(searchValue);
-    const queryUrls = this.getQueryUrls({
-      query,
+    const urls = this.getSearchPathUrls({
+      searchPath,
       port,
       unsecureHttp,
     });
@@ -163,37 +163,40 @@ export class Engine<
       return keywords.reduce<string[]>(
         (result, keyword) => [
           ...result,
-          ...queryUrls.map((queryUrl) => this.getHref(queryUrl + keyword)),
+          ...urls.map((url) => this.getHref(url + keyword)),
         ],
         [],
       );
     }
 
-    return queryUrls.map((queryUrl) =>
-      this.getHref(queryUrl + keywords.join(this.#delimiter)),
+    return urls.map((url) =>
+      this.getHref(url + keywords.join(this.#delimiter)),
     );
   }
 
   /**
-   * Creates URLs by adding the `query` property to the engine's
+   * Creates URLs by adding the `searchPath` property to the engine's
    * base URL that can be used to query search keywords.
    *
    * For example `https://google.com/search?q=`
    */
-  private getQueryUrls(
-    options: Pick<SearchMethodOptions<S>, 'query' | 'port' | 'unsecureHttp'>,
+  private getSearchPathUrls(
+    options: Pick<
+      SearchMethodOptions<S>,
+      'searchPath' | 'port' | 'unsecureHttp'
+    >,
   ): string[] {
-    const { query: queryValue, port, unsecureHttp } = options;
+    const { searchPath, port, unsecureHttp } = options;
     const baseUrls = this.getBaseUrls({ port, unsecureHttp });
-    const queries = this.getQueryValues(queryValue);
+    const searchPaths = this.getSearchPathValues(searchPath);
 
     return baseUrls.reduce<string[]>(
       (result, baseUrl) => [
         ...result,
-        ...queries.map(
-          (query) =>
+        ...searchPaths.map(
+          (sp) =>
             (baseUrl.endsWith('=') ? baseUrl : slash.trailing.add(baseUrl)) +
-            (query.startsWith('?') ? query : slash.leading.remove(query)),
+            (sp.startsWith('?') ? sp : slash.leading.remove(sp)),
         ),
       ],
       [],
@@ -274,49 +277,49 @@ export class Engine<
   }
 
   /**
-   * Returns an array of `query` values provided for the current `search` call
+   * Returns an array of `searchPath` values provided for the current `search` call
    *
-   * - If `query` is not provided or is invalid, defaults to the engine's
+   * - If `searchPath` is not provided or is invalid, defaults to the engine's
    * main `search` value
    *
    * - If engine does not have a main `search` value, default to the
    * engine's root (effectively querying the base url)
    */
-  private getQueryValues(
-    queryValue: string | string[] | QueryGetterFn<S> | undefined,
+  private getSearchPathValues(
+    searchPath: string | string[] | SearchPathGetterFn<S> | undefined,
   ): string[] {
-    if (typeof queryValue === 'string') {
-      return [queryValue];
+    if (typeof searchPath === 'string') {
+      return [searchPath];
     }
 
     if (
-      Array.isArray(queryValue) &&
-      queryValue.every((query): query is string => typeof query === 'string')
+      Array.isArray(searchPath) &&
+      searchPath.every((sp): sp is string => typeof sp === 'string')
     ) {
-      return queryValue;
+      return searchPath;
     }
 
-    const { search } = this.#config;
-    if (queryValue != null && queryValue instanceof Function) {
-      const result = returnTypeGuard(queryValue, search);
+    const { search: configSearch } = this.#config;
+    if (searchPath != null && searchPath instanceof Function) {
+      const result = returnTypeGuard(searchPath, configSearch);
       if (result != null) {
         return Array.isArray(result) ? result : [result];
       }
     }
 
-    // fallback query to the engine's root (base url)
-    let defaultQuery = '/';
+    // fallback to the engine's root (base url)
+    let defaultSearchPath = '/';
 
-    // set the default query to the engine config's main value, if it exists
-    if (search != null) {
-      if (typeof search === 'string') {
-        defaultQuery = search;
-      } else if (search instanceof Object && 'main' in search) {
-        defaultQuery = search.main;
+    // set the default to the engine config's main value, if it exists
+    if (configSearch != null) {
+      if (typeof configSearch === 'string') {
+        defaultSearchPath = configSearch;
+      } else if (configSearch instanceof Object && 'main' in configSearch) {
+        defaultSearchPath = configSearch.main;
       }
     }
 
-    return [defaultQuery];
+    return [defaultSearchPath];
   }
 
   /**

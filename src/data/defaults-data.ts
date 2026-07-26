@@ -9,12 +9,12 @@ import { getEnginesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
 
 import type {
-  ConfigEngine,
+  ConfigSite,
   DefaultsData,
-  IsDefault,
+  WithDefault,
 } from '@app-types/config.types.js';
 
-function getDefault<Data extends IsDefault>(
+function getDefault<Data extends WithDefault>(
   data: Data,
 ): [string, Data[keyof Data]] | null {
   const withDefault = Object.entries(data).find(
@@ -35,7 +35,7 @@ function getDefault<Data extends IsDefault>(
 
 function getDefaultEngine(): DefaultsData['engine'] {
   const engines = getEnginesData();
-  const fallback: [string, ConfigEngine] = [
+  const fallback: [string, ConfigSite] = [
     defaultEngine,
     initialEngines[defaultEngine],
   ];

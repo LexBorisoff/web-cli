@@ -2,34 +2,34 @@ import type { OmitKey } from './omit-key.type.js';
 import type {
   BrowserConfig,
   BrowserName,
-  EngineConfig,
+  SiteConfig,
   ResourceConfig,
-  SearchConfig,
+  SearchPathConfig,
 } from '@api/index.js';
 
 export interface WithAlias {
   alias?: string | string[];
 }
 
-export interface IsDefault {
+export interface WithDefault {
   isDefault?: boolean;
 }
 
-export interface BaseConfigOptions extends WithAlias, IsDefault {}
+export interface BaseConfigOptions extends WithAlias, WithDefault {}
 
 /* ~~~ ENGINES ~~~ */
 
-export interface ConfigEngineOptions<
-  S extends SearchConfig = undefined,
-  R extends ResourceConfig = undefined,
+export interface ConfigSiteOptions<
+  Prefix extends SearchPathConfig = undefined,
+  Resource extends ResourceConfig = undefined,
 >
-  extends EngineConfig<S, R>, BaseConfigOptions {}
+  extends SiteConfig<Prefix, Resource>, BaseConfigOptions {}
 
-export interface ConfigEngine extends ConfigEngineOptions<
-  SearchConfig,
+export interface ConfigSite extends ConfigSiteOptions<
+  SearchPathConfig,
   ResourceConfig
 > {
-  baseUrl: string;
+  url: string;
 }
 
 /* ~~~ BROWSERS ~~~ */
@@ -56,57 +56,28 @@ export interface ConfigBrowserOptions
 
 export type ConfigBrowser = ConfigBrowserOptions;
 
-/* ~~~ DEFINE CONFIG ~~~ */
-
-export type CreateEngineFn = (
-  baseUrl: string,
-  config?: ConfigEngineOptions<SearchConfig, ResourceConfig>,
-) => ConfigEngine;
-export type CreateBrowserFn = (config?: ConfigBrowserOptions) => ConfigBrowser;
-
-export type ClearEnginesFn = () => void;
-export type ClearBrowsersFn = () => void;
-
-export interface DefineConfigProps {
-  engine: CreateEngineFn;
-  browser: CreateBrowserFn;
-}
-
-export type DefineConfigCallback = (
-  props: DefineConfigProps,
-) => Record<string, ConfigEngine | ConfigBrowser>;
-
-export type DefineConfigFn = (callback: DefineConfigCallback) => void;
-
 /* ~~~ CONFIG DATA ~~~ */
 
-export interface ConfigMetaDto {
-  projectDir?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+export interface WithSchema {
+  $schema: string;
 }
 
-export interface ConfigDataDto {
-  meta?: ConfigMetaDto;
-  browsers?: Record<string, ConfigBrowser>;
-  engines?: Record<string, ConfigEngine>;
-}
+export type SitesData = Record<string, ConfigSite>;
+export type BrowsersData = Record<string, ConfigBrowser>;
 
-export interface ConfigMetaJson {
-  projectDir?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+export type SitesConfig = SitesData & WithSchema;
+export type BrowsersConfig = BrowsersData & WithSchema;
 
-export interface ConfigDataJson extends Omit<ConfigDataDto, 'meta'> {
-  meta?: ConfigMetaJson;
+export interface ConfigData {
+  sites: SitesData;
+  browsers: BrowsersData;
 }
 
 /* ~~~ DEFAULTS ~~~ */
 
 export interface DefaultsData {
   delimiter: string;
-  engine: [string, ConfigEngine];
+  engine: [string, ConfigSite];
   browser: [string, ConfigBrowser] | null;
   profile: (browserName: string) => [string, Profile] | null;
 }
