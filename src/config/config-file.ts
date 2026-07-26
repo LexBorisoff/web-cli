@@ -11,28 +11,51 @@ import { updateFileEditor } from './file-editor.js';
 
 import type { Choice } from '@lexjs/prompts/lib';
 
-type ConfigChoice = 'sites' | 'browsers';
+enum ConfigChoice {
+  Sites = 'sites',
+  Browsers = 'browsers',
+}
 
 const configChoices: Choice<ConfigChoice>[] = [
-  { title: 'Sites', value: 'sites' },
-  { title: 'Browsers', value: 'browsers' },
+  { title: 'Sites', value: ConfigChoice.Sites },
+  { title: 'Browsers', value: ConfigChoice.Browsers },
 ];
 
-export async function openConfigFile(): Promise<void> {
+function normalizeChoiceArg(arg?: string): ConfigChoice | undefined {
+  if (arg != null) {
+    if (ConfigChoice.Sites.startsWith(arg)) return ConfigChoice.Sites;
+    if (ConfigChoice.Browsers.startsWith(arg)) return ConfigChoice.Browsers;
+  }
+
+  return undefined;
+}
+
+export async function openConfigFile(arg?: string): Promise<void> {
   const appData = getAppData();
   const editor = appData.editor ?? (await updateFileEditor());
 
   if (editor == null) return;
 
-  const { configOption } = await $_.select({
-    name: 'configOption',
-    message: 'Select config to edit',
-    choices: configChoices,
-  });
+  const choice = normalizeChoiceArg(arg);
+  const isConfigChoice =
+    choice === ConfigChoice.Sites || choice === ConfigChoice.Browsers;
 
-  if (configOption == null) return;
+  let configChoice: ConfigChoice | undefined = isConfigChoice
+    ? choice
+    : undefined;
 
-  const configFilePath = path.join(CONFIG_DIR_PATH, `${configOption}.yml`);
+  if (choice == null || !isConfigChoice) {
+    const { answer } = await $_.select({
+      name: 'answer',
+      message: 'Select config to edit',
+      choices: configChoices,
+    });
+    configChoice = answer;
+  }
+
+  if (configChoice == null) return;
+
+  const configFilePath = path.join(CONFIG_DIR_PATH, `${configChoice}.yml`);
 
   const subprocess = await openApp(editor, {
     arguments: [configFilePath],

@@ -6,12 +6,12 @@ import { updateFileEditor } from './file-editor.js';
 const _ = configArgs._.map((arg) => `${arg}`);
 
 export async function handleConfig(): Promise<void> {
-  if (_.length === 0) {
-    await openConfigFile();
+  const arg = _.at(0);
+
+  if (arg === 'editor') {
+    await updateFileEditor();
     return;
   }
 
-  if (_.at(0) === 'editor') {
-    await updateFileEditor();
-  }
+  await openConfigFile(arg);
 }
