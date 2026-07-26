@@ -175,7 +175,7 @@ export class Site<
   }
 
   /**
-   * Creates URLs by adding the `searchPath` property to the engine's
+   * Creates URLs by adding the `searchPath` property to the site's
    * base URL that can be used to query search keywords.
    *
    * For example `https://google.com/search?q=`
@@ -279,11 +279,11 @@ export class Site<
   /**
    * Returns an array of `searchPath` values provided for the current `search` call
    *
-   * - If `searchPath` is not provided or is invalid, defaults to the engine's
+   * - If `searchPath` is not provided or is invalid, defaults to the site's
    * main `search` value
    *
-   * - If engine does not have a main `search` value, default to the
-   * engine's root (effectively querying the base url)
+   * - If site does not have a main `search` value, default to the
+   * site's root (effectively querying the base url)
    */
   private getSearchPathValues(
     searchPath: string | string[] | SearchPathGetterFn<S> | undefined,
@@ -307,10 +307,10 @@ export class Site<
       }
     }
 
-    // fallback to the engine's root (base url)
+    // fallback to the site's root (base url)
     let defaultSearchPath = '/';
 
-    // set the default to the engine config's main value, if it exists
+    // set the default to the site config's main value, if it exists
     if (configSearch != null) {
       if (typeof configSearch === 'string') {
         defaultSearchPath = configSearch;

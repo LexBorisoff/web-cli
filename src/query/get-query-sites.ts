@@ -12,7 +12,7 @@ const siteArgs = dataArgs.site();
 const delimiter = queryArgs.delimiter || defaultDelimiter;
 
 export function getQuerySites(): QuerySite[] {
-  // create engines based on provided site args
+  // create sites based on provided site args
   if (siteArgs.length > 0) {
     return siteArgs.map((siteArg) => {
       const found = findSite(siteArg);
@@ -22,9 +22,9 @@ export function getQuerySites(): QuerySite[] {
         return [siteArg, site];
       }
 
-      const [engineName, site] = found;
+      const [siteName, site] = found;
       return [
-        engineName,
+        siteName,
         new Site(site.url, {
           search: site.search,
           delimiter: site.delimiter,
@@ -34,12 +34,12 @@ export function getQuerySites(): QuerySite[] {
     });
   }
 
-  // do no create engines when there are no value args
+  // do no create sites when there are no value args
   if (queryArgs._.length === 0) {
     return [];
   }
 
-  // create engines when all value args are URLs
+  // create sites when all value args are URLs
   if (urlArgs != null) {
     return urlArgs.map((url) => [url, new Site(url, { delimiter })]);
   }

@@ -15,7 +15,7 @@ const portArgs = dataArgs.port();
 const port = portArgs.length === 0 ? undefined : portArgs;
 
 // if there are no site args and all value args are URLs,
-// remove URL args from keywords list because they are used as engines
+// remove URL args from keywords list because they are used as sites
 const keywords: string[] = args.filter(
   (keyword) => siteArgs.length > 0 || !urlArgs || !urlArgs.includes(keyword),
 );

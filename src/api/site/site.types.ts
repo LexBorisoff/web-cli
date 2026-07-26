@@ -50,7 +50,7 @@ export interface SearchMethodOptions<
 > extends SharedOptions {
   /**
    * String that represents a URL segment that's placed before
-   * the search keywords and allows to ***search*** the engine.
+   * the search keywords and allows to ***search*** the site.
    *
    * - If array is provided, each value creates a separate URL
    * with keywords provided to that `searchPath`
