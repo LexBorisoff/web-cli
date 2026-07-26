@@ -5,8 +5,8 @@ import { returnTypeGuard } from '../utils/return-type-guard.js';
 import { slash } from '../utils/slash.js';
 
 import type {
-  EngineConfig,
-  SearchConfig,
+  SiteConfig,
+  SearchPathConfig,
   ResourceConfig,
   SearchMethodOptions,
   ResourceMethodOptions,
@@ -15,16 +15,16 @@ import type {
 } from './engine.types.js';
 
 export class Engine<
-  S extends SearchConfig = undefined,
+  S extends SearchPathConfig = undefined,
   R extends ResourceConfig = undefined,
 > {
   #baseUrl: string;
 
-  #config: EngineConfig<S, R>;
+  #config: SiteConfig<S, R>;
 
   #delimiter: string = ' ';
 
-  constructor(baseUrl: string, config: EngineConfig<S, R> = {}) {
+  constructor(baseUrl: string, config: SiteConfig<S, R> = {}) {
     this.#baseUrl = baseUrl;
     this.#config = config;
 
@@ -296,9 +296,9 @@ export class Engine<
       return queryValue;
     }
 
-    const { search: configSearch } = this.#config;
+    const { search } = this.#config;
     if (queryValue != null && queryValue instanceof Function) {
-      const result = returnTypeGuard(queryValue, configSearch);
+      const result = returnTypeGuard(queryValue, search);
       if (result != null) {
         return Array.isArray(result) ? result : [result];
       }
@@ -308,11 +308,11 @@ export class Engine<
     let defaultQuery = '/';
 
     // set the default query to the engine config's main value, if it exists
-    if (configSearch != null) {
-      if (typeof configSearch === 'string') {
-        defaultQuery = configSearch;
-      } else if (configSearch instanceof Object && 'main' in configSearch) {
-        defaultQuery = configSearch.main;
+    if (search != null) {
+      if (typeof search === 'string') {
+        defaultQuery = search;
+      } else if (search instanceof Object && 'main' in search) {
+        defaultQuery = search.main;
       }
     }
 
