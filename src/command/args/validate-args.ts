@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
 import { matchers } from '@api/index.js';
-import { configEngineFlags, browserProfileFlags } from '@data/config-flags.js';
+import { configSiteFlags, browserProfileFlags } from '@config/config-flags.js';
 import { defaultsData } from '@data/defaults-data.js';
 import { getBrowserName } from '@helpers/browser/get-browser-name.js';
 import { logger } from '@helpers/utils/logger.js';
@@ -126,15 +126,15 @@ export function validateArgs(): string[] {
     noValueError(Options.Engine);
   }
 
-  const invalidEngines = siteArgs.filter(
+  const invalidSites = siteArgs.filter(
     (arg) =>
-      arg !== '' && !configEngineFlags.includes(arg) && !matchers.url.test(arg),
+      arg !== '' && !configSiteFlags.includes(arg) && !matchers.url.test(arg),
   );
 
-  if (invalidEngines.length > 0) {
+  if (invalidSites.length > 0) {
     addMessage(
       logger.level.error(
-        `Invalid search engines: ${logger.level.warning(invalidEngines.join(' '))}`,
+        `Invalid sites: ${logger.level.warning(invalidSites.join(' '))}`,
       ),
     );
   }

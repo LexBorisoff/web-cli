@@ -1,4 +1,4 @@
-import { getProfilesData } from '@data/get-profiles-data.js';
+import { getProfilesData } from '@config/config-data.js';
 
 import { findConfigItem } from './find-config-item.js';
 

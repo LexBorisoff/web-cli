@@ -1,4 +1,4 @@
-import { configFlags } from '@data/config-flags.js';
+import { configFlags } from '@config/config-flags.js';
 
 import { queryOptions, yargsOptions } from '../options.js';
 

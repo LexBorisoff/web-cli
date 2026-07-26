@@ -1,4 +1,4 @@
-import { getSitesData } from '@data/get-sites-data.js';
+import { sitesData } from '@config/config-data.js';
 import { initialSites } from '@helpers/config/initial-sites.js';
 
 import { findConfigItem } from './find-config-item.js';
@@ -15,7 +15,6 @@ export function findSite(siteArg?: string): [string, ConfigSite] | undefined {
     return undefined;
   }
 
-  const sitesData = getSitesData();
   const hasSitesData = Object.keys(sitesData).length > 0;
 
   return findConfigItem(siteArg, hasSitesData ? sitesData : initialSites);

@@ -1,16 +1,15 @@
-import { configProfileFlags } from '@data/config-flags.js';
-import { getBrowsersData } from '@data/get-browsers-data.js';
-import { getProfilesData } from '@data/get-profiles-data.js';
-import { getSitesData } from '@data/get-sites-data.js';
+import {
+  sitesData,
+  browsersData,
+  getProfilesData,
+} from '@config/config-data.js';
+import { configProfileFlags } from '@config/config-flags.js';
 
 import { queryOptions } from '../options.js';
 
 import { queryArgs } from './query-args.js';
 
 import type { WithAlias } from '@app-types/config.types.js';
-
-const browsersData = getBrowsersData();
-const sitesData = getSitesData();
 
 interface Data<T> {
   [key: string]: T;

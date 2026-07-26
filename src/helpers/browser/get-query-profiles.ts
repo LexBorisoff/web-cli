@@ -5,7 +5,7 @@ import { findProfile } from '../find/find-profile.js';
 
 import type { Profile } from '@app-types/config.types.js';
 
-function withProfile(browserName: string): boolean {
+function hasProfile(browserName: string): boolean {
   return (
     dataArgs.profile(browserName).length > 0 ||
     defaultsData.profile(browserName) != null
@@ -29,7 +29,7 @@ export function getQueryProfiles(browserName: string): [string, Profile][] {
     );
   }
 
-  if (withProfile(browserName)) {
+  if (hasProfile(browserName)) {
     const profileArgs = dataArgs.profile(browserName);
     const defaultProfile = defaultsData.profile(browserName);
 

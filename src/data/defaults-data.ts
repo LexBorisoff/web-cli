@@ -1,12 +1,13 @@
 import {
+  sitesData,
+  browsersData,
+  getProfilesData,
+} from '@config/config-data.js';
+import {
   defaultSite,
   defaultDelimiter as delimiter,
 } from '@helpers/config/defaults.js';
 import { initialSites } from '@helpers/config/initial-sites.js';
-
-import { getBrowsersData } from './get-browsers-data.js';
-import { getProfilesData } from './get-profiles-data.js';
-import { getSitesData } from './get-sites-data.js';
 
 import type {
   ConfigSite,
@@ -34,17 +35,15 @@ function getDefault<Data extends WithDefault>(
 }
 
 function getDefaultSite(): DefaultsData['site'] {
-  const sites = getSitesData();
   const fallback: [string, ConfigSite] = [
     defaultSite,
     initialSites[defaultSite],
   ];
-  return getDefault(sites) ?? fallback;
+  return getDefault(sitesData) ?? fallback;
 }
 
 function getDefaultBrowser(): DefaultsData['browser'] | null {
-  const browsers = getBrowsersData();
-  return getDefault(browsers);
+  return getDefault(browsersData);
 }
 
 const getDefaultProfile: DefaultsData['profile'] = (browserName) => {

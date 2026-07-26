@@ -1,9 +1,10 @@
-import type { ConfigSite } from '@app-types/config.types.js';
+import type { SitesData } from '@app-types/config.types.js';
 
-export const initialSites: NonNullable<Record<string, ConfigSite>> = {
+export const initialSites: NonNullable<SitesData> = {
   google: {
     url: 'google.com',
     search: 'search?q=',
+    default: true,
   },
   duck: {
     url: 'duckduckgo.com',
@@ -16,9 +17,9 @@ export const initialSites: NonNullable<Record<string, ConfigSite>> = {
     search: 'search?q=',
     resources: {
       tabs: {
+        stars: '?tab=stars',
         repos: '?tab=repositories',
         projects: '?tab=projects',
-        stars: '?tab=stars',
       },
     },
   },
