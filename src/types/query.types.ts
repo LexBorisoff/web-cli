@@ -1,4 +1,5 @@
-import type { Browser, Site } from '@api/index.js';
+import type { Browser } from '@api/browser/browser.js';
+import type { Site } from '@api/site/site.js';
 
 export interface BrowserProfileQuery {
   browser: string;

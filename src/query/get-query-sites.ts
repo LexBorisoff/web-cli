@@ -1,4 +1,4 @@
-import { Site } from '@api/index.js';
+import { Site } from '@api/site/site.js';
 import { dataArgs } from '@command/args/data-args.js';
 import { queryArgs, urlArgs } from '@command/args/query-args.js';
 import { defaultsData } from '@data/defaults-data.js';

@@ -1,11 +1,10 @@
 import type { OmitKey } from './omit-key.type.js';
+import type { BrowserConfig, BrowserName } from '@api/browser/browser.types.js';
 import type {
-  BrowserConfig,
-  BrowserName,
   SiteConfig,
   ResourceConfig,
   SearchPathConfig,
-} from '@api/index.js';
+} from '@api/site/site.types.js';
 
 export interface WithAlias {
   alias?: string | string[];
