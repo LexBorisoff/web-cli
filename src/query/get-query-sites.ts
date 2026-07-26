@@ -1,34 +1,34 @@
-import { Engine } from '@api/index.js';
+import { Site } from '@api/index.js';
 import { dataArgs } from '@command/args/data-args.js';
 import { queryArgs, urlArgs } from '@command/args/query-args.js';
 import { defaultsData } from '@data/defaults-data.js';
 import { defaultDelimiter } from '@helpers/config/defaults.js';
-import { findEngine } from '@helpers/find/find-engine.js';
+import { findSite } from '@helpers/find/find-engine.js';
 
 import type { QuerySite } from '@app-types/query.types.js';
 
-const [defaultEngineName, defaultEngine] = defaultsData.engine;
-const engineArgs = dataArgs.engine();
+const [defaultSiteName, defaultSite] = defaultsData.site;
+const siteArgs = dataArgs.site();
 const delimiter = queryArgs.delimiter || defaultDelimiter;
 
 export function getQuerySites(): QuerySite[] {
-  // create engines based on provided engine args
-  if (engineArgs.length > 0) {
-    return engineArgs.map((engineArg) => {
-      const found = findEngine(engineArg);
+  // create engines based on provided site args
+  if (siteArgs.length > 0) {
+    return siteArgs.map((siteArg) => {
+      const found = findSite(siteArg);
       if (found == null) {
-        // engine arg can be provided as a URL string
-        const engine = new Engine(engineArg, { delimiter });
-        return [engineArg, engine];
+        // site arg can be provided as a URL string
+        const site = new Site(siteArg, { delimiter });
+        return [siteArg, site];
       }
 
-      const [engineName, engine] = found;
+      const [engineName, site] = found;
       return [
         engineName,
-        new Engine(engine.url, {
-          search: engine.search,
-          delimiter: engine.delimiter,
-          resources: engine.resources,
+        new Site(site.url, {
+          search: site.search,
+          delimiter: site.delimiter,
+          resources: site.resources,
         }),
       ];
     });
@@ -41,17 +41,17 @@ export function getQuerySites(): QuerySite[] {
 
   // create engines when all value args are URLs
   if (urlArgs != null) {
-    return urlArgs.map((url) => [url, new Engine(url, { delimiter })]);
+    return urlArgs.map((url) => [url, new Site(url, { delimiter })]);
   }
 
-  // create default engine
+  // create default site
   return [
     [
-      defaultEngineName,
-      new Engine(defaultEngine.url, {
-        search: defaultEngine.search,
-        delimiter: defaultEngine.delimiter,
-        resources: defaultEngine.resources,
+      defaultSiteName,
+      new Site(defaultSite.url, {
+        search: defaultSite.search,
+        delimiter: defaultSite.delimiter,
+        resources: defaultSite.resources,
       }),
     ],
   ];

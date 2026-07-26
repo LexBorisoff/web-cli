@@ -90,7 +90,7 @@ export interface ResourceMethodOptions<
    * without being separated by `/`
    *
    * @example
-   * const github = new Engine('github.com', {
+   * const github = new Site('github.com', {
    *   resources: {
    *     profile: 'username',
    *     tabs: {

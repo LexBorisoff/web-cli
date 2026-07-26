@@ -1,6 +1,6 @@
 import type { ConfigSite } from '@app-types/config.types.js';
 
-export const initialEngines: NonNullable<Record<string, ConfigSite>> = {
+export const initialSites: NonNullable<Record<string, ConfigSite>> = {
   google: {
     url: 'google.com',
     search: 'search?q=',

@@ -12,9 +12,9 @@ import type {
   ResourceMethodOptions,
   SearchPathGetterFn,
   ResourceGetterFn,
-} from './engine.types.js';
+} from './site.types.js';
 
-export class Engine<
+export class Site<
   S extends SearchPathConfig = undefined,
   R extends ResourceConfig = undefined,
 > {

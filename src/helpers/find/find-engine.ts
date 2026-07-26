@@ -1,27 +1,22 @@
-import { getEnginesData } from '@data/get-engines-data.js';
-import { initialEngines } from '@helpers/config/initial-engines.js';
+import { getSitesData } from '@data/get-engines-data.js';
+import { initialSites } from '@helpers/config/initial-engines.js';
 
 import { findConfigItem } from './find-config-item.js';
 
 import type { ConfigSite } from '@app-types/config.types.js';
 
 /**
- * Returns a tuple with the engine's config key and the Engine object
+ * Returns a tuple with the site's config key and the Site object
  * if it can be found in the config by the provided name or alias.
  * Otherwise returns undefined
  */
-export function findEngine(
-  engineArg?: string,
-): [string, ConfigSite] | undefined {
-  if (engineArg == null) {
+export function findSite(siteArg?: string): [string, ConfigSite] | undefined {
+  if (siteArg == null) {
     return undefined;
   }
 
-  const enginesData = getEnginesData();
-  const hasEnginesData = Object.keys(enginesData).length > 0;
+  const sitesData = getSitesData();
+  const hasSitesData = Object.keys(sitesData).length > 0;
 
-  return findConfigItem(
-    engineArg,
-    hasEnginesData ? enginesData : initialEngines,
-  );
+  return findConfigItem(siteArg, hasSitesData ? sitesData : initialSites);
 }

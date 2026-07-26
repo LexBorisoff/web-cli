@@ -77,7 +77,7 @@ export interface ConfigData {
 
 export interface DefaultsData {
   delimiter: string;
-  engine: [string, ConfigSite];
+  site: [string, ConfigSite];
   browser: [string, ConfigBrowser] | null;
   profile: (browserName: string) => [string, Profile] | null;
 }

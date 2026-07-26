@@ -1,11 +1,11 @@
 import { getBrowsersData } from './get-browsers-data.js';
-import { getEnginesData } from './get-engines-data.js';
+import { getSitesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
 
 import type { WithAlias } from '@app-types/config.types.js';
 
 const browsersData = getBrowsersData();
-const enginesData = getEnginesData();
+const sitesData = getSitesData();
 
 interface Data<T> {
   [key: string]: T;
@@ -50,7 +50,7 @@ export const configProfileFlags = Object.keys(browsersData)
   .flat();
 
 /** a list of all engine keys and aliases in the config */
-export const configEngineFlags = getFlags(enginesData);
+export const configEngineFlags = getFlags(sitesData);
 
 /**
  * A list of identifiers (keys and aliases) from config data:

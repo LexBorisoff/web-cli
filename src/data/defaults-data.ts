@@ -1,11 +1,11 @@
 import {
-  defaultEngine,
+  defaultSite,
   defaultDelimiter as delimiter,
 } from '@helpers/config/defaults.js';
-import { initialEngines } from '@helpers/config/initial-engines.js';
+import { initialSites } from '@helpers/config/initial-engines.js';
 
 import { getBrowsersData } from './get-browsers-data.js';
-import { getEnginesData } from './get-engines-data.js';
+import { getSitesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
 
 import type {
@@ -33,13 +33,13 @@ function getDefault<Data extends WithDefault>(
   return null;
 }
 
-function getDefaultEngine(): DefaultsData['engine'] {
-  const engines = getEnginesData();
+function getDefaultSite(): DefaultsData['site'] {
+  const sites = getSitesData();
   const fallback: [string, ConfigSite] = [
-    defaultEngine,
-    initialEngines[defaultEngine],
+    defaultSite,
+    initialSites[defaultSite],
   ];
-  return getDefault(engines) ?? fallback;
+  return getDefault(sites) ?? fallback;
 }
 
 function getDefaultBrowser(): DefaultsData['browser'] | null {
@@ -54,7 +54,7 @@ const getDefaultProfile: DefaultsData['profile'] = (browserName) => {
 
 export const defaultsData: DefaultsData = {
   delimiter,
-  engine: getDefaultEngine(),
+  site: getDefaultSite(),
   browser: getDefaultBrowser(),
   profile: getDefaultProfile,
 };

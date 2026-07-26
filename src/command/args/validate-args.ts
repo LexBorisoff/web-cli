@@ -14,7 +14,7 @@ import { queryArgs, urlArgs } from './query-args.js';
 
 const { italic } = chalk;
 const { resource, search, delimiter } = queryArgs;
-const engineArgs = dataArgs.engine(false);
+const engineArgs = dataArgs.site(false);
 const browserArgs = dataArgs.browser(false);
 const portArgs = dataArgs.port();
 
