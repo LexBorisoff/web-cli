@@ -2,11 +2,11 @@ import {
   defaultSite,
   defaultDelimiter as delimiter,
 } from '@helpers/config/defaults.js';
-import { initialSites } from '@helpers/config/initial-engines.js';
+import { initialSites } from '@helpers/config/initial-sites.js';
 
 import { getBrowsersData } from './get-browsers-data.js';
-import { getSitesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
+import { getSitesData } from './get-sites-data.js';
 
 import type {
   ConfigSite,

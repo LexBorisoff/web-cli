@@ -1,5 +1,5 @@
-import { getSitesData } from '@data/get-engines-data.js';
-import { initialSites } from '@helpers/config/initial-engines.js';
+import { getSitesData } from '@data/get-sites-data.js';
+import { initialSites } from '@helpers/config/initial-sites.js';
 
 import { findConfigItem } from './find-config-item.js';
 

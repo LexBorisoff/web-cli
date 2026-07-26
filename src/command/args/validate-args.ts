@@ -14,7 +14,7 @@ import { queryArgs, urlArgs } from './query-args.js';
 
 const { italic } = chalk;
 const { resource, search, delimiter } = queryArgs;
-const engineArgs = dataArgs.site(false);
+const siteArgs = dataArgs.site(false);
 const browserArgs = dataArgs.browser(false);
 const portArgs = dataArgs.port();
 
@@ -50,7 +50,7 @@ function validateResource(
     noValueError(option);
   }
 
-  if (engineArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
+  if (siteArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
     addMessage(
       logger.level.error(
         `${italic(`--${option}`)} option must be used with --engine${allowUrlArgs ? ' or URL' : ''}`,
@@ -121,12 +121,12 @@ export function validateArgs(): string[] {
     );
   }
 
-  /* ~~~ VALIDATE ENGINE ARGS ~~~  */
-  if (isEmptyArg(engineArgs)) {
+  /* ~~~ VALIDATE SITE ARGS ~~~  */
+  if (isEmptyArg(siteArgs)) {
     noValueError(Options.Engine);
   }
 
-  const invalidEngines = engineArgs.filter(
+  const invalidEngines = siteArgs.filter(
     (arg) =>
       arg !== '' && !configEngineFlags.includes(arg) && !matchers.url.test(arg),
   );
@@ -196,7 +196,7 @@ export function validateArgs(): string[] {
       );
     }
 
-    if (engineArgs.length === 0 && !urlArgs)
+    if (siteArgs.length === 0 && !urlArgs)
       addMessage(
         logger.level.error(
           `${italic('--port')} option must be used with --engine or URL`,

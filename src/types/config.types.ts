@@ -17,13 +17,13 @@ export interface WithDefault {
 
 export interface BaseConfigOptions extends WithAlias, WithDefault {}
 
-/* ~~~ ENGINES ~~~ */
+/* ~~~ SITES ~~~ */
 
 export interface ConfigSiteOptions<
-  Prefix extends SearchPathConfig = undefined,
-  Resource extends ResourceConfig = undefined,
+  S extends SearchPathConfig = undefined,
+  R extends ResourceConfig = undefined,
 >
-  extends SiteConfig<Prefix, Resource>, BaseConfigOptions {}
+  extends SiteConfig<S, R>, BaseConfigOptions {}
 
 export interface ConfigSite extends ConfigSiteOptions<
   SearchPathConfig,

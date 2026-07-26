@@ -1,6 +1,6 @@
 import { getBrowsersData } from './get-browsers-data.js';
-import { getSitesData } from './get-engines-data.js';
 import { getProfilesData } from './get-profiles-data.js';
+import { getSitesData } from './get-sites-data.js';
 
 import type { WithAlias } from '@app-types/config.types.js';
 

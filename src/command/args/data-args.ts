@@ -1,7 +1,7 @@
 import { configProfileFlags } from '@data/config-flags.js';
 import { getBrowsersData } from '@data/get-browsers-data.js';
-import { getSitesData } from '@data/get-engines-data.js';
 import { getProfilesData } from '@data/get-profiles-data.js';
+import { getSitesData } from '@data/get-sites-data.js';
 
 import { queryOptions } from '../options.js';
 
