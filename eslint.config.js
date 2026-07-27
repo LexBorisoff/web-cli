@@ -9,6 +9,11 @@ export default defineConfig(
   lexjs.configs.recommended,
   lexjs.configs.typescript,
   {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'error',
+    },
+  },
+  {
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

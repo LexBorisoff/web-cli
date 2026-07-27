@@ -1,8 +1,10 @@
-interface NestedObject<V = any> {
+type Primitive = boolean | string | number;
+
+interface NestedObject<V = Primitive> {
   [key: string]: V | NestedObject<V>;
 }
 
-const isPrimitive = (value: unknown): value is string | number | boolean =>
+const isPrimitive = (value: unknown): value is Primitive =>
   typeof value === 'boolean' ||
   typeof value === 'string' ||
   typeof value === 'number';
@@ -11,7 +13,7 @@ const isPrimitive = (value: unknown): value is string | number | boolean =>
  * @param objectFallbackValue fallback value that is used when a matched property's value is an object
  */
 export function findNested<
-  V extends boolean | string | number,
+  V extends Primitive,
   T extends NestedObject<V> = NestedObject<V>,
 >(target: T, lookupKey: string, objectFallbackValue: V): V | null {
   return Object.keys(target).reduce<V | null>((result, key) => {
