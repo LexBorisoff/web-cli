@@ -1,6 +1,6 @@
 import { Browser } from '@api/browser/browser.js';
 import { dataArgs } from '@command/args/data-args.js';
-import { defaultsData } from '@data/defaults-data.js';
+import { defaultsData } from '@data/defaults.js';
 import { findBrowser } from '@helpers/find/find-browser.js';
 
 import { getProfilesConfig } from './get-profiles-config.js';

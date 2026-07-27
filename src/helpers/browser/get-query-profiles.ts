@@ -1,5 +1,5 @@
 import { dataArgs } from '@command/args/data-args.js';
-import { defaultsData } from '@data/defaults-data.js';
+import { defaultsData } from '@data/defaults.js';
 
 import { findProfile } from '../find/find-profile.js';
 

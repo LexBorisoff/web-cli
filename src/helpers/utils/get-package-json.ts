@@ -4,7 +4,7 @@ import * as url from 'node:url';
 
 import { PackageJson } from 'type-fest';
 
-import { parseData } from '../utils/parse-data.js';
+import { parseData } from './parse-data.js';
 
 export function getPackageJson(): PackageJson {
   const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

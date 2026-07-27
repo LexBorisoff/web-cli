@@ -1,4 +1,4 @@
-import { initialSites } from '@helpers/config/initial-sites.js';
+import { initialSites } from '@data/initial-sites.js';
 
 import { readConfig } from './read-config.js';
 

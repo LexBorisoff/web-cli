@@ -1,8 +1,7 @@
 import { Site } from '@api/site/site.js';
 import { dataArgs } from '@command/args/data-args.js';
 import { queryArgs, urlArgs } from '@command/args/query-args.js';
-import { defaultsData } from '@data/defaults-data.js';
-import { defaultDelimiter } from '@helpers/config/defaults.js';
+import { defaultsData, defaultDelimiter } from '@data/defaults.js';
 import { findSite } from '@helpers/find/find-site.js';
 
 import type { QuerySite } from '@app-types/query.types.js';

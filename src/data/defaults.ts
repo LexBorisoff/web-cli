@@ -3,17 +3,17 @@ import {
   browsersData,
   getProfilesData,
 } from '@config/config-data.js';
-import {
-  defaultSite,
-  defaultDelimiter as delimiter,
-} from '@helpers/config/defaults.js';
-import { initialSites } from '@helpers/config/initial-sites.js';
+
+import { initialSites } from './initial-sites.js';
 
 import type {
   ConfigSite,
   DefaultsData,
   WithDefault,
 } from '@app-types/config.types.js';
+
+export const [defaultSite] = Object.keys(initialSites);
+export const defaultDelimiter = ' ';
 
 function getDefault<Data extends WithDefault>(
   data: Data,
@@ -52,7 +52,7 @@ const getDefaultProfile: DefaultsData['profile'] = (browserName) => {
 };
 
 export const defaultsData: DefaultsData = {
-  delimiter,
+  delimiter: defaultDelimiter,
   site: getDefaultSite(),
   browser: getDefaultBrowser(),
   profile: getDefaultProfile,

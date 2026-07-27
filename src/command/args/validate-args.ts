@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 import { matchers } from '@api/matchers/matchers.js';
 import { configSiteFlags, browserProfileFlags } from '@config/config-flags.js';
-import { defaultsData } from '@data/defaults-data.js';
+import { defaultsData } from '@data/defaults.js';
 import { getBrowserName } from '@helpers/browser/get-browser-name.js';
 import { logger } from '@helpers/utils/logger.js';
 
