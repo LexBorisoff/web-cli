@@ -122,6 +122,7 @@ export function validateArgs(): string[] {
   }
 
   /* ~~~ VALIDATE SITE ARGS ~~~  */
+
   if (isEmptyArg(siteArgs)) {
     noValueError(Options.Engine);
   }

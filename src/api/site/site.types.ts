@@ -1,18 +1,16 @@
-interface StringObject {
-  [key: string]: string | StringObject;
+interface NestedStringObject {
+  [key: string]: string | NestedStringObject;
 }
 
 export interface SearchObject {
-  [key: string]: string | StringObject;
+  [key: string]: string | NestedStringObject;
   main: string;
 }
 
-export interface ResourceObject {
-  [key: string]: string | StringObject;
-}
+export type ResourceObject = NestedStringObject;
 
 export type SearchPathConfig = string | SearchObject | undefined;
-export type ResourceConfig = ResourceObject | undefined;
+export type ResourceConfig = NestedStringObject | undefined;
 
 export interface SiteConfig<
   S extends SearchPathConfig,

@@ -1,5 +1,3 @@
-import type { OmitKey } from './omit-key.type.js';
-import type { BrowserConfig, BrowserName } from '@api/browser/browser.types.js';
 import type {
   SiteConfig,
   ResourceConfig,
@@ -45,10 +43,7 @@ export type ProfilesData = {
   [K in keyof ConfigProfiles]: Exclude<ConfigProfiles[K], string>;
 };
 
-export interface ConfigBrowserOptions
-  extends
-    OmitKey<BrowserConfig<NonNullable<BrowserName>, undefined>, 'profiles'>,
-    BaseConfigOptions {
+export interface ConfigBrowserOptions extends BaseConfigOptions {
   appPath?: string;
   profiles?: ConfigProfiles;
 }
