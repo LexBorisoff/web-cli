@@ -62,7 +62,7 @@ function handleResource(
                   // do not search in config if path key starts with slash
                   isEscaped
                     ? pathKey.slice(1)
-                    : (findNested<string>(config, pathKey, '') ?? pathKey),
+                    : (findNested<string>(config, pathKey, pathKey) ?? pathKey),
                 );
 
                 return acc;
