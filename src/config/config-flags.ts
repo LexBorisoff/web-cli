@@ -1,4 +1,4 @@
-import { browsersData, sitesData, getProfilesData } from './config-data.js';
+import { browsersData, sitesData, getProfilesData } from '@data/config-data.js';
 
 import type { WithAlias } from '@app-types/config.types.js';
 

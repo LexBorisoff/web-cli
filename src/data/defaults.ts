@@ -1,9 +1,4 @@
-import {
-  sitesData,
-  browsersData,
-  getProfilesData,
-} from '@config/config-data.js';
-
+import { sitesData, browsersData, getProfilesData } from './config-data.js';
 import { initialSites } from './initial-sites.js';
 
 import type {

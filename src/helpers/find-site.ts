@@ -1,4 +1,4 @@
-import { sitesData } from '@config/config-data.js';
+import { sitesData } from '@data/config-data.js';
 import { initialSites } from '@data/initial-sites.js';
 
 import { findConfigItem } from './find-config-item.js';

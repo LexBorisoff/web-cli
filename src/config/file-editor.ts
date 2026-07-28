@@ -1,6 +1,7 @@
 import $_ from '@lexjs/prompts';
 
-import { writeAppData } from './app-data.js';
+import { writeAppData } from '@data/app-data.js';
+
 import { VS_CODE } from './constants.js';
 
 export async function updateFileEditor(): Promise<string | undefined> {

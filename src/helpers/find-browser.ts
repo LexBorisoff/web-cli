@@ -1,4 +1,4 @@
-import { browsersData } from '@config/config-data.js';
+import { browsersData } from '@data/config-data.js';
 
 import { findConfigItem } from './find-config-item.js';
 

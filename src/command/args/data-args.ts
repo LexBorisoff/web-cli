@@ -1,9 +1,5 @@
-import {
-  sitesData,
-  browsersData,
-  getProfilesData,
-} from '@config/config-data.js';
 import { configProfileFlags } from '@config/config-flags.js';
+import { sitesData, browsersData, getProfilesData } from '@data/config-data.js';
 
 import { queryOptions } from '../options.js';
 

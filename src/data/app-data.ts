@@ -1,10 +1,22 @@
 import fs from 'node:fs';
 
-import { DATA_FILE_EXISTS, DATA_FILE_PATH } from './constants.js';
+import {
+  DATA_FILE_EXISTS,
+  DATA_FILE_PATH,
+  COMMAND_FALLBACK,
+} from '@config/constants.js';
 
 export interface AppDataInterface {
+  /**
+   * Executable script name
+   */
+  command: string;
   editor?: string;
 }
+
+const defaultAppData: AppDataInterface = {
+  command: COMMAND_FALLBACK,
+};
 
 function readDataFile(): AppDataInterface {
   const dataRaw = fs.readFileSync(DATA_FILE_PATH, 'utf-8');
@@ -20,11 +32,11 @@ export function getAppData(): AppDataInterface {
     }
   }
 
-  return {};
+  return defaultAppData;
 }
 
 export function writeAppData(payload: Partial<AppDataInterface>): void {
-  let data: AppDataInterface = {};
+  let data: AppDataInterface = defaultAppData;
   if (DATA_FILE_EXISTS) {
     try {
       data = readDataFile();

@@ -1,6 +1,5 @@
+import { readConfig } from '@config/read-config.js';
 import { initialSites } from '@data/initial-sites.js';
-
-import { readConfig } from './read-config.js';
 
 import type {
   BrowsersData,
