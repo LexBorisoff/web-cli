@@ -1,8 +1,8 @@
-import { Site } from '@api/site/site.js';
 import { dataArgs } from '@command/args/data-args.js';
 import { queryArgs, urlArgs } from '@command/args/query-args.js';
 import { findNested } from '@helpers/find/find-nested.js';
 
+import type { Site } from '@api/site/site.js';
 import type {
   ResourceConfig,
   ResourceObject,
