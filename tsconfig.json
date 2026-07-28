@@ -6,9 +6,8 @@
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "rootDir": "./src",
-    "outDir": "./dist/bin",
-    "declaration": true,
-    "declarationDir": "./dist/types",
+    "outDir": "./dist",
+    "declaration": false,
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -23,6 +22,7 @@
       "@config/*": ["./src/config/*"],
       "@data/*": ["./src/data/*"],
       "@helpers/*": ["./src/helpers/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@query/*": ["./src/query/*"],
       "@utils/*": ["./src/utils/*"]
     }

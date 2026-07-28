@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 
 import $_ from '@lexjs/prompts';
@@ -11,10 +12,15 @@ import { updateFileEditor } from './file-editor.js';
 
 import type { Choice } from '@lexjs/prompts/lib';
 
-enum ConfigChoice {
+export enum ConfigChoice {
   Sites = 'sites',
   Browsers = 'browsers',
 }
+
+export const configInitData = (configChoice: ConfigChoice): string =>
+  `$schema: ../schema/${configChoice}.json
+
+`;
 
 const configChoices: Choice<ConfigChoice>[] = [
   { title: 'Sites', value: ConfigChoice.Sites },
@@ -56,6 +62,11 @@ export async function openConfigFile(arg?: string): Promise<void> {
   if (configChoice == null) return;
 
   const configFilePath = path.join(CONFIG_DIR_PATH, `${configChoice}.yml`);
+
+  // create fallback config file if doesn't exist
+  if (!fs.existsSync(configFilePath)) {
+    fs.writeFileSync(configFilePath, configInitData(configChoice));
+  }
 
   const subprocess = await openApp(editor, {
     arguments: [configFilePath],

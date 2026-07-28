@@ -46,7 +46,7 @@
           }
         }
       },
-      "required": ["url", "search"]
+      "required": ["url"]
     },
     "SearchObject": {
       "description": "Object describing search path for the site. Supports deep, nested structures.",
