@@ -1,9 +1,9 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { matchers } from '@api/index.js';
-import { configFlags } from '@data/config-flags.js';
-import { getPackageJson } from '@helpers/project/get-package-json.js';
+import { matchers } from '@api/matchers/matchers.js';
+import { configFlags } from '@config/config-flags.js';
+import { getPackageJson } from '@helpers/utils/get-package-json.js';
 
 import {
   QueryOptions as Options,

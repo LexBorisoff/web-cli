@@ -1,4 +1,4 @@
-export function parseData<Result = any>(data?: string | null): Result | null {
+export function parseData<Result>(data?: string | null): Result | null {
   if (data == null || data === '') {
     return null;
   }

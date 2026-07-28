@@ -21,9 +21,7 @@ export interface ArgTypes {
 }
 
 export type ArrayArgType<Option extends Options> =
-  | ArgTypes[Option]
-  | ArgTypes[Option][]
-  | undefined;
+  ArgTypes[Option] | ArgTypes[Option][] | undefined;
 
 export interface ArrayArgs {
   [Options.Browser]: ArrayArgType<Options.Browser>;

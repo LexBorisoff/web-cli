@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 
-import { matchers } from '@api/index.js';
-import { configEngineFlags, browserProfileFlags } from '@data/config-flags.js';
-import { defaultsData } from '@data/defaults-data.js';
+import { matchers } from '@api/matchers/matchers.js';
+import { configSiteFlags, browserProfileFlags } from '@config/config-flags.js';
+import { defaultsData } from '@data/defaults.js';
 import { getBrowserName } from '@helpers/browser/get-browser-name.js';
 import { logger } from '@helpers/utils/logger.js';
 
@@ -14,7 +14,7 @@ import { queryArgs, urlArgs } from './query-args.js';
 
 const { italic } = chalk;
 const { resource, search, delimiter } = queryArgs;
-const engineArgs = dataArgs.engine(false);
+const siteArgs = dataArgs.site(false);
 const browserArgs = dataArgs.browser(false);
 const portArgs = dataArgs.port();
 
@@ -50,7 +50,7 @@ function validateResource(
     noValueError(option);
   }
 
-  if (engineArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
+  if (siteArgs.length === 0 && (!allowUrlArgs || !urlArgs)) {
     addMessage(
       logger.level.error(
         `${italic(`--${option}`)} option must be used with --engine${allowUrlArgs ? ' or URL' : ''}`,
@@ -121,20 +121,21 @@ export function validateArgs(): string[] {
     );
   }
 
-  /* ~~~ VALIDATE ENGINE ARGS ~~~  */
-  if (isEmptyArg(engineArgs)) {
+  /* ~~~ VALIDATE SITE ARGS ~~~  */
+
+  if (isEmptyArg(siteArgs)) {
     noValueError(Options.Engine);
   }
 
-  const invalidEngines = engineArgs.filter(
+  const invalidSites = siteArgs.filter(
     (arg) =>
-      arg !== '' && !configEngineFlags.includes(arg) && !matchers.url.test(arg),
+      arg !== '' && !configSiteFlags.includes(arg) && !matchers.url.test(arg),
   );
 
-  if (invalidEngines.length > 0) {
+  if (invalidSites.length > 0) {
     addMessage(
       logger.level.error(
-        `Invalid search engines: ${logger.level.warning(invalidEngines.join(' '))}`,
+        `Invalid sites: ${logger.level.warning(invalidSites.join(' '))}`,
       ),
     );
   }
@@ -196,7 +197,7 @@ export function validateArgs(): string[] {
       );
     }
 
-    if (engineArgs.length === 0 && !urlArgs)
+    if (siteArgs.length === 0 && !urlArgs)
       addMessage(
         logger.level.error(
           `${italic('--port')} option must be used with --engine or URL`,
