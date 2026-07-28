@@ -1,5 +1,5 @@
 import { validateArgs } from '@command/args/validate-args.js';
-import { logger } from '@helpers/utils/logger.js';
+import { logger } from '@utils/logger.js';
 
 import { getQuerySites } from './get-query-sites.js';
 import { getUrls } from './get-urls.js';

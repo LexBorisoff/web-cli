@@ -3,7 +3,7 @@ import path from 'node:path';
 import $_ from '@lexjs/prompts';
 import { openApp } from 'open';
 
-import { logger } from '@helpers/utils/logger.js';
+import { logger } from '@utils/logger.js';
 
 import { getAppData, writeAppData } from './app-data.js';
 import { CONFIG_DIR_PATH } from './constants.js';

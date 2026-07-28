@@ -1,7 +1,7 @@
 import open from 'open';
 
 import { queryArgs } from '@command/args/query-args.js';
-import { getQueryProfiles } from '@helpers/browser/get-query-profiles.js';
+import { getQueryProfiles } from '@helpers/get-query-profiles.js';
 
 import { getQueryBrowsers } from './get-query-browsers.js';
 

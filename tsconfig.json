@@ -23,7 +23,8 @@
       "@config/*": ["./src/config/*"],
       "@data/*": ["./src/data/*"],
       "@helpers/*": ["./src/helpers/*"],
-      "@query/*": ["./src/query/*"]
+      "@query/*": ["./src/query/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src"]

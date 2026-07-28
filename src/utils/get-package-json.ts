@@ -8,15 +8,7 @@ import type { PackageJson } from 'type-fest';
 
 export function getPackageJson(): PackageJson {
   const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-  const root = path.join(__dirname, '../../../../');
-
-  try {
-    const json = fs.readFileSync(path.resolve(`${root}/package.json`), {
-      encoding: 'utf-8',
-    });
-
-    return parseData<PackageJson>(json) ?? {};
-  } catch {
-    return {};
-  }
+  const root = path.join(__dirname, '../../');
+  const json = fs.readFileSync(path.resolve(`${root}/package.json`), 'utf-8');
+  return parseData<PackageJson>(json) ?? {};
 }
