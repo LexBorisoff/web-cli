@@ -1,13 +1,9 @@
 import { sitesData, browsersData, getProfilesData } from './config-data.js';
-import { initialSites } from './initial-sites.js';
 
-import type {
-  ConfigSite,
-  DefaultsData,
-  WithDefault,
-} from '@app-types/config.types.js';
+import type { DefaultsData, WithDefault } from '@app-types/config.types.js';
 
-export const [defaultSite] = Object.keys(initialSites);
+const [siteFallback] = Object.entries(sitesData);
+
 export const defaultDelimiter = ' ';
 
 function getDefault<Data extends WithDefault>(
@@ -17,28 +13,12 @@ function getDefault<Data extends WithDefault>(
     ([, item]: [key: string, item: Data]) => !!item.default,
   );
 
-  if (withDefault != null) {
-    return withDefault;
-  }
+  if (withDefault != null) return withDefault;
 
   const first = Object.entries(data).at(0);
-  if (first != null) {
-    return first;
-  }
+  if (first != null) return first;
 
   return null;
-}
-
-function getDefaultSite(): DefaultsData['site'] {
-  const fallback: [string, ConfigSite] = [
-    defaultSite,
-    initialSites[defaultSite],
-  ];
-  return getDefault(sitesData) ?? fallback;
-}
-
-function getDefaultBrowser(): DefaultsData['browser'] | null {
-  return getDefault(browsersData);
 }
 
 const getDefaultProfile: DefaultsData['profile'] = (browserName) => {
@@ -48,7 +28,7 @@ const getDefaultProfile: DefaultsData['profile'] = (browserName) => {
 
 export const defaultsData: DefaultsData = {
   delimiter: defaultDelimiter,
-  site: getDefaultSite(),
-  browser: getDefaultBrowser(),
+  site: getDefault(sitesData) ?? siteFallback,
+  browser: getDefault(browsersData),
   profile: getDefaultProfile,
 };

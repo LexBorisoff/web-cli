@@ -4,13 +4,12 @@ export const initialSites: NonNullable<SitesData> = {
   google: {
     url: 'google.com',
     search: 'search?q=',
-    default: true,
   },
-  duck: {
+  duckduckgo: {
     url: 'duckduckgo.com',
     search: '?q=',
     delimiter: '+',
-    alias: ['duckduckgo'],
+    alias: ['duck'],
   },
   github: {
     url: 'github.com',
@@ -27,13 +26,13 @@ export const initialSites: NonNullable<SitesData> = {
     url: 'developer.mozilla.org',
     search: 'search?q=',
   },
+  npm: {
+    url: 'npmjs.com',
+    search: 'search?q=',
+  },
   youtube: {
     url: 'youtube.com',
     search: 'results?search_query=',
     delimiter: '+',
-  },
-  npm: {
-    url: 'npmjs.com',
-    search: 'search?q=',
   },
 };

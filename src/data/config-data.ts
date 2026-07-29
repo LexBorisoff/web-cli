@@ -9,8 +9,7 @@ import type {
 
 export const configData = readConfig();
 
-export const sitesData: SitesData =
-  Object.keys(configData.sites).length > 0 ? configData.sites : initialSites;
+export const sitesData: SitesData = { ...initialSites, ...configData.sites };
 
 export const browsersData: BrowsersData = configData.browsers ?? {};
 
