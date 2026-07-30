@@ -1,7 +1,7 @@
 import os from 'node:os';
 import path from 'node:path';
 
-import { PACKAGE_NAME } from './constants.js';
+import { PACKAGE_NAME } from '../constants.js';
 
 class Paths {
   get root(): string {

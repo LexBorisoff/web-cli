@@ -2,7 +2,7 @@ import $_ from '@lexjs/prompts';
 
 import { writeAppData } from '@data/app-data.js';
 
-import { VS_CODE } from './constants.js';
+import { VS_CODE } from '../constants.js';
 
 export async function updateFileEditor(): Promise<string | undefined> {
   const { useVsCode } = await $_.confirm({

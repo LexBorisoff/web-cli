@@ -6,24 +6,25 @@ import chalk from 'chalk';
 import { createTree, FsHooks } from 'fs-hooks';
 import { coreHooks } from 'fs-hooks/core';
 
-import { ConfigChoice, configInitData } from '@config/config-file.js';
-import { COMMAND_FALLBACK } from '@config/constants.js';
-import { getAppData } from '@data/app-data.js';
+import { appData } from '@data/app-data.js';
 import { npmCommands, npmHooks } from '@hooks/npm.hooks.js';
 import { permissionsHooks } from '@hooks/permissions.hooks.js';
 import { getPackageJson } from '@utils/get-package-json.js';
 import { logger } from '@utils/logger.js';
 
-import { useCoreHooks } from '../hooks/core-hooks.js';
-
 import {
-  BROWSERS_CONFIG_FILE,
+  configFileExists,
+  createInitialConfig,
+} from '../config/config-file.js';
+import {
   DATA_FILE,
   IS_DEV,
   IS_WINDOWS,
   PACKAGE_NAME,
-  SITES_CONFIG_FILE,
-} from './constants.js';
+  COMMAND_FALLBACK,
+} from '../constants.js';
+import { useCoreHooks } from '../hooks/core-hooks.js';
+
 import { paths } from './paths.js';
 import {
   bashScript,
@@ -31,6 +32,8 @@ import {
   powershellScript,
 } from './script-contents.js';
 import { initialTree, tree } from './tree.js';
+
+import type { ConfigOption } from '@app-types/config.types.js';
 
 function isEmpty(str: string | undefined): str is undefined | '' {
   return str == null || str === '';
@@ -41,7 +44,7 @@ async function getCommand(): Promise<string | undefined> {
   const rootDir = useCoreHooks((root) => root);
 
   if (rootDir.exists(DATA_FILE)) {
-    command = getAppData().command;
+    command = appData.command;
   }
 
   let renameCommand = false;
@@ -80,21 +83,14 @@ async function initializeApp(command: string): Promise<void> {
   // create data and config files
   const useCore = fsHooks.useHooks(coreHooks);
   const rootDir = useCore((root) => root);
-  const configDir = useCore(({ config }) => config);
-
-  const appData = getAppData();
   rootDir.fileCreate(DATA_FILE, JSON.stringify({ ...appData, command }));
 
-  if (!configDir.exists(SITES_CONFIG_FILE)) {
-    configDir.fileCreate(SITES_CONFIG_FILE, configInitData(ConfigChoice.Sites));
-  }
-
-  if (!configDir.exists(BROWSERS_CONFIG_FILE)) {
-    configDir.fileCreate(
-      BROWSERS_CONFIG_FILE,
-      configInitData(ConfigChoice.Browsers),
-    );
-  }
+  const configOptions: ConfigOption[] = ['browsers', 'sites'];
+  configOptions.forEach((option) => {
+    if (!configFileExists(option)) {
+      createInitialConfig(option);
+    }
+  });
 
   // install package (link in development)
   const version = IS_DEV ? '' : getPackageJson().version!;

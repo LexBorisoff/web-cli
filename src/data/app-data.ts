@@ -1,10 +1,6 @@
-import fs from 'node:fs';
+import { useCoreHooks } from '@hooks/core-hooks.js';
 
-import {
-  DATA_FILE_EXISTS,
-  DATA_FILE_PATH,
-  COMMAND_FALLBACK,
-} from '@config/constants.js';
+import { COMMAND_FALLBACK, DATA_FILE } from '../constants.js';
 
 export interface AppDataInterface {
   /**
@@ -18,33 +14,12 @@ const defaultAppData: AppDataInterface = {
   command: COMMAND_FALLBACK,
 };
 
-function readDataFile(): AppDataInterface {
-  const dataRaw = fs.readFileSync(DATA_FILE_PATH, 'utf-8');
-  return JSON.parse(dataRaw);
-}
+const fileHooks = useCoreHooks((root) => root[DATA_FILE]);
+const dataRaw = fileHooks.read();
 
-export function getAppData(): AppDataInterface {
-  if (DATA_FILE_EXISTS) {
-    try {
-      return readDataFile();
-    } catch {
-      // noop
-    }
-  }
-
-  return defaultAppData;
-}
+export const appData = dataRaw != null ? JSON.parse(dataRaw) : defaultAppData;
 
 export function writeAppData(payload: Partial<AppDataInterface>): void {
-  let data: AppDataInterface = defaultAppData;
-  if (DATA_FILE_EXISTS) {
-    try {
-      data = readDataFile();
-    } catch {
-      // noop
-    }
-  }
-
-  const newData: AppDataInterface = { ...data, ...payload };
-  fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(newData));
+  const newData: AppDataInterface = { ...appData, ...payload };
+  fileHooks.write(JSON.stringify(newData));
 }

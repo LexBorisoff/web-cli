@@ -1,12 +1,11 @@
 import {
   BASE_SCHEMA_FILE,
-  BROWSERS_CONFIG_FILE,
   BROWSERS_SCHEMA_FILE,
   DATA_FILE,
   PACKAGE_NAME,
-  SITES_CONFIG_FILE,
   SITES_SCHEMA_FILE,
-} from './constants.js';
+} from '../constants.js';
+
 import baseSchema from './schema/base.json' with { type: 'json' };
 import browsersSchema from './schema/browsers.json' with { type: 'json' };
 import sitesSchema from './schema/sites.json' with { type: 'json' };
@@ -27,10 +26,6 @@ export const initialTree = {
 export const tree = {
   ...initialTree,
   [DATA_FILE]: '',
-  config: {
-    [SITES_CONFIG_FILE]: '',
-    [BROWSERS_CONFIG_FILE]: '$schema: ../schema/browsers.json',
-  },
   lib: {
     node_modules: {
       [PACKAGE_NAME]: {
