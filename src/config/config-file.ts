@@ -3,62 +3,86 @@ import path from 'node:path';
 import $_ from '@lexjs/prompts';
 import { openApp } from 'open';
 
-import { logger } from '@helpers/utils/logger.js';
+import { appData, writeAppData } from '@data/app-data.js';
+import { useCoreHooks } from '@hooks/core-hooks.js';
+import { logger } from '@utils/logger.js';
+import { yamlFiles } from '@utils/yaml-files.js';
 
-import { getAppData, writeAppData } from './app-data.js';
-import { CONFIG_DIR_PATH } from './constants.js';
+import { CONFIG_FILE } from '../constants.js';
+
 import { updateFileEditor } from './file-editor.js';
 
+import type { ConfigOption } from '@app-types/config.types.js';
 import type { Choice } from '@lexjs/prompts/lib';
 
-enum ConfigChoice {
-  Sites = 'sites',
-  Browsers = 'browsers',
-}
-
-const configChoices: Choice<ConfigChoice>[] = [
-  { title: 'Sites', value: ConfigChoice.Sites },
-  { title: 'Browsers', value: ConfigChoice.Browsers },
+const configChoices: Choice<ConfigOption>[] = [
+  { title: 'Sites', value: 'sites' },
+  { title: 'Browsers', value: 'browsers' },
 ];
 
-function normalizeChoiceArg(arg?: string): ConfigChoice | undefined {
-  if (arg != null) {
-    if (ConfigChoice.Sites.startsWith(arg)) return ConfigChoice.Sites;
-    if (ConfigChoice.Browsers.startsWith(arg)) return ConfigChoice.Browsers;
-  }
+function normalizeChoiceArg(arg?: string): ConfigOption | undefined {
+  const configOptions: ConfigOption[] = ['browsers', 'sites'];
+  return configOptions.find((option) => arg != null && option.startsWith(arg));
+}
 
-  return undefined;
+const configHooks = useCoreHooks(({ config }) => config);
+
+export function configFileExists(option: ConfigOption): boolean {
+  const configName = CONFIG_FILE(option);
+  return !!yamlFiles(configName).find((file) => configHooks.exists(file));
+}
+
+export function getConfigFileName(option: ConfigOption): string {
+  const configName = CONFIG_FILE(option);
+  return (
+    yamlFiles(configName).find((file) => configHooks.exists(file)) ?? configName
+  );
+}
+
+export function getConfigFilePath(option: ConfigOption): string {
+  const configName = getConfigFileName(option);
+  return path.join(configHooks.getPath(), configName);
+}
+
+export function createInitialConfig(option: ConfigOption): void {
+  const configName = getConfigFileName(option);
+  configHooks.fileWrite(
+    configName,
+    `$schema: ../schema/${option}.json
+
+`,
+  );
 }
 
 export async function openConfigFile(arg?: string): Promise<void> {
-  const appData = getAppData();
   const editor = appData.editor ?? (await updateFileEditor());
 
   if (editor == null) return;
 
-  const choice = normalizeChoiceArg(arg);
-  const isConfigChoice =
-    choice === ConfigChoice.Sites || choice === ConfigChoice.Browsers;
+  const choiceArg = normalizeChoiceArg(arg);
+  const isConfigChoice = choiceArg === 'sites' || choiceArg === 'browsers';
 
-  let configChoice: ConfigChoice | undefined = isConfigChoice
-    ? choice
+  let configOption: ConfigOption | undefined = isConfigChoice
+    ? choiceArg
     : undefined;
 
-  if (choice == null || !isConfigChoice) {
-    const { answer } = await $_.select({
-      name: 'answer',
+  if (choiceArg == null || !isConfigChoice) {
+    const { selectedConfig } = await $_.select({
+      name: 'selectedConfig',
       message: 'Select config to edit',
       choices: configChoices,
     });
-    configChoice = answer;
+    configOption = selectedConfig;
   }
 
-  if (configChoice == null) return;
+  if (configOption == null) return;
 
-  const configFilePath = path.join(CONFIG_DIR_PATH, `${configChoice}.yml`);
+  if (!configFileExists(configOption)) {
+    createInitialConfig(configOption);
+  }
 
   const subprocess = await openApp(editor, {
-    arguments: [configFilePath],
+    arguments: [getConfigFilePath(configOption)],
   });
 
   subprocess.on('error', () => {

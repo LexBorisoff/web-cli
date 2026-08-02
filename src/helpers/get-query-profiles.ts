@@ -1,7 +1,7 @@
 import { dataArgs } from '@command/args/data-args.js';
 import { defaultsData } from '@data/defaults.js';
 
-import { findProfile } from '../find/find-profile.js';
+import { findProfile } from './find-profile.js';
 
 import type { Profile } from '@app-types/config.types.js';
 

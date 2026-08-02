@@ -4,6 +4,8 @@ import type {
   SearchPathConfig,
 } from '@api/site/site.types.js';
 
+export type ConfigOption = 'sites' | 'browsers';
+
 export interface WithAlias {
   alias?: string | string[];
 }

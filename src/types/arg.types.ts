@@ -1,9 +1,8 @@
-import {
+import type { PrimitiveType } from './primitive.type.js';
+import type {
   QueryOptions as Options,
   queryOptionTypes as types,
 } from '@command/options.js';
-
-import type { PrimitiveType } from './primitive.type.js';
 
 export interface ArgTypes {
   [Options.Browser]: PrimitiveType<(typeof types)[Options.Browser]>;

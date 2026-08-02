@@ -3,7 +3,7 @@ import { hideBin } from 'yargs/helpers';
 
 import { matchers } from '@api/matchers/matchers.js';
 import { configFlags } from '@config/config-flags.js';
-import { getPackageJson } from '@helpers/utils/get-package-json.js';
+import { getPackageJson } from '@utils/get-package-json.js';
 
 import {
   QueryOptions as Options,

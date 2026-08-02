@@ -2,8 +2,8 @@
 
 import { configArgs } from '@command/args/config-args.js';
 import { handleConfig } from '@config/handle-config.js';
-import { logger } from '@helpers/utils/logger.js';
 import { query } from '@query/query.js';
+import { logger } from '@utils/logger.js';
 
 const { config } = configArgs;
 

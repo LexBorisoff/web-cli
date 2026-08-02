@@ -13,6 +13,8 @@
   "$defs": {
     "Site": {
       "type": "object",
+      "additionalProperties": false,
+      "required": ["url"],
       "properties": {
         "url": {
           "description": "Primary URL of the site (e.g. 'google.com')",
@@ -45,8 +47,7 @@
             ]
           }
         }
-      },
-      "required": ["url", "search"]
+      }
     },
     "SearchObject": {
       "description": "Object describing search path for the site. Supports deep, nested structures.",
