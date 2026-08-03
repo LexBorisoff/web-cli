@@ -20,6 +20,6 @@ const dirHooks = FsHooks.dirHooks((targetDir) => ({
   },
 }));
 
-export const permissionsHooks = {
+export const permissionHooks = {
   dir: dirHooks,
 } as const;

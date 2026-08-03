@@ -8,7 +8,7 @@ import { coreHooks } from 'fs-hooks/core';
 
 import { appData } from '@data/app-data.js';
 import { npmCommands, npmHooks } from '@hooks/npm.hooks.js';
-import { permissionsHooks } from '@hooks/permissions.hooks.js';
+import { permissionHooks } from '@hooks/permission.hooks.js';
 import { getPackageJson } from '@utils/get-package-json.js';
 import { logger } from '@utils/logger.js';
 
@@ -23,7 +23,7 @@ import {
   PACKAGE_NAME,
   COMMAND_FALLBACK,
 } from '../constants.js';
-import { useCoreHooks } from '../hooks/core-hooks.js';
+import { useCoreHooks } from '../hooks/core.hooks.js';
 
 import { paths } from './paths.js';
 import {
@@ -102,7 +102,7 @@ async function initializeApp(command: string): Promise<void> {
 }
 
 function linkDist(): void {
-  const distPath = useCoreHooks(
+  const distDir = useCoreHooks(
     ({ lib }) => lib.node_modules[PACKAGE_NAME].dist,
   ).getPath();
 
@@ -110,7 +110,7 @@ function linkDist(): void {
     fs.rmSync(paths.distLink, { force: true, recursive: true });
   }
 
-  fs.symlinkSync(distPath, paths.distLink, IS_WINDOWS ? 'junction' : 'dir');
+  fs.symlinkSync(distDir, paths.distLink, IS_WINDOWS ? 'junction' : 'dir');
 }
 
 async function createScriptFiles(command: string): Promise<void> {
@@ -132,7 +132,7 @@ async function createScriptFiles(command: string): Promise<void> {
     });
 
   const fsHooks = new FsHooks(paths.root, tree);
-  const usePermissions = fsHooks.useHooks(permissionsHooks);
+  const usePermissions = fsHooks.useHooks(permissionHooks);
   const binPermissions = usePermissions(({ bin }) => bin);
 
   // create script files
