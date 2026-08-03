@@ -4,7 +4,7 @@ import $_ from '@lexjs/prompts';
 import { openApp } from 'open';
 
 import { appData, writeAppData } from '@data/app-data.js';
-import { useCoreHooks } from '@hooks/core-hooks.js';
+import { useCoreHooks } from '@hooks/core.hooks.js';
 import { logger } from '@utils/logger.js';
 import { yamlFiles } from '@utils/yaml-files.js';
 
@@ -25,28 +25,28 @@ function normalizeChoiceArg(arg?: string): ConfigOption | undefined {
   return configOptions.find((option) => arg != null && option.startsWith(arg));
 }
 
-const configHooks = useCoreHooks(({ config }) => config);
+const configDir = useCoreHooks(({ config }) => config);
 
 export function configFileExists(option: ConfigOption): boolean {
   const configName = CONFIG_FILE(option);
-  return !!yamlFiles(configName).find((file) => configHooks.exists(file));
+  return !!yamlFiles(configName).find((file) => configDir.exists(file));
 }
 
 export function getConfigFileName(option: ConfigOption): string {
   const configName = CONFIG_FILE(option);
   return (
-    yamlFiles(configName).find((file) => configHooks.exists(file)) ?? configName
+    yamlFiles(configName).find((file) => configDir.exists(file)) ?? configName
   );
 }
 
 export function getConfigFilePath(option: ConfigOption): string {
   const configName = getConfigFileName(option);
-  return path.join(configHooks.getPath(), configName);
+  return path.join(configDir.getPath(), configName);
 }
 
 export function createInitialConfig(option: ConfigOption): void {
   const configName = getConfigFileName(option);
-  configHooks.fileWrite(
+  configDir.fileWrite(
     configName,
     `$schema: ../schema/${option}.json
 

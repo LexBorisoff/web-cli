@@ -1,7 +1,7 @@
 import { load } from 'js-yaml';
 
 import { initialSites } from '@data/initial-sites.js';
-import { useCoreHooks } from '@hooks/core-hooks.js';
+import { useCoreHooks } from '@hooks/core.hooks.js';
 import { yamlFiles } from '@utils/yaml-files.js';
 
 import { CONFIG_FILE } from '../constants.js';
@@ -18,13 +18,13 @@ import type {
   SitesData,
 } from '@app-types/config.types.js';
 
-const configHooks = useCoreHooks(({ config }) => config);
+const configDir = useCoreHooks(({ config }) => config);
 
 function readConfig(option: ConfigOption): string | null {
   const found = yamlFiles(CONFIG_FILE(option)).find((fileName) =>
-    configHooks.exists(fileName),
+    configDir.exists(fileName),
   );
-  return found != null ? configHooks.fileRead(found) : null;
+  return found != null ? configDir.fileRead(found) : null;
 }
 
 const sitesConfigRaw = readConfig('sites');
@@ -56,9 +56,9 @@ export function getProfilesData(browserName: string): ProfilesData {
   return Object.entries(
     browsersData[browserName]?.profiles ?? {},
   ).reduce<ProfilesData>(
-    (result, [key, value]) =>
+    (acc, [key, value]) =>
       ({
-        ...result,
+        ...acc,
         [key]: typeof value === 'string' ? { directory: value } : value,
       }) satisfies ProfilesData,
     {},
